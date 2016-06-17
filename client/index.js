@@ -1,20 +1,19 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import shareApp from './reducers'
-import App from './components/App'
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from './configureStore.js';
+import { Router, Route, hashHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import App from './components/App';
 
-// let store = createStore(shareApp);
-
-// render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   document.getElementById('app')
-// )
+let store = configureStore();
+const history = syncHistoryWithStore(hashHistory, store);
 
 render(
-  <App />, 
+  (<Provider store={store}>
+    <Router history={history}>
+      <Route path='/' component={App} />
+    </Router>
+  </Provider>), 
   document.getElementById('app')
-)
+);
