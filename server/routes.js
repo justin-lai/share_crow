@@ -18,12 +18,6 @@ module.exports = function (app) {
     .post(dbController.createProfile)
     .put(dbController.updateProfile);
   
-  app.route('/rent')
-    .get(dbController.getRentInfo);
-  
-  app.route('/returnItem')
-    .post(dbController.rentalReturn);
-  
   app.route('/messages')
     .get(dbController.getMessages)
     .post(dbController.postMessages);
@@ -31,8 +25,21 @@ module.exports = function (app) {
   app.route('/listings')
     .get(dbController.getListings)
     .post(dbController.createListing)
-    .put(dbController.changeListing);
+    .put(dbController.changeListing)
+    .delete(dbController.returnListing);
+
+  app.route('/userReviews')
+    .get(dbController.getUserReviews)
+    .post(dbController.createUserReview)
+    .delete(dbController.deleteUserReview);
 
   // API ACCESSING ROUTES
+  app.route('/distanceMatrix')
+    .get(apiController.distanceMatrix);
+
+  app.route('/sendTextNotification')
+    .post(apiController.sendTextNotification);
+
+  // UTILITY ROUTES
 
 };
