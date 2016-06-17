@@ -32,7 +32,9 @@
     "eslint-plugin-react": "^5.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint --quiet src/",
+    "start": "nodemon server/server.js",
+    "test": "npm run lint && npm start"
   },
   "repository": {
     "type": "git",
