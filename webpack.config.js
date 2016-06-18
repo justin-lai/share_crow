@@ -1,11 +1,10 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
   entry: ['./client/'],
   output: {
     path: path.join(__dirname, './dev/client'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -14,9 +13,9 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react']
-        }
-      }
-    ]
-  }
-}
+          presets: ['es2015', 'react'],
+        },
+      },
+    ],
+  },
+};
