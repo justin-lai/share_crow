@@ -9,7 +9,7 @@ app.use(bodyParser.json({}));
 require('./routes.js')(app, express);
 
 	// eslint-disable-next-line
-app.use(express.static(__dirname + '/dev/client/'));
+app.use(express.static(__dirname + '/client/index.html'));
 
 app.listen(3000, () => {
 	// eslint-disable-next-line no-console

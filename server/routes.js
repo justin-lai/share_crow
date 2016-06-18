@@ -1,5 +1,6 @@
 const dbController = require('./dbController.js');
 const apiController = require('./apiController.js');
+const path = require('path');
 // const utilityController = require('./utilityController.js');
 
 module.exports = app => {
@@ -38,4 +39,6 @@ module.exports = app => {
     .post(apiController.sendTextNotification);
 
   // UTILITY ROUTES
+  // eslint-disable-next-line
+  app.get('/', (req, res) => res.sendFile(path.join(__dirname + '../../../client/index.html')));
 };
