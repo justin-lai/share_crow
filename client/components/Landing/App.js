@@ -1,3 +1,4 @@
+<<<<<<< d4f68c89e172154a4c3c45d051ff22f8466786ce
 <<<<<<< 187edce3f988865473f12efc3c1ae8edfc47bc4a
 
 import React, { Component, PropTypes } from 'react';
@@ -176,12 +177,66 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 =======
 import React from 'react';
+=======
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
+>>>>>>> completed user reducers and actions with prop connection to components
 
-const App = () =>
-  <div>
-    Hello
-  </div>
-;
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
 
+<<<<<<< d4f68c89e172154a4c3c45d051ff22f8466786ce
 export default App;
 >>>>>>> initiated styleguide linting and refactored actions and reducers
+=======
+  componentDidMount() {
+    console.log(this.props);
+  }
+
+  render() {
+    return (
+      <div>
+        Yo!
+      </div>
+    );
+  }
+}
+
+App.propTypes = {
+  user: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
+};
+
+function mapStateToProps(state) {
+  const { user } = state;
+
+  return {
+    user,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      getUser: (id) => {
+        dispatch(getUser(id));
+      },
+      postUser: (data) => {
+        dispatch(postUser(data));
+      },
+      putUser: (data) => {
+        dispatch(putUser(data));
+      },
+      deleteUser: (data) => {
+        dispatch(deleteUser(data));
+      },
+    },
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+>>>>>>> completed user reducers and actions with prop connection to components
