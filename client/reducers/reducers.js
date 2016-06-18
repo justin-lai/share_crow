@@ -1,23 +1,32 @@
-export const user = function(state={}, action) {
-  switch(action.type) {
-    case "USER_GET_RESPONSE":
+import {
+  GET_USER, POST_USER, PUT_USER, DELETE_USER,
+  GET_ITEM, POST_ITEM, PUT_ITEM, DELETE_ITEM }
+from '../actions/actions';
+
+export const user = (state = {}, action) => {
+  switch (action.type) {
+    case GET_USER:
       return action.data;
-    case "USER_POST_RESPONSE":
+    case POST_USER:
       return action.data;
-    case "USER_PUT_RESPONSE":
+    case PUT_USER:
+      return action.data;
+    case DELETE_USER:
       return action.data;
     default:
-      return state
+      return state;
   }
 };
 
-export const item = function(state={}, action) {
-  switch(action.type) {
-    case "ITEM_GET_RESPONSE":
+export const item = (state = {}, action) => {
+  switch (action.type) {
+    case GET_ITEM:
       return action.data;
-    case "ITEM_POST_RESPONSE":
+    case POST_ITEM:
       return action.data;
-    case "ITEM_PUT_RESPONSE":
+    case PUT_ITEM:
+      return action.data;
+    case DELETE_ITEM:
       return action.data;
     default:
       return state;
