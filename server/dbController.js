@@ -3,19 +3,28 @@
 module.exports = {
 
   // SIGN UP FUNCTIONS
-  // expects username, password, email, phonenumber, address, aboutMe
+  // expects username, password, email, phoneNumber, address, aboutMe
   signup: (req, res) => {
     // eslint-disable-next-line no-console
     console.log('signup route: ', req.body);
-    res.sendStatus(201);
+    // eslint-disable-next-line
+    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(400);
+    }
   },
 
   // LOGIN FUNCTIONS
   // expects username, password
   login: (req, res) => {
     // eslint-disable-next-line no-console
-    console.log('login route: ', req.params);
-    res.sendStatus(200);
+    console.log('login route: ', req.query);
+    if (req.query.username === 'tom' && req.query.password === 'password') {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
   },
 
   // PROFILE FUNCTIONS

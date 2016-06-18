@@ -1,5 +1,5 @@
-import test from 'tape';
-import fetch from 'node-fetch';
+const test = require('tape');
+// const fetch = require('node-fetch');
 
 // test('Google Maps Matrix Calcuations', (assert) => {
 //   fetch('http://localhost:3000/q')
