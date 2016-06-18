@@ -9,11 +9,8 @@
     "express-session": "^1.13.0",
     "fetch": "^1.1.0",
     "fs": "0.0.2",
-<<<<<<< 02e31c680999b85aca32a698972cc58bda40c341
     "node-fetch": "^1.5.3",
-=======
     "isomorphic-fetch": "^2.2.1",
->>>>>>> initiated styleguide linting and refactored actions and reducers
     "nodemon": "^1.9.2",
     "passport": "^0.3.2",
     "path": "^0.12.7",
