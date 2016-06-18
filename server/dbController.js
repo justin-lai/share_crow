@@ -89,7 +89,6 @@ module.exports = {
     console.log('getListings route: ', req.params);
     res.sendStatus(200);
   },
-
   // expects name, owner_id, max_fee, rental_fee, rental_period
   createListing: (req, res) => {
     // adds a new listing entry in database
