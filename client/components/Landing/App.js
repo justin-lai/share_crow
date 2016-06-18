@@ -1,3 +1,4 @@
+<<<<<<< 187edce3f988865473f12efc3c1ae8edfc47bc4a
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -151,3 +152,14 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+=======
+import React from 'react';
+
+const App = () =>
+  <div>
+    Hello
+  </div>
+;
+
+export default App;
+>>>>>>> initiated styleguide linting and refactored actions and reducers
