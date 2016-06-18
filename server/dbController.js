@@ -41,7 +41,7 @@ module.exports = {
     // create new profile entry in database
     // eslint-disable-next-line no-console
     console.log('createProfile route', req.body);
-    res.sendStatus(201);
+    res.status(201).send(req.body);
   },
 
   // expects username and id with an arbitrary number of parameters to change
@@ -66,7 +66,7 @@ module.exports = {
     // adds a new message entry in database
     // eslint-disable-next-line no-console
     console.log('postMessages route', req.body);
-    res.sendStatus(201);
+    res.status(201).send(req.body);
   },
 
   // RENTAL LISTING FUNCTIONS
@@ -84,7 +84,7 @@ module.exports = {
     // adds a new listing entry in database
     // eslint-disable-next-line no-console
     console.log('createListing route', req.body);
-    res.sendStatus(201);
+    res.status(201).send(req.body);
   },
 
   // expects listing id and an arbitrary number of parameters
@@ -117,7 +117,7 @@ module.exports = {
     // add a new review entry in database
     // eslint-disable-next-line no-console
     console.log('createUserReview route', req.body);
-    res.sendStatus(201);
+    res.status(201).send(req.body);
   },
 
   // expects review id, user id
