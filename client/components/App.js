@@ -54,4 +54,3 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
->>>>>>> completed user reducers and actions with prop connection to components
