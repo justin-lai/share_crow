@@ -20,6 +20,7 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.23.3",
+    "twilio": "^2.9.1",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
@@ -34,7 +35,7 @@
     "eslint-plugin-react": "^5.2.1"
   },
   "scripts": {
-    "lint": "eslint --quiet src/",
+    "lint": "eslint --quiet server/",
     "watch": "(npm run watch-server & npm run watch-client) && npm run server",
     "start": "npm run lint && npm run watch",
     "server": "nodemon dev/server/server.js",
