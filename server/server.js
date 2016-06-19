@@ -8,6 +8,7 @@ app.use(bodyParser.json({}));
 require('./routes.js')(app, express);
 
 app.use(express.static('dev/client'));
+app.use(express.static('client/assets'));
 
 app.listen(3000, () => {
   //eslint-disable-next-line

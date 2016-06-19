@@ -4,6 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getItem, postItem, putItem, deleteItem } from '../actions/itemActions.js';
 import Landing from './Landing.js';
 import Navbar from './Navbar.js';
+import Navbar from './Footer.js';
 
 class App extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h2>Hello! This is App.</h2>
-        <Landing />
         <Navbar />
+        <Landing />
+        <Footer />
       </div>
     );
   }

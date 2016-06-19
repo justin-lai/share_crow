@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 const Landing = (props) => (
   <div className="landing">
-    <h1>Hello Landing page!</h1>
+    <h1>Hello from the landing page!!</h1>
   </div>
 );
 
