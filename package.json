@@ -46,8 +46,8 @@
     "server": "nodemon dev/server/server.js",
     "watch-server": "babel --watch server/ -d dev/server",
     "watch-client": "webpack --watch --progress",
-    "dbTest": "babel-node Tests/dbTests.js | faucet",
-    "apiTest": "babel-node Tests/apiTests.js | faucet",
+    "dbTest": "tape Tests/dbTests.js | faucet",
+    "apiTest": "tape Tests/apiTests.js | faucet",
     "test": "npm run dbTest && npm run apiTest"
   },
   "repository": {
