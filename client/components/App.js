@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getItem, postItem, putItem, deleteItem } from '../actions/itemActions.js';
+import Landing from './Landing.js';
+import Navbar from './Navbar.js';
+import NavbarLoggedIn from './NavbarLoggedIn.js';
+import Footer from './Footer.js';
+import Products from './Products.js';
 
 
 class App extends Component {
@@ -16,7 +21,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        Hello! This is App.
+        <Navbar />
+        <Landing />
+        <Products />
+        <Footer />
       </div>
     );
   }

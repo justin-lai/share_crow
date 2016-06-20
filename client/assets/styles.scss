@@ -1,0 +1,17 @@
+$font-stack: Arial, sans-serif;
+$primaryColor: #ddd;
+
+body {
+  margin: 0;
+  font: 100% $font-stack;
+  background-color: $primaryColor;
+}
+
+.logo-title {
+  font-size: 20px;
+}
+
+.navbar {
+  background-color: black;
+  color: white;
+}

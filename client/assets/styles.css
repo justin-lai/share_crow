@@ -1,0 +1,26 @@
+* {
+  border-radius: 0 !important;
+}
+
+body {
+  margin: 0;
+}
+
+.splash-image {
+  margin-bottom: 25px;
+  margin-top: 0px;
+  width: 100%;
+}
+
+.landing-form {
+  text-align: center;
+}
+
+.product {
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+}
+
