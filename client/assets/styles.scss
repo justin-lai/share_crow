@@ -1,9 +1,9 @@
 $font-stack: Arial, sans-serif;
-$primaryColor: #ddd;
+$primaryColor: white;
 
 body {
   margin: 0;
-  font: 100% $font-stack;
+  font: $font-stack;
   background-color: $primaryColor;
 }
 
@@ -14,4 +14,26 @@ body {
 .navbar {
   background-color: black;
   color: white;
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+.splash-image {
+  margin-bottom: 25px;
+  margin-top: 0px;
+  width: 100%;
+}
+
+.landing-form {
+  text-align: center;
+}
+
+.product {
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
 }

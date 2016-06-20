@@ -28,10 +28,10 @@ export function sessionGetResponse(data) {
     data,
   };
 }
-export function getListing(id) {
+export function getSession(id) {
   return dispatch => {
     dispatch(sessionGetRequest(id));
-    return fetch('/session', { credentials: 'same-origin' })
+    return fetch('/api/session', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(sessionGetResponse(json)));
   };

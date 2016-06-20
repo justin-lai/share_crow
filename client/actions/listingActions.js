@@ -41,7 +41,7 @@ export function listingGetResponse(data) {
 export function getListing(id) {
   return dispatch => {
     dispatch(listingGetRequest(id));
-    return fetch('/listing', { credentials: 'same-origin' })
+    return fetch('/api/listing', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(listingGetResponse(json)));
   };
@@ -63,7 +63,7 @@ export function listingPostResponse(data) {
 export function postListing(data) {
   return dispatch => {
     dispatch(listingPostRequest());
-    return fetch('/listing', {
+    return fetch('/api/listing', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export function listingPutResponse(data) {
 export function putListing(data) {
   return dispatch => {
     dispatch(listingPutRequest());
-    return fetch('/listing', {
+    return fetch('/api/listing', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export function listingDeleteResponse(data) {
 export function deleteListing(data) {
   return dispatch => {
     dispatch(listingDeleteRequest());
-    return fetch('/listing', {
+    return fetch('/api/listing', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

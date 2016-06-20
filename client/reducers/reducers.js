@@ -6,7 +6,9 @@ import {
   LISTING_GET_RESPONSE, LISTING_POST_RESPONSE,
   LISTING_PUT_RESPONSE, LISTING_DELETE_RESPONSE,
 } from '../actions/listingActions';
-
+import {
+  SESSION_GET_RESPONSE,
+} from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
   switch (action.type) {
@@ -32,6 +34,15 @@ export const listing = (state = {}, action) => {
     case LISTING_PUT_RESPONSE:
       return action.data;
     case LISTING_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const session = (state = {}, action) => {
+  switch (action.type) {
+    case SESSION_GET_RESPONSE:
       return action.data;
     default:
       return state;
