@@ -41,7 +41,7 @@ export function userGetResponse(data) {
 export function getUser(id) {
   return dispatch => {
     dispatch(userGetRequest(id));
-    return fetch('/user', { credentials: 'same-origin' })
+    return fetch('/profile', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(userGetResponse(json)));
   };
@@ -63,7 +63,7 @@ export function userPostResponse(data) {
 export function postUser(data) {
   return dispatch => {
     dispatch(userPostRequest());
-    return fetch('/user', {
+    return fetch('/profile', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export function userPutResponse(data) {
 export function putUser(data) {
   return dispatch => {
     dispatch(userPutRequest());
-    return fetch('/user', {
+    return fetch('/profile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export function userDeleteResponse(data) {
 export function deleteUser(data) {
   return dispatch => {
     dispatch(userDeleteRequest());
-    return fetch('/user', {
+    return fetch('/profile', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

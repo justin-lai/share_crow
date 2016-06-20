@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
-import { getItem, postItem, putItem, deleteItem } from '../actions/itemActions.js';
+import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import Landing from './Landing.js';
-import Navbar from './Navbar.js';
+import Navbar from './NavBar.js';
 import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
 import Products from './Products.js';
-
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +14,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    this.methods = this.props.methods;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   render() {
@@ -32,15 +35,16 @@ class App extends Component {
 
 App.propTypes = {
   user: PropTypes.object.isRequired,
+  listing: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, item } = state;
+  const { user, listing } = state;
 
   return {
     user,
-    item,
+    listing,
   };
 }
 
@@ -59,17 +63,17 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteUser: (data) => {
         dispatch(deleteUser(data));
       },
-      getItem: (id) => {
-        dispatch(getItem(id));
+      getListing: (id) => {
+        dispatch(getListing(id));
       },
-      postItem: (data) => {
-        dispatch(postItem(data));
+      postListing: (data) => {
+        dispatch(postListing(data));
       },
-      putItem: (data) => {
-        dispatch(putItem(data));
+      putListing: (data) => {
+        dispatch(putListing(data));
       },
-      deleteItem: (data) => {
-        dispatch(deleteItem(data));
+      deleteListing: (data) => {
+        dispatch(deleteListing(data));
       },
     },
   };

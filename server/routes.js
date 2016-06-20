@@ -16,17 +16,17 @@ module.exports = app => {
     .post(dbController.createProfile)
     .put(dbController.updateProfile);
 
-  app.route('/messages')
+  app.route('/message')
     .get(dbController.getMessages)
     .post(dbController.postMessages);
 
-  app.route('/listings')
+  app.route('/listing')
     .get(dbController.getListings)
     .post(dbController.createListing)
     .put(dbController.changeListing)
     .delete(dbController.returnedListing);
 
-  app.route('/userReviews')
+  app.route('/userReview')
     .get(dbController.getUserReviews)
     .post(dbController.createUserReview)
     .delete(dbController.deleteUserReview);
