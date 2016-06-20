@@ -1,7 +1,23 @@
+* {
+  border-radius: 0 !important;
+}
+
 body {
   margin: 0;
 }
-.navbar {
-  background-color: black;
-  color: white;
+
+.splash-image {
+
 }
+
+.landing-form {
+  text-align: center;
+}
+.product {
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+}
+

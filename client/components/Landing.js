@@ -2,7 +2,12 @@ import React, { PropTypes, Component } from 'react';
 
 const Landing = (props) => (
   <div className="landing">
-    <h1>Hello from the landing page!!</h1>
+    <img className="splash-image" alt="splash" src="../assets/splash.jpg" />
+    <form className="landing-form">
+      <input type="text" placeholder="San Francisco, CA" />
+      <input type="text" placeholder="Rental Period" />
+      <input type="submit" value="Search" />
+    </form>
   </div>
 );
 
