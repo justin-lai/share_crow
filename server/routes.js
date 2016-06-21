@@ -11,22 +11,22 @@ module.exports = app => {
   app.route('/login')
     .get(dbController.login);
 
-  app.route('/profile')
+  app.route('/api/profile')
     .get(dbController.getProfile)
     .post(dbController.createProfile)
     .put(dbController.updateProfile);
 
-  app.route('/messages')
+  app.route('/api/message')
     .get(dbController.getMessages)
     .post(dbController.postMessages);
 
-  app.route('/listings')
+  app.route('/api/listing')
     .get(dbController.getListings)
     .post(dbController.createListing)
     .put(dbController.changeListing)
     .delete(dbController.returnedListing);
 
-  app.route('/userReviews')
+  app.route('/api/userReview')
     .get(dbController.getUserReviews)
     .post(dbController.createUserReview)
     .delete(dbController.deleteUserReview);

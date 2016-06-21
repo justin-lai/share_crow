@@ -19,7 +19,7 @@ const NavbarLoggedIn = (props) => (
             <ul className="dropdown-menu">
               <li><a href="#">Messages</a></li>
               <li><a href="#">Transaction History</a></li>
-              <li><a href="#">Profile</a></li>
+              <li><a href="/#/profile">Profile</a></li>
             </ul>
           </li>
           <li><a href="#">Page 2</a></li>
@@ -31,7 +31,7 @@ const NavbarLoggedIn = (props) => (
             <ul className="dropdown-menu">
               <li><a href="#">Messages</a></li>
               <li><a href="#">Transaction History</a></li>
-              <li><a href="#">Profile</a></li>
+              <li><a href="/#/profile">Profile</a></li>
             </ul>
           </li>
         </ul>

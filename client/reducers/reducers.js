@@ -3,10 +3,12 @@ import {
   USER_PUT_RESPONSE, USER_DELETE_RESPONSE,
 } from '../actions/userActions';
 import {
-  ITEM_GET_RESPONSE, ITEM_POST_RESPONSE,
-  ITEM_PUT_RESPONSE, ITEM_DELETE_RESPONSE,
-} from '../actions/itemActions';
-
+  LISTING_GET_RESPONSE, LISTING_POST_RESPONSE,
+  LISTING_PUT_RESPONSE, LISTING_DELETE_RESPONSE,
+} from '../actions/listingActions';
+import {
+  SESSION_GET_RESPONSE,
+} from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
   switch (action.type) {
@@ -23,15 +25,24 @@ export const user = (state = {}, action) => {
   }
 };
 
-export const item = (state = {}, action) => {
+export const listing = (state = {}, action) => {
   switch (action.type) {
-    case ITEM_GET_RESPONSE:
+    case LISTING_GET_RESPONSE:
       return action.data;
-    case ITEM_POST_RESPONSE:
+    case LISTING_POST_RESPONSE:
       return action.data;
-    case ITEM_PUT_RESPONSE:
+    case LISTING_PUT_RESPONSE:
       return action.data;
-    case ITEM_DELETE_RESPONSE:
+    case LISTING_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const session = (state = {}, action) => {
+  switch (action.type) {
+    case SESSION_GET_RESPONSE:
       return action.data;
     default:
       return state;
