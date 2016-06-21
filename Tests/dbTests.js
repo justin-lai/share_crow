@@ -13,7 +13,7 @@ const accInfo = {
 // Tests if login is successful given correct username, password
 test('Login: successful given valid username and password', assert => {
   const queryLine = `?username=${accInfo.username}&password=${accInfo.password}`;
-  fetch(`http://localhost:3000/login${queryLine}`)
+  fetch(`http://localhost:3000/main/login${queryLine}`)
     .then((res) => assert.equal(res.status, 200, 'Login Successful'));
   assert.end();
 });
@@ -21,14 +21,14 @@ test('Login: successful given valid username and password', assert => {
 // Tests if login is unsucessful if password is not sent
 test('Login: unsuccessful if parameters are missing or incorrect', assert => {
   const queryLine = `?username=${accInfo.username}`;
-  fetch(`http://localhost:3000/login${queryLine}`)
+  fetch(`http://localhost:3000/main/login${queryLine}`)
     .then((res) => assert.equal(res.status, 400, 'Login Unsuccessful'));
   assert.end();
 });
 
 // Tests if account creation is successful given all 6 fields
 test('Account Creation: successful given all 6 fields complete', assert => {
-  fetch('http://localhost:3000/signup',
+  fetch('http://localhost:3000/main/signup',
     {
       method: 'POST',
       headers: {
@@ -49,7 +49,7 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
     address: accInfo.address,
     aboutMe: accInfo.aboutMe,
   };
-  fetch('http://localhost:3000/signup',
+  fetch('http://localhost:3000/main/signup',
     {
       method: 'POST',
       headers: {

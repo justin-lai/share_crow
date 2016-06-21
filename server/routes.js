@@ -5,37 +5,37 @@ const path = require('path');
 
 module.exports = app => {
   // DB ACCESSING ROUTES
-  app.route('/signup')
+  app.route('/main/signup')
    .post(dbController.signup);
 
-  app.route('/login')
+  app.route('/main/login')
     .get(dbController.login);
 
-  app.route('/api/profile')
+  app.route('/main/profile')
     .get(dbController.getProfile)
     .post(dbController.createProfile)
     .put(dbController.updateProfile);
 
-  app.route('/api/message')
+  app.route('/main/message')
     .get(dbController.getMessages)
     .post(dbController.postMessages);
 
-  app.route('/api/listing')
+  app.route('/main/listing')
     .get(dbController.getListings)
     .post(dbController.createListing)
     .put(dbController.changeListing)
     .delete(dbController.returnedListing);
 
-  app.route('/api/userReview')
+  app.route('/main/userReview')
     .get(dbController.getUserReviews)
     .post(dbController.createUserReview)
     .delete(dbController.deleteUserReview);
 
   // API ACCESSING ROUTES
-  app.route('/distanceMatrix')
+  app.route('/api/distanceMatrix')
     .get(apiController.distanceMatrix);
 
-  app.route('/sendTextNotification')
+  app.route('/api/sendTextNotification')
     .post(apiController.sendTextNotification);
 
   // UTILITY ROUTES

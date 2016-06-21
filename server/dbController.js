@@ -1,4 +1,5 @@
 // const fetch = require('node-fetch');
+// const bcrypt = require('bcrypt');
 
 module.exports = {
 
@@ -9,6 +10,8 @@ module.exports = {
     console.log('signup route: ', req.body);
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
+      // generate a new hash based on password and make new entry in table
+      // const hash = bcrypt.hashSync(req.query.password, 10);
       res.sendStatus(201);
     } else {
       res.sendStatus(400);
@@ -18,12 +21,20 @@ module.exports = {
   // LOGIN FUNCTIONS
   // expects username, password
   login: (req, res) => {
-    // eslint-disable-next-line no-console
-    console.log('login route: ', req.query);
-    if (req.query.username === 'tom' && req.query.password === 'password') {
-      res.sendStatus(200);
-    } else {
+    if (!req.query.password) {
       res.sendStatus(400);
+    } else {
+      // grab password stored in database and store into variable
+      // if (bcrypt.compareSync(req.body.password, hash)) {
+      //   res.sendStatus(200);
+      // }
+      // eslint-disable-next-line no-console
+      console.log('login route: ', req.query);
+      if (req.query.username === 'tom' && req.query.password === 'password') {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
     }
   },
 
