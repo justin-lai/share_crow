@@ -25,6 +25,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "react-router-redux": "^4.0.5",
+    "react-slick": "^0.12.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.23.3",
@@ -50,7 +51,7 @@
   "scripts": {
     "lint": "eslint --quiet server/ && eslint --quiet client/",
     "watch": "(npm run watch-server & npm run watch-client) && npm run server",
-    "start": "npm run lint && npm run watch",
+    "start": "npm run watch",
     "server": "nodemon dev/server/server.js",
     "watch-server": "babel --watch server/ -d dev/server",
     "watch-client": "webpack --watch --progress",

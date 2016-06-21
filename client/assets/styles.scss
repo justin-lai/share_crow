@@ -59,13 +59,27 @@ input.placeholder {
 }
 
 .product p {
-  line-height: 75%;
+/*  line-height: 75%;*/
 }
 
 .productList {
   /*display: inline-block;*/
   /*margin-left: 20px;*/
   /*float: left;*/
+}
+
+/*-----------------
+  SLICK
+-----------------*/
+.container {
+  margin: 0 auto;
+  padding: 40px;
+  width: 80%;
+  color: #333;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: black;
 }
 
 /*-----------------

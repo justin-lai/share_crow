@@ -2,6 +2,9 @@ config.js
 # Node Modules
 /node_modules
 
+# Bower Components 
+/bower_components
+
 # extra folders
 /dev
 /public
