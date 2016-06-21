@@ -1,14 +1,18 @@
 $font-stack: Arial, sans-serif;
 $primaryColor: white;
 
-body {
-  margin: 0;
-  font: $font-stack;
-  background-color: $primaryColor;
+* {
+  border-radius: 0 !important;
 }
 
-.logo-title {
-  font-size: 20px;
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.logo {
+  margin-top: -37px;
+  height: 100px;
 }
 
 .navbar {
@@ -16,18 +20,34 @@ body {
   color: white;
 }
 
-* {
-  border-radius: 0 !important;
-}
-
 .splash-image {
   margin-bottom: 25px;
-  margin-top: 0px;
+  margin-top: -2%;
   width: 100%;
 }
 
 .landing-form {
   text-align: center;
+  margin-top: -35%;
+  margin-bottom: 33%;
+  z-index: 1000;
+}
+
+input.placeholder {
+  text-align: center;
+}
+
+.landing-input {
+  height: 56px;
+  text-align: center;
+}
+
+.landing-button {
+  background-color: #cd1b4e;
+  border: none;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
 }
 
 .product {
@@ -36,4 +56,8 @@ body {
 
 .footer {
   text-align: center;
+}
+
+.product p {
+  line-height: 75%;
 }

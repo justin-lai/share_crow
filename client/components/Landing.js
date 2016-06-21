@@ -1,12 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 
-const Landing = (props) => (
+const Landing = () => (
   <div className="landing">
     <img className="splash-image" alt="splash" src="splash.jpg" />
     <form className="landing-form">
-      <input type="text" placeholder="San Francisco, CA" />
-      <input type="text" placeholder="Rental Period" />
-      <input type="submit" value="Search" />
+      <input className="landing-input" type="text" placeholder="San Francisco, CA" />
+      <input className="landing-input" type="text" placeholder="Rental Period" />
+      <input className="landing-button" type="submit" value="Search" />
     </form>
   </div>
 );
