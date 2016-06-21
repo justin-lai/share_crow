@@ -53,7 +53,7 @@ db.sequelize
       //eslint-disable-next-line
       console.log('Completed: ', user.dataValues);
     });
-    db.Items.create({
+    db.Listings.create({
       name: 'Grill',
       ownerId: 3,
       renterId: 2,
@@ -64,7 +64,7 @@ db.sequelize
       //eslint-disable-next-line
       console.log(item.dataValues);
     });
-    db.Items.create({
+    db.Listings.create({
       name: 'Bicycle',
       ownerId: 1,
       renterId: 4,
@@ -75,7 +75,7 @@ db.sequelize
       //eslint-disable-next-line
       console.log(item.dataValues);
     });
-    db.Items.create({
+    db.Listings.create({
       name: 'Projector',
       ownerId: 4,
       renterId: 2,
