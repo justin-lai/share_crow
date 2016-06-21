@@ -14,10 +14,7 @@ const NavBar = () => (
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
         </button>
-        <a
-          className="navbar-brand"
-          href="#"
-        >
+        <a className="navbar-brand" href="#">
           <img className="logo" alt="presentation" src="./sharecrow-logo.png" />
         </a>
       </div>

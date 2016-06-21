@@ -7,7 +7,9 @@ import { getSession } from '../actions/sessionActions.js';
 // import Navbar from './NavBar.js';
 import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
+import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
+import MessageInbox from './MessageInbox.js';
 
 class Profile extends Component {
   constructor(props) {
@@ -25,6 +27,21 @@ class Profile extends Component {
         price: 'Fo Free',
         owner: 'Scrum Vader',
         image: 'https://cdn.meme.am/instances/500x/65033790.jpg',
+      },
+    ];
+
+    this.messages = [
+      {
+        sender: 'Arthur',
+        recipient: 'Ben',
+        subject: 'This be yo prof, pal',
+        text: "I'm not yo pal, friend",
+      },
+      {
+        sender: 'Arthur',
+        recipient: 'Ben',
+        subject: "I'm not yo friend, guy",
+        text: "But it's coo",
       },
     ];
   }
@@ -46,10 +63,15 @@ class Profile extends Component {
     return (
       <div>
         <NavbarLoggedIn />
-        <div>This be yo prof, pal</div>
-        <div>I'm not yo pal, friend</div>
-        <div>I'm not yo friend, guy</div>
-        <ProductList products={this.products} />
+        <div className="row">
+          <div className="col-xs-6 col-md-4">
+            <ProfileCard />
+            <MessageInbox messages={this.messages} />
+          </div>
+          <div className="col-xs-12 col-md-2">
+            <ProductList products={this.products} />
+          </div>
+        </div>
         <Footer />
       </div>
     );

@@ -44,7 +44,7 @@
     "eslint-plugin-react": "^5.2.1",
     "sass-loader": "^3.2.1",
     "style-loader": "^0.13.1",
-    "tape": "^4.5.1"
+    "tape": "^4.6.0"
   },
   "scripts": {
     "lint": "eslint --quiet server/ && eslint --quiet client/",
@@ -58,9 +58,11 @@
     "test": "npm run dbTest && npm run apiTest",
     "validate": "npm ls"
   },
-    "pre-commit": ["lint", "test"]
-  ,
-
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/b-chou/share_crow.git"
@@ -76,10 +78,5 @@
   "bugs": {
     "url": "https://github.com/b-chou/share_crow/issues"
   },
-  "homepage": "https://github.com/b-chou/share_crow#readme",
-  "pre-commit": [
-    "lint",
-    "validate",
-    "test"
-  ]
+  "homepage": "https://github.com/b-chou/share_crow#readme"
 }
