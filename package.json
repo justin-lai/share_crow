@@ -13,6 +13,7 @@
     "fs": "0.0.2",
     "isomorphic-fetch": "^2.2.1",
     "node-fetch": "^1.5.3",
+    "node-sass": "^3.8.0",
     "nodemon": "^1.9.2",
     "passport": "^0.3.2",
     "path": "^0.12.7",
@@ -45,7 +46,7 @@
     "tape": "^4.5.1"
   },
   "scripts": {
-    "lint": "eslint --quiet server/",
+    "lint": "eslint --quiet server/ && eslint --quiet client/",
     "watch": "(npm run watch-server & npm run watch-client) && npm run server",
     "start": "npm run lint && npm run watch",
     "server": "nodemon dev/server/server.js",
