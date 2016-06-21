@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
 class ProfileCard extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   componentDidMount() {
   }
