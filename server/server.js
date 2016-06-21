@@ -10,6 +10,7 @@ require('./routes.js')(app, express);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(express.static('dev/client'));
 app.use(express.static('client/assets'));
 
