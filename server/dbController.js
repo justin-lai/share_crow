@@ -55,7 +55,8 @@ module.exports = {
         }
       } else {
         res.status(400).send({});
-      } });
+      } })
+      .catch(err => err);
   },
 
   // PROFILE FUNCTIONS
@@ -131,16 +132,35 @@ module.exports = {
   // expects none or 1 filter parameter
   getListings: (req, res) => {
     // if no parameters, return all listings
+
+    const searchFilters = {
+      name: req.params.name || null,
+      owner_id: req.params.owner_id || null,
+      max_fee: req.params.max_fee || null,
+      rental_fee: req.params.rental_fee || null,
+      rental_period: req.params.rental_fee || null,
+    };
     // if parameters provided, only return a filtered list
     // eslint-disable-next-line no-console
-    console.log('getListings route: ', req.params);
-    res.sendStatus(200);
+    console.log('GET //// getListings route');
+    db.Listings.findAll({
+      where: searchFilters,
+    }).then((items) => res.status(200).send(items));
   },
-  // expects name, owner_id, max_fee, rental_fee, rental_period
+  // expects item, owner_id, max_fee, rental_fee, rental_period, image
   createListing: (req, res) => {
     // adds a new listing entry in database
     // eslint-disable-next-line no-console
-    console.log('createListing route', req.body);
+    console.log('POST //// createListing route');
+    db.Listings.create({
+      name: req.body.item,
+      owner_id: req.body.owner_id,
+      max_fee: req.body.max_fee,
+      rental_fee: req.body.rental_fee,
+      rental_period: req.body.rental_period,
+      image: req.body.image,
+    })
+    .then((queryData) => res.status(201).send(queryData));
     res.status(201).send(req.body);
   },
 
