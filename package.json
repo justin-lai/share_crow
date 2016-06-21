@@ -30,6 +30,7 @@
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.23.3",
     "twilio": "^2.9.1",
+    "bluebird": "^3.4.1",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
