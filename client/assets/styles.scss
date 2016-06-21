@@ -66,25 +66,45 @@ input.placeholder {
 /*-----------------
   MESSAGE INBOX
 -----------------*/
-#inbox {
+#messagebox {
   position: absolute;
   right: 0px;
   width: 400px;
   border: 2px solid;
   background: white;
 }
-#inbox-header {
+#messagebox-header {
   border-bottom: 1px solid black;
   text-align: center;
   height: 30px;
   line-height: 30px;
-  color: white;
+  color: #555;
   font-size: 16px;
   background-color: black;
 }
+#inbox,
+#outbox {
+  text-align: center;
+  height: 100%;
+  margin-bottom: 20px;
+  /*background-color: white;*/
+  /*border: 1px solid #aaa;*/
+  border-top-left-radius: 50px;
+}
+#inbox {
+  border-right: 1px solid white;
+}
+#inbox:hover,
+#outbox:hover {
+  cursor: pointer;
+}
+#inbox.current,
+#outbox.current {
+  color: white;
+}
 .message {
-  padding: 10px 20px;
-  border-bottom: solid 1px;
+  padding: 5px 20px;
+  border-bottom: solid 1px #aaa;
 }
 .message:hover {
   background: #ccc;

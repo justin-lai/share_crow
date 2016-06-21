@@ -8,13 +8,39 @@ class MessageInbox extends Component {
     this.state = {
       show: 'inbox',
     };
+
+    this.showBox = this.showBox.bind(this);
+    this.messages = props.messages;
+  }
+
+  showBox(e) {
+    this.setState({
+      show: e.target.id,
+    });
+    // need to filter messages between sent and received
+    if (e.target.id === 'inbox') {
+      this.messages = this.props.messages;
+    } else {
+      this.messages = [];
+    }
   }
 
   render() {
     return (
-      <div id="inbox">
-        <div id="inbox-header">MESSAGES</div>
-        {this.props.messages.map(message => <Message message={message} />)}
+      <div id="messagebox">
+        <div id="messagebox-header">
+          <div
+            id="inbox"
+            className={this.state.show === 'inbox' ? 'col-xs-6 current' : 'col-xs-6'}
+            onClick={this.showBox}
+          >INBOX</div>
+          <div
+            id="outbox"
+            className={this.state.show === 'outbox' ? 'col-xs-6 current' : 'col-xs-6'}
+            onClick={this.showBox}
+          >OUTBOX</div>
+        </div>
+        {this.messages.map(message => <Message message={message} />)}
       </div>
     );
   }
