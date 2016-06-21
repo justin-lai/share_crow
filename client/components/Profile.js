@@ -7,6 +7,7 @@ import { getSession } from '../actions/sessionActions.js';
 // import Navbar from './NavBar.js';
 import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
+import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
 import MessageInbox from './MessageInbox.js';
 
@@ -62,8 +63,9 @@ class Profile extends Component {
     return (
       <div>
         <NavbarLoggedIn />
-        <MessageInbox messages={this.messages} />
-        <ProductList products={this.products} />
+        <ProfileCard className="col-xs-6 col-md-4" />
+        <MessageInbox className="col-xs-6 col-md-4" messages={this.messages} />
+        <ProductList className="col-xs-6 col-md-4" products={this.products} />
         <Footer />
       </div>
     );
