@@ -62,24 +62,52 @@ input.placeholder {
   line-height: 75%;
 }
 
+
+/*-----------------
+  MESSAGE INBOX
+-----------------*/
+#inbox {
+  position: absolute;
+  right: 0px;
+  width: 400px;
+  border: 2px solid;
+  background: white;
+}
+#inbox-header {
+  border-bottom: 1px solid black;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  font-size: 16px;
+  background-color: black;
+}
 .message {
   padding: 10px 20px;
-  border: solid 1px;
+  border-bottom: solid 1px;
+}
+.message:hover {
+  background: #ccc;
+  cursor: pointer;
 }
 .message .subject {
   padding-top: 10px;
   line-height: 0;
+  font-weight: 900px;
+  font-size: 16px;
+  color: #cd1b4e;
 }
 .message .sender {
-  font-size: 12px; 
+  font-size: 12px;
+  color: gray;
 }
 .message-text {
   /*line-height: 25%*/
 }
 
-.inbox {
-  width: 50%;
-}
+/*.inbox {*/
+  /*width: 50%;*/
+/*}*/
 .search {
   width: 100%;
   position: relative;
