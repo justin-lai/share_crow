@@ -31,7 +31,7 @@ export function sessionGetResponse(data) {
 export function getSession(id) {
   return dispatch => {
     dispatch(sessionGetRequest(id));
-    return fetch('/api/session', { credentials: 'same-origin' })
+    return fetch('/main/session', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(sessionGetResponse(json)));
   };

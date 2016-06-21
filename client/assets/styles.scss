@@ -62,6 +62,24 @@ input.placeholder {
   line-height: 75%;
 }
 
+.message {
+  padding: 10px 20px;
+  border: solid 1px;
+}
+.message .subject {
+  padding-top: 10px;
+  line-height: 0;
+}
+.message .sender {
+  font-size: 12px; 
+}
+.message-text {
+  /*line-height: 25%*/
+}
+
+.inbox {
+  width: 50%;
+}
 .search {
   width: 100%;
   position: relative;
