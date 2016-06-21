@@ -9,6 +9,7 @@ import Profile from './components/Profile';
 
 require('./assets/styles.scss');
 
+require('./assets/styles.scss');
 let store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 

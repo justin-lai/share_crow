@@ -1,15 +1,25 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 
-const Navbar = (props) => (
+const NavBar = () => (
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
       <div className="navbar-header">
-        <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <button
+          type="button"
+          className="navbar-toggle"
+          data-toggle="collapse"
+          data-target="#myNavbar"
+        >
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
         </button>
-        <a className="navbar-brand" href="#">Share.it</a>
+        <a
+          className="navbar-brand"
+          href="#"
+        >
+          <img className="logo" alt="presentation" src="./sharecrow-logo.png" />
+        </a>
       </div>
       <div className="collapse navbar-collapse" id="myNavbar">
         <ul className="nav navbar-nav navbar-right">
@@ -22,4 +32,4 @@ const Navbar = (props) => (
   </nav>
 );
 
-export default Navbar;
+export default NavBar;
