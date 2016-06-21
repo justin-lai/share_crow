@@ -15,7 +15,7 @@ class ProfileCard extends Component {
         <div className="profile_picture"></div>
         <div className="left_col">
           <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: '89%' }}>
+            <div className="star-ratings-css-top" style={{ width: '60%' }}>
               <span>★</span>
               <span>★</span>
               <span>★</span>
