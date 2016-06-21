@@ -1,4 +1,4 @@
-const db = require('./index.js');
+const db = require('./dbDesign.js');
 
 // ------------ Search by specific ID --------------//
 db.User.findById(2).then((user) => {

@@ -1,5 +1,13 @@
 // const fetch = require('node-fetch');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
+const path = require('path');
+const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
+// ----------- Search for all Users -------------- //
+db.User.findAll({}).then((users) => {
+  //  All user objects returned //
+  //eslint-disable-next-line
+  users.forEach(user => console.log(user.dataValues));
+});
 
 module.exports = {
 
@@ -11,8 +19,15 @@ module.exports = {
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
       // generate a new hash based on password and make new entry in table
-      // const hash = bcrypt.hashSync(req.query.password, 10);
-      res.sendStatus(201);
+      const hash = bcrypt.hashSync(req.body.password, 10);
+      db.User.create({
+        username: req.body.username,
+        password: hash,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phoneNumber,
+        about: req.body.aboutMe,
+      }).then((user) => res.status(201).send(user.dataValues));
     } else {
       res.sendStatus(400);
     }
