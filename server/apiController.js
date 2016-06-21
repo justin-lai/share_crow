@@ -10,10 +10,10 @@ module.exports = {
   // find the distance between two points, given 2 lat,long pairs
   // returns miles and eta time away driving
   distanceMatrix: (req, res) => {
-    const lat1 = req.body.lat1;
-    const long1 = req.body.long1;
-    const lat2 = req.body.lat2;
-    const long2 = req.body.long2;
+    const lat1 = req.query.lat1;
+    const long1 = req.query.long1;
+    const lat2 = req.query.lat2;
+    const long2 = req.query.long2;
     /*eslint-disable */
     fetch(baseLink + lat1 + ',' + long1 + '&destinations=' + lat2 + ',' + long2 + '&key=' + apiKeys.GOOGLEMAP_API_KEY)
       /*eslint-enable */
