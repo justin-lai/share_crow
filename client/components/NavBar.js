@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Navbar = () => (
+const NavBar = () => (
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -32,4 +32,4 @@ const Navbar = () => (
   </nav>
 );
 
-export default Navbar;
+export default NavBar;

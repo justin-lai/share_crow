@@ -4,7 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
-import Navbar from './Navbar.js';
+import NavBar from './NavBar.js';
 import Login from './Login.js';
 // import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
@@ -35,7 +35,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavbarLoggedIn />
+        <NavBar />
         <Landing />
         <ProductList products={this.products} />
         <Login />
