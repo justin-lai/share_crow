@@ -1,5 +1,7 @@
 const test = require('tape');
 const fetch = require('node-fetch');
+const path = require('path');
+const db = require(path.resolve(__dirname, '../db/dbDesign.js'));
 
 const accInfo = {
   username: 'tom',
@@ -9,6 +11,26 @@ const accInfo = {
   address: '123 Corgi Lane',
   aboutMe: 'When I am not lazy, I like to play board games with my friends.',
 };
+
+const testMessage = {
+  sender_id: 10,
+  recipient_id: 15,
+  text: 'when can I pick it up?',
+};
+
+// Tests if account creation is successful given all 6 fields
+test('Account Creation: successful given all 6 fields complete', assert => {
+  fetch('http://localhost:3000/main/signup',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(accInfo),
+    }).then((res) => assert.equal(res.status, 201, 'Account Creation Successful'));
+  assert.end();
+});
 
 // Tests if login is successful given correct username, password
 test('Login: successful given valid username and password', assert => {
@@ -23,20 +45,6 @@ test('Login: unsuccessful if parameters are missing or incorrect', assert => {
   const queryLine = `?username=${accInfo.username}`;
   fetch(`http://localhost:3000/main/login${queryLine}`)
     .then((res) => assert.equal(res.status, 400, 'Login Unsuccessful'));
-  assert.end();
-});
-
-// Tests if account creation is successful given all 6 fields
-test('Account Creation: successful given all 6 fields complete', assert => {
-  fetch('http://localhost:3000/main/signup',
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(accInfo),
-    }).then((res) => assert.equal(res.status, 201, 'Account Creation Successful'));
   assert.end();
 });
 
@@ -61,27 +69,37 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
   assert.end();
 });
 
+// Tests if account can remove a user account given a username
+test('Account Deletion: successful given a username', assert => {
+  db.User.destroy({
+    where: {
+      username: accInfo.username,
+    },
+  })
+  .then(() => {
+    db.User.findAll({
+      where: {
+        username: accInfo.username,
+      },
+    })
+    .then(queryData => {
+      assert.equal(queryData.length, 0);
+      assert.end();
+    });
+  });
+});
+
 // Tests if the correct profile is returned given a given id
 test('Profile: successfully returns correct profile given a user ID', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/profile?id=1').
+    then(queryData => assert.equal(queryData.status, 200, 'Profile Found via ID'));
   assert.end();
 });
 
 // Tests if the given id sent is incorrect when looking for a profile
 test('Profile: unsuccessfully returned profile due to invalid user ID', assert => {
-  assert.pass();
-  assert.end();
-});
-
-// Tests if profile is properly created
-test('Profile: successfully created given all parameters', assert => {
-  assert.pass();
-  assert.end();
-});
-
-// Tests if profile is not created when not all parameters are given
-test('Profile: Not created when missing parameters', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/profile?id=-1').
+    then(queryData => assert.equal(queryData.status, 400, 'Profile not found with invalid ID'));
   assert.end();
 });
 
@@ -111,13 +129,23 @@ test('Messages: Successfully returns all messages belonging to an id', assert =>
 
 // Tests if messages are not returned given an invalid or no id
 test('Messages: No messages are returned given an invalid or empty id field', assert => {
+  // fetch('http://localhost:3000/main/message')
   assert.pass();
   assert.end();
 });
 
 // Tests if message is posted given sender ID, receiver ID and message body
 test('Messages: Successful post of message given correct parameters', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/message',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(testMessage),
+    })
+    .then(responseData => assert.equal(responseData.status, 201, 'Message successfully posted'));
   assert.end();
 });
 
