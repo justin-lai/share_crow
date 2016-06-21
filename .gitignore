@@ -2,4 +2,6 @@ config.js
 # Node Modules
 /node_modules
 
+# extra folders
 /dev
+/public
