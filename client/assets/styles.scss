@@ -61,3 +61,46 @@ input.placeholder {
 .product p {
   line-height: 75%;
 }
+
+.search {
+  width: 100%;
+  position: relative;
+  margin-top: -58%;
+}
+
+.searchTerm {
+  float: left;
+  width: 100%;
+  border: 3px solid #cd1b4e;
+  padding: 5px;
+  border-radius: 5px !important;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  position: absolute;  
+  right: 0%;
+  width: 40px;
+  height: 36px;
+  border: 1px solid #cd1b4e;
+  background: #cd1b4e;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px !important;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
