@@ -10,12 +10,12 @@ class ProfileCard extends Component {
 
   render() {
     return (
-      <div className="portfoliocard">
+      <div className="profileCard">
         <div className="coverphoto"></div>
         <div className="profile_picture"></div>
         <div className="left_col">
           <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: '100%' }}>
+            <div className="star-ratings-css-top" style={{ width: '89%' }}>
               <span>★</span>
               <span>★</span>
               <span>★</span>
@@ -32,7 +32,7 @@ class ProfileCard extends Component {
           </div>
           <div className="aboutMe">
             <div>About Me</div>
-          </div>          
+          </div>
         </div>
         <div className="right_col">
           <h2 className="name">First Last</h2>

@@ -62,17 +62,25 @@ input.placeholder {
   line-height: 75%;
 }
 
+.productList {
+  /*display: inline-block;*/
+  /*margin-left: 20px;*/
+  /*float: left;*/
+}
 
 /*-----------------
   MESSAGE INBOX
 -----------------*/
 
 #messagebox {
-  position: absolute;
-  left: 0px;
+  /*position: absolute;*/
+  /*display: inline-block;*/
+  /*float: left;*/
   width: 400px;
   border: 2px solid;
   background: white;
+  vertical-align: top;
+
 }
 #messagebox-header {
   border-bottom: 1px solid black;
@@ -101,7 +109,8 @@ input.placeholder {
 }
 #inbox.current,
 #outbox.current {
-  color: white;
+  color: #fbbe4a;
+
 }
 .message {
   padding: 5px 20px;
@@ -181,24 +190,28 @@ a.nostyle{
   padding:0;
   margin:0;
 }
-div.portfoliocard{
-  position:relative;
+div.profileCard{
+  /*position:relative;*/
+  /*display: inline-block;*/
+  /*vertical-align: top;*/
+  /*float: left;*/
   height:350px;
   width:400px;
   background:rgba(255,255,255,1);
   border:1px solid rgba(0,0,0,0.7);
-  box-shadow:0px -1px 3px rgba(0,0,0,0.1),
-        0px 2px 6px rgba(0,0,0,0.5);
+  /*box-shadow:0px -1px 3px rgba(0,0,0,0.1),*/
+        /*0px 2px 6px rgba(0,0,0,0.5);*/
   border-radius:6px;
   /*margin:10% auto;*/
   overflow:hidden;
   z-index:100;
   line-height: 120%
 }
-div.portfoliocard div.coverphoto{
+div.profileCard div.coverphoto{
   width:100%;
   height:100px;
   background:url('https://wearetheryan.files.wordpress.com/2015/01/crow-sunrise.jpeg');
+  background-size: 180%;
   background-position: center;
   border-top-right-radius:5px;
   border-top-left-radius:5px;
@@ -207,16 +220,16 @@ div.portfoliocard div.coverphoto{
         1px 0px 2px rgba(255,255,255,0.7);
   z-index:99;
 }
-div.portfoliocard div.left_col, div.portfoliocard div.right_col{
+div.profileCard div.left_col, div.profileCard div.right_col{
   float:left;
-  height:340px;
+  height:80%;
 }
-div.portfoliocard div.left_col{
+div.profileCard div.left_col{
   width:40%;
   padding-top:85px;
   box-sizing:border-box;
 }
-div.portfoliocard div.right_col{
+div.profileCard div.right_col{
   width:60%;
   background:rgba(245,245,245,1);
   border-left:1px solid rgba(230,230,230,1);
@@ -224,39 +237,39 @@ div.portfoliocard div.right_col{
   margin-left:-1px;
   border-bottom-right-radius:5px;
 }
-div.portfoliocard div.profile_picture{
+div.profileCard div.profile_picture{
   width:110px;
   height:110px;
   background:rgba(255,255,255,1);
   position:absolute;
   top:65px;
-  left:25px;
+  left:40px;
   border-radius:100% !important;
   background-image: url('http://cache.spreadshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png');
   background-size:100% 100%;
   padding:7px;
   border:4px solid rgba(255,255,255,1)
 }
-div.portfoliocard div.right_col h2.name{
+div.profileCard div.right_col h2.name{
   font-size:30px;
   font-weight:300;
   color: rgba(30,30,30,1);
   padding:0;
   margin:20px 10px 5px 30px;
 }
-div.portfoliocard div.right_col h3.location{
+div.profileCard div.right_col h3.location{
   font-size:15px;
   font-weight:300;
   color:rgba(170,170,170,1);
   padding:0;
   margin:-5px 10px 10px 30px;
 }
-div.portfoliocard ul.contact_information{
+div.profileCard ul.contact_information{
   margin-top:20px;
   padding-left:30px;
   list-style-type:none;
 }
-div.portfoliocard ul.contact_information li{
+div.profileCard ul.contact_information li{
   height:25px;
   width:180px;
   line-height:25px;
@@ -268,10 +281,10 @@ div.portfoliocard ul.contact_information li{
   background-repeat:no-repeat;
   background-size:18px 18px;
   /*border-bottom:1px solid rgba(0,0,0,0.1);*/
-  box-shadow:0px 1px 1px rgba(255,255,255,0.6);
+  /*box-shadow:0px 1px 1px rgba(255,255,255,0.6);*/
   cursor:default;
 }
-div.portfoliocard ul.contact_information li:before{
+div.profileCard ul.contact_information li:before{
   content:"";
   width:25px;
   height:25px;
@@ -283,31 +296,25 @@ div.portfoliocard ul.contact_information li:before{
   margin-right:5px;
   opacity:0.7;
 }
-div.portfoliocard ul.contact_information li:hover:before{
+div.profileCard ul.contact_information li:hover:before{
   opacity:1;
 }
-div.portfoliocard ul.contact_information li.work:before{
-  background-image: url('http://schulzmarcel.de/x/icons/case_24.png');
-}
-div.portfoliocard ul.contact_information li.website:before{
+div.profileCard ul.contact_information li.website:before{
   background-image: url('http://schulzmarcel.de/x/icons/globe_24.png');
 }
-div.portfoliocard ul.contact_information li.mail:before{
+div.profileCard ul.contact_information li.mail:before{
   background-image: url('http://schulzmarcel.de/x/icons/paper_plane_24.png');
 }
-div.portfoliocard ul.contact_information li.phone:before{
+div.profileCard ul.contact_information li.phone:before{
   background-image: url('http://schulzmarcel.de/x/icons/phone_24.png');
 }
-div.portfoliocard ul.contact_information li.resume:before{
-  background-image: url('http://schulzmarcel.de/x/icons/inbox_24.png');
-}
-div.portfoliocard div.aboutMe {
+div.profileCard div.aboutMe {
   margin:15px 0px 0px 10px;
   font-weight:300;
   font-size:16px;
   color:rgba(30,30,30,1);
 }
-div.portfoliocard div.follow_count{
+div.profileCard div.follow_count{
   font-weight:400;
   font-size:25px;
   color:rgba(140,140,140,1);
@@ -340,4 +347,6 @@ div.portfoliocard div.follow_count{
     z-index: 0;
   }
 }
+
+
 

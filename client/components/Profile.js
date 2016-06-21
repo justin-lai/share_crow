@@ -63,9 +63,15 @@ class Profile extends Component {
     return (
       <div>
         <NavbarLoggedIn />
-        <ProfileCard className="col-xs-6 col-md-4" />
-        <MessageInbox className="col-xs-6 col-md-4" messages={this.messages} />
-        <ProductList className="col-xs-6 col-md-4" products={this.products} />
+        <div className="row">
+          <div className="col-xs-6 col-md-4">
+            <ProfileCard />
+            <MessageInbox messages={this.messages} />
+          </div>
+          <div className="col-xs-12 col-md-2">
+            <ProductList products={this.products} />
+          </div>
+        </div>
         <Footer />
       </div>
     );
