@@ -35,11 +35,12 @@ class App extends Component {
     ];
 
     this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.methods = this.props.methods;
+    console.log(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,18 +49,32 @@ class App extends Component {
 
   login() {
     const data = {
-      username: 'tom',
+      username: 'caathy',
       password: 'password',
     };
-    const options = Object.keys(data).reduce((str, key) => `${str}&&${key}=${data[key]}`, '');
-    console.log(options);
-    // this.methods.getSession(options);
+    let options = [];
+    Object.keys(data).forEach(key => options.push(`${key}=${data[key]}`));
+    options = options.join('&');
+    this.methods.getSession(options);
+  }
+
+  signup() {
+    const data = {
+      username: 'caathy',
+      password: 'password',
+      email: 'tom@gmail.com',
+      address: '21 Jump St, CA 21415',
+      phoneNumber: '123-456-7890',
+      aboutMe: "Hi, I'm Tom",
+    };
+
+    this.methods.postUser(data);
   }
 
   render() {
     return (
       <div>
-        <NavBar login={this.login} />
+        <NavBar login={this.login} signup={this.signup}/>
         <Landing />
         <ProductList products={this.products} />
         <Footer />
@@ -111,8 +126,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteListing: (data) => {
         dispatch(deleteListing(data));
       },
-      getSession: () => {
-        dispatch(getSession());
+      getSession: (data) => {
+        dispatch(getSession(data));
       },
     },
   };

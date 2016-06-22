@@ -15,7 +15,6 @@ class ProductList extends Component {
   }
 
   render() {
-    console.log(this.props.products);
     return (
       <div className="productList container">
         <Slider {...this.settings}>

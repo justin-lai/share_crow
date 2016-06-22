@@ -21,7 +21,9 @@ const NavBar = (props) => (
       <div className="collapse navbar-collapse" id="myNavbar">
         <ul className="nav navbar-nav navbar-right">
           <li><a href="#">Become a Lendee</a></li>
-          <li><a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li onClick={props.signup}>
+            <a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a>
+          </li>
           <li onClick={props.login}>
             <a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a>
           </li>
@@ -33,6 +35,7 @@ const NavBar = (props) => (
 
 NavBar.propTypes = {
   login: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
 };
 
 export default NavBar;
