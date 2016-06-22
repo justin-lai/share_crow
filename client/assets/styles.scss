@@ -69,6 +69,20 @@ input.placeholder {
 }
 
 /*-----------------
+  SLICK
+-----------------*/
+.container {
+  margin: 0 auto;
+  padding: 40px;
+  width: 80%;
+  color: #333;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: black;
+}
+
+/*-----------------
   MESSAGE INBOX
 -----------------*/
 
