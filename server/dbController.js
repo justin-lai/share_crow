@@ -170,7 +170,6 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
-      rentalPeriod: req.query.rental_fee || null,
     };
 
     if (!req.query.name) {
@@ -185,9 +184,6 @@ module.exports = {
     if (!req.query.rental_fee) {
       delete searchFilters.rentalFee;
     }
-    if (!req.query.rental_period) {
-      delete searchFilters.rentalPeriod;
-    }
     // if parameters provided, only return a filtered list
     // eslint-disable-next-line no-console
     db.Listings.findAll({
@@ -195,7 +191,7 @@ module.exports = {
     }).then((items) => res.status(200).send(items));
   },
 
-  // expects item, owner_id, max_fee, rental_fee, rental_period, image
+  // expects item, owner_id, max_fee, rental_fee, image
   createListing: (req, res) => {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
@@ -204,8 +200,9 @@ module.exports = {
       owner_id: req.body.owner_id,
       max_fee: req.body.max_fee,
       rental_fee: req.body.rental_fee,
-      rental_period: req.body.rental_period,
       image: req.body.image,
+      rented: false,
+      itemReturned: false,
     })
     .then((queryData) => res.status(201).send(queryData));
     res.status(201).send(req.body);
@@ -221,11 +218,14 @@ module.exports = {
       res.status(400).send({});
     } else {
       const updateListing = {
-        renterId: req.body.renderId || null,
+        renterId: req.body.renterId || null,
         maxFee: req.body.maxFee || null,
         rentalFee: req.body.rentalFee || null,
-        rentalPeriod: req.body.rentalPeriod || null,
+        rentedOn: req.body.rentedOn || null,
         itemImage: req.body.itemImage || null,
+        returnedOn: req.body.returnedOn || null,
+        itemReturned: req.body.itemReturned || null,
+        rented: req.body.rented || null,
       };
 
       if (!req.body.renterId) {
@@ -237,8 +237,17 @@ module.exports = {
       if (!req.body.rentalFee) {
         delete updateListing.rentalFee;
       }
-      if (!req.body.rentalPeriod) {
-        delete updateListing.rentalPeriod;
+      if (!req.body.rentedOn) {
+        delete updateListing.rentedOn;
+      }
+      if (!req.body.returnedOn) {
+        delete updateListing.returnedOn;
+      }
+      if (!req.body.rented) {
+        delete updateListing.rented;
+      }
+      if (!req.body.itemReturned) {
+        delete updateListing.itemReturned;
       }
       if (!req.body.itemImage) {
         delete updateListing.itemImage;
