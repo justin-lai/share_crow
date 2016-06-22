@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 
 const Product = ({ product }) => (
-  <span className="product">
-    <img alt="product" src={product.image} width="300px" />
+  <span className={product.rented ? 'product rented' : 'product'}>
+    <img src={product.image} alt="product" />
+    {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
     <div className="product-info">
       <h4>{product.name}</h4>
       <p>{product.price}</p>

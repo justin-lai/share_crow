@@ -8,7 +8,13 @@ $primaryColor: white;
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
+  height: 100%;
   /*background: #ecfafb;*/
+}
+
+#app, #profile {
+  min-height: 100%;
+  position: relative;
 }
 
 .logo {
@@ -51,6 +57,22 @@ input.placeholder {
   font-size: 18px;
 }
 
+.footer {
+  /*text-align: center;*/
+  /*margin: auto;*/
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  /*width: 100px;*/
+  bottom: 0;
+  height: 60px;
+  /*background: white;*/
+}
+
+/*-----------------
+  PRODUCT LISTING
+-----------------*/
+
 .product {
   text-align: center;
   display: inline-block;
@@ -62,8 +84,8 @@ input.placeholder {
 }
 .product img {
   margin: auto;
-  width: 60%;
   height: 60%;
+  width: 60%;
 }
 .product-info {
   border-top: 1px solid;
@@ -79,10 +101,6 @@ input.placeholder {
   color: #cd1b4e;
 }
 
-.footer {
-  text-align: center;
-}
-
 .product p {
   line-height: 75%;
 }
@@ -91,14 +109,33 @@ input.placeholder {
   margin: 10px 10px;
 }
 
+.product-list {
+  padding-bottom: 60px;
+}
+
+.rented-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 20%;
+  width: 20%;
+  z-index: 999;
+  opacity: .7;
+}
+
+.rented {
+  opacity: .5;
+}
+
 /*-----------------
   SLICK
 -----------------*/
 .container {
   margin: 0 auto;
-  padding: 40px;
+  /*padding: 20px;*/
   width: 80%;
   color: #333;
+  padding-bottom: 60px;
 }
 
 .slick-prev:before, .slick-next:before {

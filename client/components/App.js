@@ -79,7 +79,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="app">
         <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
         <Landing />
         <ProductCarousel products={this.products} />

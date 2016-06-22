@@ -17,7 +17,7 @@ class ProductCarousel extends Component {
 
   render() {
     return (
-      <div className="productList container">
+      <div className="product-carousel container">
         <Slider {...this.settings}>
           {
             this.props.products.map(product =>
