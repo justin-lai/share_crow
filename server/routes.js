@@ -12,8 +12,7 @@ module.exports = app => {
     .get(dbController.login);
 
   app.route('/main/profile')
-    .get(dbController.getProfile)
-    .post(dbController.createProfile)
+    .get(dbController.getUser)
     .put(dbController.updateProfile);
 
   app.route('/main/message')

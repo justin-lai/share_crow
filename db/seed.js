@@ -1,4 +1,7 @@
-const db = require('./index.js');
+const db = require('./dbDesign.js');
+
+// THIS HAS ALREADY BEEN RUN
+// HARD RESETS THE DB, DO NOT RUN UNLESS YOU WANT TO CLEAR LITERALLY EVERYTHING-- caathy
 
 db.sequelize
 .sync({ force: true })
