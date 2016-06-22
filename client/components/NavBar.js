@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const NavBar = () => (
+const NavBar = (props) => (
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -22,11 +22,17 @@ const NavBar = () => (
         <ul className="nav navbar-nav navbar-right">
           <li><a href="#">Become a Lendee</a></li>
           <li><a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
-          <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li onClick={props.login}>
+            <a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 );
+
+NavBar.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
 export default NavBar;

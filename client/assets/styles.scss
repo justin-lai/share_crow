@@ -251,7 +251,7 @@ div.profileCard div.right_col{
   margin-left:-1px;
   border-bottom-right-radius:5px;
 }
-div.profileCard div.profile_picture{
+div.profileCard img.profile_picture{
   width:110px;
   height:110px;
   background:rgba(255,255,255,1);
@@ -259,8 +259,9 @@ div.profileCard div.profile_picture{
   top:65px;
   left:40px;
   border-radius:100% !important;
-  background-image: url('http://cache.spreadshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png');
-  background-size:100% 100%;
+  /*background-image: url('darthvader.jpg');*/
+  /*http://cache.spreadshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png*/
+  /*background-size:100% 100%;*/
   padding:7px;
   border:4px solid rgba(255,255,255,1)
 }

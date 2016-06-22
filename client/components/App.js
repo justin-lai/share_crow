@@ -4,9 +4,9 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
-// import NavBar from './NavBar.js';
-import Login from './Login.js';
-import NavbarLoggedIn from './NavbarLoggedIn.js';
+import NavBar from './NavBar.js';
+// import Login from './Login.js';
+// import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
 import ProductList from './ProductList.js';
 
@@ -33,6 +33,8 @@ class App extends Component {
         image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
       },
     ];
+
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
@@ -44,13 +46,20 @@ class App extends Component {
     console.log(nextProps);
   }
 
+  login() {
+    const data = {
+      username: 'tom',
+      password: 'password',
+    };
+    this.methods.getSession(data);
+  }
+
   render() {
     return (
       <div>
-        <NavbarLoggedIn />
+        <NavBar login={this.login} />
         <Landing />
         <ProductList products={this.products} />
-        <Login />
         <Footer />
       </div>
     );
