@@ -34,17 +34,23 @@ class App extends Component {
       },
     ];
 
+    this.state = {
+      isLoggedIn: false,
+    };
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
-    console.log(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    if (nextProps.session) {
+      this.setState({
+        isLoggedIn: true,
+      });
+    }
   }
 
   login() {
@@ -74,7 +80,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar login={this.login} signup={this.signup}/>
+        <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
         <Landing />
         <ProductList products={this.products} />
         <Footer />
