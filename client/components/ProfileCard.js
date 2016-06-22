@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class ProfileCard extends Component {
   // constructor(props) {
@@ -12,10 +12,10 @@ class ProfileCard extends Component {
     return (
       <div className="profileCard">
         <div className="coverphoto"></div>
-        <div className="profile_picture"></div>
+        <img src="darthvader.jpg" className="profile_picture" alt="profile"></img>
         <div className="left_col">
           <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: '89%' }}>
+            <div className="star-ratings-css-top" style={{ width: '93%' }}>
               <span>★</span>
               <span>★</span>
               <span>★</span>
@@ -31,12 +31,12 @@ class ProfileCard extends Component {
             </div>
           </div>
           <div className="aboutMe">
-            <div>About Me</div>
+            <div>Give me yo waffle fries!!</div>
           </div>
         </div>
         <div className="right_col">
-          <h2 className="name">First Last</h2>
-          <h3 className="location">San Francisco, CA</h3>
+          <h2 className="name">Scrum Lord</h2>
+          <h3 className="location">Death Star, CA</h3>
           <ul className="contact_information">
             <li className="website"><a className="nostyle" href="#">www.apple.com</a></li>
             <li className="mail">john.doe@apple.com</li>
@@ -50,8 +50,8 @@ class ProfileCard extends Component {
             // <li className="work">CEO</li>
             // <li className="resume"><a href="#" className="nostyle">About Me</a></li>
 
-ProfileCard.propTypes = {
-  profile: PropTypes.object.isRequired,
-};
+// ProfileCard.propTypes = {
+//   profile: PropTypes.object.isRequired,
+// };
 
 export default ProfileCard;

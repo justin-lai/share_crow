@@ -13,6 +13,7 @@ module.exports = {
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
       // generate a new hash based on password and make new entry in table
+      console.log(req.body);
       const hash = bcrypt.hashSync(req.body.password, 10);
       db.User.create({
         username: req.body.username,

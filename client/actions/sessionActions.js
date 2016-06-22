@@ -28,11 +28,14 @@ export function sessionGetResponse(data) {
     data,
   };
 }
-export function getSession(id) {
+export function getSession(data) {
   return dispatch => {
-    dispatch(sessionGetRequest(id));
-    return fetch('/main/session', { credentials: 'same-origin' })
+    dispatch(sessionGetRequest(data));
+    return fetch(`/main/login?${data}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(sessionGetResponse(json)));
+      .then(json => {
+        console.log(json);
+        dispatch(sessionGetResponse(json));
+      });
   };
 }

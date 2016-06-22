@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware, combineReducers, session } from 'redux';
-import { user, listing } from './reducers/reducers.js';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { user, listing, session } from './reducers/reducers.js';
 import thunkMiddleware from 'redux-thunk';
 import { routerReducer } from 'react-router-redux';
 

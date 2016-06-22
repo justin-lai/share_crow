@@ -4,8 +4,8 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getSession } from '../actions/sessionActions.js';
 // import Landing from './Landing.js';
-// import Navbar from './NavBar.js';
-import NavbarLoggedIn from './NavbarLoggedIn.js';
+import NavBar from './NavBar.js';
+// import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
@@ -17,20 +17,62 @@ class Profile extends Component {
 
     this.products = [
       {
-        name: 'tent',
-        price: '$Tree Fitty',
-        owner: 'C AA Thee',
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
         image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        rented: false,
       },
       {
-        name: 'Gimme yo waffle fries',
-        price: 'Fo Free',
-        owner: 'Scrum Vader',
-        image: 'https://cdn.meme.am/instances/500x/65033790.jpg',
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        rented: false,
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        rented: true,
+      },
+      {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        rented: false,
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        rented: true,
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        rented: false,
       },
     ];
 
     this.messages = [
+      {
+        sender: 'Arthur',
+        recipient: 'Ben',
+        subject: 'This be yo prof, pal',
+        text: "I'm not yo pal, friend",
+      },
+      {
+        sender: 'Arthur',
+        recipient: 'Ben',
+        subject: "I'm not yo friend, guy",
+        text: "But it's coo",
+      },
       {
         sender: 'Arthur',
         recipient: 'Ben',
@@ -61,14 +103,14 @@ class Profile extends Component {
 
   render() {
     return (
-      <div>
-        <NavbarLoggedIn />
+      <div id="profile">
+        <NavBar />
         <div className="row">
           <div className="col-xs-6 col-md-4">
             <ProfileCard />
             <MessageInbox messages={this.messages} />
           </div>
-          <div className="col-xs-12 col-md-2">
+          <div>
             <ProductList products={this.products} />
           </div>
         </div>

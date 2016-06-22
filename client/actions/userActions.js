@@ -63,7 +63,7 @@ export function userPostResponse(data) {
 export function postUser(data) {
   return dispatch => {
     dispatch(userPostRequest());
-    return fetch('/main/profile', {
+    return fetch('/main/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

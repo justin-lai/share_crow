@@ -4,11 +4,11 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
-// import NavBar from './NavBar.js';
-import Login from './Login.js';
-import NavbarLoggedIn from './NavbarLoggedIn.js';
+import NavBar from './NavBar.js';
+// import Login from './Login.js';
+// import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
-import ProductList from './ProductList.js';
+import ProductCarousel from './ProductCarousel.js';
 
 class App extends Component {
   constructor(props) {
@@ -33,24 +33,56 @@ class App extends Component {
         image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
       },
     ];
+
+    this.state = {
+      isLoggedIn: false,
+    };
+    this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.methods = this.props.methods;
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    if (nextProps.session) {
+      this.setState({
+        isLoggedIn: true,
+      });
+    }
+  }
+
+  login() {
+    const data = {
+      username: 'caathy',
+      password: 'password',
+    };
+    let options = [];
+    Object.keys(data).forEach(key => options.push(`${key}=${data[key]}`));
+    options = options.join('&');
+    this.methods.getSession(options);
+  }
+
+  signup() {
+    const data = {
+      username: 'caathy',
+      password: 'password',
+      email: 'tom@gmail.com',
+      address: '21 Jump St, CA 21415',
+      phoneNumber: '123-456-7890',
+      aboutMe: "Hi, I'm Tom",
+    };
+
+    this.methods.postUser(data);
   }
 
   render() {
     return (
-      <div>
-        <NavbarLoggedIn />
+      <div id="app">
+        <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
         <Landing />
-        <ProductList products={this.products} />
-        <Login />
+        <ProductCarousel products={this.products} />
         <Footer />
       </div>
     );
@@ -100,8 +132,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteListing: (data) => {
         dispatch(deleteListing(data));
       },
-      getSession: () => {
-        dispatch(getSession());
+      getSession: (data) => {
+        dispatch(getSession(data));
       },
     },
   };
