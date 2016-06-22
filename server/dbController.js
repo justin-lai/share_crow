@@ -205,6 +205,9 @@ module.exports = {
     // if parameters provided, only return a filtered list
     // eslint-disable-next-line no-console
     db.Listings.findAll({
+      include: [{
+        model: db.User,
+      }],
       where: searchFilters,
     }).then((items) => {
       const results = [];

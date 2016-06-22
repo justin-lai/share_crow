@@ -16,48 +16,54 @@ class Profile extends Component {
     super(props);
 
     this.products = [
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        rented: false,
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        rented: false,
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        rented: true,
-      },
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        rented: false,
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        rented: true,
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        rented: false,
-      },
+      // {
+      //   name: 'Tent',
+      //   rentalFee: '$20/day',
+      //   owner: 'caathylee',
+      //   image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+      //   rented: false,
+      //   ownerId: 1,
+      // },
+      // {
+      //   name: 'Grill',
+      //   rentalFee: '$20/day',
+      //   owner: 'caathylee',
+      //   image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+      //   rented: false,
+      //   ownerId: 1,
+      // },
+      // {
+      //   name: 'Fishing Rod',
+      //   rentalFee: '$10/day',
+      //   owner: 'caathylee',
+      //   image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+      //   rented: true,
+      //   ownerId: 1,
+      // },
+      // {
+      //   name: 'Tent',
+      //   rentalFee: '$20/day',
+      //   owner: 'caathylee',
+      //   image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+      //   rented: false,
+      //   ownerId: 1,
+      // },
+      // {
+      //   name: 'Grill',
+      //   rentalFee: '$20/day',
+      //   owner: 'caathylee',
+      //   image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+      //   rented: true,
+      //   ownerId: 1,
+      // },
+      // {
+      //   name: 'Fishing Rod',
+      //   rentalFee: '$10/day',
+      //   owner: 'caathylee',
+      //   image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+      //   rented: false,
+      //   ownerId: 1,
+      // },
     ];
 
     this.messages = [
@@ -89,17 +95,16 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.methods = this.props.methods;
     // this.methods.getListing(`name=${this.props.session.username}`);
-    this.methods.getListing('owner_id=2');
     // get user's info
     // get user's messages
-    // get user's items
+    this.methods.getListing('owner_id=88');
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next= ', nextProps);
+    console.log(nextProps.listing);
+    this.products = nextProps.listing;
     // re-render with new props
   }
 
