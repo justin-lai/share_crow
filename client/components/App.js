@@ -46,7 +46,9 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.session.hasOwnProperty('username')) {
+      console.log('session!: ', nextProps.session);
       this.setState({
         isLoggedIn: true,
       });
@@ -58,10 +60,10 @@ class App extends Component {
       username: 'caathy',
       password: 'password',
     };
-    let options = [];
-    Object.keys(data).forEach(key => options.push(`${key}=${data[key]}`));
-    options = options.join('&');
-    this.methods.getSession(options);
+    let query = [];
+    Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
+    query = query.join('&');
+    this.methods.getSession(query);
   }
 
   signup() {

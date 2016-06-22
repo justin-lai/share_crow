@@ -166,7 +166,7 @@ input.placeholder {
   border: 2px solid;
   background: white;
   vertical-align: top;
-
+  margin-left: 20px;
 }
 #messagebox-header {
   border-bottom: 1px solid black;
@@ -270,6 +270,10 @@ input.placeholder {
   PROFILE CARD
 -----------------*/
 
+#profile h3 {
+  margin-top: 0px;
+}
+
 a.nostyle{
   color:inherit;
   text-decoration:none;
@@ -281,6 +285,7 @@ div.profileCard{
   /*display: inline-block;*/
   /*vertical-align: top;*/
   /*float: left;*/
+  margin: 30px 0 0 20px;
   height:350px;
   width:400px;
   background:rgba(255,255,255,1);
@@ -329,7 +334,7 @@ div.profileCard img.profile_picture{
   background:rgba(255,255,255,1);
   position:absolute;
   top:65px;
-  left:40px;
+  left:60px;
   border-radius:100% !important;
   /*background-image: url('darthvader.jpg');*/
   /*http://cache.spreadshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png*/

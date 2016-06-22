@@ -91,26 +91,29 @@ class Profile extends Component {
   componentDidMount() {
     console.log(this.props);
     this.methods = this.props.methods;
+    // this.methods.getListing(`name=${this.props.session.username}`);
+    this.methods.getListing('owner_id=2');
     // get user's info
     // get user's messages
     // get user's items
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    console.log('next= ', nextProps);
     // re-render with new props
   }
 
   render() {
     return (
       <div id="profile">
-        <NavBar />
+        <NavBar isLoggedIn={Boolean(true)} />
         <div className="row">
           <div className="col-xs-6 col-md-4">
             <ProfileCard />
             <MessageInbox messages={this.messages} />
           </div>
           <div>
+            <h3>My Items</h3>
             <ProductList products={this.products} />
           </div>
         </div>
@@ -122,7 +125,8 @@ class Profile extends Component {
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
-  listing: PropTypes.object.isRequired,
+  listing: PropTypes.array.isRequired,
+  session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
 };
 

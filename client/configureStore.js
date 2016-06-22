@@ -5,7 +5,7 @@ import { routerReducer } from 'react-router-redux';
 
 const initalState = {
   user: {},
-  listing: {},
+  listing: [],
 };
 
 export default function configureStore() {

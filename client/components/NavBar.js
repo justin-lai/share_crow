@@ -96,8 +96,8 @@ const NavBar = (props) => {
 };
 
 NavBar.propTypes = {
-  login: PropTypes.func.isRequired,
-  signup: PropTypes.func.isRequired,
+  login: PropTypes.func,
+  signup: PropTypes.func,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 

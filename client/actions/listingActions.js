@@ -26,10 +26,9 @@ export const LISTING_DELETE_RESPONSE = 'LISTING_DELETE_RESPONSE';
 
 // -------------GET--------------------
 
-export function listingGetRequest(id) {
+export function listingGetRequest() {
   return {
     type: LISTING_GET_REQUEST,
-    id,
   };
 }
 export function listingGetResponse(data) {
@@ -38,10 +37,10 @@ export function listingGetResponse(data) {
     data,
   };
 }
-export function getListing(id) {
+export function getListing(query) {
   return dispatch => {
-    dispatch(listingGetRequest(id));
-    return fetch('/main/listing', { credentials: 'same-origin' })
+    dispatch(listingGetRequest());
+    return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(listingGetResponse(json)));
   };
