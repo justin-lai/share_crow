@@ -8,7 +8,7 @@ import NavBar from './NavBar.js';
 // import Login from './Login.js';
 // import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
-import ProductList from './ProductList.js';
+import ProductCarousel from './ProductCarousel.js';
 
 class App extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class App extends Component {
       <div>
         <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
         <Landing />
-        <ProductList products={this.products} />
+        <ProductCarousel products={this.products} />
         <Footer />
       </div>
     );

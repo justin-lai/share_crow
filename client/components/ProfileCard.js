@@ -50,8 +50,8 @@ class ProfileCard extends Component {
             // <li className="work">CEO</li>
             // <li className="resume"><a href="#" className="nostyle">About Me</a></li>
 
-ProfileCard.propTypes = {
-  profile: PropTypes.object.isRequired,
-};
+// ProfileCard.propTypes = {
+//   profile: PropTypes.object.isRequired,
+// };
 
 export default ProfileCard;

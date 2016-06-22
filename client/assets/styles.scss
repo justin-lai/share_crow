@@ -8,6 +8,7 @@ $primaryColor: white;
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
+  /*background: #ecfafb;*/
 }
 
 .logo {
@@ -52,6 +53,30 @@ input.placeholder {
 
 .product {
   text-align: center;
+  display: inline-block;
+  border: solid 2px black;
+  height: 280px;
+  width: 250px;
+  position: relative;
+  background: white;
+}
+.product img {
+  margin: auto;
+  width: 60%;
+  height: 60%;
+}
+.product-info {
+  border-top: 1px solid;
+  background: #eee;
+  position: absolute;
+  bottom: 0px;
+  height: 40%;
+  width: 100%;
+  /*padding: 15px;*/
+}
+.product-info h4 {
+  font-weight: 700;
+  color: #cd1b4e;
 }
 
 .footer {
@@ -62,10 +87,8 @@ input.placeholder {
   line-height: 75%;
 }
 
-.productList {
-  /*display: inline-block;*/
-  /*margin-left: 20px;*/
-  /*float: left;*/
+.product-list span {
+  margin: 10px 10px;
 }
 
 /*-----------------

@@ -1,12 +1,15 @@
 import React, { PropTypes } from 'react';
 
 const Product = ({ product }) => (
-  <div className="product">
+  <span className="product">
     <img alt="product" src={product.image} width="300px" />
-    <p>{product.name}</p>
-    <p>{product.price}</p>
-    <p>{product.owner}</p>
-  </div>
+    <div className="product-info">
+      <h4>{product.name}</h4>
+      <p>{product.price}</p>
+      <p>XY miles away - Fremont, CA</p>
+      <a href="/">{product.owner}</a>
+    </div>
+  </span>
 );
 
 Product.propTypes = {
