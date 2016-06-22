@@ -88,7 +88,7 @@ const Messages = sequelize.define('Messages', {
   },
 });
 
-const Listings = sequelize.define('Items', {
+const Listings = sequelize.define('Listings', {
   name: {
     type: Sequelize.STRING,
   },
@@ -99,13 +99,22 @@ const Listings = sequelize.define('Items', {
     type: Sequelize.INTEGER,
   },
   maxFee: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
   },
   rentalFee: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
   },
-  rentalPeriod: {
-    type: Sequelize.INTEGER,
+  rented: {
+    type: Sequelize.BOOLEAN,
+  },
+  rentedOn: {
+    type: Sequelize.DATE,
+  },
+  returnedOn: {
+    type: Sequelize.DATE,
+  },
+  itemReturned: {
+    type: Sequelize.BOOLEAN,
   },
   itemImage: {
     type: Sequelize.INTEGER,
@@ -116,10 +125,14 @@ const Images = sequelize.define('Images', {
   userImage: {
     type: Sequelize.STRING,
   },
-  itemImage: {
+  listingImage: {
     type: Sequelize.STRING,
   },
 });
+
+// const Catergories = sequelize.define('Categories', {
+//
+// });
 
 
 User.hasMany(Listings);
@@ -131,7 +144,7 @@ Listings.belongsTo(User);
 Images.belongsTo(User);
 Images.belongsTo(Listings);
 Messages.belongsTo(User);
-Reviews.belongsTo(User);
+Reviews.belongsTo(User, { as: User.lenderId });
 Payments.belongsTo(User);
 User.hasOne(Images);
 
