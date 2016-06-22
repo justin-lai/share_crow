@@ -18,6 +18,13 @@ const testMessage = {
   text: 'when can I pick it up?',
 };
 
+const userReview = {
+  lenderId: 10,
+  reviewerId: 15,
+  rating: 4,
+  text: 'easy to work with',
+};
+
 // Tests if account creation is successful given all 6 fields
 test('Account Creation: successful given all 6 fields complete', assert => {
   fetch('http://localhost:3000/main/signup',
@@ -76,16 +83,9 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
 //       username: accInfo.username,
 //     },
 //   })
-//   .then(() => {
-//     db.User.findAll({
-//       where: {
-//         username: accInfo.username,
-//       },
-//     })
-//     .then(queryData => {
-//       assert.equal(queryData.length, 0);
-//       assert.end();
-//     });
+//   .then(queryData => {
+//     assert.equal(queryData, 1);
+//     assert.end();
 //   });
 // });
 
@@ -211,24 +211,59 @@ test('UserReviews: no userReview returned due to invalid user ID or none provide
 
 // Tests if a userReview successfully created given all fields
 test('UserReviews: succsesfully creates a userReview given all fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/userReview',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userReview),
+    })
+    .then(responseData => assert.equal(responseData.status, 200, 'User review successfully made'));
   assert.end();
 });
 
 // Tests if userView unsuccessfully created when missing one or more fields
 test('UserReviews: no userReview created due to missing one or more fields', assert => {
-  assert.pass();
+  delete userReview.text;
+  fetch('http://localhost:3000/main/userReview',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userReview),
+    })
+    .then(responseData => assert.equal(responseData.status, 400, 'User review creation denied'));
   assert.end();
 });
 
 // Tests if userReview successfully deleted given a review ID and associated user ID
-test('UserReviews: successful deletion of userReview given valid review and user ID', assert => {
-  assert.pass();
-  assert.end();
-});
+// test('UserReviews: successful deletion of userReview given valid review and user ID', assert => {
+//   fetch('http://localhost:3000/userReview',
+//     {
+//       method: 'delete',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ reviewId: 1 }),
+//     }).then(responseData => assert.equal(responseData.status, 200, 'Review at id=1 deleted'));
+//   assert.end();
+// });
 
-// Tests if userReview unsuccessfully deleted given an incorrect review ID or associated user ID
-test('UserReviews: unsuccessful deletion of userReview given invalid review or user ID', assert => {
-  assert.pass();
-  assert.end();
-});
+// // Tests if userReview unsuccessfully deleted given an incorrect review ID or associated user ID
+// test('UserReviews: unsuccessful deletion of userReview given invalid review or user ID', assert => {
+//   fetch('http://localhost:3000/userReview',
+//     {
+//       method: 'DELETE',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ reviewId: -1 }),
+//     }).then(responseData => assert.equal(responseData.status, 400));
+//   assert.end();
+// });
