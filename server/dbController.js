@@ -2,12 +2,6 @@
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
-// ----------- Search for all Users -------------- //
-// db.User.findAll({}).then((users) => {
-//   //  All user objects returned //
-//   //eslint-disable-next-line
-//   users.forEach(user => console.log(user.dataValues));
-// });
 
 module.exports = {
 
@@ -131,18 +125,33 @@ module.exports = {
   // RENTAL LISTING FUNCTIONS
   // expects none or 1 filter parameter
   getListings: (req, res) => {
+    console.log('GET //// getListings route');
     // if no parameters, return all listings
-
     const searchFilters = {
-      name: req.params.name || null,
-      owner_id: req.params.owner_id || null,
-      max_fee: req.params.max_fee || null,
-      rental_fee: req.params.rental_fee || null,
-      rental_period: req.params.rental_fee || null,
+      name: req.query.name || null,
+      ownerId: req.query.owner_id || null,
+      maxFee: req.query.max_fee || null,
+      rentalFee: req.query.rental_fee || null,
+      rentalPeriod: req.query.rental_fee || null,
     };
+
+    if (!req.query.name) {
+      delete searchFilters.name;
+    }
+    if (!req.query.owner_id) {
+      delete searchFilters.ownerId;
+    }
+    if (!req.query.max_fee) {
+      delete searchFilters.maxFee;
+    }
+    if (!req.query.rental_fee) {
+      delete searchFilters.rentalFee;
+    }
+    if (!req.query.rental_period) {
+      delete searchFilters.rentalPeriod;
+    }
     // if parameters provided, only return a filtered list
     // eslint-disable-next-line no-console
-    console.log('GET //// getListings route');
     db.Listings.findAll({
       where: searchFilters,
     }).then((items) => res.status(200).send(items));

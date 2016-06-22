@@ -88,7 +88,7 @@ const Messages = sequelize.define('Messages', {
   },
 });
 
-const Listings = sequelize.define('Items', {
+const Listings = sequelize.define('Listings', {
   name: {
     type: Sequelize.STRING,
   },
