@@ -58,7 +58,7 @@
     "watch-client": "webpack --watch --progress",
     "dbTest": "tape Tests/dbTests.js | faucet",
     "apiTest": "tape Tests/apiTests.js | faucet",
-    "test": "npm run dbTest && npm run apiTest",
+    "test": "npm run dbTest",
     "validate": "npm ls"
   },
   "pre-commit": [

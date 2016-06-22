@@ -53,9 +53,6 @@ const Reviews = sequelize.define('Reviews', {
   rating: {
     type: Sequelize.INTEGER,
   },
-  date: {
-    type: Sequelize.DATE,
-  },
 });
 
 const Payments = sequelize.define('Payments', {

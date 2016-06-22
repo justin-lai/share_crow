@@ -191,28 +191,57 @@ module.exports = {
   },
 
   // USER REVIEW FUNCTIONS
-  // expects username and id
+  // expects lenderId
   getUserReviews: (req, res) => {
     // returns all entries associated with username and id from database
     // eslint-disable-next-line no-console
-    console.log('getUserReviews route', req.params);
-    res.sendStatus(200);
+    console.log('GET //// getUserReviews route');
+
+    db.Reviews.findAll({
+      where: {
+        lenderId: req.query.lenderId,
+      },
+    })
+    .then(queryData => {
+      if (queryData.length) {
+        res.status(200).send(queryData);
+      } else {
+        res.status(400).send({});
+      }
+    });
   },
 
-  // expects reviewer id, reviewee id, rating, message
+  // expects reviewerId, lenderId, rating, text
   createUserReview: (req, res) => {
     // add a new review entry in database
     // eslint-disable-next-line no-console
-    console.log('createUserReview route', req.body);
-    res.status(201).send(req.body);
+    console.log('POST //// createUserReview route');
+
+    db.Reviews.create({
+      lenderId: req.body.lenderId,
+      reviewerId: req.body.reviewerId,
+      rating: req.body.rating,
+      text: req.body.text,
+    })
+    .then(queryData => res.status(200).send(queryData));
   },
 
-  // expects review id, user id
+  // expects reviewId
   deleteUserReview: (req, res) => {
     // id associated with the review must match the user id
     // deletes a user review from database by id
     // eslint-disable-next-line no-console
-    console.log('deleteUserReview route', req.body);
-    res.sendStatus(410);
+    console.log('DELETE //// deleteUserReview route');
+    db.Reviews.destroy({
+      where: {
+        id: req.body.reviewId,
+      },
+    }).then(queryData => {
+      if (queryData) {
+        res.status(200).send({});
+      } else {
+        res.status(400).send({});
+      }
+    });
   },
 };

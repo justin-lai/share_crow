@@ -70,24 +70,24 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
 });
 
 // Tests if account can remove a user account given a username
-// test('Account Deletion: successful given a username', assert => {
-//   db.User.destroy({
-//     where: {
-//       username: accInfo.username,
-//     },
-//   })
-//   .then(() => {
-//     db.User.findAll({
-//       where: {
-//         username: accInfo.username,
-//       },
-//     })
-//     .then(queryData => {
-//       assert.equal(queryData.length, 0);
-//       assert.end();
-//     });
-//   });
-// });
+test('Account Deletion: successful given a username', assert => {
+  db.User.destroy({
+    where: {
+      username: accInfo.username,
+    },
+  })
+  .then(() => {
+    db.User.findAll({
+      where: {
+        username: accInfo.username,
+      },
+    })
+    .then(queryData => {
+      assert.equal(queryData.length, 0);
+      assert.end();
+    });
+  });
+});
 
 // Tests if the correct profile is returned given a given id
 test('Profile: successfully returns correct profile given a user ID', assert => {
