@@ -51,7 +51,9 @@ class App extends Component {
       username: 'tom',
       password: 'password',
     };
-    this.methods.getSession(data);
+    const options = Object.keys(data).reduce((str, key) => `${str}&&${key}=${data[key]}`, '');
+    console.log(options);
+    // this.methods.getSession(options);
   }
 
   render() {

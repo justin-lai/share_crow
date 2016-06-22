@@ -36,6 +36,7 @@ module.exports = {
   // LOGIN FUNCTIONS
   // expects username, password
   login: (req, res) => {
+    console.log(req.query);
     if (!req.query.password || !req.query.username) {
       res.status(400).send({});
     }
