@@ -35,6 +35,9 @@ const User = sequelize.define('User', {
   about: {
     type: Sequelize.STRING,
   },
+  userImage: {
+    type: Sequelize.INTEGER,
+  },
 });
 
 const Reviews = sequelize.define('Reviews', {
@@ -83,12 +86,9 @@ const Messages = sequelize.define('Messages', {
   recipientId: {
     type: Sequelize.INTEGER,
   },
-  date: {
-    type: Sequelize.DATE,
-  },
 });
 
-const Items = sequelize.define('Items', {
+const Listings = sequelize.define('Items', {
   name: {
     type: Sequelize.STRING,
   },
@@ -107,23 +107,32 @@ const Items = sequelize.define('Items', {
   rentalPeriod: {
     type: Sequelize.INTEGER,
   },
+  itemImage: {
+    type: Sequelize.INTEGER,
+  },
 });
 
 const Images = sequelize.define('Images', {
-  url: {
+  userImage: {
+    type: Sequelize.STRING,
+  },
+  itemImage: {
     type: Sequelize.STRING,
   },
 });
 
 
-User.hasMany(Items);
+User.hasMany(Listings);
 User.hasMany(Messages);
 User.hasMany(Reviews);
 User.hasMany(Payments);
-Items.hasMany(Images);
-Items.belongsTo(User);
+Listings.hasMany(Images);
+Listings.belongsTo(User);
+Images.belongsTo(User);
+Images.belongsTo(Listings);
 Messages.belongsTo(User);
 Reviews.belongsTo(User);
 Payments.belongsTo(User);
+User.hasOne(Images);
 
-module.exports = { User, Messages, Reviews, Items, Payments, sequelize };
+module.exports = { User, Messages, Reviews, Listings, Payments, sequelize };
