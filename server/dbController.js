@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
+/* eslint-disable max-len */
 // const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
+// db.Messages.findAll({}).then(x => x.forEach(y => console.log(y.dataValues)));
 module.exports = {
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
@@ -82,6 +84,8 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({});
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.aboutMe) {
+      res.status(400).send({});
     } else {
       const updateProfile = {
         password: req.body.password || null,
@@ -126,7 +130,7 @@ module.exports = {
   },
 
   // //////////////////////////// PRIVATE MESSAGING FUNCTIONS ////////////////////////////
-  // expects username and id
+  // expects id
   getMessages: (req, res) => {
     // pulls all messages associated with username and id
     console.log('GET //// getMessages');
@@ -136,8 +140,12 @@ module.exports = {
       },
     })
     .then(queryData => {
-      if (queryData) {
-        res.status(200).send(queryData);
+      const results = [];
+      queryData.forEach(message => {
+        results.push(message.dataValues);
+      });
+      if (results.length) {
+        res.status(200).send(results);
       } else {
         res.status(400).send({});
       }
@@ -148,7 +156,7 @@ module.exports = {
   postMessages: (req, res) => {
     // adds a new message entry in database
     console.log('POST //// postMessages');
-    if (req.body.text) {
+    if (req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
         text: req.body.text,
         senderId: req.body.sender_id,
@@ -188,24 +196,38 @@ module.exports = {
     // eslint-disable-next-line no-console
     db.Listings.findAll({
       where: searchFilters,
-    }).then((items) => res.status(200).send(items));
+    }).then((items) => {
+      const results = [];
+      items.forEach(entry => {
+        results.push(entry.dataValues);
+      });
+      if (results.length) {
+        res.status(200).send(results);
+      } else {
+        res.status(400).send({});
+      }
+    });
   },
 
   // expects item, owner_id, max_fee, rental_fee, image
   createListing: (req, res) => {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
-    db.Listings.create({
-      name: req.body.item,
-      owner_id: req.body.owner_id,
-      max_fee: req.body.max_fee,
-      rental_fee: req.body.rental_fee,
-      image: req.body.image,
-      rented: false,
-      itemReturned: false,
-    })
-    .then((queryData) => res.status(201).send(queryData));
-    res.status(201).send(req.body);
+
+    if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
+      db.Listings.create({
+        name: req.body.item,
+        owner_id: req.body.owner_id,
+        max_fee: req.body.max_fee,
+        rental_fee: req.body.rental_fee,
+        image: req.body.image || null,
+        rented: false,
+        itemReturned: false,
+      })
+      .then((queryData) => res.status(201).send(queryData));
+    } else {
+      res.status(400).send({});
+    }
   },
 
   // expects listingId and an arbitrary number of parameters
