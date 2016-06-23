@@ -67,7 +67,8 @@
   },
   "pre-commit": [
     "lint",
-    "validate"
+    "validate",
+    "test"
   ],
   "repository": {
     "type": "git",
