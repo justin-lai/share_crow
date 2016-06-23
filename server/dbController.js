@@ -12,6 +12,7 @@ module.exports = {
   // expects username, password, email, phoneNumber, address, aboutMe
   signup: (req, res) => {
     console.log(req.session);
+    req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
@@ -46,6 +47,7 @@ module.exports = {
   // //////////////////////////// LOGIN FUNCTIONS ////////////////////////////
   // expects username, password
   login: (req, res) => {
+    req.session.cookie.path = '/main/login';
     if (!req.query.password || !req.query.username) {
       res.status(400).send({ message: 'username or password not provided' });
     }
@@ -58,6 +60,7 @@ module.exports = {
     .then(queryData => {
       if (queryData[0]) {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
+          req.session.username = req.body.username;
           res.status(200).send(queryData[0].dataValues);
         } else {
           res.status(400).send({ message: 'password does not match the password in the database' });
@@ -73,6 +76,7 @@ module.exports = {
   getUser: (req, res) => {
     // query database for a specific profile
     console.log('GET //// getUser Route');
+    req.session.cookie.path = '/main/profile';
     if (req.query.id) {
       db.User.findAll({
         where: {
@@ -94,7 +98,7 @@ module.exports = {
   // expects id with an arbitrary number of parameters to change
   updateProfile: (req, res) => {
     console.log('PUT //// updateProfile Route');
-
+    req.session.cookie.path = '/main/profile';
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
@@ -149,6 +153,8 @@ module.exports = {
     // pulls all messages associated with username and id
     console.log('GET //// getMessages');
     console.log(req.query.recipient_id);
+    req.session.cookie.path = '/main/message';
+
     // needs to get messages from based on both sender or receiver
     db.Messages.findAll({
       where: {
@@ -176,6 +182,7 @@ module.exports = {
   postMessages: (req, res) => {
     // adds a new message entry in database
     console.log('POST //// postMessages');
+    req.session.cookie.path = '/main/message';
     if (req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
         text: req.body.text,
@@ -192,6 +199,7 @@ module.exports = {
   // expects none or 1 filter parameter
   getListings: (req, res) => {
     console.log('GET //// getListings route');
+    req.session.cookie.path = '/main/listing';
     // if no parameters, return all listings
     const searchFilters = {
       name: req.query.name || null,
@@ -236,6 +244,7 @@ module.exports = {
   createListing: (req, res) => {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
+    req.session.cookie.path = '/main/listing';
     // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
@@ -257,7 +266,7 @@ module.exports = {
   changeListing: (req, res) => {
     // modifies entry with 'listing id' in database
     console.log('PUT //// changeListing Route');
-
+    req.session.cookie.path = '/main/listing';
     // change database entry depending on parameters
     if (!req.body.listingId) {
       res.status(400).send({ message: 'listingId was not provided' });
@@ -318,6 +327,7 @@ module.exports = {
   returnedListing: (req, res) => {
     // call change listing to change renting period to 'complete'
     console.log('DELETE //// returnedListing route');
+    req.session.cookie.path = '/main/listing';
     if (!req.body.listingId) {
       res.status(400).send({ message: 'listingId was not provided' });
     } else {
@@ -342,6 +352,8 @@ module.exports = {
 
   // //////////////////////////// UNIQUE LISTING ACQUIRE FUNCTIONS ////////////////////////////
   getUniqueListing: (req, res) => {
+    console.log('GET //// getUniqueListing route');
+    req.session.cookie.path = '/main/listing/unique';
     if (!req.query.id) {
       res.status(400).send({ message: 'id not sent with request' });
     } else {
@@ -363,6 +375,7 @@ module.exports = {
   getUserReviews: (req, res) => {
     // returns all entries associated with username and id from database
     console.log('GET //// getUserReviews route');
+    req.session.cookie.path = '/main/getUserReview';
     if (!req.query.lenderId) {
       res.status(400).send({ message: 'lenderId not provided' });
     } else {
@@ -387,6 +400,7 @@ module.exports = {
   createUserReview: (req, res) => {
     // add a new review entry in database
     console.log('POST //// createUserReview route');
+    req.session.cookie.path = '/main/profile';
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
       res.status(400).send({ message: 'a required field was missing' });
     } else {
@@ -405,6 +419,7 @@ module.exports = {
     // id associated with the review must match the user id
     // deletes a user review from database by id
     console.log('DELETE //// deleteUserReview route');
+    req.session.cookie.path = '/main/profile';
     db.Reviews.destroy({
       where: {
         id: req.body.reviewId,
