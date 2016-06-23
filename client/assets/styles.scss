@@ -45,16 +45,27 @@ body {
 }
 
 .first-name {
-  margin-right: 5px;
+  margin-right: 5px; 
+  display: inline-block;
+  float: left;
+}
+
+.last-name {
 }
 
 .ReactModal__Content, .ReactModal__Content--after-open {
   width: 600px;
-  height: 500px;
+  height: 740px;
   margin: 0 auto;
 }
 
-input.placeholder {
+.modal-header {
+  color: #cd1b4e;
+}
+
+input.close-button {
+  float: right;
+  vertical-align: middle;
   text-align: center;
 }
 
@@ -79,12 +90,41 @@ input.placeholder {
   width: 313px;
 }
 
+.city-input {
+  width: 200px;
+  display: inline-block;
+  float: left;
+}
+
+.state-input {
+  width: 150px;
+  display: inline-block;
+  float: left;
+}
+
+.zipcode-input {
+  width:150px;
+}
+
+.phone-input {
+  width: 313px;
+}
+
 .landing-button {
   background-color: #cd1b4e;
   border: none;
   color: white;
   padding: 15px;
   font-size: 18px;
+}
+
+.modal-login-button {
+  border-style: none;
+  background-color: #cd1b4e;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px !important;
+  margin-top: 10px;
 }
 
 .footer {

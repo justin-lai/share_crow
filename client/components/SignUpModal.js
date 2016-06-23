@@ -23,63 +23,135 @@ class SignUpModal extends Component {
           onClick={this.openModal}
         ><span className="glyphicon glyphicon-user"></span> Sign Up</div>
         <Modal isOpen={this.state.open}>
-          <h1>Create Account</h1>
-          <p>
+          <input className="close-button" type="submit" value="x" onClick={this.closeModal} />
+          <h1 className="modal-header">Create Account</h1>
+          <p className="first-name">
+            <div>First Name </div>
             <input
-              className="first-name"
-              placeholder="First Name"
+              type="text"
             />
+          </p>
+          <p className="last-name">
+            <div>Last Name</div>
             <input
-              placeholder="Last Name"
+              type="text"
             />
           </p>
           <p>
+            <div>Email</div>
             <input
-              className="password-input"
-              placeholder="Password"
-            />
-          </p>
-          <p><input className="password-input" placeholder="Re-enter password" /></p>
-          <p>Enter a username: <input className="username-input" placeholder="Username" /></p>
-          <p>
-            <input
+              type="text"
               className="email-input"
-              placeholder="Email"
             />
           </p>
           <p>
+            <div>Create a Username</div>
             <input
-              className="address-input"
-              placeholder="Address"
+              type="text"
+              className="username-input"
             />
           </p>
           <p>
+            <div>Password</div>
             <input
-              className="address-input"
-              placeholder="City"
+              type="text"
+              className="password-input"
             />
           </p>
           <p>
+            <div>Confirm Password</div>
             <input
-              className="address-input"
-              placeholder="State"
+              type="text"
+              className="password-input"
             />
           </p>
           <p>
+            <div>Address</div>
             <input
               className="address-input"
-              placeholder="Zipcode"
+              type="text"
             />
           </p>
-          <p>
+          <p className="city-input">
+            <div> City </div>
             <input
-              className="address-input"
-              placeholder="Phone Number"
+              type="text"
+            />
+          </p>
+          <p className="state-input">
+            State
+            <select className="state-input">
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>
+          </p>
+          <p className="zipcode-input">
+            <div>Zipcode</div>
+            <input
+              type="text"
+            />
+          </p>
+          <p className="phone-input">
+            <div>Phone Number</div>
+            <input
+              type="text"
             />
             <p>xxx-xxx-xxxx</p>
           </p>
-          <input type="submit" value="Login" />
-          <button onClick={this.closeModal}>Close</button>
+          <input
+            className="modal-login-button"
+            type="submit"
+            value="Login"
+          />
         </Modal>
       </div>
     );
