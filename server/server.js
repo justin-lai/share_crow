@@ -1,17 +1,33 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const session = require('express-session');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 
+app.use(cookieParser('C44THY'));
 app.use(session({
-  secret: 'secretCaathy',
-  resave: true,
-  saveUninitialized: true,
+  store: new RedisStore({
+    host: 'localhost',
+    port: 6379,
+    db: 1,
+    pass: 'sharecrow',
+  }),
+  secret: 'C44THY',
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));
+
+app.use((req, res, next) => {
+  console.log(req.session, '******', req.baseUrl);
+  if (!req.session.username && req.session.cookie.path !== '/') {
+    res.redirect('/');
+  } else {
+    next();
+  }
+});
 
 require('./routes.js')(app, express);
 

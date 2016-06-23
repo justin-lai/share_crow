@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
 /* eslint-disable max-len */
+/* eslint-disable no-param-reassign */
 // const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
-// db.Messages.findAll({}).then(x => x.forEach(y => console.log(y.dataValues)));
 module.exports = {
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
   // expects username, password, email, phoneNumber, address, aboutMe
   signup: (req, res) => {
+    console.log(req.session);
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
@@ -29,7 +30,10 @@ module.exports = {
             address: req.body.address,
             phone: req.body.phoneNumber,
             about: req.body.aboutMe,
-          }).then((user) => res.status(201).send(user.dataValues));
+          }).then((user) => {
+            req.session.username = req.body.username;
+            res.status(201).send(user.dataValues);
+          });
         } else {
           res.status(500).send({ message: 'username taken' });
         }
@@ -236,9 +240,9 @@ module.exports = {
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
         name: req.body.item,
-        owner_id: req.body.owner_id,
-        max_fee: req.body.max_fee,
-        rental_fee: req.body.rental_fee,
+        ownerId: req.body.owner_id,
+        maxFee: req.body.max_fee,
+        rentalFee: req.body.rental_fee,
         image: req.body.image || null,
         rented: false,
         itemReturned: false,
