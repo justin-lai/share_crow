@@ -156,7 +156,7 @@ test('Profile: Update unsuccessful if ID sent but missing data fields to change'
 
 // Tests if all messages are returned belonging to an id
 test('Messages: Successfully returns all messages belonging to an id', assert => {
-  fetch('http://localhost:3000/main/message?id=10')
+  fetch('http://localhost:3000/main/message?id=55')
     .then(queryData => assert.equal(queryData.status, 200));
   assert.end();
 });
