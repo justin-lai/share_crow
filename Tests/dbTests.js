@@ -42,15 +42,18 @@ test('Account Creation: successful given all 6 fields complete', assert => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(accInfo),
-    }).then((res) => assert.equal(res.status, 201, 'Account Creation Successful'));
-  assert.end();
-});
-
-// Tests if login is successful given correct username, password
-test('Login: successful given valid username and password', assert => {
-  const queryLine = `?username=${accInfo.username}&password=${accInfo.password}`;
-  fetch(`http://localhost:3000/main/login${queryLine}`)
-    .then((res) => assert.equal(res.status, 200, 'Login Successful'));
+    }).then(() => {
+      const queryLine = `?username=${accInfo.username}&password=${accInfo.password}`;
+      fetch(`http://localhost:3000/main/login${queryLine}`)
+        .then((res) => assert.equal(res.status, 200, 'Login Successful'))
+        .then(() => {
+          db.User.destroy({
+            where: {
+              username: accInfo.username,
+            },
+          });
+        });
+    });
   assert.end();
 });
 
@@ -82,19 +85,6 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
     }).then((res) => assert.equal(res.status, 400, 'Account Creation Successful'));
   assert.end();
 });
-
-// Tests if account can remove a user account given a username
-// test('Account Deletion: successful given a username', assert => {
-//   db.User.destroy({
-//     where: {
-//       username: accInfo.username,
-//     },
-//   })
-//   .then(queryData => {
-//     assert.equal(queryData, 1);
-//     assert.end();
-//   });
-// });
 
 // Tests if the correct profile is returned given a given id
 test('Profile: successfully returns correct profile given a user ID', assert => {
@@ -251,7 +241,31 @@ test('Listings: Unsuccessful creation when missing any fields', assert => {
 
 // Tests if listing succesfully changes given a listing ID and changed parameters
 test('Listings: Succesfully changes a listing given ID and fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listingId: 2,
+        maxFee: 500,
+      }),
+    })
+    .then(responseData => assert.equal(responseData.status, 200));
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listingId: 2,
+        maxFee: 600,
+      }),
+    });
   assert.end();
 });
 

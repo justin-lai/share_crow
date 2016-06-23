@@ -15,15 +15,25 @@ module.exports = {
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
       // generate a new hash based on password and make new entry in table
-      const hash = bcrypt.hashSync(req.body.password, 10);
-      db.User.create({
-        username: req.body.username,
-        password: hash,
-        email: req.body.email,
-        address: req.body.address,
-        phone: req.body.phoneNumber,
-        about: req.body.aboutMe,
-      }).then((user) => res.status(201).send(user.dataValues));
+      db.User.find({
+        where: {
+          username: req.body.username,
+        },
+      }).then(listings => {
+        if (!listings) {
+          const hash = bcrypt.hashSync(req.body.password, 10);
+          db.User.create({
+            username: req.body.username,
+            password: hash,
+            email: req.body.email,
+            address: req.body.address,
+            phone: req.body.phoneNumber,
+            about: req.body.aboutMe,
+          }).then((user) => res.status(201).send(user.dataValues));
+        } else {
+          res.status(500).send({ message: 'username taken' });
+        }
+      });
     } else {
       res.status(400).send({});
     }
@@ -213,7 +223,7 @@ module.exports = {
   createListing: (req, res) => {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
-
+    // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
         name: req.body.item,
