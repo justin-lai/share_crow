@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession } from '../actions/sessionActions.js';
 // import Landing from './Landing.js';
 import NavBar from './NavBar.js';
@@ -16,42 +17,17 @@ class Profile extends Component {
     super(props);
 
     this.products = [];
+    this.messages = [];
     this.profile = props.session;
-
-    this.messages = [
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: 'This be yo prof, pal',
-        text: "I'm not yo pal, friend",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: "I'm not yo friend, guy",
-        text: "But it's coo",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: 'This be yo prof, pal',
-        text: "I'm not yo pal, friend",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: "I'm not yo friend, guy",
-        text: "But it's coo",
-      },
-    ];
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
     // this.methods.getListing(`name=${this.props.session.username}`);
     // get user's info
-    // get user's messages
     this.methods.getUser(`id=${this.props.session.id}`);
+    // get user's messages
+    this.methods.getMessage('recipient_id=89');
     // get user's items
     this.methods.getListing('owner_id=88');
   }
@@ -59,10 +35,12 @@ class Profile extends Component {
   componentWillReceiveProps(nextProps) {
     console.log('next!!', nextProps);
     this.products = nextProps.listing;
+    this.messages = nextProps.message;
     // re-render with new props
   }
 
   render() {
+    console.log(this.messages);
     return (
       <div id="profile">
         <NavBar isLoggedIn={Boolean(true)} />
@@ -90,11 +68,12 @@ Profile.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session } = state;
+  const { user, listing, session, message } = state;
 
   return {
     user,
     listing,
+    message,
     session,
   };
 }
@@ -126,8 +105,20 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteListing: (data) => {
         dispatch(deleteListing(data));
       },
-      getSession: () => {
-        dispatch(getSession());
+      getMessage: (id) => {
+        dispatch(getMessage(id));
+      },
+      postMessage: (data) => {
+        dispatch(postMessage(data));
+      },
+      putMessage: (data) => {
+        dispatch(putMessage(data));
+      },
+      deleteMessage: (data) => {
+        dispatch(deleteMessage(data));
+      },
+      getSession: (data) => {
+        dispatch(getSession(data));
       },
     },
   };

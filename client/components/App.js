@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
@@ -77,6 +78,7 @@ class App extends Component {
   }
 
   signup() {
+    console.log(`logging in as ${'Scrum_Lord'}`);
     const data = {
       username: 'Scrum_Lord',
       password: 'password',
@@ -108,11 +110,12 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session } = state;
+  const { user, listing, session, message } = state;
 
   return {
     user,
     listing,
+    message,
     session,
   };
 }
@@ -143,6 +146,18 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteListing: (data) => {
         dispatch(deleteListing(data));
+      },
+      getMessage: (id) => {
+        dispatch(getMessage(id));
+      },
+      postMessage: (data) => {
+        dispatch(postMessage(data));
+      },
+      putMessage: (data) => {
+        dispatch(putMessage(data));
+      },
+      deleteMessage: (data) => {
+        dispatch(deleteMessage(data));
       },
       getSession: (data) => {
         dispatch(getSession(data));

@@ -15,8 +15,7 @@ class Product extends Component {
     // this.methods.getUser(`id=${this.product.ownerId}`);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('!!!!!!', nextProps);
+  componentWillReceiveProps() {
     // if (this.product.ownerId)
     // this.product.owner = nextProps.user.username;
   }

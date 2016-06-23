@@ -42,7 +42,8 @@ export function getListing(query) {
     dispatch(listingGetRequest());
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(listingGetResponse(json)));
+      .then(json => dispatch(listingGetResponse(json)))
+      .catch(() => dispatch(listingGetResponse([])));
   };
 }
 
