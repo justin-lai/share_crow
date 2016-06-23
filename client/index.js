@@ -6,6 +6,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import App from './components/App';
 import Profile from './components/Profile';
+import Marketplace from './components/Marketplace';
 
 require('./assets/styles.scss');
 // require('./assets/darthvader.jpg');
@@ -20,6 +21,7 @@ render(
     <Router history={history}>
       <Route path="/" component={App} />
       <Route path="/profile" component={Profile} />
+      <Route path="/marketplace" component={Marketplace} />
     </Router>
   </Provider>),
   document.getElementById('app')
