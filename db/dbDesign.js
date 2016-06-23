@@ -38,6 +38,12 @@ const User = sequelize.define('User', {
   userImage: {
     type: Sequelize.INTEGER,
   },
+  verification: {
+    type: Sequelize.INTEGER,
+  },
+  verified: {
+    type: Sequelize.BOOLEAN,
+  },
 });
 
 const Reviews = sequelize.define('Reviews', {
@@ -83,6 +89,9 @@ const Messages = sequelize.define('Messages', {
   recipientId: {
     type: Sequelize.INTEGER,
   },
+  subject: {
+    type: Sequelize.STRING,
+  },
 });
 
 const Listings = sequelize.define('Listings', {
@@ -115,6 +124,9 @@ const Listings = sequelize.define('Listings', {
   },
   itemImage: {
     type: Sequelize.INTEGER,
+  },
+  category: {
+    type: Sequelize.STRING,
   },
 });
 
