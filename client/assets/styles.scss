@@ -44,8 +44,13 @@ body {
   padding-right: 6px;
 }
 
+.first-name {
+  margin-right: 5px;
+}
+
 .ReactModal__Content, .ReactModal__Content--after-open {
   width: 600px;
+  height: 500px;
   margin: 0 auto;
 }
 
@@ -56,6 +61,22 @@ input.placeholder {
 .landing-input {
   height: 56px;
   text-align: center;
+}
+
+.password-input {
+  width: 313px;
+}
+
+.username-input {
+  width: 190px;
+}
+
+.email-input {
+  width: 313px;
+}
+
+.address-input {
+  width: 313px;
 }
 
 .landing-button {

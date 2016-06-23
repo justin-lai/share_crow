@@ -81,16 +81,9 @@ const NavBar = (props) => {
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a href="#">Become a Lendee</a>
-                <a href="#"><SignUpModal /></a>
               </li>
               <li>
-                <a href="#">
-                  <span
-                    className="glyphicon glyphicon-user"
-                    onClick={props.signup}
-                  >
-                  </span> Sign Up
-                </a>
+                <a href="#"><SignUpModal /></a>
               </li>
               <li>
                 <a href="#">
