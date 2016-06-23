@@ -93,6 +93,7 @@ input.placeholder {
   width: 250px;
   position: relative;
   background: white;
+  box-shadow: 2px;
 }
 .product img {
   margin: auto;
@@ -166,7 +167,7 @@ input.placeholder {
   border: 2px solid;
   background: white;
   vertical-align: top;
-
+  margin-left: 20px;
 }
 #messagebox-header {
   border-bottom: 1px solid black;
@@ -270,6 +271,10 @@ input.placeholder {
   PROFILE CARD
 -----------------*/
 
+#profile h3 {
+  margin-top: 0px;
+}
+
 a.nostyle{
   color:inherit;
   text-decoration:none;
@@ -281,6 +286,7 @@ div.profileCard{
   /*display: inline-block;*/
   /*vertical-align: top;*/
   /*float: left;*/
+  margin: 30px 0 0 20px;
   height:350px;
   width:400px;
   background:rgba(255,255,255,1);
@@ -329,7 +335,7 @@ div.profileCard img.profile_picture{
   background:rgba(255,255,255,1);
   position:absolute;
   top:65px;
-  left:40px;
+  left:60px;
   border-radius:100% !important;
   /*background-image: url('darthvader.jpg');*/
   /*http://cache.spreadshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png*/
@@ -361,7 +367,7 @@ div.profileCard ul.contact_information li{
   width:180px;
   line-height:25px;
   font-weight:300;
-  font-size:15px;
+  font-size:12px;
   color:rgba(140,140,140,1);
   text-shadow:1px 1px 1px rgba(255,255,255,0.8);
   padding:5px 0px;
@@ -398,7 +404,8 @@ div.profileCard ul.contact_information li.phone:before{
 div.profileCard div.aboutMe {
   margin:15px 0px 0px 10px;
   font-weight:300;
-  font-size:16px;
+  font-size:14px;
+  padding: 0 5px;
   color:rgba(30,30,30,1);
 }
 div.profileCard div.follow_count{
@@ -434,6 +441,59 @@ div.profileCard div.follow_count{
     z-index: 0;
   }
 }
+
+/*-----------------
+  MARKETPLACE
+-----------------*/
+#marketplace {
+  width: 100%;
+}
+
+#marketplace-search {
+  width: 600px;
+  height: 50px;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+ul#filters {
+  display: inline-block;
+  margin-left: 300px;
+  border: solid 1px black;
+  list-style: none;
+  width: 300px;
+  padding: 0;
+  margin-left: 20px;
+  border-radius: 50px;
+}
+
+#filters-header {
+  width: 100%;
+  border-bottom: 1px solid black;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  font-size: 16px;
+  background-color: black;
+}
+
+li.category { 
+  /*padding-left: 20px;*/
+  text-align: center;
+  padding: 5px 0;
+}
+/*li.category:first-of-type {
+  padding-top: 10px;
+}
+li.category:last-of-type {
+  padding-bottom: 10px;
+}*/
+li.category:hover {
+  color: #cd1b4e;
+  cursor: pointer;
+}
+
 
 
 

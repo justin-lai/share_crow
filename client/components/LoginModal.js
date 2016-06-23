@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 
 
@@ -27,11 +27,15 @@ class LoginModal extends Component {
           <button onClick={this.closeModal}>Close</button>
           <p><input placeholder="Username or Email" /></p>
           <p><input placeholder="Password" /></p>
-          <input type="submit" value="Login" />
+          <input type="submit" value="Login" onClick={this.props.login} />
         </Modal>
       </div>
     );
   }
 }
+
+LoginModal.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
 export default LoginModal;

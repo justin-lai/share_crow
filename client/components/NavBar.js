@@ -78,12 +78,22 @@ const NavBar = (props) => {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
-              <li><a href="#">Become a Lendee</a></li>
               <li>
-                <a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a>
+                <a href="#">Become a Lendee</a>
               </li>
               <li>
-                <a href="#"><LoginModal /></a>
+                <a href="#">
+                  <span
+                    className="glyphicon glyphicon-user"
+                    onClick={props.signup}
+                  >
+                  </span> Sign Up
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <LoginModal login={props.login} />
+                </a>
               </li>
             </ul>
           </div>
@@ -96,8 +106,8 @@ const NavBar = (props) => {
 };
 
 NavBar.propTypes = {
-  login: PropTypes.func.isRequired,
-  signup: PropTypes.func.isRequired,
+  login: PropTypes.func,
+  signup: PropTypes.func,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 

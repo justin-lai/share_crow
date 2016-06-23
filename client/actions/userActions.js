@@ -26,10 +26,9 @@ export const USER_DELETE_RESPONSE = 'USER_DELETE_RESPONSE';
 
 // -------------GET--------------------
 
-export function userGetRequest(id) {
+export function userGetRequest() {
   return {
     type: USER_GET_REQUEST,
-    id,
   };
 }
 export function userGetResponse(data) {
@@ -38,10 +37,10 @@ export function userGetResponse(data) {
     data,
   };
 }
-export function getUser(id) {
+export function getUser(query) {
   return dispatch => {
-    dispatch(userGetRequest(id));
-    return fetch('/main/profile', { credentials: 'same-origin' })
+    dispatch(userGetRequest());
+    return fetch(`/main/profile?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => dispatch(userGetResponse(json)));
   };

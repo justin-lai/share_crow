@@ -28,10 +28,10 @@ export function sessionGetResponse(data) {
     data,
   };
 }
-export function getSession(data) {
+export function getSession(query) {
   return dispatch => {
-    dispatch(sessionGetRequest(data));
-    return fetch(`/main/login?${data}`, { credentials: 'same-origin' })
+    dispatch(sessionGetRequest());
+    return fetch(`/main/login?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
         console.log(json);

@@ -144,10 +144,16 @@ module.exports = {
   getMessages: (req, res) => {
     // pulls all messages associated with username and id
     console.log('GET //// getMessages');
+    console.log(req.query.recipient_id);
+    // needs to get messages from based on both sender or receiver
     db.Messages.findAll({
       where: {
-        senderId: req.query.id,
+        recipientId: req.query.recipient_id,
       },
+      include: [{
+        model: db.User,
+        as: 'recipient',
+      }],
     })
     .then(queryData => {
       const results = [];
@@ -156,8 +162,8 @@ module.exports = {
       });
       if (results.length) {
         res.status(200).send(results);
-      } else {
-        res.status(400).send({ message: `no messages were fround from user: ${req.query.id}` });
+      // } else {
+      //   res.status(400).send({ message: `no messages were fround from user: ${req.query.id}` });
       }
     });
   },
@@ -206,6 +212,9 @@ module.exports = {
     // eslint-disable-next-line no-console
     db.Listings.findAll({
       where: searchFilters,
+      include: [{
+        model: db.User,
+      }],
     }).then((items) => {
       const results = [];
       items.forEach(entry => {

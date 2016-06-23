@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
@@ -19,25 +20,34 @@ class App extends Component {
         price: '$20/day',
         owner: 'caathylee',
         image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
       },
       {
         name: 'Grill',
         price: '$20/day',
         owner: 'caathylee',
         image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
       },
       {
         name: 'Fishing Rod',
         price: '$10/day',
         owner: 'caathylee',
         image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
       },
     ];
 
     this.state = {
       isLoggedIn: false,
     };
-    this.login = this.login.bind(this);
+    this.login = this.login.bind(this, 'Scrum_Lord', 'password');
     this.signup = this.signup.bind(this);
   }
 
@@ -46,32 +56,36 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.session.hasOwnProperty('username')) {
+      console.log('session!: ', nextProps.session);
       this.setState({
         isLoggedIn: true,
       });
     }
   }
 
-  login() {
+  login(user, pw) {
+    console.log(`logging in as ${user}`);
     const data = {
-      username: 'caathy',
-      password: 'password',
+      username: user,
+      password: pw,
     };
-    let options = [];
-    Object.keys(data).forEach(key => options.push(`${key}=${data[key]}`));
-    options = options.join('&');
-    this.methods.getSession(options);
+    let query = [];
+    Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
+    query = query.join('&');
+    this.methods.getSession(query);
   }
 
   signup() {
+    console.log(`logging in as ${'Scrum_Lord'}`);
     const data = {
-      username: 'caathy',
+      username: 'Scrum_Lord',
       password: 'password',
-      email: 'tom@gmail.com',
-      address: '21 Jump St, CA 21415',
+      email: 'scrum_vader@gmail.com',
+      address: 'Death Star, CA 90210',
       phoneNumber: '123-456-7890',
-      aboutMe: "Hi, I'm Tom",
+      aboutMe: 'Give me yo WAFFLE FRIES?!!?!',
     };
 
     this.methods.postUser(data);
@@ -91,16 +105,17 @@ class App extends Component {
 
 App.propTypes = {
   user: PropTypes.object.isRequired,
-  listing: PropTypes.object.isRequired,
+  listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session } = state;
+  const { user, listing, session, message } = state;
 
   return {
     user,
     listing,
+    message,
     session,
   };
 }
@@ -131,6 +146,18 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteListing: (data) => {
         dispatch(deleteListing(data));
+      },
+      getMessage: (id) => {
+        dispatch(getMessage(id));
+      },
+      postMessage: (data) => {
+        dispatch(postMessage(data));
+      },
+      putMessage: (data) => {
+        dispatch(putMessage(data));
+      },
+      deleteMessage: (data) => {
+        dispatch(deleteMessage(data));
       },
       getSession: (data) => {
         dispatch(getSession(data));

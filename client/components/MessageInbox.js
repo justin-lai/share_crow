@@ -13,6 +13,10 @@ class MessageInbox extends Component {
     this.messages = props.messages;
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.messages = nextProps.messages;
+  }
+
   showBox(e) {
     this.setState({
       show: e.target.id,

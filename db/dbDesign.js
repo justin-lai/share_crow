@@ -140,7 +140,14 @@ Listings.hasMany(Images);
 Listings.belongsTo(User);
 Images.belongsTo(User);
 Images.belongsTo(Listings);
-Messages.belongsTo(User);
+Messages.belongsTo(User, {
+  as: 'sender',
+  foreignKey: 'senderId',
+});
+Messages.belongsTo(User, {
+  as: 'recipient',
+  foreignKey: 'recipientId',
+});
 Reviews.belongsTo(User, { as: User.lenderId });
 Payments.belongsTo(User);
 User.hasOne(Images);

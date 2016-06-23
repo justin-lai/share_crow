@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession } from '../actions/sessionActions.js';
 // import Landing from './Landing.js';
 import NavBar from './NavBar.js';
@@ -15,102 +16,41 @@ class Profile extends Component {
   constructor(props) {
     super(props);
 
-    this.products = [
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        rented: false,
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        rented: false,
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        rented: true,
-      },
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        rented: false,
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        rented: true,
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        rented: false,
-      },
-    ];
-
-    this.messages = [
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: 'This be yo prof, pal',
-        text: "I'm not yo pal, friend",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: "I'm not yo friend, guy",
-        text: "But it's coo",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: 'This be yo prof, pal',
-        text: "I'm not yo pal, friend",
-      },
-      {
-        sender: 'Arthur',
-        recipient: 'Ben',
-        subject: "I'm not yo friend, guy",
-        text: "But it's coo",
-      },
-    ];
+    this.products = [];
+    this.messages = [];
+    this.profile = props.session;
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.methods = this.props.methods;
+    // this.methods.getListing(`name=${this.props.session.username}`);
     // get user's info
+    this.methods.getUser(`id=${this.props.session.id}`);
     // get user's messages
+    this.methods.getMessage('recipient_id=89');
     // get user's items
+    this.methods.getListing('owner_id=88');
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    console.log('next!!', nextProps);
+    this.products = nextProps.listing;
+    this.messages = nextProps.message;
     // re-render with new props
   }
 
   render() {
+    console.log(this.messages);
     return (
       <div id="profile">
-        <NavBar />
+        <NavBar isLoggedIn={Boolean(true)} />
         <div className="row">
           <div className="col-xs-6 col-md-4">
-            <ProfileCard />
+            <ProfileCard profile={this.profile} />
             <MessageInbox messages={this.messages} />
           </div>
           <div>
+            <h3>My Items</h3>
             <ProductList products={this.products} />
           </div>
         </div>
@@ -122,16 +62,18 @@ class Profile extends Component {
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
-  listing: PropTypes.object.isRequired,
+  listing: PropTypes.array.isRequired,
+  session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session } = state;
+  const { user, listing, session, message } = state;
 
   return {
     user,
     listing,
+    message,
     session,
   };
 }
@@ -163,8 +105,20 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteListing: (data) => {
         dispatch(deleteListing(data));
       },
-      getSession: () => {
-        dispatch(getSession());
+      getMessage: (id) => {
+        dispatch(getMessage(id));
+      },
+      postMessage: (data) => {
+        dispatch(postMessage(data));
+      },
+      putMessage: (data) => {
+        dispatch(putMessage(data));
+      },
+      deleteMessage: (data) => {
+        dispatch(deleteMessage(data));
+      },
+      getSession: (data) => {
+        dispatch(getSession(data));
       },
     },
   };
