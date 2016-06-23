@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import LoginModal from './LoginModal.js';
+import SignUpModal from './SignUpModal.js';
 
 const NavBar = (props) => {
   let navbar;
@@ -80,6 +81,7 @@ const NavBar = (props) => {
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a href="#">Become a Lendee</a>
+                <a href="#"><SignUpModal /></a>
               </li>
               <li>
                 <a href="#">

@@ -43,14 +43,11 @@ body {
 .glyphicon-log-in {
   padding-right: 6px;
 }
-/*.login-wrapper {
-  width:150px;
-}
 
-.login-modal {
-  width: 50px;
-  height: 15px;
-}*/
+.ReactModal__Content, .ReactModal__Content--after-open {
+  width: 600px;
+  margin: 0 auto;
+}
 
 input.placeholder {
   text-align: center;
