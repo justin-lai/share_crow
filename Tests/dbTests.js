@@ -25,6 +25,13 @@ const userReview = {
   text: 'easy to work with',
 };
 
+const testListing = {
+  item: 'female corgi',
+  owner_id: 1,
+  max_fee: 500,
+  rental_fee: 5000,
+};
+
 // Tests if account creation is successful given all 6 fields
 test('Account Creation: successful given all 6 fields complete', assert => {
   fetch('http://localhost:3000/main/signup',
@@ -35,15 +42,18 @@ test('Account Creation: successful given all 6 fields complete', assert => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(accInfo),
-    }).then((res) => assert.equal(res.status, 201, 'Account Creation Successful'));
-  assert.end();
-});
-
-// Tests if login is successful given correct username, password
-test('Login: successful given valid username and password', assert => {
-  const queryLine = `?username=${accInfo.username}&password=${accInfo.password}`;
-  fetch(`http://localhost:3000/main/login${queryLine}`)
-    .then((res) => assert.equal(res.status, 200, 'Login Successful'));
+    }).then(() => {
+      const queryLine = `?username=${accInfo.username}&password=${accInfo.password}`;
+      fetch(`http://localhost:3000/main/login${queryLine}`)
+        .then((res) => assert.equal(res.status, 200, 'Login Successful'))
+        .then(() => {
+          db.User.destroy({
+            where: {
+              username: accInfo.username,
+            },
+          });
+        });
+    });
   assert.end();
 });
 
@@ -76,19 +86,6 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
   assert.end();
 });
 
-// Tests if account can remove a user account given a username
-// test('Account Deletion: successful given a username', assert => {
-//   db.User.destroy({
-//     where: {
-//       username: accInfo.username,
-//     },
-//   })
-//   .then(queryData => {
-//     assert.equal(queryData, 1);
-//     assert.end();
-//   });
-// });
-
 // Tests if the correct profile is returned given a given id
 test('Profile: successfully returns correct profile given a user ID', assert => {
   fetch('http://localhost:3000/main/profile?id=1').
@@ -105,32 +102,69 @@ test('Profile: unsuccessfully returned profile due to invalid user ID', assert =
 
 // Tests if profile is updated given an id and a field
 test('Profile: Update successful given ID and field(s)', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/profile',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: 1,
+        aboutMe: 'Test Bio',
+      }),
+    }).then(() => {
+      fetch('http://localhost:3000/main/profile?id=1')
+        .then(queryData => assert.equal(queryData.dataValues.aboutMe, 'Test Bio'));
+    });
   assert.end();
 });
 
 // Tests if profile is not updated if missing the id field
 test('Profile: Update unsuccessful if ID not sent', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/profile',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        aboutMe: 'Test Bio',
+      }),
+    })
+    .then(queryData => assert.equal(queryData.status, 400));
   assert.end();
 });
 
 // Tests if profile is not updated if id field is included, but missing data fields to change
 test('Profile: Update unsuccessful if ID sent but missing data fields to change', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/profile',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: 1,
+      }),
+    })
+    .then(queryData => assert.equal(queryData.status, 400));
   assert.end();
 });
 
 // Tests if all messages are returned belonging to an id
 test('Messages: Successfully returns all messages belonging to an id', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/message?id=55')
+    .then(queryData => assert.equal(queryData.status, 200));
   assert.end();
 });
 
 // Tests if messages are not returned given an invalid or no id
 test('Messages: No messages are returned given an invalid or empty id field', assert => {
-  // fetch('http://localhost:3000/main/message')
-  assert.pass();
+  fetch('http://localhost:3000/main/message?id=0')
+    .then(queryData => assert.equal(queryData.status, 400));
   assert.end();
 });
 
@@ -145,67 +179,145 @@ test('Messages: Successful post of message given correct parameters', assert => 
       },
       body: JSON.stringify(testMessage),
     })
-    .then(responseData => assert.equal(responseData.status, 201, 'Message successfully posted'));
+    .then(responseData => assert.equal(responseData.status, 201, 'Message successfully posted'))
+      .then(() => {
+        db.Messages.destroy({
+          where: {
+            text: 'when can I pick it up?',
+          },
+        });
+      });
   assert.end();
 });
 
 // Tests if message not sucessfully posted if missing any field
 test('Messages: No message is posted if any parameters are missing', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/message',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: 'missing recipient_id',
+        sender_id: 1,
+      }),
+    })
+    .then(responseData => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if listings are returned given none or more filters
 test('Listings: all listings returned belonging to none or a filter', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing')
+    .then(responseData => assert.equal(responseData.status, 200));
   assert.end();
 });
 
 // Tests if listing is created given all fields
 test('Listings: Successful listing creation given all fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(testListing),
+    })
+    .then(responseData => assert.equal(responseData.status, 201));
   assert.end();
 });
 
-// Tests if listing is unsuccessful when missing any field
+// Tests if listing is unsuccessful when missing any required field
 test('Listings: Unsuccessful creation when missing any fields', assert => {
-  assert.pass();
+  delete testListing.item;
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(testListing),
+    })
+    .then(responseData => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if listing succesfully changes given a listing ID and changed parameters
 test('Listings: Succesfully changes a listing given ID and fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listingId: 2,
+        maxFee: 500,
+      }),
+    })
+    .then(responseData => assert.equal(responseData.status, 200));
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listingId: 2,
+        maxFee: 600,
+      }),
+    });
   assert.end();
 });
 
 // Tests if listing unsuccessfully changes when missing a listing ID or no fields provided
 test('Listings: Unsuccessful changes to a listing due to missing ID or fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        maxFee: 500,
+      }),
+    })
+    .then(responseData => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if listing is returned given a listing ID
 test('Listings: Successful return of a listing given an ID', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing/unique?id=1')
+    .then((responseData) => assert.equal(responseData.status, 200));
   assert.end();
 });
 
 // Tests if no listing is returned given none or an invalid listing ID
 test('Listings: Unsuccessful return of listing due to invalid ID or none provided', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing/unique?id=0')
+    .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if all userReviews are returned for a given user ID
 test('UserReviews: all user reviews returned for a given user ID', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/userReview?lenderId=1')
+    .then((responseData) => assert.equal(responseData.status, 200));
   assert.end();
 });
 
 // Tests if no userReviews are returned given an invalid or no user ID
 test('UserReviews: no userReview returned due to invalid user ID or none provided', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/userReview?lenderId=0')
+    .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
 
@@ -220,7 +332,14 @@ test('UserReviews: succsesfully creates a userReview given all fields', assert =
       },
       body: JSON.stringify(userReview),
     })
-    .then(responseData => assert.equal(responseData.status, 200, 'User review successfully made'));
+    .then(responseData => assert.equal(responseData.status, 200, 'User review successfully made'))
+      .then(() => {
+        db.Reviews.destroy({
+          where: {
+            lenderId: 10,
+          },
+        });
+      });
   assert.end();
 });
 

@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
+/* eslint-disable max-len */
 // const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
+// db.Messages.findAll({}).then(x => x.forEach(y => console.log(y.dataValues)));
 module.exports = {
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
@@ -13,17 +15,27 @@ module.exports = {
     // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
       // generate a new hash based on password and make new entry in table
-      const hash = bcrypt.hashSync(req.body.password, 10);
-      db.User.create({
-        username: req.body.username,
-        password: hash,
-        email: req.body.email,
-        address: req.body.address,
-        phone: req.body.phoneNumber,
-        about: req.body.aboutMe,
-      }).then((user) => res.status(201).send(user.dataValues));
+      db.User.find({
+        where: {
+          username: req.body.username,
+        },
+      }).then(listings => {
+        if (!listings) {
+          const hash = bcrypt.hashSync(req.body.password, 10);
+          db.User.create({
+            username: req.body.username,
+            password: hash,
+            email: req.body.email,
+            address: req.body.address,
+            phone: req.body.phoneNumber,
+            about: req.body.aboutMe,
+          }).then((user) => res.status(201).send(user.dataValues));
+        } else {
+          res.status(500).send({ message: 'username taken' });
+        }
+      });
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was not provided' });
     }
   },
 
@@ -31,7 +43,7 @@ module.exports = {
   // expects username, password
   login: (req, res) => {
     if (!req.query.password || !req.query.username) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'username or password not provided' });
     }
     console.log('GET //// LOGIN ROUTE');
     db.User.findAll({
@@ -44,10 +56,10 @@ module.exports = {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
           res.status(200).send(queryData[0].dataValues);
         } else {
-          res.status(400).send({});
+          res.status(400).send({ message: 'password does not match the password in the database' });
         }
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: 'username was not found in the database, please create a new account' });
       } })
       .catch(err => err);
   },
@@ -67,11 +79,11 @@ module.exports = {
         if (queryData[0]) {
           res.status(200).send(queryData[0].dataValues);
         } else {
-          res.status(400).send({});
+          res.status(400).send({ message: `user: ${req.query.id} was not found in the database` });
         }
       });
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'id was not provided' });
     }
   },
 
@@ -81,7 +93,9 @@ module.exports = {
 
     // change database entry depending on parameters
     if (!req.body.id) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'id was not provided' });
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.aboutMe) {
+      res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
         password: req.body.password || null,
@@ -126,7 +140,7 @@ module.exports = {
   },
 
   // //////////////////////////// PRIVATE MESSAGING FUNCTIONS ////////////////////////////
-  // expects username and id
+  // expects id
   getMessages: (req, res) => {
     // pulls all messages associated with username and id
     console.log('GET //// getMessages');
@@ -136,10 +150,14 @@ module.exports = {
       },
     })
     .then(queryData => {
-      if (queryData) {
-        res.status(200).send(queryData);
+      const results = [];
+      queryData.forEach(message => {
+        results.push(message.dataValues);
+      });
+      if (results.length) {
+        res.status(200).send(results);
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: `no messages were fround from user: ${req.query.id}` });
       }
     });
   },
@@ -148,7 +166,7 @@ module.exports = {
   postMessages: (req, res) => {
     // adds a new message entry in database
     console.log('POST //// postMessages');
-    if (req.body.text) {
+    if (req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
         text: req.body.text,
         senderId: req.body.sender_id,
@@ -156,7 +174,7 @@ module.exports = {
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was not provided' });
     }
   },
 
@@ -188,24 +206,38 @@ module.exports = {
     // eslint-disable-next-line no-console
     db.Listings.findAll({
       where: searchFilters,
-    }).then((items) => res.status(200).send(items));
+    }).then((items) => {
+      const results = [];
+      items.forEach(entry => {
+        results.push(entry.dataValues);
+      });
+      if (results.length) {
+        res.status(200).send(results);
+      } else {
+        res.status(400).send({ message: `no results were found given: ${searchFilters}` });
+      }
+    });
   },
 
   // expects item, owner_id, max_fee, rental_fee, image
   createListing: (req, res) => {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
-    db.Listings.create({
-      name: req.body.item,
-      owner_id: req.body.owner_id,
-      max_fee: req.body.max_fee,
-      rental_fee: req.body.rental_fee,
-      image: req.body.image,
-      rented: false,
-      itemReturned: false,
-    })
-    .then((queryData) => res.status(201).send(queryData));
-    res.status(201).send(req.body);
+    // item name, owner_id, max_fee, and rental_fee required. image is optional
+    if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
+      db.Listings.create({
+        name: req.body.item,
+        owner_id: req.body.owner_id,
+        max_fee: req.body.max_fee,
+        rental_fee: req.body.rental_fee,
+        image: req.body.image || null,
+        rented: false,
+        itemReturned: false,
+      })
+      .then((queryData) => res.status(201).send(queryData));
+    } else {
+      res.status(400).send({ message: 'a required parameter was not provided' });
+    }
   },
 
   // expects listingId and an arbitrary number of parameters
@@ -215,7 +247,7 @@ module.exports = {
 
     // change database entry depending on parameters
     if (!req.body.listingId) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'listingId was not provided' });
     } else {
       const updateListing = {
         renterId: req.body.renterId || null,
@@ -274,7 +306,7 @@ module.exports = {
     // call change listing to change renting period to 'complete'
     console.log('DELETE //// returnedListing route');
     if (!req.body.listingId) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'listingId was not provided' });
     } else {
       db.Listings.find(
         {
@@ -295,24 +327,47 @@ module.exports = {
     }
   },
 
+  // //////////////////////////// UNIQUE LISTING ACQUIRE FUNCTIONS ////////////////////////////
+  getUniqueListing: (req, res) => {
+    if (!req.query.id) {
+      res.status(400).send({ message: 'id not sent with request' });
+    } else {
+      db.Listings.find({
+        where: {
+          id: req.query.id,
+        },
+      }).then((listing) => {
+        if (listing) {
+          res.status(200).send(listing.dataValues);
+        } else {
+          res.status(400).send({ message: `listing is empty at id: ${req.query.id}` });
+        }
+      });
+    }
+  },
   // //////////////////////////// USER REVIEW FUNCTIONS ////////////////////////////
   // expects lenderId
   getUserReviews: (req, res) => {
     // returns all entries associated with username and id from database
     console.log('GET //// getUserReviews route');
-
-    db.Reviews.findAll({
-      where: {
-        lenderId: req.query.lenderId,
-      },
-    })
-    .then(queryData => {
-      if (queryData.length) {
-        res.status(200).send(queryData);
-      } else {
-        res.status(400).send({});
-      }
-    });
+    if (!req.query.lenderId) {
+      res.status(400).send({ message: 'lenderId not provided' });
+    } else {
+      db.Reviews.findAll({
+        where: {
+          lenderId: req.query.lenderId,
+        },
+      })
+      .then(queryData => {
+        const results = [];
+        queryData.forEach(review => results.push(review.dataValues));
+        if (results.length) {
+          res.status(200).send(results);
+        } else {
+          res.status(400).send({ message: `No user review was found from lenderId# ${req.query.lenderId}` });
+        }
+      });
+    }
   },
 
   // expects reviewerId, lenderId, rating, text
@@ -320,7 +375,7 @@ module.exports = {
     // add a new review entry in database
     console.log('POST //// createUserReview route');
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was missing' });
     } else {
       db.Reviews.create({
         lenderId: req.body.lenderId,
@@ -343,9 +398,9 @@ module.exports = {
       },
     }).then(queryData => {
       if (queryData) {
-        res.status(200).send({});
+        res.status(200).send({ message: 'delete successful' });
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: 'there was an error with deleting the review' });
       }
     });
   },
