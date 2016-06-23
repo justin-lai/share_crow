@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.session) {
+    if (nextProps.session.hasOwnProperty('username')) {
       this.setState({
         isLoggedIn: true,
       });
