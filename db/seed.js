@@ -19,6 +19,11 @@ db.sequelize
       email: 'ArthurTomTom@gmail.com',
       phone: '555-444-1122',
       about: 'All about me!',
+      userImage: 5,
+      verification: 1234,
+      verified: true,
+      firstName: 'Arthur',
+      lastName: 'Livingston',
     }).then((user) => {
       //eslint-disable-next-line
       console.log('Completed: ', user.dataValues);
