@@ -179,7 +179,14 @@ test('Messages: Successful post of message given correct parameters', assert => 
       },
       body: JSON.stringify(testMessage),
     })
-    .then(responseData => assert.equal(responseData.status, 201, 'Message successfully posted'));
+    .then(responseData => assert.equal(responseData.status, 201, 'Message successfully posted'))
+      .then(() => {
+        db.Messages.destroy({
+          where: {
+            text: 'when can I pick it up?',
+          },
+        });
+      });
   assert.end();
 });
 
@@ -271,31 +278,46 @@ test('Listings: Succesfully changes a listing given ID and fields', assert => {
 
 // Tests if listing unsuccessfully changes when missing a listing ID or no fields provided
 test('Listings: Unsuccessful changes to a listing due to missing ID or fields', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        maxFee: 500,
+      }),
+    })
+    .then(responseData => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if listing is returned given a listing ID
 test('Listings: Successful return of a listing given an ID', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing/unique?id=1')
+    .then((responseData) => assert.equal(responseData.status, 200));
   assert.end();
 });
 
 // Tests if no listing is returned given none or an invalid listing ID
 test('Listings: Unsuccessful return of listing due to invalid ID or none provided', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/listing/unique?id=0')
+    .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if all userReviews are returned for a given user ID
 test('UserReviews: all user reviews returned for a given user ID', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/userReview?lenderId=1')
+    .then((responseData) => assert.equal(responseData.status, 200));
   assert.end();
 });
 
 // Tests if no userReviews are returned given an invalid or no user ID
 test('UserReviews: no userReview returned due to invalid user ID or none provided', assert => {
-  assert.pass();
+  fetch('http://localhost:3000/main/userReview?lenderId=0')
+    .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
 
@@ -310,7 +332,14 @@ test('UserReviews: succsesfully creates a userReview given all fields', assert =
       },
       body: JSON.stringify(userReview),
     })
-    .then(responseData => assert.equal(responseData.status, 200, 'User review successfully made'));
+    .then(responseData => assert.equal(responseData.status, 200, 'User review successfully made'))
+      .then(() => {
+        db.Reviews.destroy({
+          where: {
+            lenderId: 10,
+          },
+        });
+      });
   assert.end();
 });
 

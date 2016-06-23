@@ -35,7 +35,7 @@ module.exports = {
         }
       });
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was not provided' });
     }
   },
 
@@ -43,7 +43,7 @@ module.exports = {
   // expects username, password
   login: (req, res) => {
     if (!req.query.password || !req.query.username) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'username or password not provided' });
     }
     console.log('GET //// LOGIN ROUTE');
     db.User.findAll({
@@ -56,10 +56,10 @@ module.exports = {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
           res.status(200).send(queryData[0].dataValues);
         } else {
-          res.status(400).send({});
+          res.status(400).send({ message: 'password does not match the password in the database' });
         }
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: 'username was not found in the database, please create a new account' });
       } })
       .catch(err => err);
   },
@@ -79,11 +79,11 @@ module.exports = {
         if (queryData[0]) {
           res.status(200).send(queryData[0].dataValues);
         } else {
-          res.status(400).send({});
+          res.status(400).send({ message: `user: ${req.query.id} was not found in the database` });
         }
       });
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'id was not provided' });
     }
   },
 
@@ -93,9 +93,9 @@ module.exports = {
 
     // change database entry depending on parameters
     if (!req.body.id) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'id was not provided' });
     } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.aboutMe) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
         password: req.body.password || null,
@@ -157,7 +157,7 @@ module.exports = {
       if (results.length) {
         res.status(200).send(results);
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: `no messages were fround from user: ${req.query.id}` });
       }
     });
   },
@@ -174,7 +174,7 @@ module.exports = {
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was not provided' });
     }
   },
 
@@ -214,7 +214,7 @@ module.exports = {
       if (results.length) {
         res.status(200).send(results);
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: `no results were found given: ${searchFilters}` });
       }
     });
   },
@@ -236,7 +236,7 @@ module.exports = {
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required parameter was not provided' });
     }
   },
 
@@ -247,7 +247,7 @@ module.exports = {
 
     // change database entry depending on parameters
     if (!req.body.listingId) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'listingId was not provided' });
     } else {
       const updateListing = {
         renterId: req.body.renterId || null,
@@ -306,7 +306,7 @@ module.exports = {
     // call change listing to change renting period to 'complete'
     console.log('DELETE //// returnedListing route');
     if (!req.body.listingId) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'listingId was not provided' });
     } else {
       db.Listings.find(
         {
@@ -327,24 +327,47 @@ module.exports = {
     }
   },
 
+  // //////////////////////////// UNIQUE LISTING ACQUIRE FUNCTIONS ////////////////////////////
+  getUniqueListing: (req, res) => {
+    if (!req.query.id) {
+      res.status(400).send({ message: 'id not sent with request' });
+    } else {
+      db.Listings.find({
+        where: {
+          id: req.query.id,
+        },
+      }).then((listing) => {
+        if (listing) {
+          res.status(200).send(listing.dataValues);
+        } else {
+          res.status(400).send({ message: `listing is empty at id: ${req.query.id}` });
+        }
+      });
+    }
+  },
   // //////////////////////////// USER REVIEW FUNCTIONS ////////////////////////////
   // expects lenderId
   getUserReviews: (req, res) => {
     // returns all entries associated with username and id from database
     console.log('GET //// getUserReviews route');
-
-    db.Reviews.findAll({
-      where: {
-        lenderId: req.query.lenderId,
-      },
-    })
-    .then(queryData => {
-      if (queryData.length) {
-        res.status(200).send(queryData);
-      } else {
-        res.status(400).send({});
-      }
-    });
+    if (!req.query.lenderId) {
+      res.status(400).send({ message: 'lenderId not provided' });
+    } else {
+      db.Reviews.findAll({
+        where: {
+          lenderId: req.query.lenderId,
+        },
+      })
+      .then(queryData => {
+        const results = [];
+        queryData.forEach(review => results.push(review.dataValues));
+        if (results.length) {
+          res.status(200).send(results);
+        } else {
+          res.status(400).send({ message: `No user review was found from lenderId# ${req.query.lenderId}` });
+        }
+      });
+    }
   },
 
   // expects reviewerId, lenderId, rating, text
@@ -352,7 +375,7 @@ module.exports = {
     // add a new review entry in database
     console.log('POST //// createUserReview route');
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
-      res.status(400).send({});
+      res.status(400).send({ message: 'a required field was missing' });
     } else {
       db.Reviews.create({
         lenderId: req.body.lenderId,
@@ -375,9 +398,9 @@ module.exports = {
       },
     }).then(queryData => {
       if (queryData) {
-        res.status(200).send({});
+        res.status(200).send({ message: 'delete successful' });
       } else {
-        res.status(400).send({});
+        res.status(400).send({ message: 'there was an error with deleting the review' });
       }
     });
   },

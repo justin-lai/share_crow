@@ -25,6 +25,9 @@ module.exports = app => {
     .put(dbController.changeListing)
     .delete(dbController.returnedListing);
 
+  app.route('/main/listing/unique')
+    .get(dbController.getUniqueListing);
+
   app.route('/main/userReview')
     .get(dbController.getUserReviews)
     .post(dbController.createUserReview)
