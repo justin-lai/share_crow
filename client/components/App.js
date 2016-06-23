@@ -60,7 +60,7 @@ class App extends Component {
 
   login() {
     const data = {
-      username: 'caathy',
+      username: 'Scrum_Lord',
       password: 'password',
     };
     let query = [];
@@ -71,12 +71,12 @@ class App extends Component {
 
   signup() {
     const data = {
-      username: 'caathy',
+      username: 'Scrum_Lord',
       password: 'password',
-      email: 'tom@gmail.com',
-      address: '21 Jump St, CA 21415',
+      email: 'scrum_vader@gmail.com',
+      address: 'Death Star, CA 90210',
       phoneNumber: '123-456-7890',
-      aboutMe: "Hi, I'm Tom",
+      aboutMe: 'Give me yo WAFFLE FRIES?!!?!',
     };
 
     this.methods.postUser(data);

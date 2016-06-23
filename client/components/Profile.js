@@ -15,56 +15,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
 
-    this.products = [
-      // {
-      //   name: 'Tent',
-      //   rentalFee: '$20/day',
-      //   owner: 'caathylee',
-      //   image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-      //   rented: false,
-      //   ownerId: 1,
-      // },
-      // {
-      //   name: 'Grill',
-      //   rentalFee: '$20/day',
-      //   owner: 'caathylee',
-      //   image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-      //   rented: false,
-      //   ownerId: 1,
-      // },
-      // {
-      //   name: 'Fishing Rod',
-      //   rentalFee: '$10/day',
-      //   owner: 'caathylee',
-      //   image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-      //   rented: true,
-      //   ownerId: 1,
-      // },
-      // {
-      //   name: 'Tent',
-      //   rentalFee: '$20/day',
-      //   owner: 'caathylee',
-      //   image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-      //   rented: false,
-      //   ownerId: 1,
-      // },
-      // {
-      //   name: 'Grill',
-      //   rentalFee: '$20/day',
-      //   owner: 'caathylee',
-      //   image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-      //   rented: true,
-      //   ownerId: 1,
-      // },
-      // {
-      //   name: 'Fishing Rod',
-      //   rentalFee: '$10/day',
-      //   owner: 'caathylee',
-      //   image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-      //   rented: false,
-      //   ownerId: 1,
-      // },
-    ];
+    this.products = [];
+    this.profile = props.session;
 
     this.messages = [
       {
@@ -99,11 +51,13 @@ class Profile extends Component {
     // this.methods.getListing(`name=${this.props.session.username}`);
     // get user's info
     // get user's messages
+    this.methods.getUser(`id=${this.props.session.id}`);
+    // get user's items
     this.methods.getListing('owner_id=88');
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.listing);
+    console.log('next!!', nextProps);
     this.products = nextProps.listing;
     // re-render with new props
   }
@@ -114,7 +68,7 @@ class Profile extends Component {
         <NavBar isLoggedIn={Boolean(true)} />
         <div className="row">
           <div className="col-xs-6 col-md-4">
-            <ProfileCard />
+            <ProfileCard profile={this.profile} />
             <MessageInbox messages={this.messages} />
           </div>
           <div>
