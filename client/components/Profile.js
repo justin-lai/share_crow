@@ -29,7 +29,7 @@ class Profile extends Component {
     // get user's messages
     this.methods.getMessage('recipient_id=1');
     // get user's items
-    this.methods.getListing('owner_id=4');
+    // this.methods.getListing('owner_id=4');
   }
 
   componentWillReceiveProps(nextProps) {
