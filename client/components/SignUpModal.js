@@ -1,20 +1,92 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 
+const fetch = require('node-fetch');
+/* eslint-disable react/jsx-no-bind */
 
 class SignUpModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
+      address: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      phoneNumber: '',
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);
+    this.handleLastName = this.handleLastName.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+    this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
+    this.handleAddress = this.handleAddress.bind(this);
+    this.handleCity = this.handleCity.bind(this);
+    this.handleState = this.handleState.bind(this);
+    this.handleZipcode = this.handleZipcode.bind(this);
+    this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
   }
 
   handleSubmit() {
+    console.log('firstName', this.state.firstName);
+    console.log('lastName', this.state.lastName);
+    console.log('email', this.state.email);
+    console.log('username', this.state.username);
+    console.log('password', this.state.password);
+    console.log('confirmPassword', this.state.confirmPassword);
+    console.log('address', this.state.address);
+    console.log('city', this.state.city);
+    console.log('state', this.state.state);
+    console.log('zipcode', this.state.zipcode);
+    console.log('phoneNumber', this.state.phoneNumber);
+    const newUserData = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      username: this.state.username,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.state,
+      zipcode: this.state.zipcode,
+      phoneNumber: this.state.phoneNumber,
+    };
+    this.closeModal();
+    fetch('http://localhost:3000/main/signup',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUserData),
+      })
+        .then((response) => response.json())
+          .then((responseData) => console.log(responseData));
   }
 
+  handleFirstName(value) { this.setState({ firstName: value.target.value }); }
+  handleLastName(value) { this.setState({ lastName: value.target.value }); }
+  handleEmail(value) { this.setState({ email: value.target.value }); }
+  handleUsername(value) { this.setState({ username: value.target.value }); }
+  handlePassword(value) { this.setState({ password: value.target.value }); }
+  handleConfirmPassword(value) { this.setState({ confirmPassword: value.target.value }); }
+  handleAddress(value) { this.setState({ address: value.target.value }); }
+  handleCity(value) { this.setState({ city: value.target.value }); }
+  handleState(value) { this.setState({ state: value.target.value }); }
+  handleZipcode(value) { this.setState({ zipcode: value.target.value }); }
+  handlePhoneNumber(value) { this.setState({ phoneNumber: value.target.value }); }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
@@ -31,18 +103,24 @@ class SignUpModal extends Component {
           <p className="first-name">
             <div>First Name </div>
             <input
+              value={this.state.firstName}
+              onChange={this.handleFirstName}
               type="text"
             />
           </p>
           <p className="last-name">
             <div>Last Name</div>
             <input
+              value={this.state.lastName}
+              onChange={this.handleLastName}
               type="text"
             />
           </p>
           <p>
             <div>Email</div>
             <input
+              value={this.state.email}
+              onChange={this.handleEmail}
               type="text"
               className="email-input"
             />
@@ -50,6 +128,8 @@ class SignUpModal extends Component {
           <p>
             <div>Create a Username</div>
             <input
+              value={this.state.username}
+              onChange={this.handleUsername}
               type="text"
               className="username-input"
             />
@@ -57,6 +137,8 @@ class SignUpModal extends Component {
           <p>
             <div>Password</div>
             <input
+              value={this.state.password}
+              onChange={this.handlePassword}
               type="text"
               className="password-input"
             />
@@ -64,6 +146,8 @@ class SignUpModal extends Component {
           <p>
             <div>Confirm Password</div>
             <input
+              value={this.state.confirmPassword}
+              onChange={this.handleConfirmPassword}
               type="text"
               className="password-input"
             />
@@ -71,6 +155,8 @@ class SignUpModal extends Component {
           <p>
             <div>Address</div>
             <input
+              value={this.state.address}
+              onChange={this.handleAddress}
               className="address-input"
               type="text"
             />
@@ -78,12 +164,18 @@ class SignUpModal extends Component {
           <p className="city-input">
             <div> City </div>
             <input
+              value={this.state.city}
+              onChange={this.handleCity}
               type="text"
             />
           </p>
           <p className="state-input">
             State
-            <select className="state-input">
+            <select
+              value={this.state.state}
+              onChange={this.handleState}
+              className="state-input"
+            >
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
               <option value="AZ">Arizona</option>
@@ -140,18 +232,23 @@ class SignUpModal extends Component {
           <p className="zipcode-input">
             <div>Zipcode</div>
             <input
+              value={this.state.zipcode}
+              onChange={this.handleZipcode}
               type="text"
             />
           </p>
           <p className="phone-input">
             <div>Phone Number</div>
             <input
+              value={this.state.phoneNumber}
+              onChange={this.handlePhoneNumber}
               type="text"
             />
             <p>xxx-xxx-xxxx</p>
           </p>
           <input
             className="modal-login-button"
+            onClick={this.handleSubmit}
             type="submit"
             value="Login"
           />
