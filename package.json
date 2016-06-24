@@ -4,6 +4,7 @@
   "description": "digital renting marketplace",
   "main": "server.js",
   "dependencies": {
+    "aws-sdk": "^2.4.2",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.1",
