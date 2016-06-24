@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
-import { getSession } from '../actions/sessionActions.js';
+import { getSession, isLoggedIn } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
@@ -51,12 +51,12 @@ class App extends Component {
 
   componentDidMount() {
     this.methods = this.props.methods;
+    this.methods.isLoggedIn();
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.session.hasOwnProperty('username')) {
-      console.log('session!: ', nextProps.session);
       this.setState({
         isLoggedIn: true,
       });
@@ -159,6 +159,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       getSession: (data) => {
         dispatch(getSession(data));
+      },
+      isLoggedIn: () => {
+        dispatch(isLoggedIn());
       },
     },
   };

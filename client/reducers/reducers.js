@@ -11,7 +11,7 @@ import {
   MESSAGE_PUT_RESPONSE, MESSAGE_DELETE_RESPONSE,
 } from '../actions/messageActions';
 import {
-  SESSION_GET_RESPONSE,
+  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE,
 } from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
@@ -47,6 +47,8 @@ export const listing = (state = {}, action) => {
 export const session = (state = {}, action) => {
   switch (action.type) {
     case SESSION_GET_RESPONSE:
+      return action.data;
+    case IS_LOGGED_IN_RESPONSE:
       return action.data;
     default:
       return state;
