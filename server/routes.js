@@ -1,7 +1,6 @@
 const dbController = require('./dbController.js');
 const apiController = require('./apiController.js');
-const path = require('path');
-// const utilityController = require('./utilityController.js');
+const utilityController = require('./utilityController.js');
 
 module.exports = app => {
   // DB ACCESSING ROUTES
@@ -33,6 +32,9 @@ module.exports = app => {
     .post(dbController.createUserReview)
     .delete(dbController.deleteUserReview);
 
+  app.route('/main/category')
+    .get(dbController.getCategory);
+
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
     .get(apiController.distanceMatrix);
@@ -41,25 +43,9 @@ module.exports = app => {
     .post(apiController.sendTextNotification);
 
   // UTILITY ROUTES
-  // eslint-disable-next-line
+  app.get('/isLoggedIn', utilityController.isLoggedIn);
 
-  app.get('/isLoggedIn', (req, res) => {
-    console.log('SHOULD I BE LOGGED IN?', req.session.username);
-    if (req.session.username) {
-      res.status(200).send(true);
-    } else {
-      res.status(400).send(false);
-    }
-  });
+  app.get('/logout', utilityController.logoutUser);
 
-  app.get('/logout', (req, res) => {
-      // eslint-disable-next-line
-    console.log('12312312312321', req.session);
-    req.session.destroy(() => {
-      res.redirect('/');
-    });
-  });
-  app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../client/index.html'));
-  });
+  app.get('/', utilityController.serveIndexFile);
 };
