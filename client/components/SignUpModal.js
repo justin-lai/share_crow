@@ -53,6 +53,43 @@ class SignUpModal extends Component {
     };
     this.props.signup(newUserData);
     this.closeModal();
+
+    console.log('firstName', this.state.firstName);
+    console.log('lastName', this.state.lastName);
+    console.log('email', this.state.email);
+    console.log('username', this.state.username);
+    console.log('password', this.state.password);
+    console.log('confirmPassword', this.state.confirmPassword);
+    console.log('address', this.state.address);
+    console.log('city', this.state.city);
+    console.log('state', this.state.state);
+    console.log('zipcode', this.state.zipcode);
+    console.log('phoneNumber', this.state.phoneNumber);
+    // const newUserData = {
+    //   firstName: this.state.firstName,
+    //   lastName: this.state.lastName,
+    //   email: this.state.email,
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   confirmPassword: this.state.confirmPassword,
+    //   address: this.state.address,
+    //   city: this.state.city,
+    //   state: this.state.state,
+    //   zipcode: this.state.zipcode,
+    //   phoneNumber: this.state.phoneNumber,
+    // };
+    this.closeModal();
+    // fetch('http://localhost:3000/main/signup',
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(newUserData),
+    //   })
+    //     .then((response) => response.json())
+    //       .then((responseData) => console.log(responseData));
   }
 
   handleFirstName(value) { this.setState({ firstName: value.target.value }); }
@@ -76,7 +113,10 @@ class SignUpModal extends Component {
           className="signup-modal"
           onClick={this.openModal}
         ><span className="glyphicon glyphicon-user"></span> Sign Up</div>
-        <Modal isOpen={this.state.open}>
+        <Modal
+          isOpen={this.state.open}
+          onRequestClose={this.closeModal}
+        >
           <input className="close-button" type="submit" value="x" onClick={this.closeModal} />
           <h1 className="modal-header">Create Account</h1>
           <p className="first-name">

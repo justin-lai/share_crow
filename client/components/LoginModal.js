@@ -22,7 +22,11 @@ class LoginModal extends Component {
           className="login-modal"
           onClick={this.openModal}
         ><span className="glyphicon glyphicon-user"></span> Login</div>
-        <Modal style={{ content: { height: '320px' } }} isOpen={this.state.open}>
+        <Modal
+          style={{ content: { height: '320px' } }}
+          isOpen={this.state.open}
+          onRequestClose={this.closeModal}
+        >
           <input
             className="close-button"
             type="submit"
