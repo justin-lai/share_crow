@@ -4,11 +4,11 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession, isLoggedIn } from '../actions/sessionActions.js';
-// import NavBar from './NavBar.js';
-// import Footer from './Footer.js';
-// import ProfileCard from './ProfileCard.js';
-// import ProductList from './ProductList.js';
-// import MessageInbox from './MessageInbox.js';
+import NavBar from './NavBar.js';
+import Footer from './Footer.js';
+import ProfileCard from './ProfileCard.js';
+import ProductList from './ProductList.js';
+import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
 class Profile extends Component {
@@ -46,26 +46,26 @@ class Profile extends Component {
 
   render() {
     return (
-      <LoadingBar />
+      !this.props.isAuth ?
+        <LoadingBar /> :
+        <div id="profile">
+          <NavBar isLoggedIn={this.props.isAuth} />
+          <div className="row">
+            <div className="col-xs-6 col-md-4">
+              <ProfileCard profile={this.profile} />
+              <MessageInbox messages={this.messages} />
+            </div>
+            <div>
+              <h3>My Items</h3>
+              <ProductList products={this.products} />
+            </div>
+          </div>
+          <Footer />
+        </div>
     );
-    // return (
-    //   <div id="profile">
-    //     <NavBar isLoggedIn={this.props.isAuth} />
-    //     <div className="row">
-    //       <div className="col-xs-6 col-md-4">
-    //         <ProfileCard profile={this.profile} />
-    //         <MessageInbox messages={this.messages} />
-    //       </div>
-    //       <div>
-    //         <h3>My Items</h3>
-    //         <ProductList products={this.products} />
-    //       </div>
-    //     </div>
-    //     <Footer />
-    //   </div>
-    // );
   }
 }
+
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
