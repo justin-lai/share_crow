@@ -2,11 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 
-app.use(cookieParser('C44THY'));
 app.use(session({
   store: new RedisStore({
     host: 'localhost',
