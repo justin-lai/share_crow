@@ -6,16 +6,24 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
+const verificationCode = () => {
+  let text = '';
+  const possible = '0123456789';
+  for (let i = 0; i < 4; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
 module.exports = {
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
   // expects username, password, email, phoneNumber, address, aboutMe
   signup: (req, res) => {
-    console.log(req.session);
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
-    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address) {
+    if (req.body.username && req.body.password && req.body.email && req.body.phone) {
       // generate a new hash based on password and make new entry in table
       db.User.find({
         where: {
@@ -28,7 +36,15 @@ module.exports = {
             username: req.body.username,
             password: hash,
             email: req.body.email,
-            address: req.body.address,
+            address: req.body.address || null,
+            city: req.body.city || null,
+            zipcode: req.body.zipcode || null,
+            state: req.body.state || null,
+            about: req.body.about || null,
+            verification: verificationCode(),
+            firstName: req.body.firstName || null,
+            lastName: req.body.lastName || null,
+            verified: false,
             phone: req.body.phoneNumber,
           }).then((user) => {
             req.session.username = req.body.username;
@@ -102,15 +118,15 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
-    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.aboutMe) {
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.about) {
       res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
         password: req.body.password || null,
         email: req.body.email || null,
         address: req.body.address || null,
-        phone: req.body.phoneNumber || null,
-        about: req.body.aboutMe || null,
+        phone: req.body.phone || null,
+        about: req.body.about || null,
       };
 
       if (!req.body.password) {
@@ -124,10 +140,10 @@ module.exports = {
       if (!req.body.address) {
         delete updateProfile.address;
       }
-      if (!req.body.phoneNumber) {
+      if (!req.body.phone) {
         delete updateProfile.phone;
       }
-      if (!req.body.aboutMe) {
+      if (!req.body.about) {
         delete updateProfile.about;
       }
       db.User.find(
@@ -152,43 +168,65 @@ module.exports = {
   getMessages: (req, res) => {
     // pulls all messages associated with username and id
     console.log('GET //// getMessages');
-    console.log(req.query.recipient_id);
     req.session.cookie.path = '/main/message';
-
-    const searchFilters = {
-      senderId: req.query.sender_id || null,
-      recipientId: req.query.recipient_id || null,
-    };
-
-    if (!req.query.recipient_id) {
-      delete searchFilters.recipientId;
-    }
-    if (!req.query.sender_id) {
-      delete searchFilters.senderId;
-    }
-    // needs to get messages from based on both sender or receiver
-    db.Messages.findAll({
-      where: searchFilters,
-      include: [{
-        model: db.User,
-        as: 'sender',
-      },
-      {
-        model: db.User,
-        as: 'recipient',
-      }],
-    })
-    .then(queryData => {
-      const results = [];
-      queryData.forEach(message => {
-        results.push(message.dataValues);
+    if (req.query.senderId && req.query.recipientId) {
+      res.status(400).send({ message: 'make 2 separate calls, either query for senderId or recipientId' });
+    } else if (!req.query.senderId && !req.query.recipientId) {
+      res.status(400).send({ message: 'id not provided for messenger' });
+    } else if (req.query.senderId) {
+      const searchFilters = {
+        senderId: req.query.senderId,
+      };
+      // needs to get messages from based on both sender or receiver
+      db.Messages.findAll({
+        where: searchFilters,
+        include: [{
+          model: db.User,
+          as: 'sender',
+        },
+        {
+          model: db.User,
+          as: 'recipient',
+        }],
+      })
+      .then(queryData => {
+        const results = [];
+        queryData.forEach(message => {
+          results.push(message.dataValues);
+        });
+        if (results.length) {
+          res.status(200).send(results);
+        } else {
+          res.status(400).send({ message: `no messages were found from user: ${req.query.senderId}` });
+        }
       });
-      if (results.length) {
-        res.status(200).send(results);
-      // } else {
-      //   res.status(400).send({ message: `no messages were fround from user: ${req.query.id}` });
-      }
-    });
+    } else {
+      const searchFilters = {
+        recipientId: req.query.recipientId,
+      };
+      db.Messages.findAll({
+        where: searchFilters,
+        include: [{
+          model: db.User,
+          as: 'sender',
+        },
+        {
+          model: db.User,
+          as: 'recipient',
+        }],
+      })
+      .then(queryData => {
+        const results = [];
+        queryData.forEach(message => {
+          results.push(message.dataValues);
+        });
+        if (results.length) {
+          res.status(200).send(results);
+        } else {
+          res.status(400).send({ message: `no messages send from user: ${req.query.recipientId}` });
+        }
+      });
+    }
   },
 
   // expects sender_id, recipient_id, text
@@ -419,7 +457,9 @@ module.exports = {
     // add a new review entry in database
     console.log('POST //// createUserReview route');
     req.session.cookie.path = '/main/profile';
+    console.log('***************', req.body);
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
+      console.log('BAM');
       res.status(400).send({ message: 'a required field was missing' });
     } else {
       db.Reviews.create({
