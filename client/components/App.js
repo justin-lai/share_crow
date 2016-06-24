@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
-import { getSession } from '../actions/sessionActions.js';
+import { getSession, isLoggedIn } from '../actions/sessionActions.js';
+import { getCategory } from '../actions/categoryActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
@@ -21,6 +22,7 @@ class App extends Component {
         ownerId: 1,
         rentalFee: 25,
         User: { username: 'Cathy' },
+        id: 1,
       },
       {
         name: 'Grill',
@@ -30,6 +32,7 @@ class App extends Component {
         ownerId: 2,
         rentalFee: 30,
         User: { username: 'Justin' },
+        id: 2,
       },
       {
         name: 'Fishing Rod',
@@ -39,28 +42,28 @@ class App extends Component {
         ownerId: 3,
         rentalFee: 15,
         User: { username: 'Arthur' },
+        id: 3,
       },
     ];
 
     this.state = {
       isLoggedIn: false,
     };
-    this.login = this.login.bind(this, 'Scrum_Lord', 'password');
+    this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
+    this.methods.isLoggedIn();
+    console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.session.hasOwnProperty('username')) {
-      console.log('session!: ', nextProps.session);
-      this.setState({
-        isLoggedIn: true,
-      });
-    }
+    console.log('app next: ', nextProps);
+    this.setState({
+      isLoggedIn: nextProps.isAuth,
+    });
   }
 
   login(user, pw) {
@@ -73,20 +76,13 @@ class App extends Component {
     Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
+    this.methods.isLoggedIn();
   }
 
-  signup() {
-    console.log(`logging in as ${'Scrum_Lord'}`);
-    const data = {
-      username: 'Scrum_Lord',
-      password: 'password',
-      email: 'scrum_vader@gmail.com',
-      address: 'Death Star, CA 90210',
-      phoneNumber: '123-456-7890',
-      aboutMe: 'Give me yo WAFFLE FRIES?!!?!',
-    };
+  signup(userData) {
+    console.log('signing up as', userData);
 
-    this.methods.postUser(data);
+    // this.methods.postUser(userData);
   }
 
   render() {
@@ -108,13 +104,15 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session, message } = state;
+  const { user, listing, message, category, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
     session,
+    category,
+    isAuth,
   };
 }
 
@@ -157,8 +155,14 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteMessage: (data) => {
         dispatch(deleteMessage(data));
       },
+      getCategory: () => {
+        dispatch(getCategory());
+      },
       getSession: (data) => {
         dispatch(getSession(data));
+      },
+      isLoggedIn: () => {
+        dispatch(isLoggedIn());
       },
     },
   };

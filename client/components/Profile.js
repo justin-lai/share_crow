@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
-import { getSession } from '../actions/sessionActions.js';
-// import Landing from './Landing.js';
+import { getSession, isLoggedIn } from '../actions/sessionActions.js';
 import NavBar from './NavBar.js';
-// import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
 import MessageInbox from './MessageInbox.js';
+import LoadingBar from './LoadingBar.js';
 
 class Profile extends Component {
   constructor(props) {
@@ -19,62 +18,73 @@ class Profile extends Component {
     this.products = [];
     this.messages = [];
     this.profile = props.session;
+    console.log(props.isAuth);
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
-    // this.methods.getListing(`name=${this.props.session.username}`);
-    // get user's info
-    this.methods.getUser(`id=${this.props.session.id}`);
-    // get user's messages
-    this.methods.getMessage('recipient_id=89');
-    // get user's items
-    this.methods.getListing('owner_id=88');
+    this.methods.isLoggedIn();
+
+    if (this.props.isAuth) {
+      // this.methods.getListing(`name=${this.props.session.username}`);
+      this.methods.getUser(`id=${this.props.session.id}`);
+      this.methods.getMessage('recipient_id=1');
+      this.methods.getListing('owner_id=4');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next!!', nextProps);
-    this.products = nextProps.listing;
-    this.messages = nextProps.message;
+    console.log('profile next', nextProps);
+    if (!nextProps.isAuth) {
+      console.log('GO BACK');
+      nextProps.history.push('/');
+    }
+
+    // this.products = nextProps.listing;
+    // this.messages = nextProps.message;
     // re-render with new props
   }
 
   render() {
-    console.log(this.messages);
     return (
-      <div id="profile">
-        <NavBar isLoggedIn={Boolean(true)} />
-        <div className="row">
-          <div className="col-xs-6 col-md-4">
-            <ProfileCard profile={this.profile} />
-            <MessageInbox messages={this.messages} />
+      !this.props.isAuth ?
+        <LoadingBar /> :
+        <div id="profile">
+          <NavBar isLoggedIn={this.props.isAuth} />
+          <div className="row">
+            <div className="col-xs-6 col-md-4">
+              <ProfileCard profile={this.profile} />
+              <MessageInbox messages={this.messages} />
+            </div>
+            <div>
+              <h3>My Items</h3>
+              <ProductList products={this.products} />
+            </div>
           </div>
-          <div>
-            <h3>My Items</h3>
-            <ProductList products={this.products} />
-          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
     );
   }
 }
+
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
   listing: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session, message } = state;
+  const { user, listing, message, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
     session,
+    isAuth,
   };
 }
 
@@ -119,6 +129,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       getSession: (data) => {
         dispatch(getSession(data));
+      },
+      isLoggedIn: () => {
+        dispatch(isLoggedIn());
       },
     },
   };

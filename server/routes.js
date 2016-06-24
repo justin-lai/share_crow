@@ -44,10 +44,11 @@ module.exports = app => {
   // eslint-disable-next-line
 
   app.get('/isLoggedIn', (req, res) => {
+    console.log('SHOULD I BE LOGGED IN?', req.session.username);
     if (req.session.username) {
       res.status(200).send(true);
     } else {
-      res.status(500).send(false);
+      res.status(400).send(false);
     }
   });
 

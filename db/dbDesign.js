@@ -168,6 +168,11 @@ Category.hasMany(Category, { as: 'subCategory' });
 Listings.belongsToMany(Category, { through: categoryListings });
 Category.belongsToMany(Listings, { through: categoryListings });
 
+// User.hasMany(Listings);
+// User.hasMany(Messages);
+// User.hasMany(Reviews);
+// User.hasMany(Payments);
+// Listings.hasMany(Images);
 Listings.belongsTo(User, {
   as: 'owner',
   foreignKey: 'ownerId',

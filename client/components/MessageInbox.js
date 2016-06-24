@@ -44,7 +44,7 @@ class MessageInbox extends Component {
             onClick={this.showBox}
           >OUTBOX</div>
         </div>
-        {this.messages.map(message => <Message message={message} />)}
+        {this.messages.map(message => <Message message={message} key={message.id} />)}
       </div>
     );
   }

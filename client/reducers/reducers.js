@@ -11,7 +11,10 @@ import {
   MESSAGE_PUT_RESPONSE, MESSAGE_DELETE_RESPONSE,
 } from '../actions/messageActions';
 import {
-  SESSION_GET_RESPONSE,
+  CATEGORY_GET_RESPONSE,
+} from '../actions/categoryActions';
+import {
+  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE,
 } from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
@@ -29,7 +32,7 @@ export const user = (state = {}, action) => {
   }
 };
 
-export const listing = (state = {}, action) => {
+export const listing = (state = [], action) => {
   switch (action.type) {
     case LISTING_GET_RESPONSE:
       return action.data;
@@ -38,6 +41,30 @@ export const listing = (state = {}, action) => {
     case LISTING_PUT_RESPONSE:
       return action.data;
     case LISTING_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const message = (state = [], action) => {
+  switch (action.type) {
+    case MESSAGE_GET_RESPONSE:
+      return action.data;
+    case MESSAGE_POST_RESPONSE:
+      return action.data;
+    case MESSAGE_PUT_RESPONSE:
+      return action.data;
+    case MESSAGE_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const category = (state = [], action) => {
+  switch (action.type) {
+    case CATEGORY_GET_RESPONSE:
       return action.data;
     default:
       return state;
@@ -53,18 +80,11 @@ export const session = (state = {}, action) => {
   }
 };
 
-export const message = (state = {}, action) => {
+export const isAuth = (state = false, action) => {
   switch (action.type) {
-    case MESSAGE_GET_RESPONSE:
-      return action.data;
-    case MESSAGE_POST_RESPONSE:
-      return action.data;
-    case MESSAGE_PUT_RESPONSE:
-      return action.data;
-    case MESSAGE_DELETE_RESPONSE:
+    case IS_LOGGED_IN_RESPONSE:
       return action.data;
     default:
       return state;
   }
 };
-

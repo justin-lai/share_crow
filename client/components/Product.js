@@ -31,7 +31,7 @@ class Product extends Component {
           <h4>{product.name}</h4>
           <p>${product.rentalFee}/day</p>
           <p>XY miles away - Fremont, CA</p>
-          <a href="/">{product.User.username}</a>
+          <a href="/">{product.owner.username}</a>
         </div>
       </span>
     );

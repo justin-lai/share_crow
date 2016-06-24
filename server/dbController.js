@@ -15,7 +15,7 @@ module.exports = {
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
-    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
+    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address) {
       // generate a new hash based on password and make new entry in table
       db.User.find({
         where: {
@@ -30,7 +30,6 @@ module.exports = {
             email: req.body.email,
             address: req.body.address,
             phone: req.body.phoneNumber,
-            about: req.body.aboutMe,
           }).then((user) => {
             req.session.username = req.body.username;
             res.status(201).send(user.dataValues);
@@ -156,12 +155,25 @@ module.exports = {
     console.log(req.query.recipient_id);
     req.session.cookie.path = '/main/message';
 
+    const searchFilters = {
+      senderId: req.query.sender_id || null,
+      recipientId: req.query.recipient_id || null,
+    };
+
+    if (!req.query.recipient_id) {
+      delete searchFilters.recipientId;
+    }
+    if (!req.query.sender_id) {
+      delete searchFilters.senderId;
+    }
     // needs to get messages from based on both sender or receiver
     db.Messages.findAll({
-      where: {
-        recipientId: req.query.recipient_id,
-      },
+      where: searchFilters,
       include: [{
+        model: db.User,
+        as: 'sender',
+      },
+      {
         model: db.User,
         as: 'recipient',
       }],
@@ -227,6 +239,11 @@ module.exports = {
       where: searchFilters,
       include: [{
         model: db.User,
+        as: 'owner',
+      },
+      {
+        model: db.User,
+        as: 'renter',
       }],
     }).then((items) => {
       const results = [];

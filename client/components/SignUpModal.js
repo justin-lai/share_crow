@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 /* eslint-disable react/jsx-no-bind */
 
 class SignUpModal extends Component {
@@ -19,7 +19,7 @@ class SignUpModal extends Component {
       city: '',
       state: '',
       zipcode: '',
-      phoneNumber: '',
+      phone: '',
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -38,42 +38,21 @@ class SignUpModal extends Component {
   }
 
   handleSubmit() {
-    console.log('firstName', this.state.firstName);
-    console.log('lastName', this.state.lastName);
-    console.log('email', this.state.email);
-    console.log('username', this.state.username);
-    console.log('password', this.state.password);
-    console.log('confirmPassword', this.state.confirmPassword);
-    console.log('address', this.state.address);
-    console.log('city', this.state.city);
-    console.log('state', this.state.state);
-    console.log('zipcode', this.state.zipcode);
-    console.log('phoneNumber', this.state.phoneNumber);
     const newUserData = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
       username: this.state.username,
       password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
+      // confirmPassword: this.state.confirmPassword,
       address: this.state.address,
       city: this.state.city,
       state: this.state.state,
       zipcode: this.state.zipcode,
-      phoneNumber: this.state.phoneNumber,
+      phone: this.state.phone,
     };
+    this.props.signup(newUserData);
     this.closeModal();
-    fetch('http://localhost:3000/main/signup',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUserData),
-      })
-        .then((response) => response.json())
-          .then((responseData) => console.log(responseData));
   }
 
   handleFirstName(value) { this.setState({ firstName: value.target.value }); }
@@ -86,7 +65,7 @@ class SignUpModal extends Component {
   handleCity(value) { this.setState({ city: value.target.value }); }
   handleState(value) { this.setState({ state: value.target.value }); }
   handleZipcode(value) { this.setState({ zipcode: value.target.value }); }
-  handlePhoneNumber(value) { this.setState({ phoneNumber: value.target.value }); }
+  handlePhoneNumber(value) { this.setState({ phone: value.target.value }); }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
@@ -240,7 +219,7 @@ class SignUpModal extends Component {
           <p className="phone-input">
             <div>Phone Number</div>
             <input
-              value={this.state.phoneNumber}
+              value={this.state.phone}
               onChange={this.handlePhoneNumber}
               type="text"
             />
@@ -258,4 +237,9 @@ class SignUpModal extends Component {
   }
 }
 
+SignUpModal.propTypes = {
+  signup: PropTypes.func.isRequired,
+};
+
 export default SignUpModal;
+
