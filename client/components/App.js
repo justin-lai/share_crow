@@ -66,23 +66,20 @@ class App extends Component {
     });
   }
 
-  login(user, pw) {
-    console.log(`logging in as ${user}`);
-    const data = {
-      username: user,
-      password: pw,
-    };
+  login(userData) {
+    console.log(`logging in as ${userData.username}`);
     let query = [];
-    Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
+    Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
+    console.log('this is query', query);
+    console.log('userData', userData);
     this.methods.getSession(query);
     this.methods.isLoggedIn();
   }
 
   signup(userData) {
     console.log('signing up as', userData);
-
-    // this.methods.postUser(userData);
+    this.methods.postUser(userData);
   }
 
   render() {

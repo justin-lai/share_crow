@@ -7,10 +7,27 @@ class LoginModal extends Component {
     super(props);
     this.state = {
       open: false,
+      username: '',
+      password: '',
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  handleSubmit() {
+    const existingUserData = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+    this.props.login(existingUserData);
+    this.closeModal();
+  }
+
+  handleUsername(value) { this.setState({ username: value.target.value }); }
+  handlePassword(value) { this.setState({ password: value.target.value }); }
 
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
@@ -35,14 +52,18 @@ class LoginModal extends Component {
           />
           <h1 className="modal-header">Login</h1>
           <p>
-            <div>Username or Email</div>
+            <div>Username</div>
             <input
+              value={this.state.username}
+              onChange={this.handleUsername}
               type="text"
             />
           </p>
           <p>
             <div>Password</div>
             <input
+              value={this.state.password}
+              onChange={this.handlePassword}
               type="text"
             />
           </p>
@@ -50,7 +71,7 @@ class LoginModal extends Component {
             className="modal-login-button"
             type="submit"
             value="Login"
-            onClick={this.props.login}
+            onClick={this.handleSubmit}
           />
         </Modal>
       </div>

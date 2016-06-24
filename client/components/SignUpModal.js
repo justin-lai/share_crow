@@ -64,7 +64,7 @@ class SignUpModal extends Component {
     console.log('city', this.state.city);
     console.log('state', this.state.state);
     console.log('zipcode', this.state.zipcode);
-    console.log('phoneNumber', this.state.phoneNumber);
+    console.log('phoneNumber', this.state.phone);
     // const newUserData = {
     //   firstName: this.state.firstName,
     //   lastName: this.state.lastName,

@@ -60,6 +60,7 @@ export function userPostResponse(data) {
   };
 }
 export function postUser(data) {
+  console.log('this is data', data);
   return dispatch => {
     dispatch(userPostRequest());
     return fetch('/main/signup', {
