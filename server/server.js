@@ -2,20 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// const RedisStore = require('connect-redis')(session);
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 
-app.use(cookieParser('C44THY'));
-// app.use(session({
-//   store: new RedisStore({
-//     host: 'localhost',
-//     port: 6379,
-//     db: 2,
-//     pass: 'sharecrow',
-//   }),
-//   secret: 'C44THY',
-// }));
+app.use(session({
+  store: new RedisStore({
+    host: 'localhost',
+    port: 6379,
+    db: 1,
+    pass: 'sharecrow',
+  }),
+  secret: 'C44THY',
+}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));

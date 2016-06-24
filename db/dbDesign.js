@@ -26,6 +26,15 @@ const User = sequelize.define('User', {
   address: {
     type: Sequelize.STRING,
   },
+  city: {
+    type: Sequelize.STRING,
+  },
+  state: {
+    type: Sequelize.STRING,
+  },
+  zipcode: {
+    type: Sequelize.INTEGER,
+  },
   email: {
     type: Sequelize.STRING,
   },
@@ -37,6 +46,18 @@ const User = sequelize.define('User', {
   },
   userImage: {
     type: Sequelize.INTEGER,
+  },
+  verification: {
+    type: Sequelize.INTEGER,
+  },
+  verified: {
+    type: Sequelize.BOOLEAN,
+  },
+  firstName: {
+    type: Sequelize.STRING,
+  },
+  lastName: {
+    type: Sequelize.STRING,
   },
 });
 
@@ -71,6 +92,9 @@ const Payments = sequelize.define('Payments', {
   payerId: {
     type: Sequelize.INTEGER,
   },
+  paidId: {
+    type: Sequelize.INTEGER,
+  },
 });
 
 const Messages = sequelize.define('Messages', {
@@ -82,6 +106,9 @@ const Messages = sequelize.define('Messages', {
   },
   recipientId: {
     type: Sequelize.INTEGER,
+  },
+  subject: {
+    type: Sequelize.STRING,
   },
 });
 
@@ -116,6 +143,9 @@ const Listings = sequelize.define('Listings', {
   itemImage: {
     type: Sequelize.INTEGER,
   },
+  category: {
+    type: Sequelize.STRING,
+  },
 });
 
 const Images = sequelize.define('Images', {
@@ -127,17 +157,25 @@ const Images = sequelize.define('Images', {
   },
 });
 
-// const Catergories = sequelize.define('Categories', {
-//
-// });
+const Category = sequelize.define('Category', {
+  categoryName: Sequelize.STRING,
+});
 
+const categoryListings = sequelize.define('categoryListings');
 
-User.hasMany(Listings);
-User.hasMany(Messages);
-User.hasMany(Reviews);
-User.hasMany(Payments);
-Listings.hasMany(Images);
-Listings.belongsTo(User);
+Category.hasMany(Category, { as: 'subCategory' });
+
+Listings.belongsToMany(Category, { through: categoryListings });
+Category.belongsToMany(Listings, { through: categoryListings });
+
+Listings.belongsTo(User, {
+  as: 'owner',
+  foreignKey: 'ownerId',
+});
+Listings.belongsTo(User, {
+  as: 'renter',
+  foreignKey: 'renterId',
+});
 Images.belongsTo(User);
 Images.belongsTo(Listings);
 Messages.belongsTo(User, {
@@ -148,8 +186,22 @@ Messages.belongsTo(User, {
   as: 'recipient',
   foreignKey: 'recipientId',
 });
-Reviews.belongsTo(User, { as: User.lenderId });
-Payments.belongsTo(User);
+Reviews.belongsTo(User, {
+  as: 'lender',
+  foreignKey: 'lenderId',
+});
+Reviews.belongsTo(User, {
+  as: 'reviewer',
+  foreignKey: 'reviewerId',
+});
+Payments.belongsTo(User, {
+  as: 'paid',
+  foreignKey: 'paidId',
+});
+Payments.belongsTo(User, {
+  as: 'payer',
+  foreignKey: 'payerId',
+});
 User.hasOne(Images);
 
-module.exports = { User, Messages, Reviews, Listings, Payments, sequelize };
+module.exports = { Category, User, Messages, Reviews, Listings, Payments, sequelize };

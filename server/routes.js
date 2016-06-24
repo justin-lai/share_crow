@@ -52,6 +52,7 @@ module.exports = app => {
   });
 
   app.get('/logout', (req, res) => {
+      // eslint-disable-next-line
     console.log('12312312312321', req.session);
     req.session.destroy(() => {
       res.redirect('/');
