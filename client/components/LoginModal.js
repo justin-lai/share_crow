@@ -21,13 +21,33 @@ class LoginModal extends Component {
         <div
           className="login-modal"
           onClick={this.openModal}
-        ><span className="glyphicon glyphicon-log-in"></span>Login</div>
-        <Modal isOpen={this.state.open}>
-          <h1>Login</h1>
-          <button onClick={this.closeModal}>Close</button>
-          <p><input placeholder="Username or Email" /></p>
-          <p><input placeholder="Password" /></p>
-          <input type="submit" value="Login" onClick={this.props.login} />
+        ><span className="glyphicon glyphicon-user"></span> Login</div>
+        <Modal style={{ content: { height: '320px' } }} isOpen={this.state.open}>
+          <input
+            className="close-button"
+            type="submit"
+            value="x"
+            onClick={this.closeModal}
+          />
+          <h1 className="modal-header">Login</h1>
+          <p>
+            <div>Username or Email</div>
+            <input
+              type="text"
+            />
+          </p>
+          <p>
+            <div>Password</div>
+            <input
+              type="text"
+            />
+          </p>
+          <input
+            className="modal-login-button"
+            type="submit"
+            value="Login"
+            onClick={this.props.login}
+          />
         </Modal>
       </div>
     );

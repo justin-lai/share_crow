@@ -6,8 +6,6 @@ import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/m
 import { getSession } from '../actions/sessionActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
-// import Login from './Login.js';
-// import NavbarLoggedIn from './NavbarLoggedIn.js';
 import Footer from './Footer.js';
 import ProductCarousel from './ProductCarousel.js';
 

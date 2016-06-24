@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import LoginModal from './LoginModal.js';
+import SignUpModal from './SignUpModal.js';
 
 const NavBar = (props) => {
   let navbar;
@@ -82,13 +83,7 @@ const NavBar = (props) => {
                 <a href="#">Become a Lendee</a>
               </li>
               <li>
-                <a href="#">
-                  <span
-                    className="glyphicon glyphicon-user"
-                    onClick={props.signup}
-                  >
-                  </span> Sign Up
-                </a>
+                <a href="#"><SignUpModal signup={props.signup} /></a>
               </li>
               <li>
                 <a href="#">
