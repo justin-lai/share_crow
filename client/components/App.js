@@ -66,29 +66,33 @@ class App extends Component {
     });
   }
 
-  login(user, pw) {
-    console.log(`logging in as ${user}`);
-    const data = {
-      username: user,
-      password: pw,
-    };
+  login(userData) {
+    console.log(`logging in as ${userData.username}`);
     let query = [];
-    Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
+    Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
+    console.log('this is query', query);
+    console.log('userData', userData);
     this.methods.getSession(query);
     this.methods.isLoggedIn();
+    this.user = userData;
   }
 
   signup(userData) {
     console.log('signing up as', userData);
-
-    // this.methods.postUser(userData);
+    this.methods.postUser(userData);
   }
 
   render() {
+    console.log('data in app.js', this.props.session.username);
     return (
       <div id="app">
-        <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
+        <NavBar
+          isLoggedIn={this.state.isLoggedIn}
+          userData={this.props.session.username}
+          login={this.login}
+          signup={this.signup}
+        />
         <Landing />
         <ProductCarousel products={this.products} />
         <Footer />
@@ -101,6 +105,7 @@ App.propTypes = {
   user: PropTypes.object.isRequired,
   listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
+  session: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

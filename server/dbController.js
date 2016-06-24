@@ -19,6 +19,8 @@ module.exports = {
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
   // expects username, password, email, phoneNumber, address, aboutMe
   signup: (req, res) => {
+    console.log('this is the body', req.body);
+    console.log(req.session);
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
