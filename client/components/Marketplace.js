@@ -146,16 +146,7 @@ class Marketplace extends Component {
         User: { username: 'Arthur' },
       },
     ];
-    this.categories = [
-      'Fashion',
-      'Electronics',
-      'Collectibles & Art',
-      'Home & Garden',
-      'Sporting Goods',
-      'Toys',
-      'Business & Industrial',
-      'Music',
-    ];
+    this.categories = [];
 
     this.filterBy = this.filterBy.bind(this);
     this.searchFor = this.searchFor.bind(this);
@@ -163,7 +154,30 @@ class Marketplace extends Component {
 
   componentDidMount() {
     // this.props.methods.getListing();
-    // this.props.methods.getCategories();
+    this.props.methods.getCategory();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.categories = nextProps.category;
+    // this.categories = {};
+    // const context = this;
+    // nextProps.category
+    //   .filter(category => category.CategoryId === null)
+    //   .forEach(category => {
+    //     const name = category.categoryName;
+    //     const id = category.id;
+    //     context.categories[id] = { name, children: [] };
+    //   });
+    // nextProps.category
+    //   .filter(category => category.CategoryId !== null)
+    //   .forEach(category => {
+    //     const name = category.categoryName;
+    //     const id = category.id;
+    //     const parentId = category.CategoryId;
+    //     context.categories[parentId].children.push({ name, id });
+    //   });
+
+    // console.log(this.categories);
   }
 
   filterBy(e) {
@@ -192,10 +206,11 @@ class Marketplace extends Component {
 }
 
 function mapStateToProps(state) {
-  const { listing } = state;
+  const { listing, category } = state;
 
   return {
     listing,
+    category,
   };
 }
 

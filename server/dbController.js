@@ -493,7 +493,12 @@ module.exports = {
   getCategory: (req, res) => {
     console.log('GET //// getCategory route');
     req.session.cookie.path = '/main/category';
-    db.Category.findAll({})
+    db.Category.findAll({
+      include: [{
+        model: db.Category,
+        as: 'subCategory',
+      }],
+    })
       .then(queryData => {
         const results = [];
         queryData.forEach(category => results.push(category));

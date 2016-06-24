@@ -18,30 +18,33 @@ class Profile extends Component {
     this.products = [];
     this.messages = [];
     this.profile = props.session;
-    console.log(props.isAuth);
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
-    this.methods.isLoggedIn();
+    // this.methods.isLoggedIn();
 
     if (this.props.isAuth) {
       // this.methods.getListing(`name=${this.props.session.username}`);
       this.methods.getUser(`id=${this.props.session.id}`);
       this.methods.getMessage('recipient_id=1');
       this.methods.getListing('owner_id=4');
+    } else {
+      this.props.history.push('/');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('profile next', nextProps);
-    if (!nextProps.isAuth) {
-      console.log('GO BACK');
-      nextProps.history.push('/');
-    }
+    // console.log('profile next', nextProps);
+    // if (!nextProps.isAuth) {
+      // console.log('GO BACK');
+      // nextProps.history.push('/');
+    // } else {
 
-    // this.products = nextProps.listing;
-    // this.messages = nextProps.message;
+    // }
+
+    this.products = nextProps.listing;
+    this.messages = nextProps.message;
     // re-render with new props
   }
 
@@ -74,6 +77,7 @@ Profile.propTypes = {
   session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
