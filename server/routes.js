@@ -47,7 +47,7 @@ module.exports = app => {
     if (req.session.username) {
       res.status(200).send(true);
     } else {
-      res.status(500).send(false);
+      res.status(300).send(false);
     }
   });
 

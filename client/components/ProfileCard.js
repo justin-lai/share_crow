@@ -5,7 +5,6 @@ class ProfileCard extends Component {
     super(props);
 
     this.profile = props.profile;
-    console.log('PROFILE!:', this.profile);
   }
 
 

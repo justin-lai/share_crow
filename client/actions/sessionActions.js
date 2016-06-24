@@ -55,10 +55,10 @@ export function isLoggedInResponse(data) {
 }
 export function isLoggedIn() {
   return dispatch => {
-    dispatch(sessionGetRequest());
+    dispatch(isLoggedInRequest());
     return fetch('/isLoggedIn', { credentials: 'same-origin' })
       .then(response => {
-        dispatch(sessionGetResponse(response));
+        dispatch(isLoggedInResponse(response.ok));
       });
   };
 }

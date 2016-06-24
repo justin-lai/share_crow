@@ -21,6 +21,7 @@ class App extends Component {
         ownerId: 1,
         rentalFee: 25,
         User: { username: 'Cathy' },
+        id: 1,
       },
       {
         name: 'Grill',
@@ -30,6 +31,7 @@ class App extends Component {
         ownerId: 2,
         rentalFee: 30,
         User: { username: 'Justin' },
+        id: 2,
       },
       {
         name: 'Fishing Rod',
@@ -39,6 +41,7 @@ class App extends Component {
         ownerId: 3,
         rentalFee: 15,
         User: { username: 'Arthur' },
+        id: 3,
       },
     ];
 
@@ -52,15 +55,14 @@ class App extends Component {
   componentDidMount() {
     this.methods = this.props.methods;
     this.methods.isLoggedIn();
+    console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.session.hasOwnProperty('username')) {
-      this.setState({
-        isLoggedIn: true,
-      });
-    }
+    console.log('app next: ', nextProps);
+    this.setState({
+      isLoggedIn: nextProps.isAuth,
+    });
   }
 
   login(user, pw) {
@@ -73,6 +75,7 @@ class App extends Component {
     Object.keys(data).forEach(key => query.push(`${key}=${data[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
+    this.methods.isLoggedIn();
   }
 
   signup() {
@@ -108,13 +111,14 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, session, message } = state;
+  const { user, listing, message, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
     session,
+    isAuth,
   };
 }
 

@@ -10,13 +10,11 @@ class Message extends Component {
 
     const date = props.message.createdAt;
     this.date = this.formatDate(new Date(Date.parse(date.replace(/( +)/, ' UTC$1'))));
-    console.log('DATE: ', this.date);
     this.toggleText = this.toggleText.bind(this);
   }
 
   formatDate(date) {
     const systemDate = date;
-    console.log(date);
     const userDate = new Date();
     const diff = Math.floor((userDate - systemDate) / 1000);
 

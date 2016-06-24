@@ -23,6 +23,7 @@ class ProductCarousel extends Component {
             this.props.products.map(product =>
               <div><Product
                 product={product}
+                key={product.id}
               /></div>)
           }
         </Slider>

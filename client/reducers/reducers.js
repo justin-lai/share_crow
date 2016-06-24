@@ -29,7 +29,7 @@ export const user = (state = {}, action) => {
   }
 };
 
-export const listing = (state = {}, action) => {
+export const listing = (state = [], action) => {
   switch (action.type) {
     case LISTING_GET_RESPONSE:
       return action.data;
@@ -44,18 +44,7 @@ export const listing = (state = {}, action) => {
   }
 };
 
-export const session = (state = {}, action) => {
-  switch (action.type) {
-    case SESSION_GET_RESPONSE:
-      return action.data;
-    case IS_LOGGED_IN_RESPONSE:
-      return action.data;
-    default:
-      return state;
-  }
-};
-
-export const message = (state = {}, action) => {
+export const message = (state = [], action) => {
   switch (action.type) {
     case MESSAGE_GET_RESPONSE:
       return action.data;
@@ -70,3 +59,20 @@ export const message = (state = {}, action) => {
   }
 };
 
+export const session = (state = {}, action) => {
+  switch (action.type) {
+    case SESSION_GET_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const isAuth = (state = false, action) => {
+  switch (action.type) {
+    case IS_LOGGED_IN_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
