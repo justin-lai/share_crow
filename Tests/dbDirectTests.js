@@ -4,8 +4,7 @@
 //
 // // -------------- User Table test cases --------------- //
 //
-// db.sequelize
-// .sync()
+// db.sequelize.sync()
 //   .then(() => {
 //     const testData = {
 //       password: 1234,
@@ -40,26 +39,25 @@
 //         email: testData.email,
 //         phone: testData.phone,
 //         about: testData.about,
+//       }).then((user) => {
+//         db.User.findAll({
+//           where: {
+//             username: user.dataValues.username,
+//           },
+//         }).then((User) => {
+//           if (user === User) {
+//             assert.end();
+//           }
+//         });
 //       });
-//     // .then((user) => {
-//     //   db.User.findAll({
-//     //     where: {
-//     //       username: user.dataValues.username,
-//     //     },
-//     //   }).then((User) => {
-//     //     if (user === User) {
-//     //       assert.end();
-//     //     }
-//     //   });
-//     // });
-//       assert.end();
 //     });
 //   });
 //
 // test('Successfully remove user entry from User table', (assert) => {
+//   db
 //   assert.end();
 // });
-//
+
 // test('Successfully update user entry in User table', (assert) => {
 //   assert.end();
 // });
