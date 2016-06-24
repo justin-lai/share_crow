@@ -181,4 +181,28 @@ db.sequelize
       categoryName: 'Camera Drones',
       CategoryId: 2,
     });
+    db.Category.create({
+      categoryName: 'Software',
+      CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Laptops',
+      CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Desktop',
+      CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Printers & Scanners',
+      CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Monitors',
+      CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Keyboards && Mice',
+      CategoryId: 3,
+    });
   });
