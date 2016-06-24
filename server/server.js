@@ -21,8 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));
 
 app.use((req, res, next) => {
-  console.log(req.session, '******', req.baseUrl);
   if (!req.session.username && req.session.cookie.path !== '/') {
+ // eslint-disable-next-line
+    req.session.cookie.path = '/';
     res.redirect('/');
   } else {
     next();

@@ -42,12 +42,22 @@ module.exports = app => {
 
   // UTILITY ROUTES
   // eslint-disable-next-line
+
+  app.get('/isLoggedIn', (req, res) => {
+    if (req.session.username) {
+      res.status(200).send(true);
+    } else {
+      res.status(500).send(false);
+    }
+  });
+
   app.get('/logout', (req, res) => {
     console.log('12312312312321', req.session);
     req.session.destroy(() => {
       res.redirect('/');
     });
-    console.log('13123123123123123', req.session);
   });
-  app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../../client/index.html')));
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../client/index.html'));
+  });
 };

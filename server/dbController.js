@@ -60,8 +60,9 @@ module.exports = {
     .then(queryData => {
       if (queryData[0]) {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
-          req.session.username = req.body.username;
+          req.session.username = req.query.username;
           res.status(200).send(queryData[0].dataValues);
+          console.log(req.session);
         } else {
           res.status(400).send({ message: 'password does not match the password in the database' });
         }
