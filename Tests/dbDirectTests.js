@@ -3,32 +3,58 @@
 // const db = require(path.resolve(__dirname, '../db/dbDesign.js'));
 //
 // // -------------- User Table test cases --------------- //
-// const testData = {
-//   password: 1234,
-//   username: 'testUser',
-//   address: '111 Test Street',
-//   email: 'Test@me.com',
-//   phone: '111-222-4444',
-//   about: 'This is about TestUser',
-// };
 //
-// test('Successfully create new user entry in User table', (assert) => {
-//   db.User.create({
-//     password: testData.password,
-//     username: testData.username,
-//     address: testData.address,
-//     email: testData.email,
-//     phone: testData.phone,
-//     about: testData.about,
-//   }).then((user) => {
-//     db.User.findAll({
-//       where: {
-//         username: user.dataValues.username,
-//       },
-//     }).then((User) => User);
+// db.sequelize
+// .sync()
+//   .then(() => {
+//     const testData = {
+//       password: 1234,
+//       username: 'testUser',
+//       address: '111 Test Street',
+//       city: 'San Francisco',
+//       state: 'California',
+//       zipcode: '99921',
+//       userImage: 12,
+//       verification: 4433,
+//       verified: true,
+//       firstName: 'Thomas',
+//       lastName: 'Tom',
+//       email: 'Test@me.com',
+//       phone: '111-222-4444',
+//       about: 'This is about TestUser',
+//     };
+//
+//     test('Successfully create new user entry in User table', (assert) => {
+//       db.User.create({
+//         password: testData.password,
+//         username: testData.username,
+//         address: testData.address,
+//         city: testData.city,
+//         state: testData.state,
+//         zipcode: testData.zipcode,
+//         userImage: testData.userImage,
+//         verification: testData.verification,
+//         verified: testData.verified,
+//         firstName: testData.firstName,
+//         lastName: testData.lastName,
+//         email: testData.email,
+//         phone: testData.phone,
+//         about: testData.about,
+//       });
+//     // .then((user) => {
+//     //   db.User.findAll({
+//     //     where: {
+//     //       username: user.dataValues.username,
+//     //     },
+//     //   }).then((User) => {
+//     //     if (user === User) {
+//     //       assert.end();
+//     //     }
+//     //   });
+//     // });
+//       assert.end();
+//     });
 //   });
-//   assert.end();
-// });
 //
 // test('Successfully remove user entry from User table', (assert) => {
 //   assert.end();
