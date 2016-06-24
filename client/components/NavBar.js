@@ -83,7 +83,7 @@ const NavBar = (props) => {
                 <a href="#">Become a Lendee</a>
               </li>
               <li>
-                <a href="#"><SignUpModal /></a>
+                <a href="#"><SignUpModal signup={props.signup} /></a>
               </li>
               <li>
                 <a href="#">

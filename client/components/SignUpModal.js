@@ -12,6 +12,9 @@ class SignUpModal extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  handleSubmit() {
+  }
+
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
@@ -159,12 +162,3 @@ class SignUpModal extends Component {
 }
 
 export default SignUpModal;
-
-    // const data = {
-    //   username: 'Scrum_Lord',
-    //   password: 'password',
-    //   email: 'scrum_vader@gmail.com',
-    //   address: 'Death Star, CA 90210',
-    //   phoneNumber: '123-456-7890',
-    //   aboutMe: 'Give me yo WAFFLE FRIES?!!?!',
-    // };
