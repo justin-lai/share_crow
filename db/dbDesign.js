@@ -26,6 +26,15 @@ const User = sequelize.define('User', {
   address: {
     type: Sequelize.STRING,
   },
+  city: {
+    type: Sequelize.STRING,
+  },
+  state: {
+    type: Sequelize.STRING,
+  },
+  zipcode: {
+    type: Sequelize.INTEGER,
+  },
   email: {
     type: Sequelize.STRING,
   },
@@ -195,4 +204,4 @@ Payments.belongsTo(User, {
 });
 User.hasOne(Images);
 
-module.exports = { User, Messages, Reviews, Listings, Payments, sequelize };
+module.exports = { Category, User, Messages, Reviews, Listings, Payments, sequelize };

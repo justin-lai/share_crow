@@ -4,7 +4,7 @@ const db = require('./dbDesign.js');
 // HARD RESETS THE DB, DO NOT RUN UNLESS YOU WANT TO CLEAR LITERALLY EVERYTHING-- caathy
 
 db.sequelize
-.sync({ force: true })
+.sync()
   .then(() => {
     //eslint-disable-next-line
     console.log('It worked!');
@@ -16,6 +16,9 @@ db.sequelize
       password: 'jjj3k12kksksls',
       username: 'Arthur',
       address: '4411 TomTom Street',
+      city: 'San Francisco',
+      state: 'California',
+      zipcode: '94539',
       email: 'ArthurTomTom@gmail.com',
       phone: '555-444-1122',
       about: 'All about me!',
@@ -93,5 +96,89 @@ db.sequelize
     }).then((item) => {
       //eslint-disable-next-line
       console.log(item.dataValues);
+    });
+    db.Category.create({
+      categoryName: 'Books',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Cameras',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Computers',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Music',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Real Estate',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Sporting Goods',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Video Games',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Consumer Electronics',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Clothing',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Motors',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Pet Supplies',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Home & Garden',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Nonfiction',
+      CategoryId: 1,
+    });
+    db.Category.create({
+      categoryName: 'Textbooks',
+      CategoryId: 1,
+    });
+    db.Category.create({
+      categoryName: 'Cookbooks',
+      CategoryId: 1,
+    });
+    db.Category.create({
+      categoryName: 'Accessories',
+      CategoryId: 1,
+    });
+    db.Category.create({
+      categoryName: 'Film Photography',
+      CategoryId: 2,
+    });
+    db.Category.create({
+      categoryName: 'Camcorders',
+      CategoryId: 2,
+    });
+    db.Category.create({
+      categoryName: 'Digital Cameras',
+      CategoryId: 2,
+    });
+    db.Category.create({
+      categoryName: 'Binoculars & Telescopes',
+      CategoryId: 2,
+    });
+    db.Category.create({
+      categoryName: 'Camera Drones',
+      CategoryId: 2,
     });
   });
