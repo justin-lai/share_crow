@@ -360,6 +360,14 @@ test('UserReviews: no userReview created due to missing one or more fields', ass
   assert.end();
 });
 
+// Tests if database returns all listing categories
+test('Categories: returned when /main/category route is called', assert => {
+  fetch('http://localhost:3000/main/category')
+    .then((responseData) => responseData.json())
+    .then((r) => assert.equal(r.length, 27, 'All categories returned'));
+  assert.end();
+});
+
 // Tests if userReview successfully deleted given a review ID and associated user ID
 // test('UserReviews: successful deletion of userReview given valid review and user ID', assert => {
 //   fetch('http://localhost:3000/userReview',

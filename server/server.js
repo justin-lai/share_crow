@@ -4,6 +4,7 @@ const app = express();
 const passport = require('passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+const utilityController = require('./utilityController.js');
 
 app.use(session({
   store: new RedisStore({
@@ -18,15 +19,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));
 
-app.use((req, res, next) => {
-  if (!req.session.username && req.session.cookie.path !== '/') {
- // eslint-disable-next-line
-    req.session.cookie.path = '/';
-    res.redirect('/');
-  } else {
-    next();
-  }
-});
+app.use(utilityController.loggedInMiddleware);
 
 require('./routes.js')(app, express);
 

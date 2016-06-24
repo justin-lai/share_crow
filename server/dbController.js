@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
-// const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
@@ -257,6 +256,7 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
+      category: req.query.category || null,
     };
 
     if (!req.query.name) {
@@ -271,8 +271,10 @@ module.exports = {
     if (!req.query.rental_fee) {
       delete searchFilters.rentalFee;
     }
+    if (!req.query.category) {
+      delete searchFilters.category;
+    }
     // if parameters provided, only return a filtered list
-    // eslint-disable-next-line no-console
     db.Listings.findAll({
       where: searchFilters,
       include: [{
@@ -489,5 +491,16 @@ module.exports = {
         res.status(400).send({ message: 'there was an error with deleting the review' });
       }
     });
+  },
+
+  // //////////////////////////// CATEGORY FUNCTIONS ////////////////////////////
+
+  getCategory: (req, res) => {
+    db.Category.findAll({})
+      .then(queryData => {
+        const results = [];
+        queryData.forEach(category => results.push(category));
+        res.status(200).send(results);
+      });
   },
 };
