@@ -23,7 +23,6 @@ module.exports = {
     console.log(req.session);
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
-    // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phone) {
       // generate a new hash based on password and make new entry in table
       db.User.find({
@@ -111,7 +110,6 @@ module.exports = {
       res.status(400).send({ message: 'id was not provided' });
     }
   },
-
   // expects id with an arbitrary number of parameters to change
   updateProfile: (req, res) => {
     console.log('PUT //// updateProfile Route');
@@ -229,7 +227,6 @@ module.exports = {
       });
     }
   },
-
   // expects sender_id, recipient_id, text
   postMessages: (req, res) => {
     // adds a new message entry in database
@@ -299,7 +296,6 @@ module.exports = {
       }
     });
   },
-
   // expects item, owner_id, max_fee, rental_fee, image
   createListing: (req, res) => {
     // adds a new listing entry in database
@@ -321,7 +317,6 @@ module.exports = {
       res.status(400).send({ message: 'a required parameter was not provided' });
     }
   },
-
   // expects listingId and an arbitrary number of parameters
   changeListing: (req, res) => {
     // modifies entry with 'listing id' in database
@@ -382,7 +377,6 @@ module.exports = {
         });
     }
   },
-
   // expects listing id
   returnedListing: (req, res) => {
     // call change listing to change renting period to 'complete'
@@ -430,6 +424,7 @@ module.exports = {
       });
     }
   },
+
   // //////////////////////////// USER REVIEW FUNCTIONS ////////////////////////////
   // expects lenderId
   getUserReviews: (req, res) => {
@@ -455,7 +450,6 @@ module.exports = {
       });
     }
   },
-
   // expects reviewerId, lenderId, rating, text
   createUserReview: (req, res) => {
     // add a new review entry in database
@@ -475,7 +469,6 @@ module.exports = {
       .then(queryData => res.status(200).send(queryData));
     }
   },
-
   // expects reviewId
   deleteUserReview: (req, res) => {
     // id associated with the review must match the user id
@@ -496,8 +489,9 @@ module.exports = {
   },
 
   // //////////////////////////// CATEGORY FUNCTIONS ////////////////////////////
-
   getCategory: (req, res) => {
+    console.log('GET //// getCategory route');
+    req.session.cookie.path = '/main/category';
     db.Category.findAll({})
       .then(queryData => {
         const results = [];
