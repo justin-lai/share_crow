@@ -49,7 +49,7 @@ class App extends Component {
     this.state = {
       isLoggedIn: false,
     };
-    this.login = this.login.bind(this, 'Scrum_Lord', 'password');
+    this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
   }
 
@@ -79,18 +79,10 @@ class App extends Component {
     this.methods.isLoggedIn();
   }
 
-  signup() {
-    console.log(`logging in as ${'Scrum_Lord'}`);
-    const data = {
-      username: 'Scrum_Lord',
-      password: 'password',
-      email: 'scrum_vader@gmail.com',
-      address: 'Death Star, CA 90210',
-      phoneNumber: '123-456-7890',
-      aboutMe: 'Give me yo WAFFLE FRIES?!!?!',
-    };
+  signup(userData) {
+    console.log('signing up as', userData);
 
-    this.methods.postUser(data);
+    // this.methods.postUser(userData);
   }
 
   render() {

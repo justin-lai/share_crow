@@ -18,18 +18,19 @@ class Profile extends Component {
     this.products = [];
     this.messages = [];
     this.profile = props.session;
+    console.log(props.isAuth);
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
     this.methods.isLoggedIn();
-    // this.methods.getListing(`name=${this.props.session.username}`);
-    // get user's info
-    // this.methods.getUser(`id=${this.props.session.id}`);
-    // get user's messages
-    this.methods.getMessage('recipient_id=1');
-    // get user's items
-    // this.methods.getListing('owner_id=4');
+
+    if (this.props.isAuth) {
+      // this.methods.getListing(`name=${this.props.session.username}`);
+      this.methods.getUser(`id=${this.props.session.id}`);
+      this.methods.getMessage('recipient_id=1');
+      this.methods.getListing('owner_id=4');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,8 +40,8 @@ class Profile extends Component {
       nextProps.history.push('/');
     }
 
-    this.products = nextProps.listing;
-    this.messages = nextProps.message;
+    // this.products = nextProps.listing;
+    // this.messages = nextProps.message;
     // re-render with new props
   }
 

@@ -58,6 +58,7 @@ export function isLoggedIn() {
     dispatch(isLoggedInRequest());
     return fetch('/isLoggedIn', { credentials: 'same-origin' })
       .then(response => {
+        console.log('SHOULD I BE LOGGED IN?:', response.ok);
         dispatch(isLoggedInResponse(response.ok));
       });
   };

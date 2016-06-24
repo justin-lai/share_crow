@@ -15,7 +15,7 @@ module.exports = {
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
     // eslint-disable-next-line
-    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address && req.body.aboutMe) {
+    if (req.body.username && req.body.password && req.body.email && req.body.phoneNumber && req.body.address) {
       // generate a new hash based on password and make new entry in table
       db.User.find({
         where: {
@@ -30,7 +30,6 @@ module.exports = {
             email: req.body.email,
             address: req.body.address,
             phone: req.body.phoneNumber,
-            about: req.body.aboutMe,
           }).then((user) => {
             req.session.username = req.body.username;
             res.status(201).send(user.dataValues);
