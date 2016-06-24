@@ -1,14 +1,12 @@
 import React from 'react';
+import Search from './Search';
 
 const Landing = () => (
   <div className="landing">
     <img className="splash-image" alt="splash" src="splash.jpg" />
     <div className="wrap">
       <div className="search">
-        <input type="text" className="searchTerm" placeholder="What are you looking for?" />
-        <button type="submit" className="searchButton">
-          <i className="glyphicon glyphicon-search"></i>
-        </button>
+        <Search />
       </div>
     </div>
   </div>

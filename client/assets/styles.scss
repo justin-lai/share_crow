@@ -289,7 +289,7 @@ input.close-button {
   margin-top: -58%;
 }
 
-.searchTerm {
+#search-input {
   float: left;
   width: 100%;
   border: 3px solid #cd1b4e;
@@ -299,20 +299,22 @@ input.close-button {
   color: #9DBFAF;
 }
 
-.searchTerm:focus{
+#search-input:focus{
   color: #00B4CC;
 }
 
-.searchButton {
+#search-button {
   position: absolute;  
   right: 0%;
-  width: 40px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border: 1px solid #cd1b4e;
   background: #cd1b4e;
   text-align: center;
   color: #fff;
   border-radius: 5px !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
   cursor: pointer;
   font-size: 20px;
 }
@@ -508,6 +510,7 @@ div.profileCard div.follow_count{
 }
 
 #marketplace-search {
+  position: relative;
   width: 600px;
   height: 50px;
   display: inline-block;

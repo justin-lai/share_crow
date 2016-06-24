@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
+import { getCategory } from '../actions/categoryActions.js';
 import NavBar from './NavBar.js';
 import Search from './Search.js';
 import Filters from './Filters.js';
@@ -157,6 +158,7 @@ class Marketplace extends Component {
     ];
 
     this.filterBy = this.filterBy.bind(this);
+    this.searchFor = this.searchFor.bind(this);
   }
 
   componentDidMount() {
@@ -169,12 +171,17 @@ class Marketplace extends Component {
     // this.props.methods.getListing() by category
   }
 
+  searchFor(query) {
+    console.log(query);
+    // this.props.methods.getListing() by query
+  }
+
   render() {
     return (
       <div id="marketplace">
         <NavBar isLoggedIn={Boolean(true)} />
         <Filters categories={this.categories} filterBy={this.filterBy} />
-        <Search />
+        <Search searchFor={this.searchFor} />
         <h3>Items</h3>
         <ProductList products={this.products} />
         <Footer />
@@ -206,6 +213,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteListing: (data) => {
         dispatch(deleteListing(data));
+      },
+      getCategory: () => {
+        dispatch(getCategory());
       },
     },
   };

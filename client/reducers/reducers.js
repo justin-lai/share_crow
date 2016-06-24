@@ -11,6 +11,9 @@ import {
   MESSAGE_PUT_RESPONSE, MESSAGE_DELETE_RESPONSE,
 } from '../actions/messageActions';
 import {
+  CATEGORY_GET_RESPONSE,
+} from '../actions/categoryActions';
+import {
   SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE,
 } from '../actions/sessionActions';
 
@@ -53,6 +56,15 @@ export const message = (state = [], action) => {
     case MESSAGE_PUT_RESPONSE:
       return action.data;
     case MESSAGE_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const category = (state = [], action) => {
+  switch (action.type) {
+    case CATEGORY_GET_RESPONSE:
       return action.data;
     default:
       return state;

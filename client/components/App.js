@@ -4,6 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.j
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
 import { getSession, isLoggedIn } from '../actions/sessionActions.js';
+import { getCategory } from '../actions/categoryActions.js';
 import Landing from './Landing.js';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
@@ -111,13 +112,14 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, session, isAuth } = state;
+  const { user, listing, message, category, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
     session,
+    category,
     isAuth,
   };
 }
@@ -160,6 +162,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteMessage: (data) => {
         dispatch(deleteMessage(data));
+      },
+      getCategory: () => {
+        dispatch(getCategory());
       },
       getSession: (data) => {
         dispatch(getSession(data));

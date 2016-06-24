@@ -5,7 +5,9 @@ class LoadingBar extends Component {
     super(props);
     this.state = {
       text: 'LOADING',
+      dots: 0,
     };
+    this.loading = this.loading.bind(this);
   }
 
   componentDidMount() {
@@ -17,19 +19,14 @@ class LoadingBar extends Component {
   }
 
   loading() {
-    const context = this;
-    let newText;
-    if (this.state.text === 'LOADING') {
-      newText = 'LOADING.';
-    } else if (this.state.text === 'LOADING.') {
-      newText = 'LOADING..';
-    } else if (this.state.text === 'LOADING..') {
-      newText = 'LOADING...';
-    } else {
-      newText = 'LOADING';
+    let i;
+    let newText = 'LOADING';
+    for (i = 0; i < this.state.dots; i++) {
+      newText = `${newText}.`;
     }
 
-    context.setState({
+    this.setState({
+      dots: this.state.dots === 10 ? 0 : this.state.dots + 1,
       text: newText,
     });
   }
