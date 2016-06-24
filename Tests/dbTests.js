@@ -4,12 +4,16 @@ const path = require('path');
 const db = require(path.resolve(__dirname, '../db/dbDesign.js'));
 
 const accInfo = {
+  firstName: 'tom',
+  lastName: 'johnson',
   username: 'tom',
   password: 'password',
   email: 'cathy@cat.hy',
-  phoneNumber: '1234567890',
+  phone: '1234567890',
   address: '123 Corgi Lane',
-  aboutMe: 'When I am not lazy, I like to play board games with my friends.',
+  city: 'san francisco',
+  zipcode: '45678',
+  about: 'When I am not lazy, I like to play board games with my friends.',
 };
 
 const testMessage = {
@@ -69,10 +73,7 @@ test('Login: unsuccessful if parameters are missing or incorrect', assert => {
 test('Account Creation: unsuccessful due to missing password field', assert => {
   const missingAccInfo = {
     username: accInfo.username,
-    email: accInfo.email,
-    phoneNumber: accInfo.phoneNumber,
-    address: accInfo.address,
-    aboutMe: accInfo.aboutMe,
+    phone: accInfo.phone,
   };
   fetch('http://localhost:3000/main/signup',
     {
@@ -82,7 +83,7 @@ test('Account Creation: unsuccessful due to missing password field', assert => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(missingAccInfo),
-    }).then((res) => assert.equal(res.status, 400, 'Account Creation Successful'));
+    }).then((res) => assert.equal(res.status, 400, 'Account Creation Unsuccessful'));
   assert.end();
 });
 
@@ -111,11 +112,11 @@ test('Profile: Update successful given ID and field(s)', assert => {
       },
       body: JSON.stringify({
         id: 1,
-        aboutMe: 'Test Bio',
+        about: 'Test Bio',
       }),
     }).then(() => {
       fetch('http://localhost:3000/main/profile?id=1')
-        .then(queryData => assert.equal(queryData.dataValues.aboutMe, 'Test Bio'));
+        .then(queryData => assert.equal(queryData.dataValues.about, 'Test Bio'));
     });
   assert.end();
 });
@@ -156,14 +157,14 @@ test('Profile: Update unsuccessful if ID sent but missing data fields to change'
 
 // Tests if all messages are returned belonging to an id
 test('Messages: Successfully returns all messages belonging to an id', assert => {
-  fetch('http://localhost:3000/main/message?id=55')
+  fetch('http://localhost:3000/main/message?senderId=55')
     .then(queryData => assert.equal(queryData.status, 200));
   assert.end();
 });
 
 // Tests if messages are not returned given an invalid or no id
 test('Messages: No messages are returned given an invalid or empty id field', assert => {
-  fetch('http://localhost:3000/main/message?id=0')
+  fetch('http://localhost:3000/main/message?senderId=0')
     .then(queryData => assert.equal(queryData.status, 400));
   assert.end();
 });
