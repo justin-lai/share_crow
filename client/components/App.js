@@ -75,6 +75,7 @@ class App extends Component {
     console.log('userData', userData);
     this.methods.getSession(query);
     this.methods.isLoggedIn();
+    this.user = userData;
   }
 
   signup(userData) {
@@ -83,9 +84,15 @@ class App extends Component {
   }
 
   render() {
+    console.log('data in app.js', this.props.session.username);
     return (
       <div id="app">
-        <NavBar isLoggedIn={this.state.isLoggedIn} login={this.login} signup={this.signup} />
+        <NavBar
+          isLoggedIn={this.state.isLoggedIn}
+          userData={this.props.session.username}
+          login={this.login}
+          signup={this.signup}
+        />
         <Landing />
         <ProductCarousel products={this.products} />
         <Footer />
@@ -98,6 +105,7 @@ App.propTypes = {
   user: PropTypes.object.isRequired,
   listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
+  session: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
