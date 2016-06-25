@@ -23,7 +23,6 @@ module.exports = {
     console.log(req.session);
     req.session.cookie.path = '/main/signup';
     console.log('POST //// SIGNUP ROUTE');
-    // eslint-disable-next-line
     if (req.body.username && req.body.password && req.body.email && req.body.phone) {
       // generate a new hash based on password and make new entry in table
       db.User.find({
@@ -111,7 +110,6 @@ module.exports = {
       res.status(400).send({ message: 'id was not provided' });
     }
   },
-
   // expects id with an arbitrary number of parameters to change
   updateProfile: (req, res) => {
     console.log('PUT //// updateProfile Route');
@@ -229,7 +227,6 @@ module.exports = {
       });
     }
   },
-
   // expects sender_id, recipient_id, text
   postMessages: (req, res) => {
     // adds a new message entry in database
@@ -299,7 +296,6 @@ module.exports = {
       }
     });
   },
-
   // expects item, owner_id, max_fee, rental_fee, image
   createListing: (req, res) => {
     // adds a new listing entry in database
@@ -321,7 +317,6 @@ module.exports = {
       res.status(400).send({ message: 'a required parameter was not provided' });
     }
   },
-
   // expects listingId and an arbitrary number of parameters
   changeListing: (req, res) => {
     // modifies entry with 'listing id' in database
@@ -382,7 +377,6 @@ module.exports = {
         });
     }
   },
-
   // expects listing id
   returnedListing: (req, res) => {
     // call change listing to change renting period to 'complete'
@@ -399,6 +393,7 @@ module.exports = {
         })
         .then(queryData => queryData.updateAttributes({
           itemReturned: true,
+          returnedOn: new Date().toISOString(),
         }))
         .then(() => {
           db.Listings.find({
@@ -430,6 +425,7 @@ module.exports = {
       });
     }
   },
+
   // //////////////////////////// USER REVIEW FUNCTIONS ////////////////////////////
   // expects lenderId
   getUserReviews: (req, res) => {
@@ -455,7 +451,6 @@ module.exports = {
       });
     }
   },
-
   // expects reviewerId, lenderId, rating, text
   createUserReview: (req, res) => {
     // add a new review entry in database
@@ -475,7 +470,6 @@ module.exports = {
       .then(queryData => res.status(200).send(queryData));
     }
   },
-
   // expects reviewId
   deleteUserReview: (req, res) => {
     // id associated with the review must match the user id
@@ -496,8 +490,9 @@ module.exports = {
   },
 
   // //////////////////////////// CATEGORY FUNCTIONS ////////////////////////////
-
   getCategory: (req, res) => {
+    console.log('GET //// getCategory route');
+    req.session.cookie.path = '/main/category';
     db.Category.findAll({})
       .then(queryData => {
         const results = [];
@@ -505,4 +500,71 @@ module.exports = {
         res.status(200).send(results);
       });
   },
+
+  // //////////////////////////// PAYMENT FUNCTIONS ////////////////////////////
+  generatePayment: (req, res) => {
+    console.log('POST //// generatePayment route');
+    req.session.cookie.path = '/main/payment';
+    db.Listings.find({
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then(queryData => {
+        const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
+        console.log(rentalFee);
+        db.Payments.create({
+          $Amount: rentalFee,
+          startDate: queryData.rentedOn,
+          itemId: queryData.id,
+          payerId: queryData.renterId,
+          paidId: queryData.ownerId,
+        })
+          .then(newPayment => { console.log(newPayment.dataValues); res.status(200).send({ payment: newPayment.dataValues }); });
+      });
+  },
+  getPaymentInfo: (req, res) => {
+    console.log('GET //// getPaymentInfo route');
+    req.session.cookie.path = '/main/payment';
+    if (!req.query.id) {
+      res.status(400).send({ message: 'payment id not provided' });
+    } else {
+      db.Payments.find({
+        where: {
+          id: req.query.id,
+        },
+      })
+        .then(queryData => {
+          if (queryData) {
+            res.status(200).send(queryData);
+          } else {
+            res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+          }
+        });
+    }
+  },
+  submitPayment: (req, res) => {
+    console.log('DELETE //// submitPayment');
+    req.session.cookie.path = '/main/payment';
+    if (!req.body.id) {
+      res.status(400).send({ message: `payment entry not found at ${req.body.id}` });
+    } else {
+      db.Payments.find({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(queryData => {
+          queryData.updateAttributes({ paymentDate: new Date().toISOString() });
+          db.Listings.find({
+            where: {
+              id: queryData.itemId,
+            },
+          })
+            .then(listingData => listingData.updateAttributes({ rented: false }));
+          res.status(200).send(queryData);
+        });
+    }
+  },
+
 };
