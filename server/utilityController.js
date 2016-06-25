@@ -17,7 +17,7 @@ module.exports = {
     if (req.session.username) {
       res.status(200).send({ status: true, username: req.session.username });
     } else {
-      res.status(400).send({ status: false });
+      res.status(401).send({ status: false });
     }
   },
 

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import router from 'react-router';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
@@ -14,18 +15,15 @@ import LoadingBar from './LoadingBar.js';
 class Profile extends Component {
   constructor(props) {
     super(props);
-
+    console.log(props);
     this.products = [];
     this.inbox = [];
     this.outbox = [];
     this.profile = props.session;
-  }
 
-  componentDidMount() {
-    this.methods = this.props.methods;
+    this.methods = props.methods;
     this.methods.isLoggedIn();
-
-    if (this.props.isAuth.status) {
+    if (props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.session.username}`);
       // this.methods.getUser(`username=${this.props.isAuth.username}`);
       this.methods.getMessage('recipientId=10');
@@ -34,11 +32,15 @@ class Profile extends Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   // componentDidMount() {
   // }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isAuth) {
+    if (!nextProps.isAuth.status) {
       nextProps.history.push('/');
     }
 
@@ -148,5 +150,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-
+Profile.willTransitionTo = () => {
+  console.log('STUFF HAPPENED');
+  router.getCurrentPath();
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

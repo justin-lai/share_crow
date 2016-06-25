@@ -157,8 +157,10 @@ class Marketplace extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     // this.props.methods.getListing();
     this.props.methods.getCategory();
+    this.props.methods.isLoggedIn();
   }
 
   componentWillReceiveProps(nextProps) {
