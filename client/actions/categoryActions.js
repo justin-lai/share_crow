@@ -34,7 +34,6 @@ export function getCategory() {
     return fetch('/main/category', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         dispatch(categoryGetResponse(json));
       });
   };

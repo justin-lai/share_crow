@@ -80,7 +80,7 @@ export const session = (state = {}, action) => {
   }
 };
 
-export const isAuth = (state = false, action) => {
+export const isAuth = (state = { status: false }, action) => {
   switch (action.type) {
     case IS_LOGGED_IN_RESPONSE:
       return action.data;

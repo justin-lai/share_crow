@@ -13,7 +13,7 @@ class Search extends Component {
 
   render() {
     return (
-      <div id="marketplace-search">
+      <div className="search">
         <input type="text" id="search-input" placeholder="What are you looking for?" />
         <button type="submit" onClick={this.handleSubmit} id="search-button">
           <i className="glyphicon glyphicon-search"></i>

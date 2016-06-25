@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const Filters = (props) => (
+const Filters = () => (
   <div className="nav-side-menu">
     <div className="brand">Brand Logo</div>
     <i

@@ -13,10 +13,11 @@ module.exports = {
   },
 
   isLoggedIn: (req, res) => {
+    console.log('loggedin?: ', req.session);
     if (req.session.username) {
-      res.status(200).send(true);
+      res.status(200).send({ status: true, username: req.session.username });
     } else {
-      res.status(400).send(false);
+      res.status(400).send({ status: false });
     }
   },
 

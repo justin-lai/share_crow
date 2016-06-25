@@ -4,7 +4,6 @@ import SignUpModal from './SignUpModal.js';
 
 const NavBar = (props) => {
   let navbar;
-  console.log('this is the username', props.userData);
   if (props.isLoggedIn) {
     navbar = (
       <nav className="navbar navbar-inverse">
@@ -30,7 +29,7 @@ const NavBar = (props) => {
                 <a
                   className="dropdown-toggle"
                   data-toggle="dropdown" href="#"
-                >{props.userData}<span className="caret"></span></a>
+                >{props.username}<span className="caret"></span></a>
                 <ul className="dropdown-menu">
                   <li><a href="#">Messages</a></li>
                   <li><a href="#">Transaction History</a></li>
@@ -74,15 +73,10 @@ const NavBar = (props) => {
                 <a href="#">Start Sharing</a>
               </li>
               <li>
-                <a href="#"><SignUpModal
-                  signup={props.signup}
-                  login={props.login}
-                /></a>
+                <a><SignUpModal signup={props.signup} /></a>
               </li>
               <li>
-                <a href="#">
-                  <LoginModal login={props.login} />
-                </a>
+                <a><LoginModal login={props.login} /></a>
               </li>
             </ul>
           </div>
@@ -97,6 +91,7 @@ const NavBar = (props) => {
 NavBar.propTypes = {
   login: PropTypes.func,
   signup: PropTypes.func,
+  username: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
