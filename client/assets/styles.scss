@@ -63,6 +63,10 @@ body {
   color: #cd1b4e;
 }
 
+#error-message span {
+  color: red;
+}
+
 input.close-button {
   float: right;
   vertical-align: middle;
@@ -595,4 +599,31 @@ h1#loading-message {
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+
+/* Material icons */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }

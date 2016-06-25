@@ -20,6 +20,7 @@ class SignUpModal extends Component {
       state: '',
       zipcode: '',
       phone: '',
+      errorMessage: '',
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -44,15 +45,21 @@ class SignUpModal extends Component {
       email: this.state.email,
       username: this.state.username,
       password: this.state.password,
-      // confirmPassword: this.state.confirmPassword,
       address: this.state.address,
       city: this.state.city,
       state: this.state.state,
       zipcode: this.state.zipcode,
       phone: this.state.phone,
     };
-    this.props.signup(newUserData);
-    this.closeModal();
+    if (newUserData.password === this.state.confirmPassword) {
+      this.props.signup(newUserData);
+      this.closeModal();
+      setTimeout(() => this.props.login(newUserData), 500);
+    } else {
+      this.state.errorMessage = 'Passwords do not match.';
+      this.closeModal();
+      this.openModal();
+    }
 
     console.log('firstName', this.state.firstName);
     console.log('lastName', this.state.lastName);
@@ -65,31 +72,6 @@ class SignUpModal extends Component {
     console.log('state', this.state.state);
     console.log('zipcode', this.state.zipcode);
     console.log('phoneNumber', this.state.phone);
-    // const newUserData = {
-    //   firstName: this.state.firstName,
-    //   lastName: this.state.lastName,
-    //   email: this.state.email,
-    //   username: this.state.username,
-    //   password: this.state.password,
-    //   confirmPassword: this.state.confirmPassword,
-    //   address: this.state.address,
-    //   city: this.state.city,
-    //   state: this.state.state,
-    //   zipcode: this.state.zipcode,
-    //   phoneNumber: this.state.phoneNumber,
-    // };
-    this.closeModal();
-    // fetch('http://localhost:3000/main/signup',
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(newUserData),
-    //   })
-    //     .then((response) => response.json())
-    //       .then((responseData) => console.log(responseData));
   }
 
   handleFirstName(value) { this.setState({ firstName: value.target.value }); }
@@ -158,7 +140,7 @@ class SignUpModal extends Component {
             <input
               value={this.state.password}
               onChange={this.handlePassword}
-              type="text"
+              type="password"
               className="password-input"
             />
           </p>
@@ -167,7 +149,7 @@ class SignUpModal extends Component {
             <input
               value={this.state.confirmPassword}
               onChange={this.handleConfirmPassword}
-              type="text"
+              type="password"
               className="password-input"
             />
           </p>
@@ -265,11 +247,14 @@ class SignUpModal extends Component {
             />
             <p>xxx-xxx-xxxx</p>
           </p>
+          <div id="error-message">
+            <span>{this.state.errorMessage}</span>
+          </div>
           <input
             className="modal-login-button"
             onClick={this.handleSubmit}
             type="submit"
-            value="Login"
+            value="Sign Up"
           />
         </Modal>
       </div>
@@ -279,6 +264,7 @@ class SignUpModal extends Component {
 
 SignUpModal.propTypes = {
   signup: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 export default SignUpModal;
