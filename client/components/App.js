@@ -56,8 +56,9 @@ class App extends Component {
     console.log('app mount: ', this.props);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
+    console.log('nextProps: ', nextProps);
   }
 
   login(userData) {

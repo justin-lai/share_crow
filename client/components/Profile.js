@@ -16,48 +16,55 @@ class Profile extends Component {
     super(props);
 
     this.products = [];
-    this.messages = [];
+    this.inbox = [];
+    this.outbox = [];
     this.profile = props.session;
   }
 
   componentDidMount() {
     this.methods = this.props.methods;
-    // this.methods.isLoggedIn();
+    this.methods.isLoggedIn();
 
-    if (this.props.isAuth) {
+    if (this.props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.session.username}`);
-      this.methods.getUser(`id=${this.props.session.id}`);
-      this.methods.getMessage('recipient_id=1');
+      // this.methods.getUser(`username=${this.props.isAuth.username}`);
+      this.methods.getMessage('recipientId=10');
+      this.methods.getMessage('senderId=10');
       this.methods.getListing('owner_id=4');
-    } else {
-      this.props.history.push('/');
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log('profile next', nextProps);
-    // if (!nextProps.isAuth) {
-      // console.log('GO BACK');
-      // nextProps.history.push('/');
-    // } else {
+  // componentDidMount() {
+  // }
 
-    // }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isAuth) {
+      nextProps.history.push('/');
+    }
+
+    if (nextProps.message[0] && nextProps.message[0].recipient.username === 'joliver3') {
+      this.inbox = nextProps.message;
+    } else if (nextProps.message[0] && nextProps.message[0].sender.username === 'joliver3') {
+      this.outbox = nextProps.message;
+    }
 
     this.products = nextProps.listing;
-    this.messages = nextProps.message;
     // re-render with new props
   }
 
   render() {
     return (
-      !this.props.isAuth ?
+      !this.props.isAuth.status ?
         <LoadingBar /> :
         <div id="profile">
-          <NavBar isLoggedIn={this.props.isAuth} />
+          <NavBar
+            isLoggedIn={this.props.isAuth.status}
+            username={this.props.isAuth.username}
+          />
           <div className="row">
             <div className="col-xs-6 col-md-4">
               <ProfileCard profile={this.profile} />
-              <MessageInbox messages={this.messages} />
+              <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
             <div>
               <h3>My Items</h3>
@@ -76,7 +83,7 @@ Profile.propTypes = {
   listing: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
-  isAuth: PropTypes.bool.isRequired,
+  isAuth: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
 

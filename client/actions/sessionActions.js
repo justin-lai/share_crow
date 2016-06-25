@@ -32,6 +32,7 @@ export function sessionGetResponse(data) {
   };
 }
 export function getSession(query) {
+  console.log('*****', query);
   return dispatch => {
     dispatch(sessionGetRequest());
     return fetch(`/main/login?${query}`, { credentials: 'same-origin' })

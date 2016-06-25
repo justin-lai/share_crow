@@ -193,6 +193,7 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
+        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
@@ -200,6 +201,7 @@ module.exports = {
         }
       });
     } else {
+      console.log('!!!!!!!!!!!!!!!!');
       const searchFilters = {
         recipientId: req.query.recipientId,
       };
@@ -219,6 +221,7 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
+        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
