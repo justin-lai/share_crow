@@ -4,31 +4,33 @@ class LoadingBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: 'LOADING',
+      text: 'you must be logged in',
       dots: 0,
     };
     this.loading = this.loading.bind(this);
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.loading, 500); // Call a method on the mixin
+    // this.interval = setInterval(this.loading, 500); // Call a method on the mixin
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    // clearInterval(this.interval);
   }
 
   loading() {
-    let i;
-    let newText = 'LOADING';
-    for (i = 0; i < this.state.dots; i++) {
-      newText = `${newText}.`;
-    }
+    // let i;
+    // let newText = 'you must be logged in';
+    // const numDots = 5;
 
-    this.setState({
-      dots: this.state.dots === 10 ? 0 : this.state.dots + 1,
-      text: newText,
-    });
+    // for (i = 0; i < this.state.dots; i++) {
+      // newText = `${newText}.`;
+    // }
+
+    // this.setState({
+    //   dots: this.state.dots === numDots ? 0 : this.state.dots + 1,
+    //   text: newText,
+    // });
   }
 
   render() {

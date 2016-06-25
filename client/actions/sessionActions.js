@@ -32,6 +32,7 @@ export function sessionGetResponse(data) {
   };
 }
 export function getSession(query) {
+  console.log('*****', query);
   return dispatch => {
     dispatch(sessionGetRequest());
     return fetch(`/main/login?${query}`, { credentials: 'same-origin' })
@@ -57,9 +58,14 @@ export function isLoggedIn() {
   return dispatch => {
     dispatch(isLoggedInRequest());
     return fetch('/isLoggedIn', { credentials: 'same-origin' })
-      .then(response => {
-        console.log('SHOULD I BE LOGGED IN?:', response.ok);
-        dispatch(isLoggedInResponse(response.ok));
+      .then(response => response.json())
+      .then(json => {
+        console.log('LOGGED IN?', json);
+        dispatch(isLoggedInResponse(json));
       });
+      // .then(response => {
+      //   console.log('SHOULD I BE LOGGED IN?:', response.ok);
+      //   dispatch(isLoggedInResponse(response.ok));
+      // });
   };
 }

@@ -46,24 +46,19 @@ class App extends Component {
       },
     ];
 
-    this.state = {
-      isLoggedIn: false,
-    };
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.methods = this.props.methods;
     this.methods.isLoggedIn();
     console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('app next: ', nextProps);
-    this.setState({
-      isLoggedIn: nextProps.isAuth,
-    });
+    // this.methods.isLoggedIn();
+    console.log('nextProps: ', nextProps);
   }
 
   login(userData) {
@@ -71,8 +66,6 @@ class App extends Component {
     let query = [];
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
-    console.log('this is query', query);
-    console.log('userData', userData);
     this.methods.getSession(query);
     this.methods.isLoggedIn();
     this.user = userData;
@@ -84,12 +77,11 @@ class App extends Component {
   }
 
   render() {
-    console.log('data in app.js', this.props.session.username);
     return (
       <div id="app">
         <NavBar
-          isLoggedIn={this.state.isLoggedIn}
-          userData={this.props.session.username}
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
           login={this.login}
           signup={this.signup}
         />
@@ -106,6 +98,7 @@ App.propTypes = {
   listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   session: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

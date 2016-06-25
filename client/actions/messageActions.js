@@ -42,8 +42,11 @@ export function getMessage(query) {
     dispatch(messageGetRequest());
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(messageGetResponse(json)))
-      .catch(() => dispatch(messageGetResponse([])));
+      .then(json => {
+        console.log('JSON!!!!', json);
+        dispatch(messageGetResponse(json));
+      });
+      // .catch(() => dispatch(messageGetResponse([])));
   };
 }
 

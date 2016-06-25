@@ -9,7 +9,7 @@ const initalState = {
   message: [],
   category: [],
   session: {},
-  isAuth: false,
+  isAuth: { status: false, username: null },
 };
 
 export default function configureStore() {

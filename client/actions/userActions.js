@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { sessionGetResponse, isLoggedIn } from './sessionActions';
 /*
 --------------------------------------
   ACTION TYPES
@@ -71,7 +72,11 @@ export function postUser(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(userPostResponse(json)));
+    .then(json => {
+      dispatch(userPostResponse(json));
+      dispatch(sessionGetResponse(json));
+      dispatch(isLoggedIn());
+    });
   };
 }
 

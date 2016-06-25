@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import router from 'react-router';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
@@ -14,47 +15,58 @@ import LoadingBar from './LoadingBar.js';
 class Profile extends Component {
   constructor(props) {
     super(props);
-
+    console.log(props);
     this.products = [];
-    this.messages = [];
+    this.inbox = [];
+    this.outbox = [];
     this.profile = props.session;
-    console.log(props.isAuth);
-  }
 
-  componentDidMount() {
-    this.methods = this.props.methods;
+    this.methods = props.methods;
     this.methods.isLoggedIn();
-
-    if (this.props.isAuth) {
+    if (props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.session.username}`);
-      this.methods.getUser(`id=${this.props.session.id}`);
-      this.methods.getMessage('recipient_id=1');
+      // this.methods.getUser(`username=${this.props.isAuth.username}`);
+      this.methods.getMessage('recipientId=10');
+      this.methods.getMessage('senderId=10');
       this.methods.getListing('owner_id=4');
     }
   }
 
+  componentDidMount() {
+
+  }
+
+  // componentDidMount() {
+  // }
+
   componentWillReceiveProps(nextProps) {
-    console.log('profile next', nextProps);
-    if (!nextProps.isAuth) {
-      console.log('GO BACK');
+    if (!nextProps.isAuth.status) {
       nextProps.history.push('/');
     }
 
-    // this.products = nextProps.listing;
-    // this.messages = nextProps.message;
+    if (nextProps.message[0] && nextProps.message[0].recipient.username === 'joliver3') {
+      this.inbox = nextProps.message;
+    } else if (nextProps.message[0] && nextProps.message[0].sender.username === 'joliver3') {
+      this.outbox = nextProps.message;
+    }
+
+    this.products = nextProps.listing;
     // re-render with new props
   }
 
   render() {
     return (
-      !this.props.isAuth ?
+      !this.props.isAuth.status ?
         <LoadingBar /> :
         <div id="profile">
-          <NavBar isLoggedIn={this.props.isAuth} />
+          <NavBar
+            isLoggedIn={this.props.isAuth.status}
+            username={this.props.isAuth.username}
+          />
           <div className="row">
             <div className="col-xs-6 col-md-4">
               <ProfileCard profile={this.profile} />
-              <MessageInbox messages={this.messages} />
+              <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
             <div>
               <h3>My Items</h3>
@@ -73,7 +85,8 @@ Profile.propTypes = {
   listing: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
-  isAuth: PropTypes.bool.isRequired,
+  isAuth: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -137,5 +150,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-
+Profile.willTransitionTo = () => {
+  console.log('STUFF HAPPENED');
+  router.getCurrentPath();
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

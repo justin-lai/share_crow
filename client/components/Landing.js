@@ -5,7 +5,7 @@ const Landing = () => (
   <div className="landing">
     <img className="splash-image" alt="splash" src="splash.jpg" />
     <div className="wrap">
-      <div className="search">
+      <div className="landing-search">
         <Search />
       </div>
     </div>

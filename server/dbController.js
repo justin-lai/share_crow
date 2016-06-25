@@ -193,6 +193,7 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
+        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
@@ -200,6 +201,7 @@ module.exports = {
         }
       });
     } else {
+      console.log('!!!!!!!!!!!!!!!!');
       const searchFilters = {
         recipientId: req.query.recipientId,
       };
@@ -219,6 +221,7 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
+        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
@@ -493,7 +496,12 @@ module.exports = {
   getCategory: (req, res) => {
     console.log('GET //// getCategory route');
     req.session.cookie.path = '/main/category';
-    db.Category.findAll({})
+    db.Category.findAll({
+      include: [{
+        model: db.Category,
+        as: 'subCategory',
+      }],
+    })
       .then(queryData => {
         const results = [];
         queryData.forEach(category => results.push(category));

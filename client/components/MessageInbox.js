@@ -8,13 +8,16 @@ class MessageInbox extends Component {
     this.state = {
       show: 'inbox',
     };
-
     this.showBox = this.showBox.bind(this);
-    this.messages = props.messages;
+    this.messages = props.inbox;
   }
 
   componentWillReceiveProps(nextProps) {
-    this.messages = nextProps.messages;
+    if (this.state.show === 'inbox') {
+      this.messages = nextProps.inbox;
+    } else {
+      this.messages = nextProps.outbox;
+    }
   }
 
   showBox(e) {
@@ -23,9 +26,9 @@ class MessageInbox extends Component {
     });
     // need to filter messages between sent and received
     if (e.target.id === 'inbox') {
-      this.messages = this.props.messages;
+      this.messages = this.props.inbox;
     } else {
-      this.messages = [];
+      this.messages = this.props.outbox;
     }
   }
 
@@ -51,7 +54,8 @@ class MessageInbox extends Component {
 }
 
 MessageInbox.propTypes = {
-  messages: PropTypes.array.isRequired,
+  inbox: PropTypes.array.isRequired,
+  outbox: PropTypes.array.isRequired,
 };
 
 export default MessageInbox;
