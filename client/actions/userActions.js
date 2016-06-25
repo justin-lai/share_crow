@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-
 /*
 --------------------------------------
   ACTION TYPES

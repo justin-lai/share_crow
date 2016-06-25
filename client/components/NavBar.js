@@ -66,10 +66,18 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#">Become a Lendee</a>
+                <a href="#/marketplace">
+                All Items
+                </a>
               </li>
               <li>
-                <a href="#"><SignUpModal signup={props.signup} /></a>
+                <a href="#">Start Sharing</a>
+              </li>
+              <li>
+                <a href="#"><SignUpModal
+                  signup={props.signup}
+                  login={props.login}
+                /></a>
               </li>
               <li>
                 <a href="#">

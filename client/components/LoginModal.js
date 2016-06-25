@@ -64,7 +64,7 @@ class LoginModal extends Component {
             <input
               value={this.state.password}
               onChange={this.handlePassword}
-              type="text"
+              type="password"
             />
           </p>
           <input
