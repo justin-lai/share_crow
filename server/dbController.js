@@ -393,6 +393,7 @@ module.exports = {
         })
         .then(queryData => queryData.updateAttributes({
           itemReturned: true,
+          returnedOn: new Date().toISOString(),
         }))
         .then(() => {
           db.Listings.find({
@@ -499,4 +500,71 @@ module.exports = {
         res.status(200).send(results);
       });
   },
+
+  // //////////////////////////// PAYMENT FUNCTIONS ////////////////////////////
+  generatePayment: (req, res) => {
+    console.log('POST //// generatePayment route');
+    req.session.cookie.path = '/main/payment';
+    db.Listings.find({
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then(queryData => {
+        const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
+        console.log(rentalFee);
+        db.Payments.create({
+          $Amount: rentalFee,
+          startDate: queryData.rentedOn,
+          itemId: queryData.id,
+          payerId: queryData.renterId,
+          paidId: queryData.ownerId,
+        })
+          .then(newPayment => { console.log(newPayment.dataValues); res.status(200).send({ payment: newPayment.dataValues }); });
+      });
+  },
+  getPaymentInfo: (req, res) => {
+    console.log('GET //// getPaymentInfo route');
+    req.session.cookie.path = '/main/payment';
+    if (!req.query.id) {
+      res.status(400).send({ message: 'payment id not provided' });
+    } else {
+      db.Payments.find({
+        where: {
+          id: req.query.id,
+        },
+      })
+        .then(queryData => {
+          if (queryData) {
+            res.status(200).send(queryData);
+          } else {
+            res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+          }
+        });
+    }
+  },
+  submitPayment: (req, res) => {
+    console.log('DELETE //// submitPayment');
+    req.session.cookie.path = '/main/payment';
+    if (!req.body.id) {
+      res.status(400).send({ message: `payment entry not found at ${req.body.id}` });
+    } else {
+      db.Payments.find({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(queryData => {
+          queryData.updateAttributes({ paymentDate: new Date().toISOString() });
+          db.Listings.find({
+            where: {
+              id: queryData.itemId,
+            },
+          })
+            .then(listingData => listingData.updateAttributes({ rented: false }));
+          res.status(200).send(queryData);
+        });
+    }
+  },
+
 };

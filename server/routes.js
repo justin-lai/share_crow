@@ -35,6 +35,11 @@ module.exports = app => {
   app.route('/main/category')
     .get(dbController.getCategory);
 
+  app.route('/main/payment')
+    .get(dbController.getPaymentInfo)
+    .post(dbController.generatePayment)
+    .delete(dbController.submitPayment);
+
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
     .get(apiController.distanceMatrix);

@@ -36,6 +36,12 @@ const testListing = {
   rental_fee: 5000,
 };
 
+const listingInfo = {
+  lenderId: 1,
+  rentedOn: 'Fri Jun 24 2016 16:23:46 GMT-0700 (PDT)',
+  returnedOn: 'Mon Jun 27 2016 17:23:46 GMT-0700 (PDT)',
+};
+
 // Tests if account creation is successful given all 6 fields
 test('Account Creation: successful given all 6 fields complete', assert => {
   fetch('http://localhost:3000/main/signup',
@@ -365,6 +371,46 @@ test('Categories: returned when /main/category route is called', assert => {
   fetch('http://localhost:3000/main/category')
     .then((responseData) => responseData.json())
     .then((r) => assert.equal(r.length, 27, 'All categories returned'));
+  assert.end();
+});
+
+// Tests if new payment can be created accurately based on set rent and returned date
+test('Payment: created given set rent and returned date with rental fee', assert => {
+  fetch('http://localhost:3000/main/listing',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(listingInfo),
+    })
+      .then(() => {
+        fetch('http://localhost:3000/main/payment',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: 1 }),
+          })
+            .then(responseData => assert.equal(responseData.status, 200))
+              .then(() => {
+                db.Payments.destroy({
+                  where: {
+                    startDate: '2016-06-24T23:23:46.000Z',
+                  },
+                });
+              });
+      });
+  assert.end();
+});
+
+// Tests if payment data is not returned if a payment id is incorrect or not provided
+test('Payment: not returned if missing paymentId or invalid paymentId', assert => {
+  fetch('http://localhost:3000/main/payment?id=0')
+    .then(responseData => assert.equal(responseData.status, 400));
   assert.end();
 });
 
