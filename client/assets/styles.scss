@@ -55,7 +55,7 @@ body {
 }
 
 .first-name {
-  margin-right: 5px; 
+  margin-right: 5px;
   display: inline-block;
   float: left;
 }
@@ -362,7 +362,7 @@ h1.product-preview-header {
   padding: 5px;
   border-radius: 5px !important;
   border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;  
+  border-bottom-right-radius: 0 !important;
   outline: none;
   color: #9DBFAF;
 }
@@ -372,7 +372,7 @@ h1.product-preview-header {
 }
 
 #search-button {
-  position: absolute;  
+  position: absolute;
   /*right: 0%;*/
   width: 34px;
   height: 34px;
@@ -553,7 +553,7 @@ div.profileCard div.follow_count{
   position: relative;
   padding: 0;
   text-shadow: 0px 1px 0 #a2a2a2;
-  
+
   &-top {
     color: #e7711b;
     padding: 0;
@@ -615,7 +615,7 @@ ul#filters {
   background-color: black;
 }
 
-li.category { 
+li.category {
   /*padding-left: 20px;*/
   padding: 5px 0;
 }
@@ -668,7 +668,6 @@ h1#loading-message {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 
 /* Material icons */
 .material-icons {
@@ -728,7 +727,7 @@ h1#loading-message {
   margin: 0px;
   line-height: 35px;
   cursor: pointer;
-  /*    
+  /*
     .collapsed{
        .arrow:before{
                  font-family: FontAwesome;

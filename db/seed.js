@@ -35,9 +35,17 @@ db.sequelize
       password: 'jalsjo3kkqfo',
       username: 'Justin',
       address: '66611 S Street',
+      city: 'San Francisco',
+      state: 'California',
+      zipcode: '94539',
       email: 'Justin@gmail.com',
       phone: '555-567-0099',
       about: 'Everything about me!',
+      userImage: 5,
+      verification: 1234,
+      verified: true,
+      firstName: 'Seeelle',
+      lastName: 'Lion',
     }).then((user) => {
       //eslint-disable-next-line
       console.log('Completed: ', user.dataValues);
@@ -46,9 +54,17 @@ db.sequelize
       password: 'kp409fjw48hgj5',
       username: 'Cathy',
       address: '9494 Tell Ave',
+      city: 'San Francisco',
+      state: 'California',
+      zipcode: '94539',
       email: 'Cathy@gmail.com',
       phone: '555-001-8585',
       about: 'All about us!',
+      userImage: 8,
+      verification: 1234,
+      verified: true,
+      firstName: 'Tello',
+      lastName: 'Bean',
     }).then((user) => {
       //eslint-disable-next-line
       console.log('Completed: ', user.dataValues);
@@ -57,9 +73,17 @@ db.sequelize
       password: 'k94993010kkf',
       username: 'Ben',
       address: '009 Tails Road',
+      city: 'San Francisco',
+      state: 'California',
+      zipcode: '94539',
       email: 'Ben1@gmail.com',
       phone: '555-667-0862',
       about: 'All me!',
+      userImage: 2,
+      verification: 1234,
+      verified: true,
+      firstName: 'Sam',
+      lastName: 'Tranpppse',
     }).then((user) => {
       //eslint-disable-next-line
       console.log('Completed: ', user.dataValues);
