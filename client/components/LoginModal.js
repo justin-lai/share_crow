@@ -68,7 +68,7 @@ class LoginModal extends Component {
             />
           </p>
           <input
-            className="modal-login-button"
+            className="modal-login-button button"
             type="submit"
             value="Login"
             onClick={this.handleSubmit}
