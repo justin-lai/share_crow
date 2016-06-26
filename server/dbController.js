@@ -260,7 +260,7 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
-      category: req.query.category || null,
+      categoryName: req.query.category || null,
     };
 
     if (!req.query.name) {
@@ -276,7 +276,7 @@ module.exports = {
       delete searchFilters.rentalFee;
     }
     if (!req.query.category) {
-      delete searchFilters.category;
+      delete searchFilters.categoryName;
     }
     // if parameters provided, only return a filtered list
     db.Listings.findAll({
@@ -288,6 +288,9 @@ module.exports = {
       {
         model: db.User,
         as: 'renter',
+      },
+      {
+        model: db.Category,
       }],
     }).then((items) => {
       const results = [];

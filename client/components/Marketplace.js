@@ -65,7 +65,7 @@ class Marketplace extends Component {
 
   filterBy(category) {
     console.log('cat: ', category);
-    // this.props.methods.getListing() by category
+    this.props.methods.getListing(`category=${category}`); // by category
   }
 
   searchFor(query) {
