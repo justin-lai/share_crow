@@ -1,7 +1,7 @@
 config.js
 # Node Modules
 /node_modules
-
+npm-debug.log
 # Bower Components 
 /bower_components
 

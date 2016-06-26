@@ -241,6 +241,7 @@ module.exports = {
         subject: req.body.subject,
         text: req.body.text,
         senderId: req.body.sender_id,
+        subject: req.body.subject || 'No Subject',
         recipientId: req.body.recipient_id,
       })
       .then((queryData) => res.status(201).send(queryData));
