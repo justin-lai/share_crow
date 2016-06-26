@@ -7,6 +7,7 @@ import { getCategory } from '../actions/categoryActions.js';
 import NavBar from './NavBar.js';
 import Search from './Search.js';
 import Filters from './Filters.js';
+import ImageUploader from './importImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 // import Loading from './LoadingBar.js';
@@ -32,6 +33,7 @@ class Marketplace extends Component {
   }
 
   componentDidMount() {
+    //eslint-disable-next-line
     console.log(this.props);
     this.methods = this.props.methods;
     // fetch('/main/listing')
@@ -52,7 +54,7 @@ class Marketplace extends Component {
       listings: nextProps.listing,
       filteredListings: nextProps.listing,
     });
-
+    //eslint-disable-next-line
     console.log('market next: ', nextProps);
   }
 
@@ -105,13 +107,13 @@ class Marketplace extends Component {
     const newListings = this.state.listings.filter(listing =>
       listing.name.toUpperCase().includes(query.toUpperCase())
     );
-
     this.setState({
       filteredListings: newListings,
     });
   }
 
   login(userData) {
+    //eslint-disable-next-line
     console.log(`logging in as ${userData.username}`);
     let query = [];
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
@@ -122,6 +124,7 @@ class Marketplace extends Component {
   }
 
   signup(userData) {
+    //eslint-disable-next-line
     console.log('signing up as', userData);
     this.methods.postUser(userData);
   }
@@ -143,6 +146,7 @@ class Marketplace extends Component {
           <Search searchFor={this.searchFor} />
         </div>
         <div id="marketplace-items-container">
+          <ImageUploader />
           <h3>Items</h3>
           <ProductList products={this.state.filteredListings} />
         </div>
@@ -215,4 +219,3 @@ Marketplace.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Marketplace);
-

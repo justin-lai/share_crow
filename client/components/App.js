@@ -53,15 +53,18 @@ class App extends Component {
   }
 
   componentWillMount() {
+    //eslint-disable-next-line
     console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
+    //eslint-disable-next-line
     console.log('app nextProps: ', nextProps);
   }
 
   login(userData) {
+    //eslint-disable-next-line
     console.log(`logging in as ${userData.username}`);
     let query = [];
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
@@ -72,6 +75,7 @@ class App extends Component {
   }
 
   signup(userData) {
+    //eslint-disable-next-line
     console.log('signing up as', userData);
     this.methods.postUser(userData);
   }
