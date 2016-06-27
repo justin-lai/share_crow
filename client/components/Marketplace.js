@@ -15,7 +15,146 @@ const fetch = require('isomorphic-fetch');
 class Marketplace extends Component {
   constructor(props) {
     super(props);
+<<<<<<< e00fe18fd6745ddcf582eeaa057be9bacfd08d39
     this.products = [];
+=======
+
+    this.listings = [  // change this later with listings from database
+      {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
+      },
+      {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
+      }, {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
+      }, {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
+      }, {
+        name: 'Tent',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
+        ownerId: 1,
+        rentalFee: 25,
+        User: { username: 'Cathy' },
+      },
+      {
+        name: 'Grill',
+        price: '$20/day',
+        owner: 'caathylee',
+        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
+        ownerId: 2,
+        rentalFee: 30,
+        User: { username: 'Justin' },
+      },
+      {
+        name: 'Fishing Rod',
+        price: '$10/day',
+        owner: 'caathylee',
+        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
+        ownerId: 3,
+        rentalFee: 15,
+        User: { username: 'Arthur' },
+      },
+    ];
+
+>>>>>>> category search filtering in-progress
     this.categories = [];
     this.state = {
       loading: true,
@@ -42,31 +181,13 @@ class Marketplace extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category;
-    // this.categories = {};
-    // const context = this;
-    // nextProps.category
-    //   .filter(category => category.CategoryId === null)
-    //   .forEach(category => {
-    //     const name = category.categoryName;
-    //     const id = category.id;
-    //     context.categories[id] = { name, children: [] };
-    //   });
-    // nextProps.category
-    //   .filter(category => category.CategoryId !== null)
-    //   .forEach(category => {
-    //     const name = category.categoryName;
-    //     const id = category.id;
-    //     const parentId = category.CategoryId;
-    //     context.categories[parentId].children.push({ name, id });
-    //   });
+    console.log('market next: ', nextProps);
 
     // console.log(this.categories);
   }
 
-  filterBy(category) {
-    console.log('cat: ', category);
-    this.props.methods.getListing(`category=${category}`); // by category
-  }
+  // filterBy(category) {
+  // }
 
   searchFor(query) {
     console.log(query);
@@ -106,7 +227,7 @@ class Marketplace extends Component {
         </div>
         <div id="marketplace-items-container">
           <h3>Items</h3>
-          <ProductList products={this.products} />
+          <ProductList products={this.listings} />
         </div>
         <Footer />
       </div>

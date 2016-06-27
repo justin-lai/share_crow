@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "aws-sdk": "^2.4.2",
+    "babel-cli": "^6.10.1",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.1",

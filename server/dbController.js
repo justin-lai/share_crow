@@ -505,6 +505,9 @@ module.exports = {
       include: [{
         model: db.Category,
         as: 'subCategory',
+      },
+      {
+        model: db.Listings,
       }],
     })
       .then(queryData => {
