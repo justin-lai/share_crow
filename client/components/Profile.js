@@ -20,24 +20,21 @@ class Profile extends Component {
     this.inbox = [];
     this.outbox = [];
     this.profile = props.session;
-
+    this.id = this.profile.id;
     this.methods = props.methods;
     this.methods.isLoggedIn();
-    if (props.isAuth.status) {
+    // if (props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.session.username}`);
       // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      this.methods.getMessage('recipientId=10');
-      this.methods.getMessage('senderId=10');
-      this.methods.getListing('owner_id=4');
-    }
+    //   this.methods.getMessage('recipientId=10');
+    //   this.methods.getMessage('senderId=10');
+    //   this.methods.getListing('owner_id=4');
+    // }
   }
 
   componentDidMount() {
-
+    console.log(this.props, '((');
   }
-
-  // componentDidMount() {
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isAuth.status) {

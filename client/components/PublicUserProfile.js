@@ -9,7 +9,6 @@ import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
-import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
 class PublicUserProfile extends Component {
@@ -60,13 +59,11 @@ class PublicUserProfile extends Component {
         <LoadingBar /> :
         <div id="profile">
           <NavBar
-            isLoggedIn={this.props.isAuth.status}
             username={this.props.isAuth.username}
           />
           <div className="row">
             <div className="col-xs-6 col-md-4">
               <ProfileCard profile={this.profile} />
-              <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
             <div>
               <h3>My Items</h3>
