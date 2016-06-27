@@ -265,4 +265,3 @@ SignUpModal.propTypes = {
 };
 
 export default SignUpModal;
-
