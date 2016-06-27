@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-
+/* eslint-disable react/prop-types */
 class LoadingBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: 'you must be logged in',
+      text: props.message || 'you must be logged in',
       dots: 0,
     };
     this.loading = this.loading.bind(this);

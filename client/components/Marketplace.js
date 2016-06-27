@@ -9,6 +9,7 @@ import Search from './Search.js';
 import Filters from './Filters.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
+import Loading from './LoadingBar.js';
 const fetch = require('isomorphic-fetch');
 
 class Marketplace extends Component {
@@ -16,7 +17,9 @@ class Marketplace extends Component {
     super(props);
     this.products = [];
     this.categories = [];
-
+    this.state = {
+      loading: true,
+    };
     this.filterBy = this.filterBy.bind(this);
     this.searchFor = this.searchFor.bind(this);
     this.login = this.login.bind(this);
@@ -30,7 +33,8 @@ class Marketplace extends Component {
         .then(responseData => {
           this.products = responseData;
           console.log('product list: ', this.products);
-        });
+        })
+          .then(() => this.setState({ loading: false }));
     // this.props.methods.getListing();
     this.props.methods.getCategory();
     this.props.methods.isLoggedIn();
@@ -85,6 +89,9 @@ class Marketplace extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <Loading message={'Loading Marketplace'} />;
+    }
     return (
       <div id="marketplace">
         <NavBar
@@ -103,7 +110,6 @@ class Marketplace extends Component {
         </div>
         <Footer />
       </div>
-
     );
   }
 }
