@@ -10,14 +10,12 @@ import Filters from './Filters.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
-const fetch = require('isomorphic-fetch');
+// const fetch = require('isomorphic-fetch');
 
 class Marketplace extends Component {
   constructor(props) {
     super(props);
-<<<<<<< e00fe18fd6745ddcf582eeaa057be9bacfd08d39
     this.products = [];
-=======
 
     this.listings = [  // change this later with listings from database
       {
@@ -154,11 +152,10 @@ class Marketplace extends Component {
       },
     ];
 
->>>>>>> category search filtering in-progress
     this.categories = [];
-    this.state = {
-      loading: true,
-    };
+    // this.state = {
+    //   loading: true,
+    // };
     this.filterBy = this.filterBy.bind(this);
     this.searchFor = this.searchFor.bind(this);
     this.login = this.login.bind(this);
@@ -167,14 +164,14 @@ class Marketplace extends Component {
 
   componentDidMount() {
     console.log(this.props);
-    fetch('/main/listing')
-      .then(res => res.json())
-        .then(responseData => {
-          this.products = responseData;
-          console.log('product list: ', this.products);
-        })
-          .then(() => this.setState({ loading: false }));
-    // this.props.methods.getListing();
+    // fetch('/main/listing')
+    //   .then(res => res.json())
+    //     .then(responseData => {
+    //       this.products = responseData;
+    //       console.log('product list: ', this.products);
+    //     })
+    //       .then(() => this.setState({ loading: false }));
+    this.props.methods.getListing();
     this.props.methods.getCategory();
     this.props.methods.isLoggedIn();
   }
@@ -186,8 +183,8 @@ class Marketplace extends Component {
     // console.log(this.categories);
   }
 
-  // filterBy(category) {
-  // }
+  filterBy() {
+  }
 
   searchFor(query) {
     console.log(query);
@@ -210,9 +207,9 @@ class Marketplace extends Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return <Loading message={'Loading Marketplace'} />;
-    }
+    // if (this.state.loading) {
+    //   return <Loading message={'Loading Marketplace'} />;
+    // }
     return (
       <div id="marketplace">
         <NavBar

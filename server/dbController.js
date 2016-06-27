@@ -13,7 +13,6 @@ const verificationCode = () => {
   }
   return text;
 };
-//test
 module.exports = {
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
