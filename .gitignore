@@ -1,4 +1,6 @@
 config.js
+dump.rdb 
+
 # Node Modules
 /node_modules
 npm-debug.log

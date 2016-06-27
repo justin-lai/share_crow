@@ -617,7 +617,6 @@ ul#filters {
 
 li.category { 
   /*padding-left: 20px;*/
-  text-align: center;
   padding: 5px 0;
 }
 /*li.category:first-of-type {
@@ -710,6 +709,7 @@ h1#loading-message {
   width: 300px;
   height: 100%;
   color: #e1ffff;
+  z-index: 1000;
 }
 .nav-side-menu .brand {
   background-color: #23282e;

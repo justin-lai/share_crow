@@ -1,78 +1,88 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 
-const Filters = () => (
-  <div className="nav-side-menu">
-    <div className="brand">Brand Logo</div>
-    <i
-      className="fa fa-bars fa-2x toggle-btn"
-      data-toggle="collapse"
-      data-target="#menu-content"
-    >
-    </i>
+class Filters extends Component {
+  constructor(props) {
+    super(props);
 
-    <div className="menu-list">
+    this.state = {
+      activeCategory: '',
+      activeSubcategory: '',
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  //
+  handleClick(e) {
+    this.setState({
+      activeCategory: e.target.id,
+    });
+    // document.getElementById(e.target.id).className += ' active';
+    // e.target.className += ' active';
+    // console.log(e.target);
+    this.props.filterBy(e.target.id);
+  }
 
-      <ul id="menu-content" className="menu-content collapse out">
-        <li>
-          <a href="#">
-            <i className="fa fa-dashboard fa-lg"></i> Dashboard
-          </a>
-        </li>
+  render() {
+    return (
+      <div className="nav-side-menu">
+        <div className="brand">Search By Category</div>
+        <i
+          className="fa fa-bars fa-2x toggle-btn"
+          data-toggle="collapse"
+          data-target="#menu-content"
+        >
+        </i>
 
-        <li data-toggle="collapse" data-target="#products" className="collapsed active">
-          <a href="#">
-            <i className="fa fa-gift fa-lg"></i> UI Elements <span className="arrow"></span>
-          </a>
-        </li>
-        <ul className="sub-menu collapse" id="products">
-          <li className="active"><a href="#">CSS3 Animation</a></li>
-          <li><a href="#">General</a></li>
-          <li><a href="#">Buttons</a></li>
-          <li><a href="#">Tabs & Accordions</a></li>
-          <li><a href="#">Typography</a></li>
-          <li><a href="#">FontAwesome</a></li>
-          <li><a href="#">Slider</a></li>
-          <li><a href="#">Panels</a></li>
-          <li><a href="#">Widgets</a></li>
-          <li><a href="#">Bootstrap Model</a></li>
-        </ul>
+        <div className="menu-list">
+          <ul id="menu-content" className="menu-content collapse out">
 
-        <li data-toggle="collapse" data-target="#service" className="collapsed">
-          <a href="#">
-            <i className="fa fa-globe fa-lg"></i> Services <span className="arrow"></span>
-          </a>
-        </li>
-        <ul className="sub-menu collapse" id="service">
-          <li>New Service 1</li>
-          <li>New Service 2</li>
-          <li>New Service 3</li>
-        </ul>
+            {
+              this.props.categories.map(category => {
+              // only list parent categories
+                if (category.CategoryId === null) {
+                  return (
+                    <div>
+                      <li
+                        id={category.categoryName}
+                        data-toggle="collapse"
+                        data-target={`#${category.categoryName}Subs`}
+                        className="category collapsed"
+                        className={this.state.activeCategory
+                          === category.categoryName ? 'active' : ''}
+                        onClick={this.handleClick}
+                      >
+                        {`  ${category.categoryName}`}
+                        <span className="arrow"></span>
+                      </li>
+                      <ul
+                        className="category sub-menu collapse"
+                        id={`${category.categoryName}Subs`}
+                      >
+                        {
+                          category.subCategory.map(subcategory => (
+                            <li
+                              id={subcategory.categoryName}
+                              onClick={this.handleClick}
+                              className="category"
+                              className={this.state.activeCategory
+                                  === subcategory.categoryName ? 'active' : ''}
 
-        <li data-toggle="collapse" data-target="#new" className="collapsed">
-          <a href="#"><i className="fa fa-car fa-lg"></i> New <span className="arrow"></span></a>
-        </li>
-        <ul className="sub-menu collapse" id="new">
-          <li>New New 1</li>
-          <li>New New 2</li>
-          <li>New New 3</li>
-        </ul>
-
-
-        <li>
-          <a href="#">
-            <i className="fa fa-user fa-lg"></i> Profile
-          </a>
-        </li>
-
-        <li>
-          <a href="#">
-            <i className="fa fa-users fa-lg"></i> Users
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
+                            >
+                              {subcategory.categoryName}
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  );
+                }
+                return null;
+              })
+            }
+          </ul>
+        </div>
+      </div>
+    );
+  }
 //   <ul id="filters">
 //     <div id="filters-header">Browse by Category</div>
 //     {
@@ -89,7 +99,8 @@ const Filters = () => (
 //       ))
 //     }
 //   </ul>
-);
+                    // <li className="active"><a href="#">CSS3 Animation</a></li>
+}
 
 Filters.propTypes = {
   categories: PropTypes.array.isRequired,
