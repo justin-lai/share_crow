@@ -238,9 +238,9 @@ module.exports = {
     console.log('this is the req.body', req.body);
     if (req.body.subject && req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
-        subject: req.body.subject,
         text: req.body.text,
         senderId: req.body.sender_id,
+        subject: req.body.subject || 'No Subject',
         recipientId: req.body.recipient_id,
       })
       .then((queryData) => res.status(201).send(queryData));

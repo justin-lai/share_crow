@@ -19,6 +19,7 @@ const accInfo = {
 const testMessage = {
   sender_id: 10,
   recipient_id: 15,
+  subject: 'interested in renting something',
   text: 'when can I pick it up?',
 };
 
