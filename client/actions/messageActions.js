@@ -64,6 +64,8 @@ export function messagePostResponse(data) {
   };
 }
 export function postMessage(data) {
+  console.log('in the postMessage function');
+  console.log('this is data', data);
   return dispatch => {
     dispatch(messagePostRequest());
     return fetch('/main/message', {

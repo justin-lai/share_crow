@@ -9,145 +9,12 @@ import Search from './Search.js';
 import Filters from './Filters.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
+const fetch = require('isomorphic-fetch');
 
 class Marketplace extends Component {
   constructor(props) {
     super(props);
-
-    this.products = [  // change this later with listings from database
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        ownerId: 1,
-        rentalFee: 25,
-        User: { username: 'Cathy' },
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        ownerId: 2,
-        rentalFee: 30,
-        User: { username: 'Justin' },
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        ownerId: 3,
-        rentalFee: 15,
-        User: { username: 'Arthur' },
-      },
-      {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        ownerId: 1,
-        rentalFee: 25,
-        User: { username: 'Cathy' },
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        ownerId: 2,
-        rentalFee: 30,
-        User: { username: 'Justin' },
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        ownerId: 3,
-        rentalFee: 15,
-        User: { username: 'Arthur' },
-      }, {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        ownerId: 1,
-        rentalFee: 25,
-        User: { username: 'Cathy' },
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        ownerId: 2,
-        rentalFee: 30,
-        User: { username: 'Justin' },
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        ownerId: 3,
-        rentalFee: 15,
-        User: { username: 'Arthur' },
-      }, {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        ownerId: 1,
-        rentalFee: 25,
-        User: { username: 'Cathy' },
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        ownerId: 2,
-        rentalFee: 30,
-        User: { username: 'Justin' },
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        ownerId: 3,
-        rentalFee: 15,
-        User: { username: 'Arthur' },
-      }, {
-        name: 'Tent',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://ecx.images-amazon.com/images/I/81LmkUY3lLL._SL1500_.jpg',
-        ownerId: 1,
-        rentalFee: 25,
-        User: { username: 'Cathy' },
-      },
-      {
-        name: 'Grill',
-        price: '$20/day',
-        owner: 'caathylee',
-        image: 'http://cdn.charbroil.com/media/catalog/product/cache/1/image/1000x1000/9df78eab33525d08d6e5fb8d27136e95/1/2/12301672_charcoal-grill-800_001.png',
-        ownerId: 2,
-        rentalFee: 30,
-        User: { username: 'Justin' },
-      },
-      {
-        name: 'Fishing Rod',
-        price: '$10/day',
-        owner: 'caathylee',
-        image: 'http://www.clipartkid.com/images/52/use-these-free-images-for-your-websites-art-projects-reports-and-ECSktZ-clipart.jpg',
-        ownerId: 3,
-        rentalFee: 15,
-        User: { username: 'Arthur' },
-      },
-    ];
+    this.products = [];
     this.categories = [];
 
     this.filterBy = this.filterBy.bind(this);
@@ -158,6 +25,12 @@ class Marketplace extends Component {
 
   componentDidMount() {
     console.log(this.props);
+    fetch('/main/listing')
+      .then(res => res.json())
+        .then(responseData => {
+          this.products = responseData;
+          console.log('product list: ', this.products);
+        });
     // this.props.methods.getListing();
     this.props.methods.getCategory();
     this.props.methods.isLoggedIn();

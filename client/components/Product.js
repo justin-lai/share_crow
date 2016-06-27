@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../actions/userActions.js';
+import { postMessage } from '../actions/messageActions.js';
 // import ProductModal from './ProductModal.js';
 import Modal from 'react-modal';
 
@@ -82,7 +83,7 @@ class Product extends Component {
             className="center"
             href="/"
           >
-            caathylee
+            {product.owner.username}
           </a>
           <div id="product-preview-buttons">
             <input

@@ -235,8 +235,10 @@ module.exports = {
     // adds a new message entry in database
     console.log('POST //// postMessages');
     req.session.cookie.path = '/main/message';
-    if (req.body.text && req.body.sender_id && req.body.recipient_id) {
+    console.log('this is the req.body', req.body);
+    if (req.body.subject && req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
+        subject: req.body.subject,
         text: req.body.text,
         senderId: req.body.sender_id,
         recipientId: req.body.recipient_id,
