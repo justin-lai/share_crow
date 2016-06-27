@@ -25,6 +25,14 @@ const NavBar = (props) => {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
+              <li>
+                <a href="#/marketplace">
+                Marketplace
+                </a>
+              </li>
+              <li>
+                <a href="#">Start Sharing</a>
+              </li>
               <li className="dropdown">
                 <a
                   className="dropdown-toggle"
@@ -66,7 +74,7 @@ const NavBar = (props) => {
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a href="#/marketplace">
-                All Items
+                Marketplace
                 </a>
               </li>
               <li>
