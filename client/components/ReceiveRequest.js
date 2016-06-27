@@ -9,7 +9,7 @@ import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
-import MessageInbox from './MessageInbox.js';
+// import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
 class ReceiveRequest extends Component {
@@ -55,7 +55,7 @@ class ReceiveRequest extends Component {
     return (
       !this.props.isAuth.status ?
         <LoadingBar /> :
-        <div id="profile">
+        <div id="receive-request-message">
           <NavBar
             isLoggedIn={this.props.isAuth.status}
             username={this.props.isAuth.username}
@@ -63,7 +63,6 @@ class ReceiveRequest extends Component {
           <div className="row">
             <div className="col-xs-6 col-md-4">
               <ProfileCard profile={this.profile} />
-              <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
             <div>
               <h3>My Items</h3>

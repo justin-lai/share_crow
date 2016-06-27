@@ -1,5 +1,6 @@
 import React from 'react';
 import Search from './Search';
+import StartSharingButton from './StartSharingButton';
 
 const Landing = () => (
   <div className="landing">
@@ -7,6 +8,7 @@ const Landing = () => (
     <div className="wrap">
       <div className="landing-search">
         <Search />
+        <StartSharingButton />
       </div>
     </div>
   </div>
@@ -14,8 +16,3 @@ const Landing = () => (
 
 export default Landing;
 
-    // <form className="landing-form">
-    //   <input className="landing-input" type="text" placeholder="San Francisco, CA" />
-    //   <input className="landing-input" type="text" placeholder="Rental Period" />
-    //   <input className="landing-button" type="submit" value="Search" />
-    // </form>
