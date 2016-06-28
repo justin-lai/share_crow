@@ -10,7 +10,7 @@ import Filters from './Filters.js';
 import ImageUploader from './importImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
-// import Loading from './LoadingBar.js';
+import Loading from './LoadingBar.js';
 // const fetch = require('isomorphic-fetch');
 
 require('../assets/styles/app.scss');
@@ -130,9 +130,9 @@ class Marketplace extends Component {
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return <Loading message={'Loading Marketplace'} />;
-    // }
+    if (this.state.loading) {
+      return <Loading message={'Loading Marketplace'} />;
+    }
     return (
       <div id="marketplace">
         <NavBar

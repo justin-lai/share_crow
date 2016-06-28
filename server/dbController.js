@@ -32,6 +32,21 @@ const getFileName = () => {
 
 module.exports = {
 
+  getImage: (req, res) => {
+    console.log('GET //// getImage route');
+    req.session.cookie.path = 'main/imageUpload';
+    if (!req.query.id || !req.query.id <= 0) {
+      res.status(400).send({ message: 'invalid or non-included image id' });
+    } else {
+      db.Images.find({
+        where: {
+          id: req.query.id,
+        },
+      })
+        .then(responseData => res.status(200).send(responseData));
+    }
+  },
+
   imageUpload: (req, res) => {
     console.log('POST //// imageUpload route');
     // console.log('ACCESSKEY!!!!!!!!!!!!!!!! ', AWS.config.accessKeyId);
