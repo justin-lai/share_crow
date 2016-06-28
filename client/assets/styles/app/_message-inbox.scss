@@ -1,0 +1,114 @@
+#messagebox {
+  /*position: absolute;*/
+  /*display: inline-block;*/
+  /*float: left;*/
+  width: 400px;
+  border: 2px solid;
+  background: white;
+  vertical-align: top;
+  margin-left: 20px;
+}
+#messagebox-header {
+  border-bottom: 1px solid black;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  color: #555;
+  font-size: 16px;
+  background-color: black;
+}
+#inbox,
+#outbox {
+  text-align: center;
+  height: 100%;
+  margin-bottom: 20px;
+  /*background-color: white;*/
+  /*border: 1px solid #aaa;*/
+  border-top-left-radius: 50px;
+}
+#inbox {
+  border-right: 1px solid white;
+}
+#inbox:hover,
+#outbox:hover {
+  cursor: pointer;
+}
+#inbox.current,
+#outbox.current {
+  color: #fbbe4a;
+
+}
+.message {
+  padding: 5px 20px;
+  border-bottom: solid 1px #aaa;
+}
+.message:hover {
+  background: #ccc;
+  cursor: pointer;
+}
+.message .subject {
+  padding-top: 10px;
+  line-height: 0;
+  font-weight: 900px;
+  font-size: 16px;
+  color: #cd1b4e;
+}
+.message .sender {
+  font-size: 12px;
+  color: gray;
+}
+.message-text {
+  /*line-height: 25%*/
+}
+
+/*.inbox {*/
+  /*width: 50%;*/
+/*}*/
+.search {
+  width: 500px;
+  position: relative;
+  margin-top: -80%;
+  display: inline-block;
+}
+
+#search-input {
+  /*float: left;*/
+  height: 34px;
+  width: 500px;
+  border: 3px solid #cd1b4e;
+  padding: 5px;
+  border-radius: 5px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;  
+  outline: none;
+  color: #9DBFAF;
+}
+
+#search-input:focus{
+  color: #00B4CC;
+}
+
+#search-button {
+  position: absolute;  
+  /*right: 0%;*/
+  width: 34px;
+  height: 34px;
+  border: 1px solid #cd1b4e;
+  background: #cd1b4e;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

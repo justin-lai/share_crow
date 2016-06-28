@@ -1,0 +1,60 @@
+
+.landing-form {
+  text-align: center;
+  margin-top: -35%;
+  margin-bottom: 33%;
+  z-index: 1000;
+}
+
+.first-name {
+  margin-right: 5px; 
+  display: inline-block;
+  float: left;
+}
+
+input.close-button {
+  float: right;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.landing-input {
+  height: 56px;
+  text-align: center;
+}
+
+.password-input {
+  width: 313px;
+}
+
+.username-input {
+  width: 190px;
+}
+
+.email-input {
+  width: 313px;
+}
+
+.address-input {
+  width: 313px;
+}
+
+.city-input {
+  width: 200px;
+  display: inline-block;
+  float: left;
+}
+
+.state-input {
+  width: 150px;
+  display: inline-block;
+  float: left;
+}
+
+.zipcode-input {
+  width:150px;
+}
+
+.phone-input {
+  width: 313px;
+}
