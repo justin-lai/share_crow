@@ -30,9 +30,6 @@ const NavBar = (props) => {
                 Marketplace
                 </a>
               </li>
-              <li>
-                <a href="#">Start Sharing</a>
-              </li>
               <li className="dropdown">
                 <a
                   className="dropdown-toggle"
@@ -76,9 +73,6 @@ const NavBar = (props) => {
                 <a href="#/marketplace">
                 Marketplace
                 </a>
-              </li>
-              <li>
-                <a href="#">Start Sharing</a>
               </li>
               <li>
                 <a><SignUpModal signup={props.signup} /></a>

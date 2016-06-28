@@ -35,7 +35,6 @@ class Product extends Component {
       text: 'bigboyben wants to rent your stuff',
       sender_id: 1,
       recipient_id: 2,
-
     });
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();

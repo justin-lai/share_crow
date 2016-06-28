@@ -9,9 +9,10 @@ import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
+// import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
-class PublicUserProfile extends Component {
+class ReceiveRequest extends Component {
   constructor(props) {
     super(props);
     console.log(props);
@@ -19,24 +20,21 @@ class PublicUserProfile extends Component {
     this.inbox = [];
     this.outbox = [];
     this.profile = props.session;
-
+    this.id = this.profile.id;
     this.methods = props.methods;
     this.methods.isLoggedIn();
-    if (props.isAuth.status) {
+    // if (props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.session.username}`);
       // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      this.methods.getMessage('recipientId=10');
-      this.methods.getMessage('senderId=10');
-      this.methods.getListing('owner_id=4');
-    }
+    //   this.methods.getMessage('recipientId=10');
+    //   this.methods.getMessage('senderId=10');
+    //   this.methods.getListing('owner_id=4');
+    // }
   }
 
   componentDidMount() {
-
+    console.log(this.props, '((');
   }
-
-  // componentDidMount() {
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isAuth.status) {
@@ -57,8 +55,9 @@ class PublicUserProfile extends Component {
     return (
       !this.props.isAuth.status ?
         <LoadingBar /> :
-        <div id="profile">
+        <div id="receive-request-message">
           <NavBar
+            isLoggedIn={this.props.isAuth.status}
             username={this.props.isAuth.username}
           />
           <div className="row">
@@ -77,7 +76,7 @@ class PublicUserProfile extends Component {
 }
 
 
-PublicUserProfile.propTypes = {
+ReceiveRequest.propTypes = {
   user: PropTypes.object.isRequired,
   listing: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
@@ -147,8 +146,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-PublicUserProfile.willTransitionTo = () => {
+ReceiveRequest.willTransitionTo = () => {
   console.log('STUFF HAPPENED');
   router.getCurrentPath();
 };
-export default connect(mapStateToProps, mapDispatchToProps)(PublicUserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(ReceiveRequest);

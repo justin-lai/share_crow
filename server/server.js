@@ -27,6 +27,8 @@ app.use(passport.session());
 
 app.use(express.static('dev/client'));
 app.use(express.static('client/assets'));
+app.use(express.static('client/assets/images'));
+app.use(express.static('client/assets/styles'));
 
 app.listen(3000, () => {
   //eslint-disable-next-line
