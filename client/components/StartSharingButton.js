@@ -14,15 +14,15 @@ class StartSharingButton extends Component {
   render() {
     return (
       <div className="start-sharing">
-        <a
-          href="#"
-          className="btn btn-1"
-        >
-          <svg>
-            <rect x="0" y="0" fill="none" width="100%" height="100%" />
-          </svg>
-          Start Sharing
-        </a>
+        <section className="buttons">
+          <div className="sharing-button-container">
+            <a className="btn btn-1">
+              <svg>
+                <rect x="0" y="0" fill="none" width="100%" height="100%" />
+              </svg> Start Sharing
+            </a>
+          </div>
+        </section>
       </div>
     );
   }

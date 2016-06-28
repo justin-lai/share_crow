@@ -89,7 +89,9 @@ class App extends Component {
           login={this.login}
           signup={this.signup}
         />
-        <Landing />
+        <Landing
+          signup={this.signup}
+        />
         <ProductCarousel products={this.products} />
         <Footer />
       </div>
