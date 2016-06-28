@@ -208,7 +208,7 @@ class Marketplace extends Component {
           }
           this.setState({
             listings: newListings,
-          })
+          });
           break;
         }
       } else {
