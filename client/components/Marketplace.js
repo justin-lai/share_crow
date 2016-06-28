@@ -55,35 +55,41 @@ class Marketplace extends Component {
   }
 
   filterBy(filter) {
-    // clear the current list of items
-    this.setState({
-      listings: [],
-    });
+    if (filter === 'showAll') {
+      this.setState({
+        listings: this.props.listing,
+      });
+    } else {
+      // clear the current list of items
+      this.setState({
+        listings: [],
+      });
 
-    for (let i = 0; i < this.props.category.length; i++) {
-      const category = this.props.category[i];
+      for (let i = 0; i < this.props.category.length; i++) {
+        const category = this.props.category[i];
 
-      if (category.CategoryId === null) {
-        // display parent category listings and all its subcategory listings
-        if (category.categoryName === filter) {
-          let newListings = [];
-          newListings = newListings.concat(category.Listings);
-          for (let j = 0; j < category.subCategory.length; j++) {
-            const subcategory = category.subCategory[j];
-            newListings = newListings.concat(subcategory.Listings);
+        if (category.CategoryId === null) {
+          // display parent category listings and all its subcategory listings
+          if (category.categoryName === filter) {
+            let newListings = [];
+            newListings = newListings.concat(category.Listings);
+            for (let j = 0; j < category.subCategory.length; j++) {
+              const subcategory = category.subCategory[j];
+              newListings = newListings.concat(subcategory.Listings);
+            }
+            this.setState({
+              listings: newListings,
+            });
+            break;
           }
-          this.setState({
-            listings: newListings,
-          });
-          break;
-        }
-      } else {
-        // display subcategory listings
-        if (category.categoryName === filter) {
-          this.setState({
-            listings: category.Listings,
-          });
-          break;
+        } else {
+          // display subcategory listings
+          if (category.categoryName === filter) {
+            this.setState({
+              listings: category.Listings,
+            });
+            break;
+          }
         }
       }
     }
@@ -95,7 +101,6 @@ class Marketplace extends Component {
     this.setState({
       listings: newListings,
     });
-    // this.props.methods.getListing() by query
   }
 
   login(userData) {
