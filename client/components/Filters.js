@@ -5,7 +5,7 @@ class Filters extends Component {
     super(props);
 
     this.state = {
-      activeCategory: '',
+      activeCategory: 'showAll',
       activeSubcategory: '',
     };
     this.handleClick = this.handleClick.bind(this);
@@ -34,7 +34,17 @@ class Filters extends Component {
 
         <div className="menu-list">
           <ul id="menu-content" className="menu-content collapse out">
-
+            <li
+              id={'showAll'}
+              key="0"
+              data-toggle="collapse"
+              className="category collapsed"
+              className={this.state.activeCategory
+                === 'showAll' ? 'active' : ''}
+              onClick={this.handleClick}
+            >
+              {'  Show All'}
+            </li>
             {
               this.props.categories.map(category => {
               // only list parent categories
@@ -43,6 +53,7 @@ class Filters extends Component {
                     <div>
                       <li
                         id={category.categoryName}
+                        key={category.id}
                         data-toggle="collapse"
                         data-target={`#${category.categoryName}Subs`}
                         className="category collapsed"
@@ -51,7 +62,7 @@ class Filters extends Component {
                         onClick={this.handleClick}
                       >
                         {`  ${category.categoryName}`}
-                        <span className="arrow"></span>
+                        {category.subCategory.length ? <span className="arrow"></span> : null}
                       </li>
                       <ul
                         className="category sub-menu collapse"
@@ -61,6 +72,7 @@ class Filters extends Component {
                           category.subCategory.map(subcategory => (
                             <li
                               id={subcategory.categoryName}
+                              key={subcategory.id}
                               onClick={this.handleClick}
                               className="category"
                               className={this.state.activeCategory

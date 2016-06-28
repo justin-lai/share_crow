@@ -48,17 +48,17 @@ class App extends Component {
 
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
+    this.methods = this.props.methods;
+    this.props.methods.isLoggedIn();
   }
 
   componentWillMount() {
-    this.methods = this.props.methods;
-    this.methods.isLoggedIn();
     console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
-    console.log('nextProps: ', nextProps);
+    console.log('app nextProps: ', nextProps);
   }
 
   login(userData) {

@@ -6,6 +6,7 @@ const path = require('path');
 const config = require('../config');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 const AWS = require('aws-sdk');
+const Sequelize = require('sequelize');
 
 AWS.config.accessKeyId = config.AWS_ACCESSKEY;
 AWS.config.secretAccessKey = config.AWS_SECRETKEY;
@@ -130,11 +131,13 @@ module.exports = {
     // query database for a specific profile
     console.log('GET //// getUser Route');
     req.session.cookie.path = '/main/profile';
-    if (req.query.id) {
+    if (req.query.id || req.query.username) {
       db.User.findAll({
-        where: {
+        where: Sequelize.or({
           id: req.query.id,
-        },
+        }, {
+          username: req.query.username,
+        }),
       })
       .then(queryData => {
         if (queryData[0]) {
@@ -535,14 +538,35 @@ module.exports = {
   // //////////////////////////// CATEGORY FUNCTIONS ////////////////////////////
   getCategory: (req, res) => {
     console.log('GET //// getCategory route');
+    const searchOptions = req.query;
     req.session.cookie.path = '/main/category';
     db.Category.findAll({
+      where: searchOptions,
       include: [{
         model: db.Category,
         as: 'subCategory',
+        include: [{
+          model: db.Listings,
+          include: [{
+            model: db.User,
+            as: 'owner',
+          },
+          {
+            model: db.User,
+            as: 'renter',
+          }],
+        }],
       },
       {
         model: db.Listings,
+        include: [{
+          model: db.User,
+          as: 'owner',
+        },
+        {
+          model: db.User,
+          as: 'renter',
+        }],
       }],
     })
       .then(queryData => {

@@ -43,7 +43,6 @@ export function getListing(query) {
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
-        console.log('listings received: ', json);
         dispatch(listingGetResponse(json));
       });
       // .catch(() => dispatch(listingGetResponse([])));
