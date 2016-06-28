@@ -17,6 +17,7 @@
     "express-session": "^1.13.0",
     "fetch": "^1.1.0",
     "fs": "0.0.2",
+    "graceful-fs": "^4.1.4",
     "isomorphic-fetch": "^2.2.1",
     "material-design-icons": "^2.2.3",
     "node-fetch": "^1.5.3",
@@ -35,7 +36,9 @@
     "react-slick": "^0.12.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
+    "s3": "^4.4.0",
     "sequelize": "^3.23.3",
+    "superagent": "^2.0.0",
     "twilio": "^2.9.1",
     "webpack": "^1.13.1"
   },
