@@ -34,6 +34,8 @@ module.exports = {
 
   imageUpload: (req, res) => {
     console.log('POST //// imageUpload route');
+    // console.log('ACCESSKEY!!!!!!!!!!!!!!!! ', AWS.config.accessKeyId);
+    // console.log('SECRET!!!!!!!!!!!!!!!', AWS.config.secretAccessKey);
     req.session.cookie.path = 'main/imageUpload';
     const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
     const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
@@ -49,7 +51,7 @@ module.exports = {
         console.log('Error uploading data: ', data2);
         res.send(data2);
       } else {
-        console.log('succesfully uploaded the image!');
+        console.log('succesfully uploaded the image!', data);
       }
     });
   },

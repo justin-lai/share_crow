@@ -60,7 +60,7 @@ class ImageUploader extends Component {
       });
     };
     //eslint-disable-next-line
-    console.log('https://sharecrow.s3.amazonaws.com/' + file.name);
+    console.log('https://s3-us-west-2.amazonaws.com/sharecrow/' + file.name);
     reader.readAsDataURL(file);
   }
 
