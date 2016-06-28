@@ -11,6 +11,7 @@ import ImageUploader from './importImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
+import ImageUp from './importImage.js';
 // const fetch = require('isomorphic-fetch');
 
 require('../assets/styles/app.scss');
@@ -145,6 +146,7 @@ class Marketplace extends Component {
         <div id="marketplace-search-container">
           <Search searchFor={this.searchFor} />
         </div>
+        <ImageUp />
         <div id="marketplace-items-container">
           <ImageUploader />
           <h3>Items</h3>

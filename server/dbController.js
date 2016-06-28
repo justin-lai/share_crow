@@ -54,8 +54,9 @@ module.exports = {
     req.session.cookie.path = 'main/imageUpload';
     const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
     const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    const filename = getFileName();
     const data = {
-      Key: getFileName(),
+      Key: filename,
       Body: buf,
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg',
@@ -66,7 +67,11 @@ module.exports = {
         console.log('Error uploading data: ', data2);
         res.send(data2);
       } else {
-        console.log('succesfully uploaded the image!', data);
+        db.Images.create({
+          listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
+        })
+          .then(response => console.log(response, '1111111'));
+        console.log('succesfully uploaded the image!');
       }
     });
   },
