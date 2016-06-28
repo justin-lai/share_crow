@@ -16,8 +16,8 @@ app.use(session({
   secret: 'C44THY',
 }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(utilityController.loggedInMiddleware);
 
 require('./routes.js')(app, express);

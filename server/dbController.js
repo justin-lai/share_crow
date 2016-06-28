@@ -3,7 +3,13 @@
 /* eslint-disable no-param-reassign */
 const bcrypt = require('bcrypt');
 const path = require('path');
+const config = require('../config');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
+const AWS = require('aws-sdk');
+
+AWS.config.accessKeyId = config.AWS_ACCESSKEY;
+AWS.config.secretAccessKey = config.AWS_SECRETKEY;
+AWS.config.region = config.AWS_REGION;
 
 const verificationCode = () => {
   let text = '';
@@ -13,7 +19,39 @@ const verificationCode = () => {
   }
   return text;
 };
+
+const getFileName = () => {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 10; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return `${text}.png`;
+};
+
 module.exports = {
+
+  imageUpload: (req, res) => {
+    console.log('POST //// imageUpload route');
+    req.session.cookie.path = 'main/imageUpload';
+    const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
+    const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    const data = {
+      Key: getFileName(),
+      Body: buf,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpeg',
+    };
+    s3Bucket.putObject(data, (err, data2) => {
+      if (err) {
+        console.log(err);
+        console.log('Error uploading data: ', data2);
+        res.send(data2);
+      } else {
+        console.log('succesfully uploaded the image!');
+      }
+    });
+  },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
   // expects username, password, email, phoneNumber, address, aboutMe
@@ -234,12 +272,10 @@ module.exports = {
     // adds a new message entry in database
     console.log('POST //// postMessages');
     req.session.cookie.path = '/main/message';
-    console.log('this is the req.body', req.body);
-    if (req.body.subject && req.body.text && req.body.sender_id && req.body.recipient_id) {
+    if (req.body.text && req.body.sender_id && req.body.recipient_id) {
       db.Messages.create({
         text: req.body.text,
         senderId: req.body.sender_id,
-        subject: req.body.subject || 'No Subject',
         recipientId: req.body.recipient_id,
       })
       .then((queryData) => res.status(201).send(queryData));
