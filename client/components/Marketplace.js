@@ -90,9 +90,7 @@ class Marketplace extends Component {
   }
 
   searchFor(query) {
-    let newListings = this.props.listing.filter( listing => {
-      return listing.name.includes(query);
-    });
+    const newListings = this.props.listing.filter(listing => listing.name.includes(query));
 
     this.setState({
       listings: newListings,
@@ -199,6 +197,7 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 Marketplace.propTypes = {
   methods: PropTypes.object.isRequired,
+  listing: PropTypes.array.isRequired,
   category: PropTypes.array.isRequired,
 };
 
