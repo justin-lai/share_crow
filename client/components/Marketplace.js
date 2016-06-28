@@ -12,6 +12,8 @@ import Footer from './Footer.js';
 // import Loading from './LoadingBar.js';
 // const fetch = require('isomorphic-fetch');
 
+require('../assets/styles/app.scss');
+
 class Marketplace extends Component {
   constructor(props) {
     super(props);
@@ -164,6 +166,7 @@ class Marketplace extends Component {
 
   componentDidMount() {
     console.log(this.props);
+    this.methods = this.props.methods;
     // fetch('/main/listing')
     //   .then(res => res.json())
     //     .then(responseData => {
@@ -171,9 +174,9 @@ class Marketplace extends Component {
     //       console.log('product list: ', this.products);
     //     })
     //       .then(() => this.setState({ loading: false }));
-    this.props.methods.getListing();
-    this.props.methods.getCategory();
-    this.props.methods.isLoggedIn();
+    this.methods.getListing();
+    this.methods.getCategory();
+    this.methods.isLoggedIn();
   }
 
   componentWillReceiveProps(nextProps) {

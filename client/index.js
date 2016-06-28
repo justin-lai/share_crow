@@ -11,6 +11,7 @@ import PublicUserProfile from './components/PublicUserProfile';
 import ReceiveRequest from './components/ReceiveRequest';
 
 require('./assets/styles/app.scss');
+
 // require('./assets/darthvader.jpg');
 // require('file?name=[name].[ext]!./darthvader.jpg');
 

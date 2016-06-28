@@ -12,6 +12,8 @@ import ProductList from './ProductList.js';
 import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
+require('../assets/styles/app.scss');
+
 class Profile extends Component {
   constructor(props) {
     super(props);
