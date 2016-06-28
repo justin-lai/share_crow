@@ -51,7 +51,7 @@ class Filters extends Component {
                         onClick={this.handleClick}
                       >
                         {`  ${category.categoryName}`}
-                        <span className="arrow"></span>
+                        {category.subCategory.length ? <span className="arrow"></span> : null}
                       </li>
                       <ul
                         className="category sub-menu collapse"

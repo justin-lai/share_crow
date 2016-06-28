@@ -535,14 +535,35 @@ module.exports = {
   // //////////////////////////// CATEGORY FUNCTIONS ////////////////////////////
   getCategory: (req, res) => {
     console.log('GET //// getCategory route');
+    const searchOptions = req.query;
     req.session.cookie.path = '/main/category';
     db.Category.findAll({
+      where: searchOptions,
       include: [{
         model: db.Category,
         as: 'subCategory',
+        include: [{
+          model: db.Listings,
+          include: [{
+            model: db.User,
+            as: 'owner',
+          },
+          {
+            model: db.User,
+            as: 'renter',
+          }],
+        }],
       },
       {
         model: db.Listings,
+        include: [{
+          model: db.User,
+          as: 'owner',
+        },
+        {
+          model: db.User,
+          as: 'renter',
+        }],
       }],
     })
       .then(queryData => {

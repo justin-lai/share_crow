@@ -17,7 +17,6 @@ require('../assets/styles/app.scss');
 class Marketplace extends Component {
   constructor(props) {
     super(props);
-    this.listings = [];
 
     // this.listings = [  // change this later with listings from database
     //   {
@@ -153,11 +152,12 @@ class Marketplace extends Component {
     //     User: { username: 'Arthur' },
     //   },
     // ];
+    this.state = {
+      listings: [],
+    };
 
     this.categories = [];
-    // this.state = {
-    //   loading: true,
-    // };
+
     this.filterBy = this.filterBy.bind(this);
     this.searchFor = this.searchFor.bind(this);
     this.login = this.login.bind(this);
@@ -181,13 +181,46 @@ class Marketplace extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category;
-    this.listings = nextProps.listing;
-    console.log('market next: ', nextProps);
+    this.setState({
+      listings: nextProps.listing,
+    });
 
-    // console.log(this.categories);
+    console.log('market next: ', nextProps);
   }
 
-  filterBy() {
+  filterBy(filter) {
+    // clear the current list of items
+    this.setState({
+      listings: [],
+    });
+
+    for (let i = 0; i < this.props.category.length; i++) {
+      const category = this.props.category[i];
+
+      if (category.CategoryId === null) {
+        // display parent category listings and all its subcategory listings
+        if (category.categoryName === filter) {
+          let newListings = [];
+          newListings = newListings.concat(category.Listings);
+          for (let j = 0; j < category.subCategory.length; j++) {
+            const subcategory = category.subCategory[j];
+            newListings = newListings.concat(subcategory.Listings);
+          }
+          this.setState({
+            listings: newListings,
+          })
+          break;
+        }
+      } else {
+        // display subcategory listings
+        if (category.categoryName === filter) {
+          this.setState({
+            listings: category.Listings,
+          });
+          break;
+        }
+      }
+    }
   }
 
   searchFor(query) {
@@ -228,7 +261,7 @@ class Marketplace extends Component {
         </div>
         <div id="marketplace-items-container">
           <h3>Items</h3>
-          <ProductList products={this.listings} />
+          <ProductList products={this.state.listings} />
         </div>
         <Footer />
       </div>
@@ -294,6 +327,7 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 Marketplace.propTypes = {
   methods: PropTypes.object.isRequired,
+  category: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Marketplace);
