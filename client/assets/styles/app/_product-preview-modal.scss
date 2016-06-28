@@ -1,0 +1,55 @@
+.product-preview {
+  text-align: center;
+}
+
+.product-image {
+  width: 40%;
+  height: 40%;
+}
+
+.modal-header {
+  color: #cd1b4e;
+}
+
+#error-message span {
+  color: red;
+}
+
+h1.product-preview-header {
+  display: inline;
+}
+
+.rent-request-message {
+  float: right;
+  display: inline;
+  font-size: 18px;
+  color: black;
+}
+
+#product-preview-buttons {
+  float: right;
+}
+
+.modal-rent-button {
+  background-color: #cd1b4e;
+  border-style: none;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 5px !important;
+  margin-right: 10px;
+  margin-top: 20px;
+  display:inline;
+}
+
+.modal-continue-shopping-button {
+  background-color: #cd1b4e;
+  border-style: none;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 5px !important;
+  margin-right: 10px;
+  margin-top: 20px;
+  display: inline;
+}
