@@ -13,8 +13,16 @@ class StartSharingButton extends Component {
 
   render() {
     return (
-      <div className="start-sharing-button">
-        <input type="submit" id="search-input" value="Start Sharing" />
+      <div className="start-sharing">
+        <a
+          href="#"
+          className="btn btn-1"
+        >
+          <svg>
+            <rect x="0" y="0" fill="none" width="100%" height="100%" />
+          </svg>
+          Start Sharing
+        </a>
       </div>
     );
   }
