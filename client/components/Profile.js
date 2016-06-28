@@ -25,20 +25,22 @@ class Profile extends Component {
     this.id = this.profile.id;
     this.methods = props.methods;
     this.methods.isLoggedIn();
-    // if (props.isAuth.status) {
-      // this.methods.getListing(`name=${this.props.session.username}`);
-      // this.methods.getUser(`username=${this.props.isAuth.username}`);
-    //   this.methods.getMessage('recipientId=10');
-    //   this.methods.getMessage('senderId=10');
-    //   this.methods.getListing('owner_id=4');
-    // }
   }
 
   componentDidMount() {
-    console.log(this.props, '((');
+    console.log('profile mount: ', this.props);
+    if (this.props.isAuth.status) {
+      // this.methods.getListing(`name=${this.props.isAuth.username}`);
+      // this.methods.getUser(`username=${this.props.isAuth.username}`);
+      this.methods.getUser(`username=${this.props.isAuth.username}`);
+      this.methods.getMessage('recipientId=10');
+      this.methods.getMessage('senderId=10');
+      this.methods.getListing('owner_id=4');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('profile nextProps', nextProps);
     if (!nextProps.isAuth.status) {
       nextProps.history.push('/');
     }
@@ -49,7 +51,9 @@ class Profile extends Component {
       this.outbox = nextProps.message;
     }
 
+    this.profile = nextProps.user;
     this.products = nextProps.listing;
+    console.log('PROFILEEEEeEEEEE', this.profile);
     // re-render with new props
   }
 
@@ -67,7 +71,7 @@ class Profile extends Component {
               <ProfileCard profile={this.profile} />
               <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
-            <div>
+            <div id="profile-items">
               <h3>My Items</h3>
               <ProductList products={this.products} />
             </div>

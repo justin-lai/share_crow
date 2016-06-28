@@ -5,8 +5,12 @@ class ProfileCard extends Component {
     super(props);
 
     this.profile = props.profile;
+    console.log('profile!: ', this.profile)
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.profile = nextProps.profile;
+  }
 
   render() {
     return (
@@ -36,7 +40,7 @@ class ProfileCard extends Component {
         </div>
         <div className="right_col">
           <h2 className="name">{this.profile.username}</h2>
-          <h3 className="location">{this.profile.address}</h3>
+          <h3 className="location">{`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}</h3>
           <ul className="contact_information">
             <li className="website"><a className="nostyle" href="#">www.apple.com</a></li>
             <li className="mail">{this.profile.email}</li>
