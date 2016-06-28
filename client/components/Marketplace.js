@@ -20,6 +20,7 @@ class Marketplace extends Component {
 
     this.state = {
       listings: [],
+      filteredListings: [],
     };
 
     this.categories = [];
@@ -46,9 +47,10 @@ class Marketplace extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.categories = nextProps.category.sort( (a, b) => a.categoryName < b.categoryName ? -1 : 1);
+    this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
     this.setState({
       listings: nextProps.listing,
+      filteredListings: nextProps.listing,
     });
 
     console.log('market next: ', nextProps);
@@ -58,11 +60,13 @@ class Marketplace extends Component {
     if (filter === 'showAll') {
       this.setState({
         listings: this.props.listing,
+        filteredListings: this.props.listing,
       });
     } else {
       // clear the current list of items
       this.setState({
         listings: [],
+        filteredListings: [],
       });
 
       for (let i = 0; i < this.props.category.length; i++) {
@@ -79,6 +83,7 @@ class Marketplace extends Component {
             }
             this.setState({
               listings: newListings,
+              filteredListings: newListings,
             });
             break;
           }
@@ -87,6 +92,7 @@ class Marketplace extends Component {
           if (category.categoryName === filter) {
             this.setState({
               listings: category.Listings,
+              filteredListings: category.Listings,
             });
             break;
           }
@@ -96,10 +102,12 @@ class Marketplace extends Component {
   }
 
   searchFor(query) {
-    const newListings = this.props.listing.filter(listing => listing.name.includes(query));
+    const newListings = this.state.listings.filter(listing =>
+      listing.name.toUpperCase().includes(query.toUpperCase())
+    );
 
     this.setState({
-      listings: newListings,
+      filteredListings: newListings,
     });
   }
 
@@ -136,7 +144,7 @@ class Marketplace extends Component {
         </div>
         <div id="marketplace-items-container">
           <h3>Items</h3>
-          <ProductList products={this.state.listings} />
+          <ProductList products={this.state.filteredListings} />
         </div>
         <Footer />
       </div>
