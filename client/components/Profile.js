@@ -16,6 +16,7 @@ import ImageUploader from './importImage.js';
 
 require('../assets/styles/app.scss');
 
+
 class Profile extends Component {
   constructor(props) {
     super(props);
