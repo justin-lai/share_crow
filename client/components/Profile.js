@@ -19,7 +19,6 @@ class Profile extends Component {
     super(props);
     console.log(props);
     this.products = [];
-    this.notifications = [];
     this.profile = props.session;
     this.id = this.profile.id;
     this.methods = props.methods;
@@ -44,13 +43,6 @@ class Profile extends Component {
     console.log('profile nextProps', nextProps);
     if (!nextProps.isAuth.status) {
       nextProps.history.push('/');
-    }
-
-    if (nextProps.message[0] && nextProps.message[0].recipient.username === 'joliver3') {
-      this.notifications = nextProps.message;
-      console.log('notifications: ', this.notifications);
-    } else if (nextProps.message[0] && nextProps.message[0].sender.username === 'joliver3') {
-      // this.outbox = nextProps.message;
     }
 
     this.profile = nextProps.session;
@@ -93,13 +85,12 @@ Profile.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, notification, session, isAuth } = state;
+  const { user, listing, message, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
-    notification,
     session,
     isAuth,
   };
@@ -143,12 +134,6 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteMessage: (data) => {
         dispatch(deleteMessage(data));
-      },
-      getMessage: (id) => {
-        dispatch(getMessage(id));
-      },
-      postMessage: (data) => {
-        dispatch(postMessage(data));
       },
       getSession: (data) => {
         dispatch(getSession(data));

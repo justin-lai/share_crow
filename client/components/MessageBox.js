@@ -12,10 +12,12 @@ class MessageBox extends Component {
   }
 
   componentDidMount() {
-    this.methods.getMessage('recipientId=10');
+    console.log(this.props);
+    this.methods.getMessage('recipientId=2');
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     this.messages = nextProps.message;
   }
 
@@ -28,9 +30,12 @@ class MessageBox extends Component {
         >Notifications<span className="caret"></span>
         </a>
         <ul className="message-list dropdown-menu">
-          {this.messages.map(message =>
-            <Message message={message} key={message.id} />
-          )}
+          {this.messages.length > 0 ? this.messages.map(message =>
+            <Message messageItem={message} key={message.id} />
+            )
+          :
+            <li className="no-message">You have no notifications</li>
+          }
         </ul>
       </li>
     );

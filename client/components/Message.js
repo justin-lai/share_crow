@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+import { connect } from 'react-redux';
+import { deleteMessage } from '../actions/messageActions.js';
 
 class Message extends Component {
   constructor(props) {
@@ -10,11 +12,13 @@ class Message extends Component {
       rentRequestMessage: '',
     };
 
-    const date = props.message.createdAt;
+    const date = props.messageItem.createdAt;
     this.date = this.formatDate(new Date(Date.parse(date.replace(/( +)/, ' UTC$1'))));
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.renderModal = this.renderModal.bind(this);
+    this.acceptRequest = this.acceptRequest.bind(this);
+    this.declineRequest = this.declineRequest.bind(this);
   }
 
   formatDate(date) {
@@ -37,17 +41,23 @@ class Message extends Component {
   }
 
   acceptRequest() {
-    alert('request accepted');
+    // alert('request accepted');
+    this.closeModal();
   }
 
   declineRequest() {
-    alert('request declined');
+    // alert('request declined');
+    this.props.methods.deleteMessage({
+      messageId: this.props.messageItem.id,
+      recipientId: this.props.messageItem.recipientId,
+    });
+    this.closeModal();
   }
 
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   renderModal() {
-    const message = this.props.message
+    const message = this.props.messageItem;
     return (
       <Modal
         style={{ content: { height: '150px', width: '600px' } }}
@@ -57,7 +67,7 @@ class Message extends Component {
         <span className="rent-request-message">{this.state.rentRequestMessage}</span>
         <h4 id="message-request-text">
           <a href="/#/profile">{` ${message.sender.username}`}
-          </a> would like to jacquire your BICICLETA 
+          </a> would like to jacquire your BICICLETA
         </h4>
         <div>
           <input
@@ -78,7 +88,7 @@ class Message extends Component {
   }
 
   render() {
-    const message = this.props.message;
+    const message = this.props.messageItem;
     return (
       <li className="message" onClick={this.openModal}>
         {this.renderModal(message)}
@@ -94,7 +104,26 @@ class Message extends Component {
 }
 
 Message.propTypes = {
-  message: PropTypes.object.isRequired,
+  messageItem: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
-export default Message;
+function mapStateToProps(state) {
+  const { message } = state;
+
+  return {
+    message,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      deleteMessage: (data) => {
+        dispatch(deleteMessage(data));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Message);

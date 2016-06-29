@@ -48,15 +48,20 @@
   transform: translate(-50%, -50%);
 }
 
-.message {
+.message, .no-message {
   color: black;
   width: 300px;
   border-bottom: 0.5px solid #ccc;
   padding: 5px 10px;
 }
 
+.no-message {
+  text-align: center;
+  border-bottom: none;
+}
+
 .message:hover {
-  background-color: #eee;
+  background-color: rgba(209,155,61,.5);
   cursor: pointer;
 }
 
