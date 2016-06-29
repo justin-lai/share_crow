@@ -10,6 +10,7 @@ import Filters from './Filters.js';
 import ImageUploader from './importImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
+import Payments from './Payments.js';
 // import Loading from './LoadingBar.js';
 // const fetch = require('isomorphic-fetch');
 
@@ -147,6 +148,7 @@ class Marketplace extends Component {
         </div>
         <div id="marketplace-items-container">
           <ImageUploader />
+          {/*<Payments />*/}
           <h3>Items</h3>
           <ProductList products={this.state.filteredListings} />
         </div>
