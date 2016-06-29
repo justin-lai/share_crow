@@ -78,9 +78,21 @@ class Marketplace extends Component {
     });
   }
 
-  isFetchingData() {
-    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    return isFetching;
+  login(userData) {
+    //eslint-disable-next-line
+    console.log(`logging in as ${userData.username}`);
+    let query = [];
+    Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
+    query = query.join('&');
+    this.methods.getSession(query);
+    setTimeout(this.methods.isLoggedIn, 300);
+    this.user = userData;
+  }
+
+  signup(userData) {
+    //eslint-disable-next-line
+    console.log('signing up as', userData);
+    this.methods.postUser(userData);
   }
 
   render() {
