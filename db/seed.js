@@ -4,7 +4,7 @@ const db = require('./dbDesign.js');
 // HARD RESETS THE DB, DO NOT RUN UNLESS YOU WANT TO CLEAR LITERALLY EVERYTHING-- caathy
 
 db.sequelize
-.sync()
+.sync({ force: true })
   .then(() => {
     //eslint-disable-next-line
     console.log('It worked!');
@@ -30,7 +30,7 @@ db.sequelize
     }).then((user) => {
       db.Images.create({
         userImage: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/65/Arthur_Read.svg/648px-Arthur_Read.svg.png',
-        userId: user.dataValues.id,
+        UserId: user.dataValues.id,
       });
     });
     db.User.create({
@@ -51,7 +51,7 @@ db.sequelize
     }).then((user) => {
       db.Images.create({
         userImage: 'http://img2.timeinc.net/people/i/2006/celebdatabase/justintimberlake/j_timberlake1_300_400.jpg',
-        userId: user.dataValues.id,
+        UserId: user.dataValues.id,
       });
     });
     db.User.create({
@@ -72,7 +72,7 @@ db.sequelize
     }).then((user) => {
       db.Images.create({
         userImage: 'http://cathyhsianglee.com/images/cathyleecircle.png',
-        userId: user.dataValues.id,
+        UserId: user.dataValues.id,
       });
     });
     db.User.create({
@@ -93,7 +93,7 @@ db.sequelize
     }).then((user) => {
       db.Images.create({
         userImage: 'http://a2.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjMzODE1Nzk1MjEy.jpg',
-        userId: user.dataValues.id,
+        UserId: user.dataValues.id,
       });
     });
     db.Listings.create({
@@ -106,7 +106,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://target.scene7.com/is/image/Target/15124780?wid=450&hei=450&fmt=pjpeg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -119,7 +119,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://triathlonrumor.com/wp-content/uploads/2011/10/2012-Specialized-Shiv-S-Works-Di2-triathlon-aero-bike.jpg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -132,7 +132,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://www.projectorreviews.com/resize/622x335/r/wp-content/uploads/2015/04/G6550WU_front-beauty.jpg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -145,7 +145,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://vignette1.wikia.nocookie.net/iceandfire/images/b/b6/Game_of_thrones.jpeg/revision/latest?cb=20130302001049',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -158,7 +158,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://cdn-4.nikon-cdn.com/e/Q5NM96RZZo-YRYNeYvAi9beHK4x3L-8iSKFuXbTDiVzOj5_9D03cEdJ1gEjX7rK74bi3TemBsjwqkN1duzuOiA==/Views/1529_D3300_left.png',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -171,7 +171,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://www.becauseiamfabulous.com/wp-content/uploads/2012/09/Olga-Kurylenko-in-Valentino-Dress-at-the-To-The-Wonder-Premiere-The-69th-Venice-Film-Festival.jpg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -184,7 +184,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://store.storeimages.cdn-apple.com/4973/as-images.apple.com/is/image/AppleInc/aos/published/images/m/ac/mac/pro/mac-pro-gallery3-2013?wid=930&hei=629&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=zW0lr1',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -197,7 +197,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'https://i.kinja-img.com/gawker-media/image/upload/s--PkNm59rP--/c_fill,fl_progressive,g_center,h_180,q_80,w_320/17hmosyunvkzojpg.jpg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -210,7 +210,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'https://upload.wikimedia.org/wikipedia/en/2/21/Britney_Spears_Toxic.png',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Listings.create({
@@ -223,7 +223,7 @@ db.sequelize
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://i.dailymail.co.uk/i/pix/2015/09/18/00/2C6FCFDA00000578-3239257-image-a-21_1442533435701.jpg',
-        listingId: item.dataValues.id,
+        ListingId: item.dataValues.id,
       });
     });
     db.Category.create({
