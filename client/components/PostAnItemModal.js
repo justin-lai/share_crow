@@ -49,7 +49,21 @@ class PostAnItemModal extends Component {
         },
         body: JSON.stringify(listingData),
       }).then(response => response.json())
-        .then(responseData => console.log(responseData));
+        .then(responseData => {
+          fetch('http://localhost:3000/main/imageUpload',
+            {
+              method: 'PUT',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id: responseData.itemImage,
+                listingId: responseData.id,
+              }),
+            }).then(response => response.json())
+              .then(responseData2 => console.log(responseData2));
+        });
     this.closeModal();
   }
 

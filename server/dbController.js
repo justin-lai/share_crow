@@ -47,6 +47,22 @@ module.exports = {
     }
   },
 
+  changeImageListing: (req, res) => {
+    console.log('PUT //// changeImageListing route');
+    req.session.cookie.path = 'main/imageUpload';
+    if (!req.body.id) {
+      res.status(400).send({ message: 'id not provided in request body' });
+    } else {
+      db.Images.find({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(responseData => responseData.updateAttributes({ ListingId: req.body.listingId }))
+        .then(newImageListing => res.status(200).send(newImageListing));
+    }
+  },
+
   imageUpload: (req, res) => {
     console.log('POST //// imageUpload route');
     // console.log('ACCESSKEY!!!!!!!!!!!!!!!! ', AWS.config.accessKeyId);
