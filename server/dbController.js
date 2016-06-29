@@ -128,6 +128,8 @@ module.exports = {
             phone: req.body.phoneNumber,
           }).then((user) => {
             req.session.username = req.body.username;
+            delete user.dataValues.password;
+            req.session.userID = user.dataValues;
             res.status(201).send(user.dataValues);
           });
         } else {
@@ -156,6 +158,8 @@ module.exports = {
       if (queryData[0]) {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
           req.session.username = req.query.username;
+          delete queryData[0].dataValues.password;
+          req.session.userID = queryData[0].dataValues;
           res.status(200).send(queryData[0].dataValues);
           console.log(req.session);
         } else {
