@@ -33,26 +33,18 @@ class Marketplace extends Component {
     this.searchFor = this.searchFor.bind(this);
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
+    this.methods = this.props.methods;
+    this.methods.isLoggedIn();
   }
 
   componentDidMount() {
     if (this.props.isAuth.status) {
       console.log('get user from marketplace');
-      this.methods.getUser(`username=${this.props.isAuth.username}`);
     }
     //eslint-disable-next-line
     console.log(this.props);
-    this.methods = this.props.methods;
-    // fetch('/main/listing')
-    //   .then(res => res.json())
-    //     .then(responseData => {
-    //       this.products = responseData;
-    //       console.log('product list: ', this.products);
-    //     })
-    //       .then(() => this.setState({ loading: false }));
     this.methods.getListing();
     this.methods.getCategory();
-    this.methods.isLoggedIn();
   }
 
   componentWillReceiveProps(nextProps) {

@@ -35,7 +35,6 @@ class ProfileCard extends Component {
             </div>
           </div>
           <div className="about">
-            <div>{this.profile.about}</div>
           </div>
         </div>
         <div className="right_col">

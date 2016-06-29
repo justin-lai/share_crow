@@ -17,38 +17,27 @@ require('../assets/styles/app.scss');
 class Profile extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.products = [];
-    this.profile = props.session;
-    this.id = this.profile.id;
     this.methods = props.methods;
     this.methods.isLoggedIn();
-    // this.inbox = [];
-    // this.outbox = [];
   }
 
   componentDidMount() {
     console.log('profile mount: ', this.props);
     if (this.props.isAuth.status) {
-      console.log('get user from profile');
-      // this.methods.getListing(`name=${this.props.isAuth.username}`);
-      // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      // this.methods.getMessage('recipientId=10');
-      // this.methods.getMessage('senderId=10');
-      this.methods.getUser(`username=${this.props.isAuth.username}`);
       this.methods.getListing('owner_id=4');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('profile nextProps', nextProps);
-    if (!nextProps.isAuth.status) {
-      nextProps.history.push('/');
+    if (nextProps.isAuth.status) {
+      this.profile = nexProps.isAuth.userInfo;
+    } else {
+      this.props.history.push('/')
     }
-
-    this.profile = nextProps.user;
+    console.log('profile nextProps', nextProps);
     this.products = nextProps.listing;
-    // re-render with new props
   }
 
   render() {

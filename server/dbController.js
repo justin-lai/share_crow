@@ -420,7 +420,7 @@ module.exports = {
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
         category: req.body.category,
-        image: req.body.image || 0,
+        itemImage: req.body.image || 0,
         rented: false,
         itemReturned: false,
       })

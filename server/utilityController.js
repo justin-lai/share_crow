@@ -18,14 +18,7 @@ module.exports = {
       res.status(200).send({
         status: true,
         username: req.session.username,
-        address: req.session.address,
-        city: req.session.city,
-        state: req.session.state,
-        zipcode: req.session.zipcode,
-        email: req.session.email,
-        phone: req.session.phone,
-        firstName: req.session.firstName,
-        lastName: req.session.lastName,
+        userInfo: req.session.userID,
       });
     } else {
       res.status(401).send({ status: false });
