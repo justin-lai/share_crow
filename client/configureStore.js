@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { user, listing, message, category, session, isAuth } from './reducers/reducers.js';
+import { user, listing, message, notification, category, image, session, isAuth }
+  from './reducers/reducers.js';
 import thunkMiddleware from 'redux-thunk';
 import { routerReducer } from 'react-router-redux';
 
@@ -7,6 +8,8 @@ const initalState = {
   user: {},
   listing: [],
   message: [],
+  notification: [],
+  image: [],
   category: [],
   session: {},
   isAuth: { status: false, username: null },
@@ -14,7 +17,8 @@ const initalState = {
 
 export default function configureStore() {
   return createStore(
-    combineReducers({ user, listing, message, category, session, isAuth, routing: routerReducer }),
+    combineReducers({ user, listing, message, notification, category, session,
+      image, isAuth, routing: routerReducer }),
     initalState,
     applyMiddleware(thunkMiddleware)
   );

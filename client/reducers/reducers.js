@@ -11,6 +11,14 @@ import {
   MESSAGE_PUT_RESPONSE, MESSAGE_DELETE_RESPONSE,
 } from '../actions/messageActions';
 import {
+  NOTIFICATION_GET_RESPONSE, NOTIFICATION_POST_RESPONSE,
+  NOTIFICATION_PUT_RESPONSE, NOTIFICATION_DELETE_RESPONSE,
+} from '../actions/notificationActions';
+import {
+  IMAGE_GET_RESPONSE, IMAGE_POST_RESPONSE,
+  IMAGE_PUT_RESPONSE, IMAGE_DELETE_RESPONSE,
+} from '../actions/imageActions';
+import {
   CATEGORY_GET_RESPONSE,
 } from '../actions/categoryActions';
 import {
@@ -61,6 +69,37 @@ export const message = (state = [], action) => {
       return state;
   }
 };
+
+export const notification = (state = [], action) => {
+  switch (action.type) {
+    case NOTIFICATION_GET_RESPONSE:
+      return action.data;
+    case NOTIFICATION_POST_RESPONSE:
+      return action.data;
+    case NOTIFICATION_PUT_RESPONSE:
+      return action.data;
+    case NOTIFICATION_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+export const image = (state = [], action) => {
+  switch (action.type) {
+    case IMAGE_GET_RESPONSE:
+      return action.data;
+    case IMAGE_POST_RESPONSE:
+      return action.data;
+    case IMAGE_PUT_RESPONSE:
+      return action.data;
+    case IMAGE_DELETE_RESPONSE:
+      return action.data;
+    default:
+      return state;
+  }
+};
+
 
 export const category = (state = [], action) => {
   switch (action.type) {

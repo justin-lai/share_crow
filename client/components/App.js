@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
+// import { getNotification, postNotification } from '../actions/notificationActions.js';
 import { getSession, isLoggedIn } from '../actions/sessionActions.js';
 import { getCategory } from '../actions/categoryActions.js';
 import Landing from './Landing.js';
@@ -108,12 +109,13 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, category, session, isAuth } = state;
+  const { user, listing, message, notification, category, session, isAuth } = state;
 
   return {
     user,
     listing,
     message,
+    notification,
     session,
     category,
     isAuth,
@@ -158,6 +160,12 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       deleteMessage: (data) => {
         dispatch(deleteMessage(data));
+      },
+      getNotification: (id) => {
+        dispatch(getMessage(id));
+      },
+      postNotification: (data) => {
+        dispatch(postMessage(data));
       },
       getCategory: () => {
         dispatch(getCategory());
