@@ -43,7 +43,7 @@ class PostAnItemModal extends Component {
           <img className="glyphicon" role="presentation" src="listing-icon.png" /> Post an Item
         </div>
         <Modal
-          style={{ content: { height: '320px' } }}
+          style={{ content: { height: '600px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
@@ -80,7 +80,7 @@ class PostAnItemModal extends Component {
             />
           </p>
           <p>
-            <div>Name</div>
+            <div>Categories</div>
             <input
               value={this.state.username}
               onChange={this.handleUsername}

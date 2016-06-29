@@ -11,8 +11,6 @@ import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
 import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
-import ImageUploader from './ImportImage.js';
-
 
 require('../assets/styles/app.scss');
 
@@ -77,7 +75,6 @@ class Profile extends Component {
             <div id="profile-items">
               <h3>My Items</h3>
               <ProductList products={this.products} />
-              <ImageUploader />
             </div>
           </div>
           <Footer />

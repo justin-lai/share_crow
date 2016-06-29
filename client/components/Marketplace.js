@@ -7,7 +7,6 @@ import { getCategory } from '../actions/categoryActions.js';
 import NavBar from './NavBar.js';
 import Search from './Search.js';
 import Filters from './Filters.js';
-import ImageUploader from './ImportImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
@@ -149,9 +148,7 @@ class Marketplace extends Component {
         <div id="marketplace-search-container">
           <Search searchFor={this.searchFor} />
         </div>
-        <ImageUploader />
         <div id="marketplace-items-container">
-          <ImageUploader />
           {/* <Payments />*/}
           <h3>Items</h3>
           <ProductList products={this.state.filteredListings} />
