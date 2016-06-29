@@ -32,9 +32,9 @@ class Profile extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuth.status) {
-      this.profile = nexProps.isAuth.userInfo;
+      this.profile = nextProps.isAuth.userInfo;
     } else {
-      this.props.history.push('/')
+      this.props.history.push('/');
     }
     console.log('profile nextProps', nextProps);
     this.products = nextProps.listing;
