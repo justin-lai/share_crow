@@ -59,7 +59,10 @@ export function isLoggedIn() {
     dispatch(isLoggedInRequest());
     return fetch('/isLoggedIn', { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(isLoggedInResponse(json)));
+      .then(json => {
+        console.log('LOGGED IN USER: ', json);
+        dispatch(isLoggedInResponse(json))
+      });
       // .then(isLoggedIn => {
       //   if (isLoggedIn.status === true) {
       //     getUser(`username=${isLoggedIn.username}`);
