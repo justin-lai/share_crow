@@ -9,6 +9,7 @@
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.1",
+    "braintree": "^1.40.0",
     "connect-redis": "^3.1.0",
     "cookie-session": "^2.0.0-alpha.1",
     "debounce": "^1.0.0",
