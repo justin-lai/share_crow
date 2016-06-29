@@ -9,9 +9,9 @@ class PostAnItemModal extends Component {
   constructor(props) {
     super(props);
 
-    console.log('POST ITEM PROPS: ', props)
+    console.log('POST ITEM PROPS: ', props);
     this.state = {
-      username: props.username,
+      username: props.isAuth.userInfo.username,
       ownerId: props.isAuth.userInfo.id,
       open: false,
       listing: '',
@@ -145,6 +145,7 @@ class PostAnItemModal extends Component {
 }
 
 PostAnItemModal.propTypes = {
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
