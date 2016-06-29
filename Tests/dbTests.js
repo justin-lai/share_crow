@@ -35,6 +35,7 @@ const testListing = {
   owner_id: 1,
   max_fee: 500,
   rental_fee: 5000,
+  category: 'Sporting Goods',
 };
 
 const listingInfo = {
