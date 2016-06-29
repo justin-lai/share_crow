@@ -61,7 +61,7 @@ export function isLoggedIn() {
       .then(response => response.json())
       .then(json => {
         console.log('LOGGED IN USER: ', json);
-        dispatch(isLoggedInResponse(json))
+        dispatch(isLoggedInResponse(json));
       });
       // .then(isLoggedIn => {
       //   if (isLoggedIn.status === true) {
