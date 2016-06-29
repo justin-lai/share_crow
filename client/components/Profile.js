@@ -30,6 +30,7 @@ class Profile extends Component {
   componentDidMount() {
     console.log('profile mount: ', this.props);
     if (this.props.isAuth.status) {
+      console.log('get user from profile');
       // this.methods.getListing(`name=${this.props.isAuth.username}`);
       // this.methods.getUser(`username=${this.props.isAuth.username}`);
       // this.methods.getMessage('recipientId=10');

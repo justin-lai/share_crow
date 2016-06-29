@@ -39,7 +39,6 @@ export function messageGetResponse(data) {
 }
 export function getMessage(query) {
   return dispatch => {
-    console.log('asfasdfa');
     dispatch(messageGetRequest());
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())

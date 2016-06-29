@@ -54,6 +54,10 @@ class App extends Component {
   }
 
   componentWillMount() {
+    if (this.props.isAuth.status) {
+      console.log('get user from app');
+      this.methods.getUser(`username=${this.props.isAuth.username}`);
+    }
     //eslint-disable-next-line
     console.log('app mount: ', this.props);
   }

@@ -36,6 +36,10 @@ class Marketplace extends Component {
   }
 
   componentDidMount() {
+    if (this.props.isAuth.status) {
+      console.log('get user from marketplace');
+      this.methods.getUser(`username=${this.props.isAuth.username}`);
+    }
     //eslint-disable-next-line
     console.log(this.props);
     this.methods = this.props.methods;
