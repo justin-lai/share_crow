@@ -73,24 +73,24 @@ module.exports = {
           db.Images.create({
             listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
           })
-            .then(response => response.dataValues)
-              .then(photoID => {
-                db.listings.find({
-                  where: {
-                    id: req.body.listingId,
-                  },
-                })
-                  .then(listing => listing.updateAttributes({ itemImage: photoID }))
-                  .then(() => {
-                    db.listings.find({
-                      where: {
-                        id: req.body.listingId,
-                      },
-                    })
-                      .then(updatedListing => res.status(201).send(updatedListing));
-                  });
-              });
-          console.log('succesfully uploaded the image!');
+            .then(response => res.status(200).send(response.dataValues));
+          //     .then(photoID => {
+          //       db.listings.find({
+          //         where: {
+          //           id: req.body.listingId,
+          //         },
+          //       })
+          //         .then(listing => listing.updateAttributes({ itemImage: photoID }))
+          //         .then(() => {
+          //           db.listings.find({
+          //             where: {
+          //               id: req.body.listingId,
+          //             },
+          //           })
+          //             .then(updatedListing => res.status(201).send(updatedListing));
+          //         });
+          //     });
+          // console.log('succesfully uploaded the image!');
         }
       });
     }
@@ -389,6 +389,7 @@ module.exports = {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
     req.session.cookie.path = '/main/listing';
+    console.log(req.body);
     // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
@@ -396,7 +397,8 @@ module.exports = {
         ownerId: req.body.owner_id,
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
-        image: req.body.image || null,
+        category: req.body.category,
+        image: req.body.image || 0,
         rented: false,
         itemReturned: false,
       })

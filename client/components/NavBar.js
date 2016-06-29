@@ -27,7 +27,7 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a><PostAnItemModal /></a>
+                <a><PostAnItemModal username={props.username} /></a>
               </li>
               <li>
                 <a href="#/marketplace">

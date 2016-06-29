@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { bindAll } from 'lodash';
 import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
@@ -6,20 +6,18 @@ import fetch from 'isomorphic-fetch';
 require('../assets/styles/app/_image-upload.scss');
 
 class ImageUploader extends Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      open: false,
       data_uri: null,
       processing: false,
     };
-
-    bindAll(this, 'openModal', 'closeModal', 'handleFile', 'handleSubmit');
+    this.handleUpload = props.handleUpload;
+    bindAll(this, 'handleFile', 'handleSubmit');
   }
 
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
     this.setState({
       processing: true,
     });
@@ -31,20 +29,11 @@ class ImageUploader extends Component {
       },
       body: JSON.stringify({
         imageBinary: this.state.data_uri,
-        //id: xyz
-        //listingid: abc
       }),
-    });
-    this.closeModal();
+    })
+      .then(response => response.json())
+        .then(responseData => this.handleUpload(responseData.id));
   }
-  openModal() {
-    this.setState({
-      open: true,
-    }); }
-  closeModal() {
-    this.setState({
-      open: false,
-    }); }
 
   handleFile(e) {
     const reader = new FileReader();
@@ -59,6 +48,7 @@ class ImageUploader extends Component {
         filename: file.name,
         filetype: file.type,
       });
+      this.handleSubmit();
     };
     //eslint-disable-next-line
     console.log('https://s3-us-west-2.amazonaws.com/sharecrow/' + file.name);
@@ -93,21 +83,12 @@ class ImageUploader extends Component {
     }
 
     if (this.state.processing) {
-      processing = 'Processing image, hang tight';
+      processing = 'Image Uploaded';
     }
 
     return (
       <div>
-        <button
-          className="upload-modal"
-          onClick={this.openModal}
-        >Upload Image</button>
-        <div className="file-upload">
-          <button
-            className="file-upload-btn" type="button"
-            onClick={this.handleSubmit}
-          >Add Image</button>
-
+        <div>
           <div className="image-upload-wrap">
             <input
               className="file-upload-input"
@@ -127,13 +108,13 @@ class ImageUploader extends Component {
           </div>
            {uploaded}
         </div>
-        <input
-          className="close-button"
-          type="submit" value="Close" onClick={this.closeModal}
-        />
       </div>
     );
   }
 }
+
+ImageUploader.propTypes = {
+  handleUpload: PropTypes.func.isRequired,
+};
 
 export default ImageUploader;
