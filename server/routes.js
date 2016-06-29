@@ -57,7 +57,6 @@ module.exports = app => {
     .post(dbController.imageUpload);
 >>>>>>> getImage route
 
-
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
     .get(apiController.distanceMatrix);
