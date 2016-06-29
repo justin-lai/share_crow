@@ -7,7 +7,7 @@ import { getCategory } from '../actions/categoryActions.js';
 import NavBar from './NavBar.js';
 import Search from './Search.js';
 import Filters from './Filters.js';
-import ImageUploader from './importImage.js';
+import ImageUploader from './ImportImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
@@ -123,7 +123,7 @@ class Marketplace extends Component {
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
-    setTimeout(this.methods.isLoggedIn, 1000);
+    setTimeout(this.methods.isLoggedIn, 300);
     this.user = userData;
   }
 

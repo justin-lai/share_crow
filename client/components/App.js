@@ -70,7 +70,7 @@ class App extends Component {
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
-    setTimeout(this.methods.isLoggedIn, 1000);
+    setTimeout(this.methods.isLoggedIn, 300);
     this.user = userData;
   }
 
@@ -89,7 +89,9 @@ class App extends Component {
           login={this.login}
           signup={this.signup}
         />
-        <Landing />
+        <Landing
+          signup={this.signup}
+        />
         <ProductCarousel products={this.products} />
         <Footer />
       </div>

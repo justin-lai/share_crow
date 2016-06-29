@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Search from './Search';
-import StartSharingButton from './StartSharingButton';
+import SignUpModal from './SignUpModal';
 
-const Landing = () => (
+const Landing = (props) => (
   <div className="landing">
     <img className="splash-image" alt="splash" src="splash.jpg" />
     <div className="wrap">
       <div className="landing-search">
         <Search />
-        <StartSharingButton />
+        <div className="start-sharing">
+          <section className="buttons">
+            <div className="sharing-button-container">
+              <a className="btn btn-1">
+                <SignUpModal
+                  origin
+                  signup={props.signup}
+                />
+              </a>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </div>
 );
 
-export default Landing;
+Landing.propTypes = {
+  signup: PropTypes.func,
+};
 
+export default Landing;

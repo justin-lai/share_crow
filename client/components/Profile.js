@@ -11,7 +11,7 @@ import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
 import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
-import ImageUploader from './importImage.js';
+import ImageUploader from './ImportImage.js';
 
 
 require('../assets/styles/app.scss');

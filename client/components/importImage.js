@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bindAll } from 'lodash';
 import $ from 'jquery';
-import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';
 
 require('../assets/styles/app/_image-upload.scss');
@@ -103,40 +102,35 @@ class ImageUploader extends Component {
           className="upload-modal"
           onClick={this.openModal}
         >Upload Image</button>
-        <Modal
-          isOpen={this.state.open}
-          onRequestClose={this.closeModal}
-        >
-          <div className="file-upload">
-            <button
-              className="file-upload-btn" type="button"
-              onClick={this.handleSubmit}
-            >Add Image</button>
+        <div className="file-upload">
+          <button
+            className="file-upload-btn" type="button"
+            onClick={this.handleSubmit}
+          >Add Image</button>
 
-            <div className="image-upload-wrap">
-              <input
-                className="file-upload-input"
-                type="file"
-                onChange={this.handleFile} accept="image/*" encType="multipart/form-data"
-              />
-              <div className="drag-text">
-                <h3>Drag and drop a file or select add Image</h3>
-              </div>
+          <div className="image-upload-wrap">
+            <input
+              className="file-upload-input"
+              type="file"
+              onChange={this.handleFile} accept="image/*" encType="multipart/form-data"
+            />
+            <div className="drag-text">
+              <h3>Drag and drop a file or select add Image</h3>
             </div>
-            <div className="file-upload-content">
-              <img
-                className="file-upload-image" src="#"
-                role="presentation"
-              />
-              {processing}
-            </div>
-             {uploaded}
           </div>
-          <input
-            className="close-button"
-            type="submit" value="Close" onClick={this.closeModal}
-          />
-        </Modal>
+          <div className="file-upload-content">
+            <img
+              className="file-upload-image" src="#"
+              role="presentation"
+            />
+            {processing}
+          </div>
+           {uploaded}
+        </div>
+        <input
+          className="close-button"
+          type="submit" value="Close" onClick={this.closeModal}
+        />
       </div>
     );
   }

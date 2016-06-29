@@ -8,6 +8,7 @@ class SignUpModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      origin: this.props.origin || false,
       open: false,
       firstName: '',
       lastName: '',
@@ -87,6 +88,178 @@ class SignUpModal extends Component {
   closeModal() { this.setState({ open: false }); }
 
   render() {
+    if (this.state.origin) {
+      return (
+        <div className="signup-wrapper">
+          <div
+            className="signup-modal"
+            onClick={this.openModal}
+          >Start Sharing</div>
+          <Modal
+            isOpen={this.state.open}
+            onRequestClose={this.closeModal}
+          >
+            <input className="close-button" type="submit" value="x" onClick={this.closeModal} />
+            <h1 className="modal-header">Create Account</h1>
+            <p className="first-name">
+              <div>First Name </div>
+              <input
+                value={this.state.firstName}
+                onChange={this.handleFirstName}
+                type="text"
+              />
+            </p>
+            <p className="last-name">
+              <div>Last Name</div>
+              <input
+                value={this.state.lastName}
+                onChange={this.handleLastName}
+                type="text"
+              />
+            </p>
+            <p>
+              <div>Email</div>
+              <input
+                value={this.state.email}
+                onChange={this.handleEmail}
+                type="text"
+                className="email-input"
+              />
+            </p>
+            <p>
+              <div>Create a Username</div>
+              <input
+                value={this.state.username}
+                onChange={this.handleUsername}
+                type="text"
+                className="username-input"
+              />
+            </p>
+            <p>
+              <div>Password</div>
+              <input
+                value={this.state.password}
+                onChange={this.handlePassword}
+                type="password"
+                className="password-input"
+              />
+            </p>
+            <p>
+              <div>Confirm Password</div>
+              <input
+                value={this.state.confirmPassword}
+                onChange={this.handleConfirmPassword}
+                type="password"
+                className="password-input"
+              />
+            </p>
+            <p>
+              <div>Address</div>
+              <input
+                value={this.state.address}
+                onChange={this.handleAddress}
+                className="address-input"
+                type="text"
+              />
+            </p>
+            <p className="city-input">
+              <div> City </div>
+              <input
+                value={this.state.city}
+                onChange={this.handleCity}
+                type="text"
+              />
+            </p>
+            <p className="state-input">
+              State
+              <select
+                value={this.state.state}
+                onChange={this.handleState}
+                className="state-input"
+              >
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
+            </p>
+            <p className="zipcode-input">
+              <div>Zipcode</div>
+              <input
+                value={this.state.zipcode}
+                onChange={this.handleZipcode}
+                type="text"
+              />
+            </p>
+            <p className="phone-input">
+              <div>Phone Number</div>
+              <input
+                value={this.state.phone}
+                onChange={this.handlePhoneNumber}
+                type="text"
+              />
+              <p>xxx-xxx-xxxx</p>
+            </p>
+            <div id="error-message">
+              <span>{this.state.errorMessage}</span>
+            </div>
+            <input
+              className="modal-login-button"
+              onClick={this.handleSubmit}
+              type="submit"
+              value="Sign Up"
+            />
+          </Modal>
+        </div>
+      );
+    }
     return (
       <div className="signup-wrapper">
         <div
@@ -262,6 +435,7 @@ class SignUpModal extends Component {
 
 SignUpModal.propTypes = {
   signup: PropTypes.func.isRequired,
+  origin: PropTypes.bool.isRequired,
 };
 
 export default SignUpModal;
