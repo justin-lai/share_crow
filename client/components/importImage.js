@@ -4,6 +4,8 @@ import $ from 'jquery';
 import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';
 
+require('../assets/styles/app/_image-upload.scss');
+
 class ImageUploader extends Component {
   constructor() {
     super();
