@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../actions/userActions.js';
 import { postMessage } from '../actions/messageActions.js';
+import $ from 'jquery';
 import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';
 
@@ -27,6 +28,7 @@ class Product extends Component {
       .then(responseData => {
         this.props.product.image = responseData.listingImage;
       });
+    $('.stripe-button-el').hide();
   }
 
   componentWillReceiveProps() {
@@ -42,13 +44,13 @@ class Product extends Component {
       sender_id: this.props.isAuth.userInfo.id,
       recipient_id: this.product.ownerId,
     });
+    $('.stripe-button-el, .modal-rent-button').trigger('click');
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();
     this.openModal();
   }
   render() {
     const product = this.props.product;
-
     return (
       <span
         onClick={this.openModal}
@@ -70,6 +72,7 @@ class Product extends Component {
           style={{ content: { height: '650px', width: '800px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
+          id="rent-item"
         >
           <h1 className="modal-header product-preview-header">{product.name}
             <span className="rent-request-message">{this.state.rentRequestMessage}</span>
