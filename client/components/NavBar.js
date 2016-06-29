@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import LoginModal from './LoginModal.js';
 import SignUpModal from './SignUpModal.js';
+import PostAnItemModal from './PostAnItemModal.js';
 
 const NavBar = (props) => {
   let navbar;
@@ -26,7 +27,7 @@ const NavBar = (props) => {
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#">Post an Item</a>
+                <a href="#"><PostAnItemModal /></a>
               </li>
               <li>
                 <a href="#/marketplace">
@@ -72,9 +73,6 @@ const NavBar = (props) => {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
-              <li>
-                <a><SignUpModal signup={props.signup} origin={false} />Post an Item</a>
-              </li>
               <li>
                 <a href="#/marketplace">
                 Marketplace
