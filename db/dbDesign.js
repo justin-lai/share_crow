@@ -209,4 +209,4 @@ Payments.belongsTo(User, {
 });
 User.hasOne(Images);
 
-module.exports = { Category, User, Messages, Reviews, Listings, Payments, sequelize };
+module.exports = { Category, User, Messages, Reviews, Listings, Payments, sequelize, Images };

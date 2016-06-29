@@ -32,28 +32,68 @@ const getFileName = () => {
 
 module.exports = {
 
+  getImage: (req, res) => {
+    console.log('GET //// getImage route');
+    req.session.cookie.path = 'main/imageUpload';
+    if (!req.query.id || !req.query.id <= 0) {
+      res.status(400).send({ message: 'invalid or non-included image id' });
+    } else {
+      db.Images.find({
+        where: {
+          id: req.query.id,
+        },
+      })
+        .then(responseData => res.status(200).send(responseData));
+    }
+  },
+
   imageUpload: (req, res) => {
     console.log('POST //// imageUpload route');
     // console.log('ACCESSKEY!!!!!!!!!!!!!!!! ', AWS.config.accessKeyId);
     // console.log('SECRET!!!!!!!!!!!!!!!', AWS.config.secretAccessKey);
     req.session.cookie.path = 'main/imageUpload';
-    const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
-    const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-    const data = {
-      Key: getFileName(),
-      Body: buf,
-      ContentEncoding: 'base64',
-      ContentType: 'image/jpeg',
-    };
-    s3Bucket.putObject(data, (err, data2) => {
-      if (err) {
-        console.log(err);
-        console.log('Error uploading data: ', data2);
-        res.send(data2);
-      } else {
-        console.log('succesfully uploaded the image!', data);
-      }
-    });
+    if (!req.body.imageBinary) {
+      res.status(400).send({ message: 'imageBinary invalid or nonexistant' });
+    } else {
+      const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
+      const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+      const filename = getFileName();
+      const data = {
+        Key: filename,
+        Body: buf,
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg',
+      };
+      s3Bucket.putObject(data, (err, data2) => {
+        if (err) {
+          console.log(err);
+          console.log('Error uploading data: ', data2);
+          res.send(data2);
+        } else {
+          db.Images.create({
+            listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
+          })
+            .then(response => response.dataValues)
+              .then(photoID => {
+                db.listings.find({
+                  where: {
+                    id: req.body.listingId,
+                  },
+                })
+                  .then(listing => listing.updateAttributes({ itemImage: photoID }))
+                  .then(() => {
+                    db.listings.find({
+                      where: {
+                        id: req.body.listingId,
+                      },
+                    })
+                      .then(updatedListing => res.status(201).send(updatedListing));
+                  });
+              });
+          console.log('succesfully uploaded the image!');
+        }
+      });
+    }
   },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////

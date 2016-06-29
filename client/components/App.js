@@ -70,7 +70,7 @@ class App extends Component {
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
-    setTimeout(this.methods.isLoggedIn, 300);
+    setTimeout(this.methods.isLoggedIn, 1000);
     this.user = userData;
   }
 

@@ -40,7 +40,9 @@ module.exports = app => {
     .post(dbController.generatePayment)
     .delete(dbController.submitPayment);
 
-  app.post('/main/imageUpload', dbController.imageUpload);
+  app.route('/main/imageUpload')
+    .get(dbController.getImage)
+    .post(dbController.imageUpload);
 
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
