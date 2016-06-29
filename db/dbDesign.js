@@ -140,9 +140,6 @@ const Listings = sequelize.define('Listings', {
   itemReturned: {
     type: Sequelize.BOOLEAN,
   },
-  itemImage: {
-    type: Sequelize.INTEGER,
-  },
   category: {
     type: Sequelize.STRING,
   },
