@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import LoginModal from './LoginModal.js';
 import SignUpModal from './SignUpModal.js';
 import PostAnItemModal from './PostAnItemModal.js';
+import MessageBox from './MessageBox.js';
 
 const NavBar = (props) => {
   let navbar;
@@ -26,6 +27,7 @@ const NavBar = (props) => {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
+              <MessageBox />
               <li>
                 <a><PostAnItemModal username={props.username} /></a>
               </li>
@@ -38,7 +40,8 @@ const NavBar = (props) => {
                 <a
                   className="dropdown-toggle"
                   data-toggle="dropdown" href="#"
-                >{props.username}<span className="caret"></span></a>
+                >{props.username}<span className="caret"></span>
+                </a>
                 <ul className="dropdown-menu">
                   <li><a href="#">Messages</a></li>
                   <li><a href="#">Transaction History</a></li>

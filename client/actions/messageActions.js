@@ -135,6 +135,24 @@ export function deleteMessage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(messageDeleteResponse(json)));
+    // gets messages after deletion
+    .then(() =>
+      fetch(`/main/message?recipientId=${data.recipientId}`, { credentials: 'same-origin' }))
+      .then(response => response.json())
+      .then(json => dispatch(messageGetResponse(json)));
   };
 }
+
+// function fetchPosts() {
+//   return dispatch => {
+//     fetchPostsAsync()
+//       .then(res => { // res is posts
+//         dispatch({ type: 'RECEIVE_POSTS', payload: res });
+//         return fetchPostMetaAsync(res);
+//       })
+//       .then(res => { // res  is metadata
+//         dispatch({ type: 'RECEIVE_POST_META', payload: res });
+//       })
+//   }
+// }
+

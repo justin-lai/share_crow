@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { getCategory } from '../actions/categoryActions.js';
 import Modal from 'react-modal';
 import ImportImage from './ImportImage';
 
@@ -6,8 +8,11 @@ import ImportImage from './ImportImage';
 class PostAnItemModal extends Component {
   constructor(props) {
     super(props);
+
+    console.log('POST ITEM PROPS: ', props)
     this.state = {
       username: props.username,
+      ownerId: props.isAuth.userInfo.id,
       open: false,
       listing: '',
       maxFee: '',
@@ -30,7 +35,7 @@ class PostAnItemModal extends Component {
       item: this.state.listing,
       max_fee: this.state.maxFee,
       rental_fee: this.state.rentalFee,
-      owner_id: this.state.username,
+      owner_id: this.state.ownerId,
       image: this.state.uploadListing,
       category: this.state.category,
     };
@@ -140,7 +145,25 @@ class PostAnItemModal extends Component {
 }
 
 PostAnItemModal.propTypes = {
-  username: PropTypes.object.isRequired,
 };
 
-export default PostAnItemModal;
+function mapStateToProps(state) {
+  const { category, isAuth } = state;
+
+  return {
+    category,
+    isAuth,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      getCategory: () => {
+        dispatch(getCategory());
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostAnItemModal);

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import router from 'react-router';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
 import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
@@ -9,7 +8,7 @@ import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
 import ProductList from './ProductList.js';
-import MessageInbox from './MessageInbox.js';
+// import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
 
 require('../assets/styles/app.scss');
@@ -18,12 +17,8 @@ require('../assets/styles/app.scss');
 class Profile extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.products = [];
-    this.inbox = [];
-    this.outbox = [];
-    this.profile = props.session;
-    this.id = this.profile.id;
     this.methods = props.methods;
     this.methods.isLoggedIn();
   }
@@ -31,31 +26,18 @@ class Profile extends Component {
   componentDidMount() {
     console.log('profile mount: ', this.props);
     if (this.props.isAuth.status) {
-      // this.methods.getListing(`name=${this.props.isAuth.username}`);
-      // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      this.methods.getUser(`username=${this.props.isAuth.username}`);
-      this.methods.getMessage('recipientId=10');
-      this.methods.getMessage('senderId=10');
       this.methods.getListing('owner_id=4');
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuth.status) {
+      this.profile = nexProps.isAuth.userInfo;
+    } else {
+      this.props.history.push('/')
+    }
     console.log('profile nextProps', nextProps);
-    if (!nextProps.isAuth.status) {
-      nextProps.history.push('/');
-    }
-
-    if (nextProps.message[0] && nextProps.message[0].recipient.username === 'joliver3') {
-      this.inbox = nextProps.message;
-    } else if (nextProps.message[0] && nextProps.message[0].sender.username === 'joliver3') {
-      this.outbox = nextProps.message;
-    }
-
-    this.profile = nextProps.user;
     this.products = nextProps.listing;
-    console.log('PROFILEEEEeEEEEE', this.profile);
-    // re-render with new props
   }
 
   render() {
@@ -70,7 +52,6 @@ class Profile extends Component {
           <div className="row">
             <div className="col-xs-6 col-md-4">
               <ProfileCard profile={this.profile} />
-              <MessageInbox inbox={this.inbox} outbox={this.outbox} />
             </div>
             <div id="profile-items">
               <h3>My Items</h3>
@@ -154,8 +135,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-Profile.willTransitionTo = () => {
-  console.log('STUFF HAPPENED');
-  router.getCurrentPath();
-};
+// Profile.willTransitionTo = () => {
+//   console.log('STUFF HAPPENED');
+//   router.getCurrentPath();
+// };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

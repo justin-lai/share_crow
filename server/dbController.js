@@ -311,7 +311,7 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send({ message: `no messages send from user: ${req.query.recipientId}` });
+          res.status(400).send(results);
         }
       });
     }
@@ -333,6 +333,24 @@ module.exports = {
     }
   },
 
+  deleteMessage: (req, res) => {
+    // id associated with the message must match the user id
+    // deletes a user review from database by id
+    console.log('DELETE //// deleteUserReview route');
+    req.session.cookie.path = '/main/profile';
+    console.log('DELETING MESSAGE ID', req.body);
+    db.Messages.destroy({
+      where: {
+        id: req.body.messageId,
+      },
+    }).then(queryData => {
+      if (queryData) {
+        res.status(200).send({ message: 'delete successful' });
+      } else {
+        res.status(400).send({ message: 'there was an error with deleting the message' });
+      }
+    });
+  },
   // //////////////////////////// RENTAL LISTING FUNCTIONS ////////////////////////////
   // expects none or 1 filter parameter
   getListings: (req, res) => {
@@ -402,7 +420,7 @@ module.exports = {
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
         category: req.body.category,
-        image: req.body.image || 0,
+        itemImage: req.body.image || 0,
         rented: false,
         itemReturned: false,
       })

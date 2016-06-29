@@ -15,7 +15,11 @@ module.exports = {
   isLoggedIn: (req, res) => {
     console.log('loggedin?: ', req.session);
     if (req.session.username) {
-      res.status(200).send({ status: true, username: req.session.username });
+      res.status(200).send({
+        status: true,
+        username: req.session.username,
+        userInfo: req.session.userID,
+      });
     } else {
       res.status(401).send({ status: false });
     }

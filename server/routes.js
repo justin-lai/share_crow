@@ -16,7 +16,8 @@ module.exports = app => {
 
   app.route('/main/message')
     .get(dbController.getMessages)
-    .post(dbController.postMessages);
+    .post(dbController.postMessages)
+    .delete(dbController.deleteMessage);
 
   app.route('/main/listing')
     .get(dbController.getListings)
