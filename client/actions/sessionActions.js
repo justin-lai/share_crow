@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { getUser } from './userActions.js';
+// import { getUser } from './userActions.js';
 
 /*
 --------------------------------------
@@ -59,12 +59,12 @@ export function isLoggedIn() {
     dispatch(isLoggedInRequest());
     return fetch('/isLoggedIn', { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(isLoggedInResponse(json)))
-      .then(loggedIn => {
-        if (loggedIn.status === true) {
-          getUser(`username=${loggedIn.username}`);
-        }
-      });
+      .then(json => dispatch(isLoggedInResponse(json)));
+      // .then(isLoggedIn => {
+      //   if (isLoggedIn.status === true) {
+      //     getUser(`username=${isLoggedIn.username}`);
+      //   }
+      // });
       // .then(response => {
       //   console.log('SHOULD I BE LOGGED IN?:', response.ok);
       //   dispatch(isLoggedInResponse(response.ok));

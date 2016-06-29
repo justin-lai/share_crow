@@ -32,9 +32,9 @@ class Profile extends Component {
     if (this.props.isAuth.status) {
       // this.methods.getListing(`name=${this.props.isAuth.username}`);
       // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      // this.methods.getUser(`username=${this.props.isAuth.username}`);
       // this.methods.getMessage('recipientId=10');
       // this.methods.getMessage('senderId=10');
+      this.methods.getUser(`username=${this.props.isAuth.username}`);
       this.methods.getListing('owner_id=4');
     }
   }
@@ -45,7 +45,7 @@ class Profile extends Component {
       nextProps.history.push('/');
     }
 
-    this.profile = nextProps.session;
+    this.profile = nextProps.user;
     this.products = nextProps.listing;
     // re-render with new props
   }

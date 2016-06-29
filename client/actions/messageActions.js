@@ -136,15 +136,11 @@ export function deleteMessage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    //gets messages after deletion
-    .then(json => {
-      return fetch(`/main/message?recipientId=${data.recipientId}`, { credentials: 'same-origin' })
+    // gets messages after deletion
+    .then(() =>
+      fetch(`/main/message?recipientId=${data.recipientId}`, { credentials: 'same-origin' }))
       .then(response => response.json())
-      .then(json => {
-        console.log('JSON!!!!', json);
-        dispatch(messageGetResponse(json));
-      });
-    });
+      .then(json => dispatch(messageGetResponse(json)));
   };
 }
 
