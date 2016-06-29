@@ -52,28 +52,48 @@ module.exports = {
     // console.log('ACCESSKEY!!!!!!!!!!!!!!!! ', AWS.config.accessKeyId);
     // console.log('SECRET!!!!!!!!!!!!!!!', AWS.config.secretAccessKey);
     req.session.cookie.path = 'main/imageUpload';
-    const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
-    const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-    const filename = getFileName();
-    const data = {
-      Key: filename,
-      Body: buf,
-      ContentEncoding: 'base64',
-      ContentType: 'image/jpeg',
-    };
-    s3Bucket.putObject(data, (err, data2) => {
-      if (err) {
-        console.log(err);
-        console.log('Error uploading data: ', data2);
-        res.send(data2);
-      } else {
-        db.Images.create({
-          listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
-        })
-          .then(response => console.log(response, '1111111'));
-        console.log('succesfully uploaded the image!');
-      }
-    });
+    if (!req.body.imageBinary) {
+      res.status(400).send({ message: 'imageBinary invalid or nonexistant' });
+    } else {
+      const s3Bucket = new AWS.S3({ params: { Bucket: 'sharecrow' } });
+      const buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+      const filename = getFileName();
+      const data = {
+        Key: filename,
+        Body: buf,
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg',
+      };
+      s3Bucket.putObject(data, (err, data2) => {
+        if (err) {
+          console.log(err);
+          console.log('Error uploading data: ', data2);
+          res.send(data2);
+        } else {
+          db.Images.create({
+            listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
+          })
+            .then(response => response.dataValues)
+              .then(photoID => {
+                db.listings.find({
+                  where: {
+                    id: req.body.listingId,
+                  },
+                })
+                  .then(listing => listing.updateAttributes({ itemImage: photoID }))
+                  .then(() => {
+                    db.listings.find({
+                      where: {
+                        id: req.body.listingId,
+                      },
+                    })
+                      .then(updatedListing => res.status(201).send(updatedListing));
+                  });
+              });
+          console.log('succesfully uploaded the image!');
+        }
+      });
+    }
   },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////

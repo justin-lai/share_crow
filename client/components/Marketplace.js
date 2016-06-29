@@ -11,7 +11,6 @@ import ImageUploader from './importImage.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
-import ImageUp from './importImage.js';
 // const fetch = require('isomorphic-fetch');
 
 require('../assets/styles/app.scss');
@@ -120,7 +119,7 @@ class Marketplace extends Component {
     Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
     query = query.join('&');
     this.methods.getSession(query);
-    this.methods.isLoggedIn();
+    setTimeout(this.methods.isLoggedIn, 1000);
     this.user = userData;
   }
 
@@ -146,7 +145,7 @@ class Marketplace extends Component {
         <div id="marketplace-search-container">
           <Search searchFor={this.searchFor} />
         </div>
-        <ImageUp />
+        <ImageUploader />
         <div id="marketplace-items-container">
           <ImageUploader />
           <h3>Items</h3>
