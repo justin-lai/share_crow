@@ -13,6 +13,7 @@ import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
 
 // import Payments from './Payments.js';
+
 // import Loading from './LoadingBar.js';
 // const fetch = require('isomorphic-fetch');
 
