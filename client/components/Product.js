@@ -50,6 +50,44 @@ class Product extends Component {
   }
   render() {
     const product = this.props.product;
+    if (product.rented) {
+      return (
+        <span
+          className="product rented"
+        >
+          <img
+            src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+            alt="product"
+          />
+          {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
+          <div className="product-info">
+            <h4>{product.name}</h4>
+            <p>${product.rentalFee}/day</p>
+            <p>XY miles away - Fremont, CA</p>
+            <a href="/">{product.owner.username}</a>
+          </div>
+        </span>
+      );
+    }
+    if (product.ownerId === this.props.isAuth.userInfo.id) {
+      return (
+        <span
+          className={product.rented ? 'product rented' : 'product'}
+        >
+          <img
+            src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+            alt="product"
+          />
+          {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
+          <div className="product-info">
+            <h4>{product.name}</h4>
+            <p>${product.rentalFee}/day</p>
+            <p>XY miles away - Fremont, CA</p>
+            <a href="/">{product.owner.username}</a>
+          </div>
+        </span>
+      );
+    }
     return (
       <span
         onClick={this.openModal}
