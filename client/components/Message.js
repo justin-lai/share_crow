@@ -66,8 +66,7 @@ class Message extends Component {
       >
         <span className="rent-request-message">{this.state.rentRequestMessage}</span>
         <h4 id="message-request-text">
-          <a href="/#/profile">{` ${message.sender.username}`}
-          </a> would like to jacquire your BICICLETA
+          {message.text}
         </h4>
         <div>
           <input
@@ -92,12 +91,11 @@ class Message extends Component {
     return (
       <li className="message" onClick={this.openModal}>
         {this.renderModal(message)}
-        <p className="subject">Request received for BICICLETA</p>
+        <p className="subject">{message.text}</p>
         <p className="sender">from
           <a href="/#/profile">{` ${message.sender.username}`}
           </a> sent {this.date}
         </p>
-        {this.state.showText ? <p className="message-text">{message.text}</p> : null}
       </li>
     );
   }

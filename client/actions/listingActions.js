@@ -38,7 +38,6 @@ export function listingGetResponse(data) {
   };
 }
 export function getListing(query) {
-  console.log('LISTING query: ', query);
   return dispatch => {
     dispatch(listingGetRequest());
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
