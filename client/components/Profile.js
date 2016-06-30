@@ -22,17 +22,18 @@ class Profile extends Component {
     this.methods = props.methods;
     this.methods.isLoggedIn();
     this.profile = props.isAuth.userInfo;
-  }
-
-  componentDidMount() {
-    console.log('profile mount: ', this.props);
     if (this.props.isAuth.status) {
       // console.log('CHECK: ', `owner_id=${this.props.isAuth.userInfo.id}`);
       this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
     }
   }
 
+  componentDidMount() {
+    console.log('profile mount: ', this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
+    console.log('profile nextProps', nextProps);
     if (nextProps.isAuth.status) {
       this.profile = nextProps.isAuth.userInfo;
     } else {

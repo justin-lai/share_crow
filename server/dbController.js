@@ -219,7 +219,7 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
-    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.about) {
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phone && !req.body.about) {
       res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
@@ -295,7 +295,6 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
-        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
@@ -409,6 +408,10 @@ module.exports = {
       },
       {
         model: db.Category,
+      },
+      {
+        model: db.Images,
+        as: 'listingImage',
       }],
     }).then((items) => {
       const results = [];
@@ -417,8 +420,8 @@ module.exports = {
       });
       if (results.length) {
         res.status(200).send(results);
-      } else {
-        res.status(400).send({ message: `no results were found given: ${searchFilters}` });
+      // } else {
+        // res.status(400).send({ message: `no results were found given: ${searchFilters}` });
       }
     });
   },

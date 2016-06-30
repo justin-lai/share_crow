@@ -18,6 +18,9 @@ class Product extends Component {
     this.product = props.product;
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    // ghetto temp workaround
+    this.product.listingImage = this.product.listingImage || this.product.image; 
   }
   componentDidMount() {
     // this.methods.getUser(`id=${this.product.ownerId}`);
@@ -30,12 +33,12 @@ class Product extends Component {
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   handleSubmit() {
-    this.props.methods.postMessage({
-      subject: 'Rent Item Request',
-      text: 'bigboyben wants to rent your stuff',
-      sender_id: 1,
-      recipient_id: 2,
-    });
+    // this.props.methods.postMessage({
+    //   subject: 'Rent Item Request',
+    //   text: 'bigboyben wants to rent your stuff',
+    //   sender_id: 1,
+    //   recipient_id: 2,
+    // });
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();
     this.openModal();
@@ -48,7 +51,7 @@ class Product extends Component {
         onClick={this.openModal}
         className={product.rented ? 'product rented' : 'product'}
       >
-        <img src={product.image} alt="product" />
+        <img src={product.listingImage[0] ? product.listingImage[0].listingImage : null } alt="product" />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
         <div className="product-info">
           <h4>{product.name}</h4>
@@ -72,7 +75,7 @@ class Product extends Component {
               <img
                 className="product-image"
                 alt="product-preview"
-                src={product.image}
+                src={product.listingImage[0] ? product.listingImage[0].listingImage : null }
               />
             </div>
           </p>
