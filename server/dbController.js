@@ -681,10 +681,10 @@ module.exports = {
         const stripeToken = req.body.stripeToken;
         stripe.customers.create({
           source: stripeToken,
-          description: 'payinguser@example.com',
+          description: 'tetsting@example.com',
         }).then((customer) =>
           stripe.charges.create({
-            amount: rentalFee, // amount in cents, again
+            amount: 30000,
             currency: 'usd',
             customer: customer.id,
           })
