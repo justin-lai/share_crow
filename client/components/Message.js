@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { deleteMessage } from '../actions/messageActions.js';
+import { putListing } from '../actions/listingActions.js';
 
 class Message extends Component {
   constructor(props) {
@@ -41,10 +42,16 @@ class Message extends Component {
   }
 
   acceptRequest() {
-    // alert('request accepted');
-    // START HERE!!!!
-    // modify the renterid, rentedon, rented -> true fields on listing table
-    // send your id, and listing id
+    this.props.methods.putListing({
+      listingId: this.props.messageItem.subject,
+      rentedOn: new Date().toISOString(),
+      rented: true,
+      renterId: this.props.messageItem.senderId,
+    });
+    this.props.methods.deleteMessage({
+      messageId: this.props.messageItem.id,
+      recipientId: this.props.messageItem.recipientId,
+    });
     this.closeModal();
   }
 
@@ -110,10 +117,10 @@ Message.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { message } = state;
+  const { message, listing } = state;
 
   return {
-    message,
+    message, listing,
   };
 }
 
@@ -122,6 +129,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
     methods: {
       deleteMessage: (data) => {
         dispatch(deleteMessage(data));
+      },
+      putListing: (data) => {
+        dispatch(putListing(data));
       },
     },
   };

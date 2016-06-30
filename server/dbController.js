@@ -343,6 +343,7 @@ module.exports = {
         text: req.body.text,
         senderId: req.body.sender_id,
         recipientId: req.body.recipient_id,
+        subject: req.body.subject,
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {

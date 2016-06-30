@@ -39,7 +39,7 @@ class Product extends Component {
   handleSubmit() {
     $('.stripe-button-el').trigger('click');
     this.props.methods.postMessage({
-      subject: `You received a request for ${this.product.name}!`,
+      subject: this.product.id,
       text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
       sender_id: this.props.isAuth.userInfo.id,
       recipient_id: this.product.ownerId,
