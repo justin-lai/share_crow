@@ -42,6 +42,9 @@ class Message extends Component {
 
   acceptRequest() {
     // alert('request accepted');
+    // START HERE!!!!
+    // modify the renterid, rentedon, rented -> true fields on listing table
+    // send your id, and listing id
     this.closeModal();
   }
 
