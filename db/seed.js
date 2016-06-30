@@ -197,7 +197,7 @@ db.sequelize
         listingImage: 'http://www.becauseiamfabulous.com/wp-content/uploads/2012/09/Olga-Kurylenko-in-Valentino-Dress-at-the-To-The-Wonder-Premiere-The-69th-Venice-Film-Festival.jpg',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 10 } })
+      db.Category.findOne({ where: { id: 1 } })
         .then(category => {
           item.addCategory(category);
         });
@@ -375,7 +375,7 @@ db.sequelize
       CategoryId: 3,
     });
     db.Category.create({
-      categoryName: 'Keyboards && Mice',
+      categoryName: 'Peripherals',
       CategoryId: 3,
     });
   });
