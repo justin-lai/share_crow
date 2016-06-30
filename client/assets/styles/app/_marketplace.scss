@@ -38,7 +38,7 @@ ul#filters {
   background-color: black;
 }
 
-li.category { 
+li.category {
   /*padding-left: 20px;*/
   padding: 5px 0;
 }
@@ -51,4 +51,8 @@ li.category:last-of-type {
 li.category:hover {
   color: #cd1b4e;
   cursor: pointer;
+}
+.stripe-button {
+  position: relative;
+  margin-left: 4000px;
 }

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../actions/userActions.js';
 import { postMessage } from '../actions/messageActions.js';
+import $ from 'jquery';
 import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';
 
@@ -36,19 +37,19 @@ class Product extends Component {
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   handleSubmit() {
-    // this.props.methods.postMessage({
-    //   subject: 'Rent Item Request',
-    //   text: 'bigboyben wants to rent your stuff',
-    //   sender_id: 1,
-    //   recipient_id: 2,
-    // });
+    $('.stripe-button-el').trigger('click');
+    this.props.methods.postMessage({
+      subject: `You received a request for ${this.product.name}!`,
+      text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
+      sender_id: this.props.isAuth.userInfo.id,
+      recipient_id: this.product.ownerId,
+    });
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();
     this.openModal();
   }
   render() {
     const product = this.props.product;
-
     return (
       <span
         onClick={this.openModal}
@@ -70,6 +71,7 @@ class Product extends Component {
           style={{ content: { height: '650px', width: '800px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
+          id="rent-item"
         >
           <h1 className="modal-header product-preview-header">{product.name}
             <span className="rent-request-message">{this.state.rentRequestMessage}</span>
@@ -116,14 +118,16 @@ class Product extends Component {
 Product.propTypes = {
   product: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, message } = state;
+  const { user, message, isAuth } = state;
 
   return {
     user,
     message,
+    isAuth,
   };
 }
 

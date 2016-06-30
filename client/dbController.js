@@ -37,32 +37,15 @@ module.exports = {
   getImage: (req, res) => {
     console.log('GET //// getImage route');
     req.session.cookie.path = 'main/imageUpload';
-    console.log(req.query);
-    if (!req.query.id || req.query.id <= 0) {
+    if (!req.query.id || !req.query.id <= 0) {
       res.status(400).send({ message: 'invalid or non-included image id' });
     } else {
       db.Images.find({
         where: {
-          ListingId: req.query.id,
+          id: req.query.id,
         },
       })
         .then(responseData => res.status(200).send(responseData));
-    }
-  },
-
-  changeImageListing: (req, res) => {
-    console.log('PUT //// changeImageListing route');
-    req.session.cookie.path = 'main/imageUpload';
-    if (!req.body.id) {
-      res.status(400).send({ message: 'id not provided in request body' });
-    } else {
-      db.Images.find({
-        where: {
-          id: req.body.id,
-        },
-      })
-        .then(responseData => responseData.updateAttributes({ ListingId: req.body.listingId }))
-        .then(newImageListing => res.status(200).send(newImageListing));
     }
   },
 
@@ -92,24 +75,24 @@ module.exports = {
           db.Images.create({
             listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
           })
-            .then(response => res.status(200).send(response.dataValues));
-          //     .then(photoID => {
-          //       db.listings.find({
-          //         where: {
-          //           id: req.body.listingId,
-          //         },
-          //       })
-          //         .then(listing => listing.updateAttributes({ itemImage: photoID }))
-          //         .then(() => {
-          //           db.listings.find({
-          //             where: {
-          //               id: req.body.listingId,
-          //             },
-          //           })
-          //             .then(updatedListing => res.status(201).send(updatedListing));
-          //         });
-          //     });
-          // console.log('succesfully uploaded the image!');
+            .then(response => response.dataValues)
+              .then(photoID => {
+                db.listings.find({
+                  where: {
+                    id: req.body.listingId,
+                  },
+                })
+                  .then(listing => listing.updateAttributes({ itemImage: photoID }))
+                  .then(() => {
+                    db.listings.find({
+                      where: {
+                        id: req.body.listingId,
+                      },
+                    })
+                      .then(updatedListing => res.status(201).send(updatedListing));
+                  });
+              });
+          console.log('succesfully uploaded the image!');
         }
       });
     }
@@ -144,11 +127,9 @@ module.exports = {
             firstName: req.body.firstName || null,
             lastName: req.body.lastName || null,
             verified: false,
-            phone: req.body.phone,
+            phone: req.body.phoneNumber,
           }).then((user) => {
             req.session.username = req.body.username;
-            delete user.dataValues.password;
-            req.session.userID = user.dataValues;
             res.status(201).send(user.dataValues);
           });
         } else {
@@ -177,8 +158,6 @@ module.exports = {
       if (queryData[0]) {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
           req.session.username = req.query.username;
-          delete queryData[0].dataValues.password;
-          req.session.userID = queryData[0].dataValues;
           res.status(200).send(queryData[0].dataValues);
           console.log(req.session);
         } else {
@@ -222,7 +201,7 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
-    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phone && !req.body.about) {
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.about) {
       res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
@@ -298,6 +277,7 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
+        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
@@ -329,7 +309,7 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send(results);
+          res.status(400).send({ message: `no messages send from user: ${req.query.recipientId}` });
         }
       });
     }
@@ -351,24 +331,6 @@ module.exports = {
     }
   },
 
-  deleteMessage: (req, res) => {
-    // id associated with the message must match the user id
-    // deletes a user review from database by id
-    console.log('DELETE //// deleteUserReview route');
-    req.session.cookie.path = '/main/profile';
-    console.log('DELETING MESSAGE ID', req.body);
-    db.Messages.destroy({
-      where: {
-        id: req.body.messageId,
-      },
-    }).then(queryData => {
-      if (queryData) {
-        res.status(200).send({ message: 'delete successful' });
-      } else {
-        res.status(400).send({ message: 'there was an error with deleting the message' });
-      }
-    });
-  },
   // //////////////////////////// RENTAL LISTING FUNCTIONS ////////////////////////////
   // expects none or 1 filter parameter
   getListings: (req, res) => {
@@ -411,10 +373,6 @@ module.exports = {
       },
       {
         model: db.Category,
-      },
-      {
-        model: db.Images,
-        as: 'listingImage',
       }],
     }).then((items) => {
       const results = [];
@@ -423,8 +381,8 @@ module.exports = {
       });
       if (results.length) {
         res.status(200).send(results);
-      // } else {
-        // res.status(400).send({ message: `no results were found given: ${searchFilters}` });
+      } else {
+        res.status(400).send({ message: `no results were found given: ${searchFilters}` });
       }
     });
   },
@@ -433,7 +391,6 @@ module.exports = {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
     req.session.cookie.path = '/main/listing';
-    console.log(req.body.previewImage);
     // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
@@ -441,10 +398,9 @@ module.exports = {
         ownerId: req.body.owner_id,
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
-        category: req.body.category,
+        image: req.body.image || null,
         rented: false,
         itemReturned: false,
-        previewImage: 'test', //req.body.previewImage || '',
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {
@@ -668,9 +624,22 @@ module.exports = {
   generatePayment: (req, res) => {
     console.log('POST //// generatePayment route');
 
+    const stripeToken = req.body.stripeToken;
+    const charge = stripe.charges.create({
+      amount: 1000, // amount in cents, again
+      currency: 'usd',
+      source: stripeToken,
+      description: 'Example charge',
+    },
+    (err) => {
+      if (err && err.type === 'StripeCardError') {
+        // The card has been declined
+      } else {
+        console.log(charge);
+      }
+    });
 
     req.session.cookie.path = '/main/payment';
-    const stripeToken = req.body.stripeToken;
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -678,22 +647,7 @@ module.exports = {
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
-        // console.log(rentalFee);
-        const charge = stripe.charges.create({
-          amount: 5000,
-          currency: 'usd',
-          source: stripeToken,
-          description: 'Example charge',
-          // metadata: { 'order_id': '6735' }
-        }, (err) => {
-          if (err && err.type === 'StripeCardError') {
-            // The card has been declined
-          } else {
-            console.log(charge);
-          }
-        });
-        // console.log(rentalFee);
-
+        console.log(rentalFee);
         db.Payments.create({
           $Amount: rentalFee,
           startDate: queryData.rentedOn,

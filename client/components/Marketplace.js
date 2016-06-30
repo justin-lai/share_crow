@@ -11,7 +11,6 @@ import ProductList from './ProductList.js';
 import Footer from './Footer.js';
 import Loading from './LoadingBar.js';
 
-// import Payments from './Payments.js';
 
 // import Loading from './LoadingBar.js';
 // const fetch = require('isomorphic-fetch');
@@ -39,6 +38,7 @@ class Marketplace extends Component {
 
   componentDidMount() {
     if (this.props.isAuth.status) {
+      //eslint-disable-next-line
       console.log('get user from marketplace');
     }
     //eslint-disable-next-line
@@ -145,7 +145,6 @@ class Marketplace extends Component {
           <Search searchFor={this.searchFor} />
         </div>
         <div id="marketplace-items-container">
-          {/* <Payments />*/}
           <h3>Items</h3>
           <ProductList products={this.state.filteredListings} />
         </div>
