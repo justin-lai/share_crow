@@ -37,7 +37,6 @@ module.exports = {
   getImage: (req, res) => {
     console.log('GET //// getImage route');
     req.session.cookie.path = 'main/imageUpload';
-    console.log(req.query);
     if (!req.query.id || req.query.id <= 0) {
       res.status(400).send({ message: 'invalid or non-included image id' });
     } else {
@@ -380,8 +379,11 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
-      categoryName: req.query.category || null,
     };
+
+    const categoryFilter = req.query.categoryId ?
+      Sequelize.or({ id: req.query.categoryId }, { CategoryId: req.query.categoryId })
+        : {};
 
     if (!req.query.name) {
       delete searchFilters.name;
@@ -394,9 +396,6 @@ module.exports = {
     }
     if (!req.query.rental_fee) {
       delete searchFilters.rentalFee;
-    }
-    if (!req.query.category) {
-      delete searchFilters.categoryName;
     }
     // if parameters provided, only return a filtered list
     db.Listings.findAll({
@@ -411,21 +410,22 @@ module.exports = {
       },
       {
         model: db.Category,
+        where: categoryFilter,
       },
       {
         model: db.Images,
         as: 'listingImage',
       }],
-    }).then((items) => {
+    }).then(items => {
       const results = [];
       items.forEach(entry => {
         results.push(entry.dataValues);
       });
-      if (results.length) {
-        res.status(200).send(results);
+      // if (results.length) {
+      res.status(200).send(results);
       // } else {
         // res.status(400).send({ message: `no results were found given: ${searchFilters}` });
-      }
+      // }
     });
   },
   // expects item, owner_id, max_fee, rental_fee, image
@@ -441,12 +441,20 @@ module.exports = {
         ownerId: req.body.owner_id,
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
-        category: req.body.category,
         rented: false,
         itemReturned: false,
         previewImage: 'test', //req.body.previewImage || '',
       })
-      .then((queryData) => res.status(201).send(queryData));
+      .then(listing => {
+        db.Category.findOne({ where: { id: req.body.category } })
+          .then(category => {
+            listing.addCategory(category).success(() => {
+              console.log('saved!');
+            });
+          });
+        return listing;
+      })
+      .then(queryData => res.status(201).send(queryData));
     } else {
       res.status(400).send({ message: 'a required parameter was not provided' });
     }
@@ -633,29 +641,31 @@ module.exports = {
       include: [{
         model: db.Category,
         as: 'subCategory',
-        include: [{
-          model: db.Listings,
-          include: [{
-            model: db.User,
-            as: 'owner',
-          },
-          {
-            model: db.User,
-            as: 'renter',
-          }],
-        }],
+        // include: [{
+        //   model: db.Listings,
+        //   as: 'Category',
+        //   include: [{
+        //     model: db.User,
+        //     as: 'owner',
+        //   },
+        //   {
+        //     model: db.User,
+        //     as: 'renter',
+        //   }],
+        // }],
       },
-      {
-        model: db.Listings,
-        include: [{
-          model: db.User,
-          as: 'owner',
-        },
-        {
-          model: db.User,
-          as: 'renter',
-        }],
-      }],
+      // {
+      //   model: db.Listings,
+      //   include: [{
+      //     model: db.User,
+      //     as: 'owner',
+      //   },
+      //   {
+      //     model: db.User,
+      //     as: 'renter',
+      //   }],
+      // }
+      ],
     })
       .then(queryData => {
         const results = [];
