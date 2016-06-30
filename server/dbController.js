@@ -670,30 +670,6 @@ module.exports = {
 
 
     req.session.cookie.path = '/main/payment';
-    const stripeToken = req.body.stripeToken;
-    console.log(req);
-
-    stripe.customers.create({
-      source: stripeToken,
-      description: 'payinguser@example.com',
-    }).then((customer) => {
-      stripe.charges.create({
-        amount: 1000, // amount in cents, again
-        currency: 'usd',
-        customer: customer.id,
-      });
-    });
-    // .then((charge) => {
-    // YOUR CODE: Save the customer ID and other info in a database for later!
-    // });
-
-    // YOUR CODE: When it's time to charge the customer again, retrieve the customer ID!
-
-    stripe.charges.create({
-      amount: 1500, // amount in cents, again
-      currency: 'usd',
-      // customer: customerId,
-    });
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -702,6 +678,18 @@ module.exports = {
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
         console.log(rentalFee);
+        const stripeToken = req.body.stripeToken;
+        stripe.customers.create({
+          source: stripeToken,
+          description: 'payinguser@example.com',
+        }).then((customer) =>
+          stripe.charges.create({
+            amount: rentalFee, // amount in cents, again
+            currency: 'usd',
+            customer: customer.id,
+          })
+        );
+
         db.Payments.create({
           $Amount: rentalFee,
           startDate: queryData.rentedOn,
