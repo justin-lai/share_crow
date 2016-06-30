@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCategory } from '../actions/categoryActions.js';
 import Modal from 'react-modal';
-import ImportImage from './ImportImage';
-
+import ImageUploader from './ImageUploader';
 
 class PostAnItemModal extends Component {
   constructor(props) {
@@ -145,7 +144,7 @@ class PostAnItemModal extends Component {
             <option value="5">Real Estate</option>
             <option value="7">Sporting Goods</option>
           </select>
-          <ImportImage
+          <ImageUploader
             handleUpload={this.handleUpload}
           />
           <input
