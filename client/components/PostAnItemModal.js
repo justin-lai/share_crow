@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCategory } from '../actions/categoryActions.js';
 import Modal from 'react-modal';
-import ImportImage from './importImage';
+import ImportImage from './ImportImage';
 
 
 class PostAnItemModal extends Component {
