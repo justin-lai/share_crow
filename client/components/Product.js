@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../actions/userActions.js';
 import { postMessage } from '../actions/messageActions.js';
-// import ProductModal from './ProductModal.js';
 import Modal from 'react-modal';
-
+import fetch from 'isomorphic-fetch';
 
 class Product extends Component {
   constructor(props) {
@@ -20,10 +19,14 @@ class Product extends Component {
     this.closeModal = this.closeModal.bind(this);
 
     // ghetto temp workaround
-    this.product.listingImage = this.product.listingImage || this.product.image; 
+    this.product.listingImage = this.product.listingImage || this.product.image;
   }
   componentDidMount() {
-    // this.methods.getUser(`id=${this.product.ownerId}`);
+    fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
+      .then(response => response.json())
+      .then(responseData => {
+        this.props.product.image = responseData.listingImage;
+      });
   }
 
   componentWillReceiveProps() {
@@ -51,7 +54,10 @@ class Product extends Component {
         onClick={this.openModal}
         className={product.rented ? 'product rented' : 'product'}
       >
-        <img src={product.listingImage[0] ? product.listingImage[0].listingImage : null } alt="product" />
+        <img
+          src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+          alt="product"
+        />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
         <div className="product-info">
           <h4>{product.name}</h4>
@@ -75,7 +81,7 @@ class Product extends Component {
               <img
                 className="product-image"
                 alt="product-preview"
-                src={product.listingImage[0] ? product.listingImage[0].listingImage : null }
+                src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
               />
             </div>
           </p>

@@ -35,12 +35,13 @@ module.exports = {
   getImage: (req, res) => {
     console.log('GET //// getImage route');
     req.session.cookie.path = 'main/imageUpload';
-    if (!req.query.id || !req.query.id <= 0) {
+    console.log(req.query);
+    if (!req.query.id || req.query.id <= 0) {
       res.status(400).send({ message: 'invalid or non-included image id' });
     } else {
       db.Images.find({
         where: {
-          id: req.query.id,
+          ListingId: req.query.id,
         },
       })
         .then(responseData => res.status(200).send(responseData));
@@ -430,7 +431,7 @@ module.exports = {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
     req.session.cookie.path = '/main/listing';
-    console.log(req.body);
+    console.log(req.body.previewImage);
     // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
@@ -439,9 +440,9 @@ module.exports = {
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
         category: req.body.category,
-        itemImage: req.body.image || 0,
         rented: false,
         itemReturned: false,
+        previewImage: 'test', //req.body.previewImage || '',
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {

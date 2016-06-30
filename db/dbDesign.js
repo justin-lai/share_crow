@@ -143,6 +143,9 @@ const Listings = sequelize.define('Listings', {
   category: {
     type: Sequelize.STRING,
   },
+  previewImage: {
+    type: Sequelize.STRING,
+  },
 });
 
 const Images = sequelize.define('Images', {

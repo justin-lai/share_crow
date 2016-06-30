@@ -19,6 +19,7 @@ class PostAnItemModal extends Component {
       rentalFee: '',
       category: 0,
       uploadListing: '',
+      uploadID: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleItemListing = this.handleItemListing.bind(this);
@@ -36,8 +37,8 @@ class PostAnItemModal extends Component {
       max_fee: this.state.maxFee,
       rental_fee: this.state.rentalFee,
       owner_id: this.state.ownerId,
-      image: this.state.uploadListing,
       category: this.state.category,
+      previewImage: this.state.uploadListing,
     };
     console.log(listingData);
     fetch('http://localhost:3000/main/listing',
@@ -58,7 +59,7 @@ class PostAnItemModal extends Component {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                id: responseData.itemImage,
+                id: this.state.uploadID,
                 listingId: responseData.id,
               }),
             }).then(response => response.json())
@@ -67,9 +68,10 @@ class PostAnItemModal extends Component {
     this.closeModal();
   }
 
-  handleUpload(listing) {
+  handleUpload(listing, id) {
     this.setState({
       uploadListing: listing,
+      uploadID: id,
     });
     console.log(`image upload stored at id: ${listing}`);
   }
