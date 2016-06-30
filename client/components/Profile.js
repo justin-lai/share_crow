@@ -21,12 +21,14 @@ class Profile extends Component {
     this.products = [];
     this.methods = props.methods;
     this.methods.isLoggedIn();
+    this.profile = props.isAuth.userInfo;
   }
 
   componentDidMount() {
     console.log('profile mount: ', this.props);
     if (this.props.isAuth.status) {
-      this.methods.getListing('owner_id=4');
+      // console.log('CHECK: ', `owner_id=${this.props.isAuth.userInfo.id}`);
+      this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
     }
   }
 

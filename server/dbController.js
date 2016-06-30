@@ -141,7 +141,7 @@ module.exports = {
             firstName: req.body.firstName || null,
             lastName: req.body.lastName || null,
             verified: false,
-            phone: req.body.phoneNumber,
+            phone: req.body.phone,
           }).then((user) => {
             req.session.username = req.body.username;
             delete user.dataValues.password;
