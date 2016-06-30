@@ -90,7 +90,7 @@ class PostAnItemModal extends Component {
           className="post-item-modal"
           onClick={this.openModal}
         >
-          <img className="glyphicon" role="presentation" src="listing-icon.png" /> Post an Item
+          Post an Item
         </div>
         <Modal
           style={{ content: { height: '600px' } }}
