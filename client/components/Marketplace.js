@@ -49,6 +49,7 @@ class Marketplace extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
+    console.log('changed');
     this.setState({
       listings: nextProps.listing,
       filteredListings: nextProps.listing,
@@ -59,10 +60,7 @@ class Marketplace extends Component {
 
   filterBy(filter) {
     if (filter === 'showAll') {
-      this.setState({
-        listings: this.props.listing,
-        filteredListings: this.props.listing,
-      });
+      this.methods.getListing();
     } else {
       // clear the current list of items
       this.setState({
@@ -70,35 +68,39 @@ class Marketplace extends Component {
         filteredListings: [],
       });
 
-      for (let i = 0; i < this.props.category.length; i++) {
-        const category = this.props.category[i];
+      // get category id
+      const catId = this.categories.filter(category => category.categoryName === filter)[0].id;
 
-        if (category.CategoryId === null) {
-          // display parent category listings and all its subcategory listings
-          if (category.categoryName === filter) {
-            let newListings = [];
-            newListings = newListings.concat(category.Listings);
-            for (let j = 0; j < category.subCategory.length; j++) {
-              const subcategory = category.subCategory[j];
-              newListings = newListings.concat(subcategory.Listings);
-            }
-            this.setState({
-              listings: newListings,
-              filteredListings: newListings,
-            });
-            break;
-          }
-        } else {
-          // display subcategory listings
-          if (category.categoryName === filter) {
-            this.setState({
-              listings: category.Listings,
-              filteredListings: category.Listings,
-            });
-            break;
-          }
-        }
-      }
+      this.methods.getListing(`categoryId=${catId}`);
+      // for (let i = 0; i < this.props.category.length; i++) {
+      //   const category = this.props.category[i];
+
+      //   if (category.CategoryId === null) {
+      //     // display parent category listings and all its subcategory listings
+      //     if (category.categoryName === filter) {
+      //       let newListings = [];
+      //       newListings = newListings.concat(category.Listings);
+      //       for (let j = 0; j < category.subCategory.length; j++) {
+      //         const subcategory = category.subCategory[j];
+      //         newListings = newListings.concat(subcategory.Listings);
+      //       }
+      //       this.setState({
+      //         listings: newListings,
+      //         filteredListings: newListings,
+      //       });
+      //       break;
+      //     }
+      //   } else {
+      //     // display subcategory listings
+      //     if (category.categoryName === filter) {
+      //       this.setState({
+      //         listings: category.Listings,
+      //         filteredListings: category.Listings,
+      //       });
+      //       break;
+      //     }
+      //   }
+      // }
     }
   }
 
