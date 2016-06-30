@@ -147,6 +147,7 @@ class Marketplace extends Component {
           <Search searchFor={this.searchFor} />
         </div>
         <div id="marketplace-items-container">
+          <button className="marketplace-button post-item-button">Post an Item</button>
           <h3>Items</h3>
           <ProductList products={this.state.filteredListings} />
         </div>
