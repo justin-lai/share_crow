@@ -678,8 +678,9 @@ module.exports = {
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
+        // console.log(rentalFee);
         const charge = stripe.charges.create({
-          amount: rentalFee,
+          amount: 5000,
           currency: 'usd',
           source: stripeToken,
           description: 'Example charge',
@@ -691,7 +692,7 @@ module.exports = {
             console.log(charge);
           }
         });
-        console.log(rentalFee);
+        // console.log(rentalFee);
 
         db.Payments.create({
           $Amount: rentalFee,
