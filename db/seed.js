@@ -107,7 +107,6 @@ db.sequelize
       rentalFee: 5,
       category: 12,
       rented: false,
-      previewImage: 'http://target.scene7.com/is/image/Target/15124780?wid=450&hei=450&fmt=pjpeg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://target.scene7.com/is/image/Target/15124780?wid=450&hei=450&fmt=pjpeg',
@@ -115,7 +114,7 @@ db.sequelize
       });
       db.Category.findOne({ where: { id: 12 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -125,15 +124,14 @@ db.sequelize
       rentalFee: 550,
       category: 7,
       rented: false,
-      previewImage: 'http://triathlonrumor.com/wp-content/uploads/2011/10/2012-Specialized-Shiv-S-Works-Di2-triathlon-aero-bike.jpg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://triathlonrumor.com/wp-content/uploads/2011/10/2012-Specialized-Shiv-S-Works-Di2-triathlon-aero-bike.jpg',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 7 } })
+      db.Category.findOne({ where: { id: 6 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -143,7 +141,6 @@ db.sequelize
       rentalFee: 20,
       category: 8,
       rented: false,
-      previewImage: 'http://www.projectorreviews.com/resize/622x335/r/wp-content/uploads/2015/04/G6550WU_front-beauty.jpg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://www.projectorreviews.com/resize/622x335/r/wp-content/uploads/2015/04/G6550WU_front-beauty.jpg',
@@ -151,7 +148,7 @@ db.sequelize
       });
       db.Category.findOne({ where: { id: 8 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -161,15 +158,14 @@ db.sequelize
       rentalFee: 5,
       category: 0,
       rented: false,
-      previewImage: 'http://vignette1.wikia.nocookie.net/iceandfire/images/b/b6/Game_of_thrones.jpeg/revision/latest?cb=20130302001049',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://vignette1.wikia.nocookie.net/iceandfire/images/b/b6/Game_of_thrones.jpeg/revision/latest?cb=20130302001049',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 0} })
+      db.Category.findOne({ where: { id: 1 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -179,7 +175,6 @@ db.sequelize
       rentalFee: 210,
       category: 2,
       rented: false,
-      previewImage: 'http://cdn-4.nikon-cdn.com/e/Q5NM96RZZo-YRYNeYvAi9beHK4x3L-8iSKFuXbTDiVzOj5_9D03cEdJ1gEjX7rK74bi3TemBsjwqkN1duzuOiA==/Views/1529_D3300_left.png',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://cdn-4.nikon-cdn.com/e/Q5NM96RZZo-YRYNeYvAi9beHK4x3L-8iSKFuXbTDiVzOj5_9D03cEdJ1gEjX7rK74bi3TemBsjwqkN1duzuOiA==/Views/1529_D3300_left.png',
@@ -187,7 +182,7 @@ db.sequelize
       });
       db.Category.findOne({ where: { id: 2 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -197,15 +192,14 @@ db.sequelize
       rentalFee: 1000,
       category: 9,
       rented: false,
-      previewImage: 'http://www.becauseiamfabulous.com/wp-content/uploads/2012/09/Olga-Kurylenko-in-Valentino-Dress-at-the-To-The-Wonder-Premiere-The-69th-Venice-Film-Festival.jpg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://www.becauseiamfabulous.com/wp-content/uploads/2012/09/Olga-Kurylenko-in-Valentino-Dress-at-the-To-The-Wonder-Premiere-The-69th-Venice-Film-Festival.jpg',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 9 } })
+      db.Category.findOne({ where: { id: 10 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -215,7 +209,6 @@ db.sequelize
       rentalFee: 200,
       category: 3,
       rented: false,
-      previewImage: 'http://store.storeimages.cdn-apple.com/4973/as-images.apple.com/is/image/AppleInc/aos/published/images/m/ac/mac/pro/mac-pro-gallery3-2013?wid=930&hei=629&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=zW0lr1',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://store.storeimages.cdn-apple.com/4973/as-images.apple.com/is/image/AppleInc/aos/published/images/m/ac/mac/pro/mac-pro-gallery3-2013?wid=930&hei=629&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=zW0lr1',
@@ -223,7 +216,7 @@ db.sequelize
       });
       db.Category.findOne({ where: { id: 3 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -233,15 +226,14 @@ db.sequelize
       rentalFee: 10000,
       category: 10,
       rented: false,
-      previewImage: 'https://i.kinja-img.com/gawker-media/image/upload/s--PkNm59rP--/c_fill,fl_progressive,g_center,h_180,q_80,w_320/17hmosyunvkzojpg.jpg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'https://i.kinja-img.com/gawker-media/image/upload/s--PkNm59rP--/c_fill,fl_progressive,g_center,h_180,q_80,w_320/17hmosyunvkzojpg.jpg',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 10 } })
+      db.Category.findOne({ where: { id: 9 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -251,15 +243,14 @@ db.sequelize
       rentalFee: 1,
       category: 4,
       rented: false,
-      previewImage: 'https://upload.wikimedia.org/wikipedia/en/2/21/Britney_Spears_Toxic.png',
     }).then((item) => {
       db.Images.create({
         listingImage: 'https://upload.wikimedia.org/wikipedia/en/2/21/Britney_Spears_Toxic.png',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 4 } })
+      db.Category.findOne({ where: { id: 5 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Listings.create({
@@ -269,15 +260,14 @@ db.sequelize
       rentalFee: 200,
       category: 5,
       rented: false,
-      previewImage: 'http://i.dailymail.co.uk/i/pix/2015/09/18/00/2C6FCFDA00000578-3239257-image-a-21_1442533435701.jpg',
     }).then((item) => {
       db.Images.create({
         listingImage: 'http://i.dailymail.co.uk/i/pix/2015/09/18/00/2C6FCFDA00000578-3239257-image-a-21_1442533435701.jpg',
         ListingId: item.dataValues.id,
       });
-      db.Category.findOne({ where: { id: 5 } })
+      db.Category.findOne({ where: { id: 4 } })
         .then(category => {
-          item.addCategory(category)
+          item.addCategory(category);
         });
     });
     db.Category.create({

@@ -37,7 +37,6 @@ class PostAnItemModal extends Component {
       rental_fee: this.state.rentalFee,
       owner_id: this.state.ownerId,
       category: this.state.category,
-      previewImage: this.state.uploadListing,
     };
     console.log(listingData);
     fetch('http://localhost:3000/main/listing',
