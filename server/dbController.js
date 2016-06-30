@@ -431,7 +431,7 @@ module.exports = {
     // adds a new listing entry in database
     console.log('POST //// createListing route');
     req.session.cookie.path = '/main/listing';
-    console.log(req.body);
+    console.log(req.body.previewImage);
     // item name, owner_id, max_fee, and rental_fee required. image is optional
     if (req.body.item && req.body.owner_id && req.body.max_fee && req.body.rental_fee) {
       db.Listings.create({
@@ -440,9 +440,9 @@ module.exports = {
         maxFee: req.body.max_fee,
         rentalFee: req.body.rental_fee,
         category: req.body.category,
-        itemImage: req.body.image || 0,
         rented: false,
         itemReturned: false,
+        previewImage: 'test', //req.body.previewImage || '',
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {

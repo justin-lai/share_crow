@@ -32,7 +32,7 @@ class ImageUploader extends Component {
       }),
     })
       .then(response => response.json())
-        .then(responseData => this.handleUpload(responseData.id));
+        .then(responseData => this.handleUpload(responseData.listingImage, responseData.id));
   }
 
   handleFile(e) {
