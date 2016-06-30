@@ -131,7 +131,7 @@ class PostAnItemModal extends Component {
             value={this.state.category}
             onChange={this.handleCategory}
           >
-            <option value="0">Book</option>
+            <option value="1">Book</option>
             <option value="2">Camera</option>
             <option value="9">Clothing</option>
             <option value="3">Computers</option>
