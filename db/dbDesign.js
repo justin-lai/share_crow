@@ -178,6 +178,9 @@ Listings.belongsTo(User, {
   as: 'renter',
   foreignKey: 'renterId',
 });
+Listings.hasMany(Images, { 
+  as: 'listingImage',
+})
 Images.belongsTo(User);
 Images.belongsTo(Listings);
 Messages.belongsTo(User, {
