@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../actions/userActions.js';
 import { postMessage } from '../actions/messageActions.js';
-// import ProductModal from './ProductModal.js';
 import Modal from 'react-modal';
-
+import fetch from 'isomorphic-fetch';
 
 class Product extends Component {
   constructor(props) {
@@ -23,7 +22,11 @@ class Product extends Component {
     this.product.listingImage = this.product.listingImage || this.product.image; 
   }
   componentDidMount() {
-    // this.methods.getUser(`id=${this.product.ownerId}`);
+    fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
+      .then(response => response.json())
+      .then(responseData => {
+        this.props.product.image = responseData.listingImage;
+      });
   }
 
   componentWillReceiveProps() {
