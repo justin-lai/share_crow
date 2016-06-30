@@ -28,7 +28,6 @@ class Product extends Component {
       .then(responseData => {
         this.props.product.image = responseData.listingImage;
       });
-    $('.stripe-button-el').hide();
   }
 
   componentWillReceiveProps() {
@@ -38,13 +37,13 @@ class Product extends Component {
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   handleSubmit() {
+    $('.stripe-button-el').trigger('click');
     this.props.methods.postMessage({
       subject: `You received a request for ${this.product.name}!`,
       text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
       sender_id: this.props.isAuth.userInfo.id,
       recipient_id: this.product.ownerId,
     });
-    $('.stripe-button-el, .modal-rent-button').trigger('click');
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();
     this.openModal();
