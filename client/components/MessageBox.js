@@ -13,7 +13,7 @@ class MessageBox extends Component {
 
   componentDidMount() {
     console.log(this.props);
-    this.methods.getMessage('recipientId=2');
+    this.methods.getMessage(`recipientId=${this.props.isAuth.userInfo.id}`);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,10 +46,10 @@ MessageBox.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { session, message } = state;
+  const { isAuth, message } = state;
 
   return {
-    session,
+    isAuth,
     message,
   };
 }
@@ -66,6 +66,7 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 MessageBox.propTypes = {
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageBox);

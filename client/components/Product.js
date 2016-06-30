@@ -36,12 +36,12 @@ class Product extends Component {
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   handleSubmit() {
-    // this.props.methods.postMessage({
-    //   subject: 'Rent Item Request',
-    //   text: 'bigboyben wants to rent your stuff',
-    //   sender_id: 1,
-    //   recipient_id: 2,
-    // });
+    this.props.methods.postMessage({
+      subject: `You received a request for ${this.product.name}!`,
+      text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
+      sender_id: this.props.isAuth.userInfo.id,
+      recipient_id: this.product.ownerId,
+    });
     this.state.rentRequestMessage = 'Your request has been sent!';
     this.closeModal();
     this.openModal();
@@ -116,14 +116,16 @@ class Product extends Component {
 Product.propTypes = {
   product: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, message } = state;
+  const { user, message, isAuth } = state;
 
   return {
     user,
     message,
+    isAuth,
   };
 }
 
