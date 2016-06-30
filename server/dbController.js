@@ -670,6 +670,7 @@ module.exports = {
 
 
     req.session.cookie.path = '/main/payment';
+    const stripeToken = req.body.stripeToken;
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -677,18 +678,20 @@ module.exports = {
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
-        console.log(rentalFee);
-        const stripeToken = req.body.stripeToken;
-        stripe.customers.create({
+        const charge = stripe.charges.create({
+          amount: rentalFee,
+          currency: 'usd',
           source: stripeToken,
-          description: 'tetsting@example.com',
-        }).then((customer) =>
-          stripe.charges.create({
-            amount: 30000,
-            currency: 'usd',
-            customer: customer.id,
-          })
-        );
+          description: 'Example charge',
+          // metadata: { 'order_id': '6735' }
+        }, (err) => {
+          if (err && err.type === 'StripeCardError') {
+            // The card has been declined
+          } else {
+            console.log(charge);
+          }
+        });
+        console.log(rentalFee);
 
         db.Payments.create({
           $Amount: rentalFee,
