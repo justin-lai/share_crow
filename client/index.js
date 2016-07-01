@@ -14,9 +14,6 @@ require('./assets/styles/app.scss');
 let store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
-// load stored state before app renders
-store.dispatch({ type: 'INIT' });
-
 render(
   (<Provider store={store}>
     <Router history={history}>

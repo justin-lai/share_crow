@@ -1,6 +1,5 @@
 export default store => next => action => {
   const { type } = action;
-  localStorage.setItem('SHARE_CROW_LOADED', 'false');
   if (type === 'INIT') {
     try {
       const storedState = JSON.parse(
@@ -12,7 +11,6 @@ export default store => next => action => {
           payload: storedState,
         });
       }
-      localStorage.setItem('SHARE_CROW_LOADED', 'true');
 
       return;
     } catch (e) {
