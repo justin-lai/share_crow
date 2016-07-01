@@ -37,15 +37,37 @@ module.exports = {
   getImage: (req, res) => {
     console.log('GET //// getImage route');
     req.session.cookie.path = 'main/imageUpload';
-    if (!req.query.id || !req.query.id <= 0) {
+    if (!req.query.id || req.query.id <= 0) {
       res.status(400).send({ message: 'invalid or non-included image id' });
     } else {
       db.Images.find({
         where: {
-          id: req.query.id,
+          ListingId: req.query.id,
         },
       })
         .then(responseData => res.status(200).send(responseData));
+    }
+  },
+
+  changeImageListing: (req, res) => {
+    console.log('PUT //// changeImageListing route');
+    req.session.cookie.path = 'main/imageUpload';
+    if (!req.body.id) {
+      res.status(400).send({ message: 'id not provided in request body' });
+    } else {
+      db.Images.find({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(responseData => {
+          if (req.body.listingId) {
+            responseData.updateAttributes({ ListingId: req.body.listingId });
+          } else if (req.body.userId) {
+            responseData.updateAttributes({ UserId: req.body.userId });
+          }
+        })
+        .then(newImageListing => res.status(200).send(newImageListing));
     }
   },
 
@@ -73,29 +95,44 @@ module.exports = {
           res.send(data2);
         } else {
           db.Images.create({
-            listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
+            image: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
           })
-            .then(response => response.dataValues)
-              .then(photoID => {
-                db.listings.find({
-                  where: {
-                    id: req.body.listingId,
-                  },
-                })
-                  .then(listing => listing.updateAttributes({ itemImage: photoID }))
-                  .then(() => {
-                    db.listings.find({
-                      where: {
-                        id: req.body.listingId,
-                      },
-                    })
-                      .then(updatedListing => res.status(201).send(updatedListing));
-                  });
-              });
-          console.log('succesfully uploaded the image!');
+            .then(response => res.status(200).send(response.dataValues));
+          //     .then(photoID => {
+          //       db.listings.find({
+          //         where: {
+          //           id: req.body.listingId,
+          //         },
+          //       })
+          //         .then(listing => listing.updateAttributes({ itemImage: photoID }))
+          //         .then(() => {
+          //           db.listings.find({
+          //             where: {
+          //               id: req.body.listingId,
+          //             },
+          //           })
+          //             .then(updatedListing => res.status(201).send(updatedListing));
+          //         });
+          //     });
+          // console.log('succesfully uploaded the image!');
         }
       });
     }
+  },
+
+  deleteImage: (req, res) => {
+    console.log('DELETE //// deleteImage route');
+    db.Images.destroy({
+      where: {
+        UserId: req.body.userId,
+      },
+    }).then(queryData => {
+      if (queryData) {
+        res.status(200).send({ message: 'delete successful' });
+      } else {
+        res.status(400).send({ message: 'there was an error with deleting the message' });
+      }
+    });
   },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
@@ -127,9 +164,15 @@ module.exports = {
             firstName: req.body.firstName || null,
             lastName: req.body.lastName || null,
             verified: false,
-            phone: req.body.phoneNumber,
-          }).then((user) => {
+            phone: req.body.phone,
+          }).then(user => {
+            db.Images.create({
+              image: 'http://cdn.litlepups.net/2016/04/10/small_crow-flying-png-bird-flying-silhouette.png',
+              userId: user.dataValues.id,
+            });
             req.session.username = req.body.username;
+            delete user.dataValues.password;
+            req.session.userID = user.dataValues;
             res.status(201).send(user.dataValues);
           });
         } else {
@@ -158,6 +201,8 @@ module.exports = {
       if (queryData[0]) {
         if (bcrypt.compareSync(req.query.password, queryData[0].dataValues.password)) {
           req.session.username = req.query.username;
+          delete queryData[0].dataValues.password;
+          req.session.userID = queryData[0].dataValues;
           res.status(200).send(queryData[0].dataValues);
           console.log(req.session);
         } else {
@@ -182,6 +227,9 @@ module.exports = {
         }, {
           username: req.query.username,
         }),
+        include: [{
+          model: db.Images,
+        }],
       })
       .then(queryData => {
         if (queryData[0]) {
@@ -201,7 +249,7 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
-    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phoneNumber && !req.body.about) {
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phone && !req.body.about) {
       res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
@@ -277,15 +325,13 @@ module.exports = {
         queryData.forEach(message => {
           results.push(message.dataValues);
         });
-        console.log('message results: ', results);
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send({ message: `no messages were found from user: ${req.query.senderId}` });
+          res.status(200).send({ message: `no messages were found from user: ${req.query.senderId}` });
         }
       });
     } else {
-      console.log('!!!!!!!!!!!!!!!!');
       const searchFilters = {
         recipientId: req.query.recipientId,
       };
@@ -309,7 +355,7 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send({ message: `no messages send from user: ${req.query.recipientId}` });
+          res.status(400).send(results);
         }
       });
     }
@@ -324,6 +370,7 @@ module.exports = {
         text: req.body.text,
         senderId: req.body.sender_id,
         recipientId: req.body.recipient_id,
+        subject: req.body.subject,
       })
       .then((queryData) => res.status(201).send(queryData));
     } else {
@@ -331,6 +378,24 @@ module.exports = {
     }
   },
 
+  deleteMessage: (req, res) => {
+    // id associated with the message must match the user id
+    // deletes a user review from database by id
+    console.log('DELETE //// deleteUserReview route');
+    req.session.cookie.path = '/main/profile';
+    console.log('DELETING MESSAGE ID', req.body);
+    db.Messages.destroy({
+      where: {
+        id: req.body.messageId,
+      },
+    }).then(queryData => {
+      if (queryData) {
+        res.status(200).send({ message: 'delete successful' });
+      } else {
+        res.status(400).send({ message: 'there was an error with deleting the message' });
+      }
+    });
+  },
   // //////////////////////////// RENTAL LISTING FUNCTIONS ////////////////////////////
   // expects none or 1 filter parameter
   getListings: (req, res) => {
@@ -342,8 +407,13 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
-      categoryName: req.query.category || null,
+      rented: req.query.rented || null,
+      renterId: req.query.renterId || null,
     };
+
+    const categoryFilter = req.query.categoryId ?
+      Sequelize.or({ id: req.query.categoryId }, { CategoryId: req.query.categoryId })
+        : {};
 
     if (!req.query.name) {
       delete searchFilters.name;
@@ -356,9 +426,6 @@ module.exports = {
     }
     if (!req.query.rental_fee) {
       delete searchFilters.rentalFee;
-    }
-    if (!req.query.category) {
-      delete searchFilters.categoryName;
     }
     // if parameters provided, only return a filtered list
     db.Listings.findAll({
@@ -373,17 +440,22 @@ module.exports = {
       },
       {
         model: db.Category,
+        where: categoryFilter,
+      },
+      {
+        model: db.Images,
+        as: 'listingImage',
       }],
-    }).then((items) => {
+    }).then(items => {
       const results = [];
       items.forEach(entry => {
         results.push(entry.dataValues);
       });
-      if (results.length) {
-        res.status(200).send(results);
-      } else {
-        res.status(400).send({ message: `no results were found given: ${searchFilters}` });
-      }
+      // if (results.length) {
+      res.status(200).send(results);
+      // } else {
+        // res.status(400).send({ message: `no results were found given: ${searchFilters}` });
+      // }
     });
   },
   // expects item, owner_id, max_fee, rental_fee, image
@@ -402,7 +474,16 @@ module.exports = {
         rented: false,
         itemReturned: false,
       })
-      .then((queryData) => res.status(201).send(queryData));
+      .then(listing => {
+        db.Category.findOne({ where: { id: req.body.category } })
+          .then(category => {
+            listing.addCategory(category).success(() => {
+              console.log('saved!');
+            });
+          });
+        return listing;
+      })
+      .then(queryData => res.status(201).send(queryData));
     } else {
       res.status(400).send({ message: 'a required parameter was not provided' });
     }
@@ -412,59 +493,78 @@ module.exports = {
     // modifies entry with 'listing id' in database
     console.log('PUT //// changeListing Route');
     req.session.cookie.path = '/main/listing';
-    // change database entry depending on parameters
-    if (!req.body.listingId) {
-      res.status(400).send({ message: 'listingId was not provided' });
+    if (req.body.removeListing) {
+      console.log(req.body, 'aksjdf;ksfjs;fjds;f');
+      db.Listings.destroy({
+        where: {
+          id: req.body.listingId,
+        },
+      })
+        .then(() => res.status(200).send({ message: 'deletion sucessful' }));
     } else {
-      const updateListing = {
-        renterId: req.body.renterId || null,
-        maxFee: req.body.maxFee || null,
-        rentalFee: req.body.rentalFee || null,
-        rentedOn: req.body.rentedOn || null,
-        itemImage: req.body.itemImage || null,
-        returnedOn: req.body.returnedOn || null,
-        itemReturned: req.body.itemReturned || null,
-        rented: req.body.rented || null,
-      };
+      // change database entry depending on parameters
+      if (!req.body.listingId) {
+        res.status(400).send({ message: 'listingId was not provided' });
+      } else {
+        let updateListing = {
+          renterId: req.body.renterId || null,
+          maxFee: req.body.maxFee || null,
+          rentalFee: req.body.rentalFee || null,
+          rentedOn: req.body.rentedOn || null,
+          itemImage: req.body.itemImage || null,
+          returnedOn: req.body.returnedOn || null,
+          itemReturned: req.body.itemReturned || null,
+          rented: req.body.rented || null,
+        };
 
-      if (!req.body.renterId) {
-        delete updateListing.renterId;
-      }
-      if (!req.body.maxFee) {
-        delete updateListing.maxFee;
-      }
-      if (!req.body.rentalFee) {
-        delete updateListing.rentalFee;
-      }
-      if (!req.body.rentedOn) {
-        delete updateListing.rentedOn;
-      }
-      if (!req.body.returnedOn) {
-        delete updateListing.returnedOn;
-      }
-      if (!req.body.rented) {
-        delete updateListing.rented;
-      }
-      if (!req.body.itemReturned) {
-        delete updateListing.itemReturned;
-      }
-      if (!req.body.itemImage) {
-        delete updateListing.itemImage;
-      }
-      db.Listings.find(
-        {
-          where: {
-            id: req.body.listingId,
-          },
-        })
-        .then(queryData => queryData.updateAttributes(updateListing))
-        .then(() => {
-          db.Listings.find({
+        if (!req.body.renterId) {
+          delete updateListing.renterId;
+        }
+        if (!req.body.maxFee) {
+          delete updateListing.maxFee;
+        }
+        if (!req.body.rentalFee) {
+          delete updateListing.rentalFee;
+        }
+        if (!req.body.rentedOn) {
+          delete updateListing.rentedOn;
+        }
+        if (!req.body.returnedOn) {
+          delete updateListing.returnedOn;
+        }
+        if (!req.body.rented) {
+          delete updateListing.rented;
+        }
+        if (!req.body.itemReturned) {
+          delete updateListing.itemReturned;
+        }
+        if (!req.body.itemImage) {
+          delete updateListing.itemImage;
+        }
+        if (req.body.reset) {
+          updateListing = {
+            renterId: null,
+            rentedOn: null,
+            returnedOn: null,
+            itemReturned: true,
+            rented: false,
+          };
+        }
+        db.Listings.find(
+          {
             where: {
               id: req.body.listingId,
             },
-          }).then(newEntry => res.status(200).send(newEntry));
-        });
+          })
+          .then(queryData => queryData.updateAttributes(updateListing))
+          .then(() => {
+            db.Listings.find({
+              where: {
+                id: req.body.listingId,
+              },
+            }).then(newEntry => res.status(200).send(newEntry));
+          });
+      }
     }
   },
   // expects listing id
@@ -494,6 +594,7 @@ module.exports = {
         });
     }
   },
+
 
   // //////////////////////////// UNIQUE LISTING ACQUIRE FUNCTIONS ////////////////////////////
   getUniqueListing: (req, res) => {
@@ -591,6 +692,7 @@ module.exports = {
         as: 'subCategory',
         include: [{
           model: db.Listings,
+          as: 'Category',
           include: [{
             model: db.User,
             as: 'owner',
@@ -611,7 +713,8 @@ module.exports = {
           model: db.User,
           as: 'renter',
         }],
-      }],
+      },
+    ],
     })
       .then(queryData => {
         const results = [];
@@ -624,22 +727,9 @@ module.exports = {
   generatePayment: (req, res) => {
     console.log('POST //// generatePayment route');
 
-    const stripeToken = req.body.stripeToken;
-    const charge = stripe.charges.create({
-      amount: 1000, // amount in cents, again
-      currency: 'usd',
-      source: stripeToken,
-      description: 'Example charge',
-    },
-    (err) => {
-      if (err && err.type === 'StripeCardError') {
-        // The card has been declined
-      } else {
-        console.log(charge);
-      }
-    });
 
     req.session.cookie.path = '/main/payment';
+    const stripeToken = req.body.stripeToken;
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -647,7 +737,22 @@ module.exports = {
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
-        console.log(rentalFee);
+        // console.log(rentalFee);
+        const charge = stripe.charges.create({
+          amount: 5000,
+          currency: 'usd',
+          source: stripeToken,
+          description: 'Example charge',
+          // metadata: { 'order_id': '6735' }
+        }, (err) => {
+          if (err && err.type === 'StripeCardError') {
+            // The card has been declined
+          } else {
+            console.log(charge);
+          }
+        });
+        // console.log(rentalFee);
+
         db.Payments.create({
           $Amount: rentalFee,
           startDate: queryData.rentedOn,
@@ -661,21 +766,53 @@ module.exports = {
   getPaymentInfo: (req, res) => {
     console.log('GET //// getPaymentInfo route');
     req.session.cookie.path = '/main/payment';
-    if (!req.query.id) {
-      res.status(400).send({ message: 'payment id not provided' });
-    } else {
-      db.Payments.find({
+    if (req.query.payerId) {
+      db.Payments.findAll({
         where: {
-          id: req.query.id,
+          payerId: req.query.payerId,
         },
       })
         .then(queryData => {
           if (queryData) {
             res.status(200).send(queryData);
           } else {
-            res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+            res.status(400).send({
+              message: 'you owe nothing',
+            });
           }
         });
+    } else if (req.query.paidId) {
+      db.Payments.findAll({
+        where: {
+          paidId: req.query.paidId,
+        },
+      })
+        .then(queryData => {
+          if (queryData) {
+            res.status(200).send(queryData);
+          } else {
+            res.status(400).send({
+              message: 'you owe nothing',
+            });
+          }
+        });
+    } else {
+      if (!req.query.id) {
+        res.status(400).send({ message: 'payment id not provided' });
+      } else {
+        db.Payments.find({
+          where: {
+            id: req.query.id,
+          },
+        })
+          .then(queryData => {
+            if (queryData) {
+              res.status(200).send(queryData);
+            } else {
+              res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+            }
+          });
+      }
     }
   },
   submitPayment: (req, res) => {
@@ -701,5 +838,4 @@ module.exports = {
         });
     }
   },
-
 };

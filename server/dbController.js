@@ -407,6 +407,8 @@ module.exports = {
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
       rentalFee: req.query.rental_fee || null,
+      rented: req.query.rented || null,
+      renterId: req.query.renterId || null,
     };
 
     const categoryFilter = req.query.categoryId ?
@@ -424,6 +426,12 @@ module.exports = {
     }
     if (!req.query.rental_fee) {
       delete searchFilters.rentalFee;
+    }
+    if (!req.query.rented) {
+      delete searchFilters.rented;
+    }
+    if (!req.query.renterId) {
+      delete searchFilters.renterId;
     }
     // if parameters provided, only return a filtered list
     db.Listings.findAll({
@@ -503,7 +511,7 @@ module.exports = {
       if (!req.body.listingId) {
         res.status(400).send({ message: 'listingId was not provided' });
       } else {
-        const updateListing = {
+        let updateListing = {
           renterId: req.body.renterId || null,
           maxFee: req.body.maxFee || null,
           rentalFee: req.body.rentalFee || null,
@@ -537,6 +545,15 @@ module.exports = {
         }
         if (!req.body.itemImage) {
           delete updateListing.itemImage;
+        }
+        if (req.body.reset) {
+          updateListing = {
+            renterId: null,
+            rentedOn: null,
+            returnedOn: null,
+            itemReturned: true,
+            rented: false,
+          };
         }
         db.Listings.find(
           {
@@ -754,21 +771,53 @@ module.exports = {
   getPaymentInfo: (req, res) => {
     console.log('GET //// getPaymentInfo route');
     req.session.cookie.path = '/main/payment';
-    if (!req.query.id) {
-      res.status(400).send({ message: 'payment id not provided' });
-    } else {
-      db.Payments.find({
+    if (req.query.payerId) {
+      db.Payments.findAll({
         where: {
-          id: req.query.id,
+          payerId: req.query.payerId,
         },
       })
         .then(queryData => {
           if (queryData) {
             res.status(200).send(queryData);
           } else {
-            res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+            res.status(400).send({
+              message: 'you owe nothing',
+            });
           }
         });
+    } else if (req.query.paidId) {
+      db.Payments.findAll({
+        where: {
+          paidId: req.query.paidId,
+        },
+      })
+        .then(queryData => {
+          if (queryData) {
+            res.status(200).send(queryData);
+          } else {
+            res.status(400).send({
+              message: 'you owe nothing',
+            });
+          }
+        });
+    } else {
+      if (!req.query.id) {
+        res.status(400).send({ message: 'payment id not provided' });
+      } else {
+        db.Payments.find({
+          where: {
+            id: req.query.id,
+          },
+        })
+          .then(queryData => {
+            if (queryData) {
+              res.status(200).send(queryData);
+            } else {
+              res.status(400).send({ message: `payment entry not found at ${req.query.id}` });
+            }
+          });
+      }
     }
   },
   submitPayment: (req, res) => {
@@ -794,5 +843,4 @@ module.exports = {
         });
     }
   },
-
 };

@@ -18,6 +18,15 @@ try {
   );
   if (storedState) {
     delete storedState.routing;
+    storedState.isFetching = {
+      user: false,
+      listing: false,
+      message: false,
+      image: false,
+      category: false,
+      session: false,
+      isAuth: false,
+    };
     initialState = storedState;
   }
 } catch (e) {

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
+import { signup } from '../../helpers/authHelpers';
 
 // const fetch = require('node-fetch');
 /* eslint-disable react/jsx-no-bind */
@@ -53,7 +54,7 @@ class SignUpModal extends Component {
       phone: this.state.phone,
     };
     if (newUserData.password === this.state.confirmPassword) {
-      this.props.signup(newUserData);
+      signup(newUserData);
       this.closeModal();
     } else {
       this.state.errorMessage = 'Passwords do not match.';

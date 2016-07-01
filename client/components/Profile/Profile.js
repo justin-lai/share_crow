@@ -6,11 +6,13 @@ import { getMessage, postMessage, putMessage, deleteMessage } from '../../action
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
-import ProfileGridView from './../Profile/ProfileGridView';
 import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
-
-// require('../assets/styles/app.scss');
+import AvailableItemsGridView from '../AvailableItemsGridView';
+import RentedOutItemsGridView from '../RentedOutItemsGridView';
+import CurrentlyRentingGridView from '../CurrentlyRentingGridView';
+import PaymentsDueGridView from '../PaymentsDueGridView';
+import PaymentsReceivedGridView from '../PaymentsReceivedGridView';
 
 class Profile extends Component {
   constructor(props) {
@@ -68,7 +70,23 @@ class Profile extends Component {
           <div className="col-xs-6 col-md-4">
             <span>
               <ProfileCard profile={this.profile} />
-              <ProfileGridView products={this.products} />
+              <AvailableItemsGridView
+                id={this.props.isAuth.userInfo.id}
+                products={this.products}
+              />
+              <RentedOutItemsGridView
+                id={this.props.isAuth.userInfo.id}
+                products={this.products}
+              />
+              <CurrentlyRentingGridView
+                id={this.props.isAuth.userInfo.id}
+              />
+              <PaymentsDueGridView
+                id={this.props.isAuth.userInfo.id}
+              />
+              <PaymentsReceivedGridView
+                id={this.props.isAuth.userInfo.id}
+              />
             </span>
           </div>
         </div>

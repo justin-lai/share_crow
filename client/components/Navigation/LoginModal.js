@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
-
+// import { login } from '../../helpers/authHelpers';
 
 class LoginModal extends Component {
   constructor(props) {
