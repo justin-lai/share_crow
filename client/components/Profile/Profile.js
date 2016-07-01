@@ -70,26 +70,26 @@ class Profile extends Component {
           <div className="col-xs-6 col-md-4">
             <span>
               <ProfileCard profile={this.profile} />
-              <AvailableItemsGridView
-                id={this.props.isAuth.userInfo.id}
-                products={this.products}
-              />
-              <RentedOutItemsGridView
-                id={this.props.isAuth.userInfo.id}
-                products={this.products}
-              />
-              <CurrentlyRentingGridView
-                id={this.props.isAuth.userInfo.id}
-              />
-              <PaymentsDueGridView
-                id={this.props.isAuth.userInfo.id}
-              />
-              <PaymentsReceivedGridView
-                id={this.props.isAuth.userInfo.id}
-              />
             </span>
           </div>
         </div>
+        <AvailableItemsGridView
+          id={this.props.isAuth.userInfo.id}
+          products={this.products}
+        />
+        <RentedOutItemsGridView
+          id={this.props.isAuth.userInfo.id}
+          products={this.products}
+        />
+        <CurrentlyRentingGridView
+          id={this.props.isAuth.userInfo.id}
+        />
+        <PaymentsDueGridView
+          id={this.props.isAuth.userInfo.id}
+        />
+        <PaymentsReceivedGridView
+          id={this.props.isAuth.userInfo.id}
+        />
         <Footer />
       </div>;
   }

@@ -19,8 +19,40 @@ class RentedOutItemsGridView extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=true`).then(response => response.json())
-      .then(data => this.setState({ rentedOutItems: data, loading: false }));
+    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=true`)
+      .then(response => response.json())
+      .then(data => {
+        const formatted = [];
+        data.forEach(listing => {
+          formatted.push({
+            item: listing.name,
+            renterId: listing.renterId,
+            rentalFee: `$${listing.rentalFee}`,
+            maxFee: `$${listing.maxFee}`,
+            rentedOn: this.formatDate(new Date(listing.rentedOn)),
+          });
+        });
+        this.setState({ rentedOutItems: formatted, loading: false });
+      });
+  }
+
+  formatDate(date) {
+    const systemDate = date;
+    const userDate = new Date();
+    const diff = Math.floor((userDate - systemDate) / 1000);
+
+    if (diff <= 1) { return 'just now'; }
+    if (diff < 20) { return `${diff} seconds ago`; }
+    if (diff < 40) { return 'half a minute ago'; }
+    if (diff < 60) { return 'less than a minute ago'; }
+    if (diff <= 90) { return 'one minute ago'; }
+    if (diff <= 3540) { return `${Math.round(diff / 60)} minutes ago`; }
+    if (diff <= 5400) { return '1 hour ago'; }
+    if (diff <= 86400) { return `${Math.round(diff / 3600)}  hours ago`; }
+    if (diff <= 129600) { return '1 day ago'; }
+    if (diff < 604800) { return `${Math.round(diff / 86400)}  days ago`; }
+    if (diff <= 777600) { return '1 week ago'; }
+    return `on ${systemDate}`.slice(0, 18);
   }
 
   rowClick(e) {
@@ -83,12 +115,34 @@ class RentedOutItemsGridView extends Component {
   render() {
     return (
       <div>
-        <h4>Current Items Rented Out</h4>
+        <h4>Items Rented Out</h4>
         <Griddle
           results={this.state.rentedOutItems}
           tableClassName="table"
           bodyHeight={400}
-          noDataMessage={"No Items Currently for Rent"}
+          columnMetadata={[
+            {
+              columnName: 'name',
+              displayName: 'Item',
+            },
+            {
+              columnName: 'renterId',
+              displayName: 'Renter',
+            },
+            {
+              columnName: 'rentalFee',
+              displayName: 'Cost Per Day',
+            },
+            {
+              columnName: 'maxFee',
+              displayName: 'Max Fee',
+            },
+            {
+              columnName: 'rentedOn',
+              displayName: 'Rented Date',
+            },
+          ]}
+          noDataMessage={"No Items Rented Out"}
           columns={['name', 'renterId', 'rentalFee', 'maxFee', 'rentedOn']}
           onRowClick={this.rowClick}
         />
