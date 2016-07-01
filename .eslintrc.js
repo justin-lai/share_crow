@@ -3,4 +3,8 @@ module.exports = {
     "plugins": [
         "react"
     ]
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> reduxRefactor

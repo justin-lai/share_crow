@@ -1,5 +1,18 @@
 config.js
+dump.rdb 
+
 # Node Modules
 /node_modules
+<<<<<<< 10052f3deeea4af58706a784ffcbb21851bd1c03
+npm-debug.log
+# Bower Components 
+=======
 
+# Bower Components
+>>>>>>> ImageUpload component will upload images correctly to S3
+/bower_components
+
+# extra folders
 /dev
+/public
+/db/photos

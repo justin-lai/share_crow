@@ -1,0 +1,50 @@
+@import "app/category-filters";
+@import "app/create-account-modal";
+@import "app/griddle";
+@import "app/landing-page";
+@import "app/marketplace";
+@import "app/material-icons";
+@import "app/message-inbox";
+@import "app/modals";
+@import "app/navbar";
+@import "app/product-listing";
+@import "app/product-preview-modal";
+@import "app/profile-card";
+@import "app/slick";
+@import "app/status-bar";
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+$font-stack: Arial, sans-serif;
+$fuschia: #cd1b4e;
+
+* {
+  border-radius: 0 !important;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+  /*background: #ecfafb;*/
+}
+
+#app, #profile {
+  min-height: 100%;
+  position: relative;
+}
+
+.center {
+  text-align: center;
+}
+
+.footer {
+  /*text-align: center;*/
+  /*margin: auto;*/
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  /*width: 100px;*/
+  top: 100%;
+  /*background: white;*/
+}

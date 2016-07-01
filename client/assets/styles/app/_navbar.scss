@@ -1,0 +1,20 @@
+.logo {
+  margin-top: -37px;
+  height: 100px;
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  background-color: black;
+  color: white;
+  z-index: 2000;
+}
+
+#myNavbar a {
+  cursor: pointer;
+}
+
+.glyphicon-log-in {
+  padding-right: 6px;
+}

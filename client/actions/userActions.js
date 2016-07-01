@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-
+import { sessionGetResponse, isLoggedIn } from './sessionActions';
 /*
 --------------------------------------
   ACTION TYPES
@@ -18,6 +18,7 @@ export const USER_PUT_RESPONSE = 'USER_PUT_RESPONSE';
 export const USER_DELETE_REQUEST = 'USER_DELETE_REQUEST';
 export const USER_DELETE_RESPONSE = 'USER_DELETE_RESPONSE';
 
+export const USER_FETCH_STATUS = 'USER_FETCH_STATUS';
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -26,10 +27,9 @@ export const USER_DELETE_RESPONSE = 'USER_DELETE_RESPONSE';
 
 // -------------GET--------------------
 
-export function userGetRequest(id) {
+export function userGetRequest() {
   return {
     type: USER_GET_REQUEST,
-    id,
   };
 }
 export function userGetResponse(data) {
@@ -38,12 +38,22 @@ export function userGetResponse(data) {
     data,
   };
 }
-export function getUser(id) {
+export function userFetchStatus(data) {
+  return {
+    type: USER_FETCH_STATUS,
+    data,
+  };
+}
+export function getUser(query) {
   return dispatch => {
-    dispatch(userGetRequest(id));
-    return fetch('/user', { credentials: 'same-origin' })
+    dispatch(userGetRequest());
+    dispatch(userFetchStatus({ status: true }));
+    return fetch(`/main/profile?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(userGetResponse(json)));
+      .then(json => {
+        dispatch(userGetResponse(json));
+        dispatch(userFetchStatus({ status: false }));
+      });
   };
 }
 
@@ -63,7 +73,7 @@ export function userPostResponse(data) {
 export function postUser(data) {
   return dispatch => {
     dispatch(userPostRequest());
-    return fetch('/user', {
+    return fetch('/main/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +82,11 @@ export function postUser(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(userPostResponse(json)));
+    .then(json => {
+      dispatch(userPostResponse(json));
+      dispatch(sessionGetResponse(json));
+      dispatch(isLoggedIn());
+    });
   };
 }
 
@@ -92,7 +106,7 @@ export function userPutResponse(data) {
 export function putUser(data) {
   return dispatch => {
     dispatch(userPutRequest());
-    return fetch('/user', {
+    return fetch('/main/profile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +135,7 @@ export function userDeleteResponse(data) {
 export function deleteUser(data) {
   return dispatch => {
     dispatch(userDeleteRequest());
-    return fetch('/user', {
+    return fetch('/main/profile', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
