@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -19,12 +18,9 @@ render(
   (<Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} />
-<<<<<<< 187edce3f988865473f12efc3c1ae8edfc47bc4a
       <Route path="/profile" component={Profile} />
       <Route path="/public-user-profile" component={PublicUserProfile} />
       <Route path="/marketplace" component={Marketplace} />
-=======
->>>>>>> initiated styleguide linting and refactored actions and reducers
     </Router>
   </Provider>),
   document.getElementById('app')
