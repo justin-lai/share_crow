@@ -18,8 +18,21 @@ class PaymentsReceivedGridView extends Component {
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/payment?paidId=${this.state.id}`).then(response => response.json())
-    .then(data => this.setState({ unpaidItems: data, loading: false }));
+    fetch(`http://localhost:3000/main/payment?paidId=${this.state.id}`)
+      .then(response => response.json())
+        .then(data => {
+          const formatted = [];
+          data.forEach(payment => {
+            formatted.push({
+              $Amount: `$${payment.$Amount}`,
+              startDate: this.formatDate(new Date(payment.startDate)),
+            });
+          });
+          this.setState({
+            unpaidItems: formatted,
+            loading: false,
+          });
+        });
   }
 
   rowClick(e) {
@@ -28,6 +41,25 @@ class PaymentsReceivedGridView extends Component {
       open: true,
       listingName: e.props.data.name,
     });
+  }
+
+  formatDate(date) {
+    const systemDate = date;
+    const userDate = new Date();
+    const diff = Math.floor((userDate - systemDate) / 1000);
+
+    if (diff <= 1) { return 'just now'; }
+    if (diff < 20) { return `${diff} seconds ago`; }
+    if (diff < 40) { return 'half a minute ago'; }
+    if (diff < 60) { return 'less than a minute ago'; }
+    if (diff <= 90) { return 'one minute ago'; }
+    if (diff <= 3540) { return `${Math.round(diff / 60)} minutes ago`; }
+    if (diff <= 5400) { return '1 hour ago'; }
+    if (diff <= 86400) { return `${Math.round(diff / 3600)}  hours ago`; }
+    if (diff <= 129600) { return '1 day ago'; }
+    if (diff < 604800) { return `${Math.round(diff / 86400)}  days ago`; }
+    if (diff <= 777600) { return '1 week ago'; }
+    return `on ${systemDate}`.slice(0, 18);
   }
 
   openModal() { this.setState({ open: true }); }
@@ -55,7 +87,17 @@ class PaymentsReceivedGridView extends Component {
           results={this.state.unpaidItems}
           tableClassName="table"
           bodyHeight={400}
-          noDataMessage={"No Items Currently for Rent"}
+          columnMetadata={[
+            {
+              columnName: '$Amount',
+              displayName: 'Amount Recieved',
+            },
+            {
+              columnName: 'startDate',
+              displayName: 'Rented Date',
+            },
+          ]}
+          noDataMessage={"No Recent Payments Recieved"}
           columns={['$Amount', 'startDate']}
           onRowClick={this.rowClick}
         />

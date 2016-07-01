@@ -18,8 +18,19 @@ class AvailableItemsGridView extends Component {
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=false`).then(response => response.json())
-    .then(data => this.setState({ rentedItems: data, loading: false }));
+    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=false`)
+      .then(response => response.json())
+        .then(data => {
+          const formatted = [];
+          data.forEach(listing => {
+            formatted.push({
+              name: listing.name,
+              rentalFee: `$${listing.rentalFee}`,
+              maxFee: `$${listing.maxFee}`,
+            });
+          });
+          this.setState({ rentedItems: formatted, loading: false });
+        });
   }
   rowClick(e) {
     this.setState({
@@ -63,6 +74,20 @@ class AvailableItemsGridView extends Component {
           tableClassName="table"
           bodyHeight={400}
           noDataMessage={"No Items Currently for Rent"}
+          columnMetadata={[
+            {
+              columnName: 'name',
+              displayName: 'Item',
+            },
+            {
+              columnName: 'rentalFee',
+              displayName: 'Cost per day',
+            },
+            {
+              columnName: 'maxFee',
+              displayName: 'Max fee',
+            },
+          ]}
           columns={['name', 'rentalFee', 'maxFee']}
           onRowClick={this.rowClick}
         />
