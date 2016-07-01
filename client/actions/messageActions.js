@@ -18,6 +18,7 @@ export const MESSAGE_PUT_RESPONSE = 'MESSAGE_PUT_RESPONSE';
 export const MESSAGE_DELETE_REQUEST = 'MESSAGE_DELETE_REQUEST';
 export const MESSAGE_DELETE_RESPONSE = 'MESSAGE_DELETE_RESPONSE';
 
+export const MESSAGE_FETCH_STATUS = 'MESSAGE_FETCH_STATUS';
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -37,14 +38,21 @@ export function messageGetResponse(data) {
     data,
   };
 }
+export function messageFetchStatus(data) {
+  return {
+    type: MESSAGE_FETCH_STATUS,
+    data,
+  };
+}
 export function getMessage(query) {
   return dispatch => {
     dispatch(messageGetRequest());
+    dispatch(messageFetchStatus({ status: true }));
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
-        console.log('JSON!!!!', json);
         dispatch(messageGetResponse(json));
+        dispatch(messageFetchStatus({ status: false }));
       });
       // .catch(() => dispatch(messageGetResponse([])));
   };

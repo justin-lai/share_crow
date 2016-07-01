@@ -18,8 +18,6 @@ class ProfileCard extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
-    console.log('-------------------------------------------------------');
-    console.log('profile photo!!!!: ', this.profile.photo);
   }
 
   openModal() { this.setState({ open: true }); }
@@ -28,16 +26,28 @@ class ProfileCard extends Component {
   handleSubmit() {
     fetch('http://localhost:3000/main/imageUpload',
       {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: this.state.uploadID,
           userId: this.profile.id,
         }),
-      }).then(response => response.json());
+      }).then(() => {
+        fetch('http://localhost:3000/main/imageUpload',
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: this.state.uploadID,
+              userId: this.profile.id,
+            }),
+          }).then(response => response.json());
+      });
     this.closeModal();
   }
 

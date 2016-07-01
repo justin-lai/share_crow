@@ -33,39 +33,51 @@ class Profile extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('profile nextProps', nextProps);
+
+    // re-logs you to dashboard if not logged in
     if (nextProps.isAuth.status) {
       this.profile = nextProps.isAuth.userInfo;
     } else {
       this.props.history.push('/');
     }
-    console.log('profile nextProps', nextProps);
+
     this.products = nextProps.listing;
     if (nextProps.user.Image) {
       this.profile.photo = nextProps.user.Image.image;
     }
   }
 
+  isFetchingData() {
+    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    console.log('RESULT: ', result);
+    return result;
+  }
+
   render() {
-    console.log(this.products);
-    return (
-      !this.props.isAuth.status ?
-        <LoadingBar /> :
-        <div id="profile">
-          <NavBar
-            isLoggedIn={this.props.isAuth.status}
-            username={this.props.isAuth.username}
-          />
-          <div className="row">
-            <div className="col-xs-6 col-md-4">
-              <span>
-                <ProfileCard profile={this.profile} />
-                <ProfileGridView products={this.products} />
-              </span>
-            </div>
+    return this.isFetchingData() ?
+      <div id="profile">
+        <NavBar
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
+        />
+        <LoadingBar />;
+      </div>
+    :
+      <div id="profile">
+        <NavBar
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
+        />
+        <div className="row">
+          <div className="col-xs-6 col-md-4">
+            <span>
+              <ProfileCard profile={this.profile} />
+              <ProfileGridView products={this.products} />
+            </span>
           </div>
-          <Footer />
         </div>
-    );
+        <Footer />
+      </div>;
   }
 }
 
@@ -77,10 +89,11 @@ Profile.propTypes = {
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  isFetching: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, session, isAuth } = state;
+  const { user, listing, message, session, isAuth, isFetching } = state;
 
   return {
     user,
@@ -88,6 +101,7 @@ function mapStateToProps(state) {
     message,
     session,
     isAuth,
+    isFetching,
   };
 }
 

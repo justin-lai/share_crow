@@ -38,10 +38,9 @@ class LoadingBar extends Component {
       <div>
         <img
           id="loading-crow"
-          src="craaw.gif"
-          alt="awesome crow"
+          src="ripple.gif"
+          alt="loading..."
         />
-        <h1 id="loading-message">{this.state.text}</h1>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import fetch from 'isomorphic-fetch';
 export const CATEGORY_GET_REQUEST = 'CATEGORY_GET_REQUEST';
 export const CATEGORY_GET_RESPONSE = 'CATEGORY_GET_RESPONSE';
 
+export const CATEGORY_FETCH_STATUS = 'CATEGORY_FETCH_STATUS';
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -28,13 +29,23 @@ export function categoryGetResponse(data) {
     data,
   };
 }
+
+export function categoryFetchStatus(data) {
+  return {
+    type: CATEGORY_FETCH_STATUS,
+    data,
+  };
+}
+
 export function getCategory() {
   return dispatch => {
     dispatch(categoryGetRequest());
+    dispatch(categoryFetchStatus({ status: true }));
     return fetch('/main/category', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
         dispatch(categoryGetResponse(json));
+        dispatch(categoryFetchStatus({ status: false }));
       });
   };
 }

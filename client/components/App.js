@@ -10,6 +10,7 @@ import Landing from './Landing.js';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProductCarousel from './ProductCarousel.js';
+import LoadingBar from './LoadingBar.js';
 
 class App extends Component {
   constructor(props) {
@@ -56,8 +57,22 @@ class App extends Component {
     this.methods.postUser(userData);
   }
 
+  isFetchingData() {
+    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    console.log('RESULT: ', result);
+    return result;
+  }
+
   render() {
-    return (
+    return this.isFetchingData() ?
+      <div id="app">
+        <NavBar
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
+        />
+        <LoadingBar />;
+      </div>
+    :
       <div id="app">
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
@@ -70,8 +85,7 @@ class App extends Component {
         />
         <ProductCarousel products={this.products} />
         <Footer />
-      </div>
-    );
+      </div>;
   }
 }
 
@@ -81,10 +95,12 @@ App.propTypes = {
   methods: PropTypes.object.isRequired,
   session: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
+  isFetching: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, notification, category, session, isAuth } = state;
+  const { user, listing, message, notification, category,
+    session, isAuth, isFetching } = state;
 
   return {
     user,
@@ -94,6 +110,7 @@ function mapStateToProps(state) {
     session,
     category,
     isAuth,
+    isFetching,
   };
 }
 

@@ -9,7 +9,7 @@ import Search from './Search.js';
 import Filters from './Filters.js';
 import ProductList from './ProductList.js';
 import Footer from './Footer.js';
-import Loading from './LoadingBar.js';
+import LoadingBar from './LoadingBar.js';
 
 
 // import Loading from './LoadingBar.js';
@@ -72,35 +72,6 @@ class Marketplace extends Component {
       const catId = this.categories.filter(category => category.categoryName === filter)[0].id;
 
       this.methods.getListing(`categoryId=${catId}`);
-      // for (let i = 0; i < this.props.category.length; i++) {
-      //   const category = this.props.category[i];
-
-      //   if (category.CategoryId === null) {
-      //     // display parent category listings and all its subcategory listings
-      //     if (category.categoryName === filter) {
-      //       let newListings = [];
-      //       newListings = newListings.concat(category.Listings);
-      //       for (let j = 0; j < category.subCategory.length; j++) {
-      //         const subcategory = category.subCategory[j];
-      //         newListings = newListings.concat(subcategory.Listings);
-      //       }
-      //       this.setState({
-      //         listings: newListings,
-      //         filteredListings: newListings,
-      //       });
-      //       break;
-      //     }
-      //   } else {
-      //     // display subcategory listings
-      //     if (category.categoryName === filter) {
-      //       this.setState({
-      //         listings: category.Listings,
-      //         filteredListings: category.Listings,
-      //       });
-      //       break;
-      //     }
-      //   }
-      // }
     }
   }
 
@@ -130,11 +101,22 @@ class Marketplace extends Component {
     this.methods.postUser(userData);
   }
 
+  isFetchingData() {
+    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    console.log('RESULT: ', result);
+    return result;
+  }
+
   render() {
-    if (this.state.loading) {
-      return <Loading message={'Loading Marketplace'} />;
-    }
-    return (
+    return this.isFetchingData() ?
+      <div id="marketplace">
+        <NavBar
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
+        />
+        <LoadingBar />;
+      </div>
+    :
       <div id="marketplace">
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
@@ -152,17 +134,17 @@ class Marketplace extends Component {
           <ProductList products={this.state.filteredListings} />
         </div>
         <Footer />
-      </div>
-    );
+      </div>;
   }
 }
 
 Marketplace.propTypes = {
   isAuth: PropTypes.object.isRequired,
+  isFetching: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, category, session, isAuth } = state;
+  const { user, listing, category, session, isAuth, isFetching } = state;
 
   return {
     user,
@@ -170,6 +152,7 @@ function mapStateToProps(state) {
     category,
     session,
     isAuth,
+    isFetching,
   };
 }
 

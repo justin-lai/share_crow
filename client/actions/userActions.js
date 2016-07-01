@@ -18,6 +18,7 @@ export const USER_PUT_RESPONSE = 'USER_PUT_RESPONSE';
 export const USER_DELETE_REQUEST = 'USER_DELETE_REQUEST';
 export const USER_DELETE_RESPONSE = 'USER_DELETE_RESPONSE';
 
+export const USER_FETCH_STATUS = 'USER_FETCH_STATUS';
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -37,12 +38,22 @@ export function userGetResponse(data) {
     data,
   };
 }
+export function userFetchStatus(data) {
+  return {
+    type: USER_FETCH_STATUS,
+    data,
+  };
+}
 export function getUser(query) {
   return dispatch => {
     dispatch(userGetRequest());
+    dispatch(userFetchStatus({ status: true }));
     return fetch(`/main/profile?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(userGetResponse(json)));
+      .then(json => {
+        dispatch(userGetResponse(json));
+        dispatch(userFetchStatus({ status: false }));
+      });
   };
 }
 

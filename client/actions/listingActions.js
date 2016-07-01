@@ -18,6 +18,8 @@ export const LISTING_PUT_RESPONSE = 'LISTING_PUT_RESPONSE';
 export const LISTING_DELETE_REQUEST = 'LISTING_DELETE_REQUEST';
 export const LISTING_DELETE_RESPONSE = 'LISTING_DELETE_RESPONSE';
 
+export const LISTING_FETCH_STATUS = 'LISTING_FETCH_STATUS';
+
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -37,13 +39,22 @@ export function listingGetResponse(data) {
     data,
   };
 }
+export function listingFetchStatus(data) {
+  return {
+    type: LISTING_FETCH_STATUS,
+    data,
+  };
+}
+
 export function getListing(query) {
   return dispatch => {
     dispatch(listingGetRequest());
+    dispatch(listingFetchStatus({ status: true }));
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
         dispatch(listingGetResponse(json));
+        dispatch(listingFetchStatus({ status: false }));
       });
       // .catch(() => dispatch(listingGetResponse([])));
   };

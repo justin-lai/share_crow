@@ -18,6 +18,8 @@ export const IMAGE_PUT_RESPONSE = 'IMAGE_PUT_RESPONSE';
 export const IMAGE_DELETE_REQUEST = 'IMAGE_DELETE_REQUEST';
 export const IMAGE_DELETE_RESPONSE = 'IMAGE_DELETE_RESPONSE';
 
+export const IMAGE_FETCH_STATUS = 'IMAGE_FETCH_STATUS';
+
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -37,12 +39,23 @@ export function imageGetResponse(data) {
     data,
   };
 }
+export function imageFetchStatus(data) {
+  return {
+    type: IMAGE_FETCH_STATUS,
+    data,
+  };
+}
 export function getImage(query) {
   return dispatch => {
     dispatch(imageGetRequest());
+    dispatch(imageFetchStatus({ status: true }));
     return fetch(`/main/image?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
-      .then(json => dispatch(imageGetResponse(json)));
+      .then(json => {
+        dispatch(imageGetResponse(json));
+        dispatch(imageFetchStatus({ status: false }));
+      })
+      .then(json => dispatch(imageFetchStatus(json)));
   };
 }
 

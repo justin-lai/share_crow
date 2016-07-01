@@ -122,7 +122,17 @@ module.exports = {
 
   deleteImage: (req, res) => {
     console.log('DELETE //// deleteImage route');
-    res.sendStatus(200);
+    db.Images.destroy({
+      where: {
+        UserId: req.body.userId,
+      },
+    }).then(queryData => {
+      if (queryData) {
+        res.status(200).send({ message: 'delete successful' });
+      } else {
+        res.status(400).send({ message: 'there was an error with deleting the message' });
+      }
+    });
   },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
