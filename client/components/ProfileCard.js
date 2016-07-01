@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Modal from 'react-modal';
+import ImageUploader from './ImageUploader';
+import { bindAll } from 'lodash';
 
 class ProfileCard extends Component {
   constructor(props) {
@@ -6,17 +9,45 @@ class ProfileCard extends Component {
 
     this.profile = props.profile;
     console.log('profile!: ', this.profile);
+    this.state = {
+      open: false,
+    };
+    bindAll(this, 'openModal', 'closeModal');
   }
 
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
   }
 
+  openModal() { this.setState({ open: true }); }
+  closeModal() { this.setState({ open: false }); }
+
   render() {
     return (
       <div className="profileCard">
         <div className="coverphoto"></div>
-        <img src="darthvader.jpg" className="profile_picture" alt="profile"></img>
+        <img
+          src="darthvader.jpg"
+          className="profile_picture"
+          alt="profile"
+          onClick={this.openModal}
+        ></img>
+        <Modal
+          style={{ content: { height: '400px' } }}
+          isOpen={this.state.open}
+          onRequestClose={this.closeModal}
+        >
+          <input
+            className="close-button"
+            type="submit"
+            value="x"
+            onClick={this.closeModal}
+          />
+          <h1 className="modal-header">Upload Profile Photo</h1>
+          <ImageUploader
+            handleUpload={this.handleUpload}
+          />
+        </Modal>
         <div className="left_col">
           <div className="star-ratings-css">
             <div className="star-ratings-css-top" style={{ width: '93%' }}>

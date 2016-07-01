@@ -96,7 +96,7 @@ class ImageUploader extends Component {
               onChange={this.handleFile} accept="image/*" encType="multipart/form-data"
             />
             <div className="drag-text">
-              <h3>Drag and drop a file or select add Image</h3>
+              <h3>Click to upload an image or drag image here</h3>
             </div>
           </div>
           <div className="file-upload-content">

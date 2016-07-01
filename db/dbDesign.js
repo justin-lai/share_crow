@@ -163,9 +163,9 @@ const categoryListings = sequelize.define('categoryListings');
 Category.hasMany(Category, { as: 'subCategory' });
 
 Listings.belongsToMany(Category, { through: categoryListings });
-Category.belongsToMany(Listings, { 
+Category.belongsToMany(Listings, {
   through: categoryListings,
-  as: { 
+  as: {
     singular: 'Category',
     plural: 'Categories',
   },
@@ -184,9 +184,9 @@ Listings.belongsTo(User, {
   as: 'renter',
   foreignKey: 'renterId',
 });
-Listings.hasMany(Images, { 
+Listings.hasMany(Images, {
   as: 'listingImage',
-})
+});
 Images.belongsTo(User);
 Images.belongsTo(Listings);
 Messages.belongsTo(User, {
@@ -215,4 +215,5 @@ Payments.belongsTo(User, {
 });
 User.hasOne(Images);
 
-module.exports = { Category, User, Messages, Reviews, Listings, Payments, sequelize, Images, categoryListings };
+module.exports = { Category, User, Messages, Reviews, Listings, Payments,
+  sequelize, Images, categoryListings };
