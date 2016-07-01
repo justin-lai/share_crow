@@ -11,23 +11,48 @@ class ProfileCard extends Component {
     console.log('profile!: ', this.profile);
     this.state = {
       open: false,
+      uploadId: '',
     };
-    bindAll(this, 'openModal', 'closeModal');
+    bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
   }
 
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
+    console.log('-------------------------------------------------------');
+    console.log('profile photo!!!!: ', this.profile.photo);
   }
 
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
+
+  handleSubmit() {
+    fetch('http://localhost:3000/main/imageUpload',
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: this.state.uploadID,
+          userId: this.profile.id,
+        }),
+      }).then(response => response.json());
+    this.closeModal();
+  }
+
+  handleUpload(_null, id) {
+    this.setState({
+      uploadID: id,
+    });
+  }
 
   render() {
     return (
       <div className="profileCard">
         <div className="coverphoto"></div>
         <img
-          src="darthvader.jpg"
+          src={this.profile.photo || 'darthvader.jpg'}
           className="profile_picture"
           alt="profile"
           onClick={this.openModal}
@@ -46,6 +71,12 @@ class ProfileCard extends Component {
           <h1 className="modal-header">Upload Profile Photo</h1>
           <ImageUploader
             handleUpload={this.handleUpload}
+          />
+          <input
+            className="modal-post-item-button button"
+            type="submit"
+            value="Change Profile Photo"
+            onClick={this.handleSubmit}
           />
         </Modal>
         <div className="left_col">

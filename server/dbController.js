@@ -60,7 +60,13 @@ module.exports = {
           id: req.body.id,
         },
       })
-        .then(responseData => responseData.updateAttributes({ ListingId: req.body.listingId }))
+        .then(responseData => {
+          if (req.body.listingId) {
+            responseData.updateAttributes({ ListingId: req.body.listingId });
+          } else if (req.body.userId) {
+            responseData.updateAttributes({ UserId: req.body.userId });
+          }
+        })
         .then(newImageListing => res.status(200).send(newImageListing));
     }
   },
@@ -202,6 +208,9 @@ module.exports = {
         }, {
           username: req.query.username,
         }),
+        include: [{
+          model: db.Images,
+        }],
       })
       .then(queryData => {
         if (queryData[0]) {
