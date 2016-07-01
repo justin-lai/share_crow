@@ -146,10 +146,7 @@ const Listings = sequelize.define('Listings', {
 });
 
 const Images = sequelize.define('Images', {
-  userImage: {
-    type: Sequelize.STRING,
-  },
-  listingImage: {
+  image: {
     type: Sequelize.STRING,
   },
 });

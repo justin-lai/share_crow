@@ -18,15 +18,12 @@ class Product extends Component {
     this.product = props.product;
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    console.log(this.props.profile, 'aksjdf;sakldf');
-    // ghetto temp workaround
-    this.product.listingImage = this.product.listingImage || this.product.image;
   }
   componentDidMount() {
     fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
       .then(response => response.json())
       .then(responseData => {
-        this.props.product.image = responseData.listingImage;
+        this.props.product.image = responseData.image;
       });
   }
 
@@ -69,7 +66,7 @@ class Product extends Component {
           className="product rented"
         >
           <img
-            src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+            src={product.listingImage[0] ? product.listingImage[0].image : null}
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
@@ -82,13 +79,13 @@ class Product extends Component {
         </span>
       );
     }
-    if (product.ownerId === this.props.isAuth.userInfo.id) {
+    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
       return (
         <span
           className={product.rented ? 'product rented' : 'product'}
         >
           <img
-            src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+            src={product.listingImage[0] ? product.listingImage[0].image : null}
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
@@ -107,7 +104,7 @@ class Product extends Component {
         className={product.rented ? 'product rented' : 'product'}
       >
         <img
-          src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+          src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
@@ -134,7 +131,7 @@ class Product extends Component {
               <img
                 className="product-image"
                 alt="product-preview"
-                src={product.listingImage[0] ? product.listingImage[0].listingImage : null}
+                src={product.listingImage[0] ? product.listingImage[0].image : null}
               />
             </div>
           </p>

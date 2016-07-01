@@ -95,7 +95,7 @@ module.exports = {
           res.send(data2);
         } else {
           db.Images.create({
-            listingImage: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
+            image: `https://s3-us-west-2.amazonaws.com/sharecrow/${filename}`,
           })
             .then(response => res.status(200).send(response.dataValues));
           //     .then(photoID => {
@@ -118,6 +118,11 @@ module.exports = {
         }
       });
     }
+  },
+
+  deleteImage: (req, res) => {
+    console.log('DELETE //// deleteImage route');
+    res.sendStatus(200);
   },
 
   // ////////////////////////// SIGN UP FUNCTIONS ////////////////////////////
@@ -150,7 +155,11 @@ module.exports = {
             lastName: req.body.lastName || null,
             verified: false,
             phone: req.body.phone,
-          }).then((user) => {
+          }).then(user => {
+            db.Images.create({
+              image: 'http://cdn.litlepups.net/2016/04/10/small_crow-flying-png-bird-flying-silhouette.png',
+              userId: user.dataValues.id,
+            });
             req.session.username = req.body.username;
             delete user.dataValues.password;
             req.session.userID = user.dataValues;

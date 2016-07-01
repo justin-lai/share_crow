@@ -41,7 +41,7 @@ class Profile extends Component {
     console.log('profile nextProps', nextProps);
     this.products = nextProps.listing;
     if (nextProps.user.Image) {
-      this.profile.photo = nextProps.user.Image.listingImage;
+      this.profile.photo = nextProps.user.Image.image;
     }
   }
 

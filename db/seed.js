@@ -13,6 +13,7 @@ db.sequelize
     console.log('An error occurred while creating the table:', err);
   }).then(() => {
     db.Images.create({
+      UserId: 0,
       image: 'http://cdn.litlepups.net/2016/04/10/small_crow-flying-png-bird-flying-silhouette.png',
     });
     db.User.create({

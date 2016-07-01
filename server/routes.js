@@ -44,7 +44,8 @@ module.exports = app => {
   app.route('/main/imageUpload')
     .get(dbController.getImage)
     .post(dbController.imageUpload)
-    .put(dbController.changeImageListing);
+    .put(dbController.changeImageListing)
+    .delete(dbController.deleteImage);
 
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
