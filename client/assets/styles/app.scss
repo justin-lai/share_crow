@@ -1,5 +1,6 @@
 @import "app/category-filters";
 @import "app/create-account-modal";
+@import "app/griddle";
 @import "app/landing-page";
 @import "app/marketplace";
 @import "app/material-icons";
@@ -44,7 +45,6 @@ body {
   transform: translate(-50%, 0);
   position: absolute;
   /*width: 100px;*/
-  bottom: 0;
-  height: 60px;
+  top: 100%;
   /*background: white;*/
 }

@@ -7,9 +7,8 @@ import { getSession, isLoggedIn } from '../actions/sessionActions.js';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
 import ProfileCard from './ProfileCard.js';
-import ProductList from './ProductList.js';
-// import MessageInbox from './MessageInbox.js';
 import LoadingBar from './LoadingBar.js';
+import ProfileGridView from './ProfileGridView';
 
 require('../assets/styles/app.scss');
 
@@ -17,7 +16,6 @@ require('../assets/styles/app.scss');
 class Profile extends Component {
   constructor(props) {
     super(props);
-
     this.products = [];
     this.methods = props.methods;
     this.methods.isLoggedIn();
@@ -44,6 +42,7 @@ class Profile extends Component {
   }
 
   render() {
+    console.log(this.products);
     return (
       !this.props.isAuth.status ?
         <LoadingBar /> :
@@ -54,11 +53,10 @@ class Profile extends Component {
           />
           <div className="row">
             <div className="col-xs-6 col-md-4">
-              <ProfileCard profile={this.profile} />
-            </div>
-            <div id="profile-items">
-              <h3>My Items</h3>
-              <ProductList products={this.products} />
+              <span>
+                <ProfileCard profile={this.profile} />
+                <ProfileGridView products={this.products} />
+              </span>
             </div>
           </div>
           <Footer />

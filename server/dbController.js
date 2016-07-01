@@ -463,59 +463,69 @@ module.exports = {
     // modifies entry with 'listing id' in database
     console.log('PUT //// changeListing Route');
     req.session.cookie.path = '/main/listing';
-    // change database entry depending on parameters
-    if (!req.body.listingId) {
-      res.status(400).send({ message: 'listingId was not provided' });
+    if (req.body.removeListing) {
+      console.log(req.body, 'aksjdf;ksfjs;fjds;f');
+      db.Listings.destroy({
+        where: {
+          id: req.body.listingId,
+        },
+      })
+        .then(() => res.status(200).send({ message: 'deletion sucessful' }));
     } else {
-      const updateListing = {
-        renterId: req.body.renterId || null,
-        maxFee: req.body.maxFee || null,
-        rentalFee: req.body.rentalFee || null,
-        rentedOn: req.body.rentedOn || null,
-        itemImage: req.body.itemImage || null,
-        returnedOn: req.body.returnedOn || null,
-        itemReturned: req.body.itemReturned || null,
-        rented: req.body.rented || null,
-      };
+      // change database entry depending on parameters
+      if (!req.body.listingId) {
+        res.status(400).send({ message: 'listingId was not provided' });
+      } else {
+        const updateListing = {
+          renterId: req.body.renterId || null,
+          maxFee: req.body.maxFee || null,
+          rentalFee: req.body.rentalFee || null,
+          rentedOn: req.body.rentedOn || null,
+          itemImage: req.body.itemImage || null,
+          returnedOn: req.body.returnedOn || null,
+          itemReturned: req.body.itemReturned || null,
+          rented: req.body.rented || null,
+        };
 
-      if (!req.body.renterId) {
-        delete updateListing.renterId;
-      }
-      if (!req.body.maxFee) {
-        delete updateListing.maxFee;
-      }
-      if (!req.body.rentalFee) {
-        delete updateListing.rentalFee;
-      }
-      if (!req.body.rentedOn) {
-        delete updateListing.rentedOn;
-      }
-      if (!req.body.returnedOn) {
-        delete updateListing.returnedOn;
-      }
-      if (!req.body.rented) {
-        delete updateListing.rented;
-      }
-      if (!req.body.itemReturned) {
-        delete updateListing.itemReturned;
-      }
-      if (!req.body.itemImage) {
-        delete updateListing.itemImage;
-      }
-      db.Listings.find(
-        {
-          where: {
-            id: req.body.listingId,
-          },
-        })
-        .then(queryData => queryData.updateAttributes(updateListing))
-        .then(() => {
-          db.Listings.find({
+        if (!req.body.renterId) {
+          delete updateListing.renterId;
+        }
+        if (!req.body.maxFee) {
+          delete updateListing.maxFee;
+        }
+        if (!req.body.rentalFee) {
+          delete updateListing.rentalFee;
+        }
+        if (!req.body.rentedOn) {
+          delete updateListing.rentedOn;
+        }
+        if (!req.body.returnedOn) {
+          delete updateListing.returnedOn;
+        }
+        if (!req.body.rented) {
+          delete updateListing.rented;
+        }
+        if (!req.body.itemReturned) {
+          delete updateListing.itemReturned;
+        }
+        if (!req.body.itemImage) {
+          delete updateListing.itemImage;
+        }
+        db.Listings.find(
+          {
             where: {
               id: req.body.listingId,
             },
-          }).then(newEntry => res.status(200).send(newEntry));
-        });
+          })
+          .then(queryData => queryData.updateAttributes(updateListing))
+          .then(() => {
+            db.Listings.find({
+              where: {
+                id: req.body.listingId,
+              },
+            }).then(newEntry => res.status(200).send(newEntry));
+          });
+      }
     }
   },
   // expects listing id
@@ -545,6 +555,7 @@ module.exports = {
         });
     }
   },
+
 
   // //////////////////////////// UNIQUE LISTING ACQUIRE FUNCTIONS ////////////////////////////
   getUniqueListing: (req, res) => {
