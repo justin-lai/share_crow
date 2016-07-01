@@ -18,7 +18,7 @@ class Product extends Component {
     this.product = props.product;
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-
+    console.log(this.props.profile, 'aksjdf;sakldf');
     // ghetto temp workaround
     this.product.listingImage = this.product.listingImage || this.product.image;
   }
@@ -50,6 +50,19 @@ class Product extends Component {
   }
   render() {
     const product = this.props.product;
+    if (this.props.profile) {
+      return (
+        <span
+          className="product"
+        >
+          <div className="product-info">
+            <h4>{product.name}</h4>
+            <p>${product.rentalFee}/day</p>
+            <p>I AM A CANCEL BUTTON</p>
+          </div>
+        </span>
+      );
+    }
     if (product.rented) {
       return (
         <span
@@ -157,6 +170,7 @@ Product.propTypes = {
   product: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
+  profile: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
