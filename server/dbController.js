@@ -499,7 +499,6 @@ module.exports = {
     console.log('PUT //// changeListing Route');
     req.session.cookie.path = '/main/listing';
     if (req.body.removeListing) {
-      console.log(req.body, 'aksjdf;ksfjs;fjds;f');
       db.Listings.destroy({
         where: {
           id: req.body.listingId,

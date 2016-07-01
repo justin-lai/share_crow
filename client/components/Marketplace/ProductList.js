@@ -5,7 +5,6 @@ const ProductList = (props) => (
   <div className="product-list">
     {props.products.map(product =>
       <Product
-        profile={props.profile}
         product={product}
         key={product.id}
       />
@@ -15,7 +14,6 @@ const ProductList = (props) => (
 
 ProductList.propTypes = {
   products: PropTypes.array.isRequired,
-  profile: PropTypes.bool,
 };
 
 export default ProductList;
