@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import router from 'react-router';
+// import router from 'react-router';
 import { connect } from 'react-redux';
-import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
-import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
-import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
-import { getSession, isLoggedIn } from '../actions/sessionActions.js';
-import NavBar from './NavBar.js';
-import Footer from './Footer.js';
-import ProfileCard from './ProfileCard.js';
-import ProductList from './ProductList.js';
-import LoadingBar from './LoadingBar.js';
+import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
+import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
+import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import NavBar from './../Navigation/NavBar';
+import Footer from './../Shared/Footer';
+import ProfileCard from './../Profile/ProfileCard';
+import ProductList from './../Marketplace/ProductList';
+import LoadingBar from './../Shared/LoadingBar';
 
 class PublicUserProfile extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.products = [];
     this.inbox = [];
     this.outbox = [];
@@ -147,8 +146,7 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-PublicUserProfile.willTransitionTo = () => {
-  console.log('STUFF HAPPENED');
-  router.getCurrentPath();
-};
+// PublicUserProfile.willTransitionTo = () => {
+//   router.getCurrentPath();
+// };
 export default connect(mapStateToProps, mapDispatchToProps)(PublicUserProfile);

@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
-import Search from './Search';
-import SignUpModal from './SignUpModal';
+import Search from '../Marketplace/Search';
+import SignUpModal from '../Navigation/SignUpModal';
+import SplashCarousel from './SplashCarousel';
 
 const Landing = (props) => (
   <div className="landing">
-    <img className="splash-image" alt="splash" src="splash.jpg" />
+    <SplashCarousel />
     <div className="wrap">
       <div className="landing-search">
         <Search />

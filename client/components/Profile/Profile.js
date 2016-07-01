@@ -1,17 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
-import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
-import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
-import { getSession, isLoggedIn } from '../actions/sessionActions.js';
-import NavBar from './NavBar.js';
-import Footer from './Footer.js';
-import ProfileCard from './ProfileCard.js';
-import LoadingBar from './LoadingBar.js';
-import ProfileGridView from './ProfileGridView';
+import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
+import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
+import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import NavBar from './../Navigation/NavBar';
+import ProfileCard from './../Profile/ProfileCard';
+import ProfileGridView from './../Profile/ProfileGridView';
+import Footer from './../Shared/Footer';
+import LoadingBar from './../Shared/LoadingBar';
 
-require('../assets/styles/app.scss');
-
+// require('../assets/styles/app.scss');
 
 class Profile extends Component {
   constructor(props) {
@@ -28,12 +27,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log('profile mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('profile nextProps', nextProps);
-
     // re-logs you to dashboard if not logged in
     if (nextProps.isAuth.status) {
       this.profile = nextProps.isAuth.userInfo;
@@ -48,9 +44,9 @@ class Profile extends Component {
   }
 
   isFetchingData() {
-    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    console.log('RESULT: ', result);
-    return result;
+    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    if (!isFetching) console.log('profile props: ', this.props);
+    return isFetching;
   }
 
   render() {

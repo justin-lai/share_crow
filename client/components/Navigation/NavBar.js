@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import LoginModal from './LoginModal.js';
-import SignUpModal from './SignUpModal.js';
-import PostAnItemModal from './PostAnItemModal.js';
-import MessageBox from './MessageBox.js';
+import LoginModal from './LoginModal';
+import SignUpModal from './SignUpModal';
+import PostAnItemModal from './PostAnItemModal';
+import MessageBox from './MessageBox';
 
 const NavBar = (props) => {
   let navbar;

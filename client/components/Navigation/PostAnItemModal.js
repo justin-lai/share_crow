@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getCategory } from '../actions/categoryActions.js';
 import Modal from 'react-modal';
-import ImageUploader from './ImageUploader';
+import { getCategory } from '../../actions/categoryActions';
+import ImageUploader from './../Shared/ImageUploader';
 
 class PostAnItemModal extends Component {
   constructor(props) {
     super(props);
 
-    console.log('POST ITEM PROPS: ', props);
     this.state = {
       username: props.isAuth.userInfo.username,
       ownerId: props.isAuth.userInfo.id,
@@ -38,7 +37,6 @@ class PostAnItemModal extends Component {
       owner_id: this.state.ownerId,
       category: this.state.category,
     };
-    console.log(listingData);
     fetch('http://localhost:3000/main/listing',
       {
         method: 'POST',
@@ -102,30 +100,24 @@ class PostAnItemModal extends Component {
             onClick={this.closeModal}
           />
           <h1 className="modal-header">Post Item</h1>
-          <p>
-            <div>Item Listing Title</div>
-            <input
-              value={this.state.listing}
-              onChange={this.handleItemListing}
-              type="text"
-            />
-          </p>
-          <p>
-            <div>Max Fee - Cost set in case of lost or damaged item</div>
-            <input
-              value={this.state.maxFee}
-              onChange={this.handleMaxFee}
-              type="text"
-            />
-          </p>
-          <p>
-            <div>Rental Fee - Cost per day</div>
-            <input
-              value={this.state.rentalFee}
-              onChange={this.handleRentalFee}
-              type="text"
-            />
-          </p>
+          <div>Item Listing Title</div>
+          <input
+            value={this.state.listing}
+            onChange={this.handleItemListing}
+            type="text"
+          />
+          <div>Max Fee - Cost set in case of lost or damaged item</div>
+          <input
+            value={this.state.maxFee}
+            onChange={this.handleMaxFee}
+            type="text"
+          />
+          <div>Rental Fee - Cost per day</div>
+          <input
+            value={this.state.rentalFee}
+            onChange={this.handleRentalFee}
+            type="text"
+          />
           <span>Category: </span>
           <select
             value={this.state.category}

@@ -3,7 +3,7 @@ import { bindAll } from 'lodash';
 import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
 
-require('../assets/styles/app/_image-upload.scss');
+require('../../assets/styles/app/_image-upload.scss');
 
 class ImageUploader extends Component {
   constructor(props) {

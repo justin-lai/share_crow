@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUser } from '../actions/userActions.js';
-import { postMessage } from '../actions/messageActions.js';
+import { getUser } from '../../actions/userActions';
+import { postMessage } from '../../actions/messageActions';
 import $ from 'jquery';
 import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';

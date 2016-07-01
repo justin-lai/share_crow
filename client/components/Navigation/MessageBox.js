@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import Message from './Message.js';
-import { getMessage } from '../actions/messageActions.js';
+import Message from './Message';
+import { getMessage } from '../../actions/messageActions';
 
 class MessageBox extends Component {
   constructor(props) {
@@ -12,12 +12,10 @@ class MessageBox extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.methods.getMessage(`recipientId=${this.props.isAuth.userInfo.id}`);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     this.messages = nextProps.message;
   }
 

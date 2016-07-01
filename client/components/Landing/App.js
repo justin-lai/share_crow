@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
-import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
-import { getMessage, postMessage, putMessage, deleteMessage } from '../actions/messageActions.js';
+import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
+import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
+import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
 // import { getNotification, postNotification } from '../actions/notificationActions.js';
-import { getSession, isLoggedIn } from '../actions/sessionActions.js';
-import { getCategory } from '../actions/categoryActions.js';
-import Landing from './Landing.js';
-import NavBar from './NavBar.js';
-import Footer from './Footer.js';
-import ProductCarousel from './ProductCarousel.js';
-import LoadingBar from './LoadingBar.js';
+import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getCategory } from '../../actions/categoryActions';
+import Landing from './Landing';
+import ProductCarousel from './ProductCarousel';
+import NavBar from '../Navigation/NavBar';
+import Footer from '../Shared/Footer';
+import LoadingBar from '../Shared/LoadingBar';
 
 class App extends Component {
   constructor(props) {
@@ -25,18 +25,14 @@ class App extends Component {
 
   componentWillMount() {
     if (this.props.isAuth.status) {
-      console.log('get user from app');
       this.methods.getUser(`username=${this.props.isAuth.username}`);
     }
     //eslint-disable-next-line
     this.methods.getListing();
-    console.log('app mount: ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
-    //eslint-disable-next-line
-    console.log('app nextProps: ', nextProps);
     this.products = nextProps.listing;
   }
 
@@ -58,9 +54,9 @@ class App extends Component {
   }
 
   isFetchingData() {
-    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    console.log('RESULT: ', result);
-    return result;
+    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    if (!isFetching) console.log('landing props: ', this.props);
+    return isFetching;
   }
 
   render() {
@@ -69,6 +65,8 @@ class App extends Component {
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
           username={this.props.isAuth.username || ''}
+          login={this.login}
+          signup={this.signup}
         />
         <LoadingBar />;
       </div>

@@ -19,6 +19,8 @@ import {
 
 export const user = (state = {}, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.user;
     case USER_GET_RESPONSE:
       return action.data;
     // case USER_POST_RESPONSE:
@@ -34,6 +36,8 @@ export const user = (state = {}, action) => {
 
 export const listing = (state = [], action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.listing;
     case LISTING_GET_RESPONSE:
       return action.data;
     // case LISTING_POST_RESPONSE:
@@ -49,6 +53,8 @@ export const listing = (state = [], action) => {
 
 export const message = (state = [], action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.message;
     case MESSAGE_GET_RESPONSE:
       return action.data;
     // case MESSAGE_POST_RESPONSE:
@@ -65,6 +71,8 @@ export const message = (state = [], action) => {
 
 export const image = (state = [], action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.image;
     case IMAGE_GET_RESPONSE:
       return action.data;
     // case IMAGE_POST_RESPONSE:
@@ -81,6 +89,8 @@ export const image = (state = [], action) => {
 
 export const category = (state = [], action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.category;
     case CATEGORY_GET_RESPONSE:
       return action.data;
     default:
@@ -90,6 +100,8 @@ export const category = (state = [], action) => {
 
 export const session = (state = {}, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.session;
     case SESSION_GET_RESPONSE:
       return action.data;
     default:
@@ -99,6 +111,8 @@ export const session = (state = {}, action) => {
 
 export const isAuth = (state = { status: false, username: null }, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.isAuth;
     case IS_LOGGED_IN_RESPONSE:
       return action.data;
     default:
@@ -116,6 +130,8 @@ export const isFetching = (state = {
   isAuth: false,
 }, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return action.payload.isFetching;
     case USER_FETCH_STATUS:
       return Object.assign({}, state, {
         user: action.data.status,

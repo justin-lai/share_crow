@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
-import { deleteMessage } from '../actions/messageActions.js';
-import { putListing } from '../actions/listingActions.js';
+import { deleteMessage } from '../../actions/messageActions';
+import { putListing } from '../../actions/listingActions';
 
 class Message extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import Slider from 'react-slick';
-import Product from './Product.js';
+import Product from '../Marketplace/Product';
 
 class ProductCarousel extends Component {
   constructor(props) {
@@ -9,9 +9,12 @@ class ProductCarousel extends Component {
     this.settings = {
       arrows: true,
       slidesToShow: 4,
+      slidesToScroll: 4,
       autoplay: true,
+      autoplaySpeed: 6000,
       draggable: true,
       infinite: true,
+      pauseOnHover: true,
     };
   }
 
@@ -21,10 +24,9 @@ class ProductCarousel extends Component {
         <Slider {...this.settings}>
           {
             this.props.products.map(product =>
-              <div><Product
-                product={product}
-                key={product.id}
-              /></div>)
+              <div key={product.id}>
+                <Product product={product} />
+              </div>)
           }
         </Slider>
       </div>

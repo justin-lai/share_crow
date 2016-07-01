@@ -1,21 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUser, postUser, putUser, deleteUser } from '../actions/userActions.js';
-import { getListing, postListing, putListing, deleteListing } from '../actions/listingActions.js';
-import { getSession, isLoggedIn } from '../actions/sessionActions.js';
-import { getCategory } from '../actions/categoryActions.js';
-import NavBar from './NavBar.js';
-import Search from './Search.js';
-import Filters from './Filters.js';
-import ProductList from './ProductList.js';
-import Footer from './Footer.js';
-import LoadingBar from './LoadingBar.js';
+import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
+import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
+import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getCategory } from '../../actions/categoryActions';
+import NavBar from '../Navigation/NavBar';
+import Search from './Search';
+import Filters from './Filters';
+import ProductList from './ProductList';
+import Footer from './../Shared/Footer';
+import LoadingBar from './../Shared/LoadingBar';
 
-
-// import Loading from './LoadingBar.js';
-// const fetch = require('isomorphic-fetch');
-
-require('../assets/styles/app.scss');
+// require('../../assets/styles/app.scss');
 
 class Marketplace extends Component {
   constructor(props) {
@@ -49,7 +45,6 @@ class Marketplace extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
-    console.log('changed');
     this.setState({
       listings: nextProps.listing,
       filteredListings: nextProps.listing,
@@ -102,9 +97,9 @@ class Marketplace extends Component {
   }
 
   isFetchingData() {
-    const result = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    console.log('RESULT: ', result);
-    return result;
+    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    if (!isFetching) console.log('marketplace props: ', this.props);
+    return isFetching;
   }
 
   render() {

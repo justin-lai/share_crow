@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
-import ImageUploader from './ImageUploader';
+import ImageUploader from './../Shared/ImageUploader';
 import { bindAll } from 'lodash';
 
 class ProfileCard extends Component {
@@ -8,7 +8,6 @@ class ProfileCard extends Component {
     super(props);
 
     this.profile = props.profile;
-    console.log('profile!: ', this.profile);
     this.state = {
       open: false,
       uploadId: '',

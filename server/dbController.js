@@ -328,11 +328,10 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send({ message: `no messages were found from user: ${req.query.senderId}` });
+          res.status(200).send({ message: `no messages were found from user: ${req.query.senderId}` });
         }
       });
     } else {
-      console.log('!!!!!!!!!!!!!!!!');
       const searchFilters = {
         recipientId: req.query.recipientId,
       };

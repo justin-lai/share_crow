@@ -50,10 +50,9 @@ class Filters extends Component {
               // only list parent categories
                 if (category.CategoryId === null) {
                   return (
-                    <div>
+                    <div key={category.id}>
                       <li
                         id={category.categoryName}
-                        key={category.id}
                         data-toggle="collapse"
                         data-target={`#${category.categoryName}Subs`}
                         className="category collapsed"

@@ -17,7 +17,6 @@ class Search extends Component {
   }
 
   handleSubmit() {
-    console.log('submitted');
     const query = document.getElementById('search-input').value;
     this.props.searchFor(query);
   }
