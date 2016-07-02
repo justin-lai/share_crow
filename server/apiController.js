@@ -77,21 +77,21 @@ module.exports = {
         client_secret: apiKeys.API_KEY,
       },
     }, (err, r, body) => {
-      const accessToken = JSON.parse(body).access_token;
+      // const accessToken = JSON.parse(body).access_token;
       // db.User.find(
       //   {
       //     where: {
       //       id: req.body.id,
       //     },
       //   })
-      //   .then(queryData => queryData.updateAttributes(updateProfile))
+      //   .then(queryData => queryData.updateAttributes({stripeToken: accessToken}))
       //   .then(() => {
       //     db.User.find({
       //       where: {
       //         id: req.body.id,
       //       },
       //     })
-      console.log(r);
+      // console.log(accessToken);
       // res.writeHead(301, { Location: 'http://localhost:3000/#/profile' });
       res.end();
     });
