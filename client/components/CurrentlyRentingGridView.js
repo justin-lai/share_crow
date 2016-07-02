@@ -22,12 +22,13 @@ class CurrentlyRentingGridView extends Component {
           data.forEach(listing => {
             formatted.push({
               name: listing.name,
+              ownerName: listing.owner.username,
               rentalFee: `$${listing.rentalFee}`,
               maxFee: `$${listing.maxFee}`,
               rentedOn: this.formatDate(new Date(listing.rentedOn)),
             });
           });
-          this.setState({ rentedItems: data, loading: false });
+          this.setState({ rentedItems: formatted, loading: false });
         });
   }
 
@@ -67,6 +68,10 @@ class CurrentlyRentingGridView extends Component {
               displayName: 'Item',
             },
             {
+              columnName: 'ownerName',
+              displayName: 'Owner',
+            },
+            {
               columnName: 'rentalFee',
               displayName: 'Cost Per Day',
             },
@@ -80,7 +85,7 @@ class CurrentlyRentingGridView extends Component {
             },
           ]}
           noDataMessage={"No Items Currently Rented"}
-          columns={['name', 'rentalFee', 'maxFee', 'rentedOn']}
+          columns={['name', 'ownerName', 'rentalFee', 'maxFee', 'rentedOn']}
         />
       </div>
     );

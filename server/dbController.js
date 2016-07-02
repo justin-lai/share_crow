@@ -775,6 +775,9 @@ module.exports = {
         where: {
           payerId: req.query.payerId,
         },
+        include: [{
+          model: db.Listings,
+        }],
       })
         .then(queryData => {
           if (queryData) {

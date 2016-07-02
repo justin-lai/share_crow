@@ -63,7 +63,7 @@ class Profile extends Component {
           signup={signup}
           signout={signout}
         />
-        { this.isFetchingData() ?
+        {this.isFetchingData() ?
           <LoadingBar /> :
           <div>
             <div className="row">

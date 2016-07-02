@@ -44,9 +44,6 @@ const User = sequelize.define('User', {
   about: {
     type: Sequelize.STRING,
   },
-  userImage: {
-    type: Sequelize.INTEGER,
-  },
   verification: {
     type: Sequelize.INTEGER,
   },
@@ -87,12 +84,6 @@ const Payments = sequelize.define('Payments', {
     type: Sequelize.DATE,
   },
   itemId: {
-    type: Sequelize.INTEGER,
-  },
-  payerId: {
-    type: Sequelize.INTEGER,
-  },
-  paidId: {
     type: Sequelize.INTEGER,
   },
 });
@@ -202,14 +193,16 @@ Reviews.belongsTo(User, {
   as: 'reviewer',
   foreignKey: 'reviewerId',
 });
-Payments.belongsTo(User, {
-  as: 'paid',
-  foreignKey: 'paidId',
-});
-Payments.belongsTo(User, {
-  as: 'payer',
-  foreignKey: 'payerId',
-});
+// Payments.belongsTo(User, {
+//   as: 'paid',
+//   foreignKey: 'paidId',
+// });
+// Payments.belongsTo(User, {
+//   as: 'payer',
+//   foreignKey: 'payerId',
+// });
+
+Payments.belongsTo(Listings);
 User.hasOne(Images);
 
 module.exports = { Category, User, Messages, Reviews, Listings, Payments,

@@ -25,8 +25,8 @@ class RentedOutItemsGridView extends Component {
         const formatted = [];
         data.forEach(listing => {
           formatted.push({
-            item: listing.name,
-            renterId: listing.renterId,
+            name: listing.name,
+            renterName: listing.renter.username,
             rentalFee: `$${listing.rentalFee}`,
             maxFee: `$${listing.maxFee}`,
             rentedOn: this.formatDate(new Date(listing.rentedOn)),
@@ -126,7 +126,7 @@ class RentedOutItemsGridView extends Component {
               displayName: 'Item',
             },
             {
-              columnName: 'renterId',
+              columnName: 'renterName',
               displayName: 'Renter',
             },
             {
@@ -139,11 +139,11 @@ class RentedOutItemsGridView extends Component {
             },
             {
               columnName: 'rentedOn',
-              displayName: 'Rented Date',
+              displayName: 'Date Rented',
             },
           ]}
           noDataMessage={"No Items Rented Out"}
-          columns={['name', 'renterId', 'rentalFee', 'maxFee', 'rentedOn']}
+          columns={['name', 'renterName', 'rentalFee', 'maxFee', 'rentedOn']}
           onRowClick={this.rowClick}
         />
         <Modal
