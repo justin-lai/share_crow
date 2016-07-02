@@ -58,28 +58,24 @@ module.exports = {
   stripeOAuth: (req, res) => {
   // Redirect to Stripe /oauth/authorize endpoint
     res.redirect(apiKeys.AUTHORIZE_URI);
-    app.get('/oauth/callback', (req, res) => {
+    // get('/oauth/callback', (req, res) => {
 
-      const code = req.query.code;
+    const code = req.query.code;
 
   // Make /oauth/token endpoint POST request
-      req.post({
-        url: apiKeys.TOKEN_URI,
-        form: {
-          grant_type: 'authorization_code',
-          client_id: apiKeys.CLIENT_ID,
-          code,
-          client_secret: apiKeys.API_KEY,
-        },
-      }, (err, r, body) => {
-        const accessToken = JSON.parse(body).access_token;
-
-        // Do something with your accessToken
-
-        // For demo"s sake, output in response:
-        res.send({ 'Your Token': accessToken });
-      });
+    req.post({
+      url: apiKeys.TOKEN_URI,
+      form: {
+        grant_type: 'authorization_code',
+        client_id: apiKeys.CLIENT_ID,
+        code,
+        client_secret: apiKeys.API_KEY,
+      },
+    }, (err, r, body) => {
+      const accessToken = JSON.parse(body).access_token;
+      res.send({ 'Your Token': accessToken });
     });
+    // });
   },
 
 };
