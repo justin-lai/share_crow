@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
+import StarRating from './StarRating';
 
 class CustomerReviewModal extends Component {
   constructor(props) {
@@ -43,27 +44,19 @@ class CustomerReviewModal extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <input
-            className="close-button"
-            type="submit"
-            value="x"
-            onClick={this.closeModal}
-          />
-          <h4 className="center">Rate Owner Username</h4>
-          <h4 className="center">Write a review about your experience</h4>
-          <p>
+          <div
+            id="rating-modal"
+            className="center"
+          >
+            <h4 className="center">Rate your experience with Owner Username</h4>
+            <StarRating />
             <input
-              value={this.state.username}
-              onChange={this.handleUsername}
-              type="text"
+              className="modal-login-button button"
+              type="submit"
+              value="Post Review"
+              onClick={this.handleSubmit}
             />
-          </p>
-          <input
-            className="modal-login-button button"
-            type="submit"
-            value="Post Review"
-            onClick={this.handleSubmit}
-          />
+          </div>
         </Modal>
       </div>
     );
