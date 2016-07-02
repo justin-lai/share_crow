@@ -772,11 +772,21 @@ module.exports = {
     req.session.cookie.path = '/main/payment';
     if (req.query.payerId) {
       db.Payments.findAll({
-        where: {
-          payerId: req.query.payerId,
-        },
         include: [{
           model: db.Listings,
+          where: { ownerId: req.query.payerId },
+          include: [{
+            model: db.User,
+            as: 'owner',
+          },
+          {
+            model: db.User,
+            as: 'renter',
+          },
+          {
+            model: db.Images,
+            as: 'listingImage',
+          }],
         }],
       })
         .then(queryData => {
@@ -790,9 +800,22 @@ module.exports = {
         });
     } else if (req.query.paidId) {
       db.Payments.findAll({
-        where: {
-          paidId: req.query.paidId,
-        },
+        include: [{
+          model: db.Listings,
+          where: { ownerId: req.query.paidId },
+          include: [{
+            model: db.User,
+            as: 'owner',
+          },
+          {
+            model: db.User,
+            as: 'renter',
+          },
+          {
+            model: db.Images,
+            as: 'listingImage',
+          }],
+        }],
       })
         .then(queryData => {
           if (queryData) {

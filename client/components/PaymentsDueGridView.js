@@ -21,6 +21,7 @@ class PaymentsDueGridView extends Component {
     fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}`)
       .then(response => response.json())
         .then(data => {
+          console.log('PAYMENTS');
           console.log('PAYMENTS:', data);
           const formatted = [];
           data.forEach(payment => {
