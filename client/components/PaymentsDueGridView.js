@@ -25,10 +25,10 @@ class PaymentsDueGridView extends Component {
           const formatted = [];
           data.forEach(payment => {
             formatted.push({
-              name: payment.listings.name,
-              ownerName: payment.listings.owner.username,
+              itemName: payment.listings.itemName,
               $Amount: `$${payment.$Amount}`,
               startDate: this.formatDate(new Date(payment.startDate)),
+              paymentComplete: payment.paymentComplete ? 'Complete' : 'Pending',
             });
           });
           this.setState({
@@ -42,7 +42,7 @@ class PaymentsDueGridView extends Component {
     this.setState({
       id: e.props.data.id,
       open: true,
-      listingName: e.props.data.name,
+      listingName: e.props.data.itemName,
     });
   }
 
@@ -87,12 +87,8 @@ class PaymentsDueGridView extends Component {
           bodyHeight={400}
           columnMetadata={[
             {
-              columnName: 'name',
+              columnName: 'itemName',
               displayName: 'Item',
-            },
-            {
-              columnName: 'ownerName',
-              displayName: 'Owner',
             },
             {
               columnName: '$Amount',
@@ -102,9 +98,13 @@ class PaymentsDueGridView extends Component {
               columnName: 'startDate',
               displayName: 'Date Rented',
             },
+            {
+              columnName: 'paymentComplete',
+              displayName: 'Payment Complete',
+            },
           ]}
           noDataMessage={"No Payments Due"}
-          columns={['name', 'ownerName', '$Amount', 'startDate']}
+          columns={['itemName', '$Amount', 'startDate', 'paymentComplete']}
           onRowClick={this.rowClick}
         />
         <Modal

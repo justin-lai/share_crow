@@ -7,7 +7,7 @@ const config = require('../config');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 const AWS = require('aws-sdk');
 const Sequelize = require('sequelize');
-const stripe = require('stripe')('sk_test_NKcbGwQJ7qeEaOhiMMzDf2WU');
+// const stripe = require('stripe')('sk_test_NKcbGwQJ7qeEaOhiMMzDf2WU');
 
 AWS.config.accessKeyId = config.AWS_ACCESSKEY;
 AWS.config.secretAccessKey = config.AWS_SECRETKEY;
@@ -585,10 +585,13 @@ module.exports = {
             id: req.body.listingId,
           },
         })
-        .then(queryData => queryData.updateAttributes({
-          itemReturned: true,
-          returnedOn: new Date().toISOString(),
-        }))
+        .then(queryData => {
+          queryData.updateAttributes({
+            itemReturned: true,
+            returnedOn: new Date().toISOString(),
+          });
+          console.log(queryData);
+        })
         .then(() => {
           db.Listings.find({
             where: {
@@ -733,7 +736,7 @@ module.exports = {
 
 
     req.session.cookie.path = '/main/payment';
-    const stripeToken = req.body.stripeToken;
+    // const stripeToken = req.body.stripeToken;
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -742,25 +745,27 @@ module.exports = {
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
         // console.log(rentalFee);
-        const charge = stripe.charges.create({
-          amount: 5000,
-          currency: 'usd',
-          source: stripeToken,
-          description: 'Example charge',
-          // metadata: { 'order_id': '6735' }
-        }, (err) => {
-          if (err && err.type === 'StripeCardError') {
-            // The card has been declined
-          } else {
-            console.log(charge);
-          }
-        });
+        // const charge = stripe.charges.create({
+        //   amount: 5000,
+        //   currency: 'usd',
+        //   source: stripeToken,
+        //   description: 'Example charge',
+        //   // metadata: { 'order_id': '6735' }
+        // }, (err) => {
+        //   if (err && err.type === 'StripeCardError') {
+        //     // The card has been declined
+        //   } else {
+        //     console.log(charge);
+        //   }
+        // });
         // console.log(rentalFee);
 
         db.Payments.create({
           $Amount: rentalFee,
           startDate: queryData.rentedOn,
-          itemId: queryData.id,
+          ListingId: queryData.id,
+          itemName: queryData.name,
+          paymentComplete: false,
           payerId: queryData.renterId,
           paidId: queryData.ownerId,
         })
@@ -772,22 +777,9 @@ module.exports = {
     req.session.cookie.path = '/main/payment';
     if (req.query.payerId) {
       db.Payments.findAll({
-        include: [{
-          model: db.Listings,
-          where: { ownerId: req.query.payerId },
-          include: [{
-            model: db.User,
-            as: 'owner',
-          },
-          {
-            model: db.User,
-            as: 'renter',
-          },
-          {
-            model: db.Images,
-            as: 'listingImage',
-          }],
-        }],
+        where: {
+          payerId: req.query.payerId,
+        },
       })
         .then(queryData => {
           if (queryData) {
@@ -800,22 +792,9 @@ module.exports = {
         });
     } else if (req.query.paidId) {
       db.Payments.findAll({
-        include: [{
-          model: db.Listings,
-          where: { ownerId: req.query.paidId },
-          include: [{
-            model: db.User,
-            as: 'owner',
-          },
-          {
-            model: db.User,
-            as: 'renter',
-          },
-          {
-            model: db.Images,
-            as: 'listingImage',
-          }],
-        }],
+        where: {
+          paidId: req.query.paidId,
+        },
       })
         .then(queryData => {
           if (queryData) {
