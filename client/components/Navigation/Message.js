@@ -12,7 +12,6 @@ class Message extends Component {
       open: false,
       rentRequestMessage: '',
     };
-
     const date = props.messageItem.createdAt;
     this.date = this.formatDate(new Date(Date.parse(date.replace(/( +)/, ' UTC$1'))));
     this.openModal = this.openModal.bind(this);
