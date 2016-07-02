@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import { sessionGetResponse, isLoggedIn } from './sessionActions';
 /*
 --------------------------------------
   ACTION TYPES
@@ -45,7 +44,7 @@ export function imageFetchStatus(data) {
     data,
   };
 }
-export function getImage(query) {
+export function getImage(query, cb) {
   return dispatch => {
     dispatch(imageGetRequest());
     dispatch(imageFetchStatus({ status: true }));
@@ -55,6 +54,7 @@ export function getImage(query) {
         return response.json();
       })
       .then(json => {
+        if (cb) cb(json);
         dispatch(imageGetResponse(json));
       });
   };
@@ -73,7 +73,7 @@ export function imagePostResponse(data) {
     data,
   };
 }
-export function postImage(data) {
+export function postImage(data, cb) {
   return dispatch => {
     dispatch(imagePostRequest());
     return fetch('/main/imageUpload', {
@@ -86,6 +86,7 @@ export function postImage(data) {
     })
     .then(response => response.json())
     .then(json => {
+      if (cb) cb(json);
       dispatch(imagePostResponse(json));
     });
   };
@@ -115,12 +116,8 @@ export function putImage(data, cb) {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-    .then(response => {
-      console.log('THIS IS IMAGE JSON1: ', response);
-      return response.json();
-    })
+    .then(response => response.json())
     .then(json => {
-      console.log('THIS IS IMAGE JSON2: ', json);
       if (cb) cb(json);
       dispatch(imagePutResponse(json));
     });
@@ -140,7 +137,7 @@ export function imageDeleteResponse(data) {
     data,
   };
 }
-export function deleteImage(data) {
+export function deleteImage(data, cb) {
   return dispatch => {
     dispatch(imageDeleteRequest());
     return fetch('/main/imageUpload', {
@@ -152,6 +149,9 @@ export function deleteImage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(imageDeleteResponse(json)));
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(imageDeleteResponse(json));
+    });
   };
 }

@@ -47,10 +47,8 @@ export function getCategory(cb) {
         return response.json();
       })
       .then(json => {
+        if (cb) cb(json);
         dispatch(categoryGetResponse(json));
-      })
-      .then(() => {
-        if (cb) cb();
       });
   };
 }

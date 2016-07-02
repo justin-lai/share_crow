@@ -42,7 +42,6 @@ class PostAnItemModal extends Component {
       category: this.state.category,
     };
     this.methods.postListing(listingData, responseData => {
-      console.log('response data --------------', this.state.uploadID, responseData.id);
       this.methods.putImage({
         id: this.state.uploadID,
         listingId: responseData.id,
@@ -51,30 +50,6 @@ class PostAnItemModal extends Component {
       });
     });
 
-    // fetch('http://localhost:3000/main/listing',
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(listingData),
-    //   }).then(response => response.json())
-    //     .then(responseData => {
-    //       fetch('http://localhost:3000/main/imageUpload',
-    //         {
-    //           method: 'PUT',
-    //           headers: {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json',
-    //           },
-    //           body: JSON.stringify({
-    //             id: this.state.uploadID,
-    //             listingId: responseData.id,
-    //           }),
-    //         }).then(response => response.json())
-    //           .then(responseData2 => console.log(responseData2));
-    //     });
     this.closeModal();
   }
 
