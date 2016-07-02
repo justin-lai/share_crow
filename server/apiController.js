@@ -6,7 +6,8 @@ const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twil
 const baseLink = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
 const fetch = require('node-fetch');
 const request = require('request');
-const db = require('./dbController.js');
+const path = require('path');
+const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
 module.exports = {
   // find the distance between two points, given 2 lat,long pairs
@@ -64,16 +65,13 @@ module.exports = {
       },
     }, (err, r, body) => {
       const accessToken = JSON.parse(body).access_token;
-      db.User.find(
-        {
-          where: {
-            id: req.body.id,
-          },
-        })
-        .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }));
-      console.log(accessToken);
-    }, () => {
-      res.writeHead(301, { Location: 'http://localhost:3000/#/profile' });
+      db.User.find({
+        where: {
+          id: req.session.userID.id,
+        },
+      })
+        .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))
+        .then(res.writeHead(301, { Location: 'http://localhost:3000/#/profile' }));
       res.end();
     });
   },
