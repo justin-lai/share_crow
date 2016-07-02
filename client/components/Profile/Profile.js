@@ -9,6 +9,8 @@ import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
 import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
+import IncomingRequestsGridView from '../IncomingRequestsGridView';
+import OutgoingRequestsGridView from '../OutgoingRequestsGridView';
 import AvailableItemsGridView from '../AvailableItemsGridView';
 import RentedOutItemsGridView from '../RentedOutItemsGridView';
 import CurrentlyRentingGridView from '../CurrentlyRentingGridView';
@@ -92,6 +94,8 @@ class Profile extends Component {
                 </section>
               </div>
             </div>
+            <IncomingRequestsGridView />
+            <OutgoingRequestsGridView />
             <AvailableItemsGridView
               id={this.props.isAuth.userInfo.id}
               products={this.products}

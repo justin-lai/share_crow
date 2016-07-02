@@ -22,7 +22,6 @@ class PaymentsReceivedGridView extends Component {
       .then(response => response.json())
         .then(data => {
           const formatted = [];
-          console.log('PAYMENTS RECEIVED: ', data);
           data.forEach(payment => {
             formatted.push({
               itemName: payment.itemName,
