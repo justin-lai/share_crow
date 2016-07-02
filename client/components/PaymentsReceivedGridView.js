@@ -25,9 +25,10 @@ class PaymentsReceivedGridView extends Component {
           console.log('PAYMENTS RECEIVED: ', data);
           data.forEach(payment => {
             formatted.push({
-              name: payment.Listing.name,
+              itemName: payment.itemName,
               $Amount: `$${payment.$Amount}`,
               startDate: this.formatDate(new Date(payment.startDate)),
+              paymentComplete: payment.paymentComplete ? 'Complete' : 'Pending',
             });
           });
           this.setState({
@@ -41,7 +42,7 @@ class PaymentsReceivedGridView extends Component {
     this.setState({
       id: e.props.data.id,
       open: true,
-      listingName: e.props.data.name,
+      listingName: e.props.data.itemName,
     });
   }
 
@@ -91,7 +92,7 @@ class PaymentsReceivedGridView extends Component {
           bodyHeight={400}
           columnMetadata={[
             {
-              columnName: 'name',
+              columnName: 'itemName',
               displayName: 'Item',
             },
             {
@@ -102,9 +103,13 @@ class PaymentsReceivedGridView extends Component {
               columnName: 'startDate',
               displayName: 'Rented Date',
             },
+            {
+              columnName: 'paymentComplete',
+              displayName: 'Payment Complete',
+            },
           ]}
           noDataMessage={"No Recent Payments Recieved"}
-          columns={['name', '$Amount', 'startDate']}
+          columns={['itemName', '$Amount', 'startDate', 'paymentComplete']}
           onRowClick={this.rowClick}
         />
         <Modal

@@ -764,6 +764,10 @@ module.exports = {
           $Amount: rentalFee,
           startDate: queryData.rentedOn,
           ListingId: queryData.id,
+          itemName: queryData.name,
+          paymentComplete: false,
+          payerId: queryData.renterId,
+          paidId: queryData.ownerId,
         })
           .then(newPayment => { console.log(newPayment.dataValues); res.status(200).send({ payment: newPayment.dataValues }); });
       });
@@ -773,22 +777,9 @@ module.exports = {
     req.session.cookie.path = '/main/payment';
     if (req.query.payerId) {
       db.Payments.findAll({
-        include: [{
-          model: db.Listings,
-          where: { ownerId: req.query.payerId },
-          include: [{
-            model: db.User,
-            as: 'owner',
-          },
-          {
-            model: db.User,
-            as: 'renter',
-          },
-          {
-            model: db.Images,
-            as: 'listingImage',
-          }],
-        }],
+        where: {
+          payerId: req.query.payerId,
+        },
       })
         .then(queryData => {
           if (queryData) {
@@ -801,22 +792,9 @@ module.exports = {
         });
     } else if (req.query.paidId) {
       db.Payments.findAll({
-        include: [{
-          model: db.Listings,
-          where: { ownerId: req.query.paidId },
-          include: [{
-            model: db.User,
-            as: 'owner',
-          },
-          {
-            model: db.User,
-            as: 'renter',
-          },
-          {
-            model: db.Images,
-            as: 'listingImage',
-          }],
-        }],
+        where: {
+          paidId: req.query.paidId,
+        },
       })
         .then(queryData => {
           if (queryData) {
