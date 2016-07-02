@@ -46,15 +46,18 @@ export function listingFetchStatus(data) {
   };
 }
 
-export function getListing(query) {
+export function getListing(query, cb) {
   return dispatch => {
     dispatch(listingGetRequest());
     dispatch(listingFetchStatus({ status: true }));
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(listingGetResponse(json));
+      .then(response => {
         dispatch(listingFetchStatus({ status: false }));
+        return response.json();
+      })
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(listingGetResponse(json));
       });
       // .catch(() => dispatch(listingGetResponse([])));
   };
@@ -73,7 +76,7 @@ export function listingPostResponse(data) {
     data,
   };
 }
-export function postListing(data) {
+export function postListing(data, cb) {
   return dispatch => {
     dispatch(listingPostRequest());
     return fetch('/main/listing', {
@@ -85,7 +88,10 @@ export function postListing(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(listingPostResponse(json)));
+    .then(json => {
+      if (cb) cb(json);
+      dispatch(listingPostResponse(json));
+    });
   };
 }
 
@@ -102,7 +108,7 @@ export function listingPutResponse(data) {
     data,
   };
 }
-export function putListing(data) {
+export function putListing(data, cb) {
   return dispatch => {
     dispatch(listingPutRequest());
     return fetch('/main/listing', {
@@ -114,7 +120,10 @@ export function putListing(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(listingPutResponse(json)));
+    .then(json => {
+      if (cb) cb(json);
+      dispatch(listingPutResponse(json));
+    });
   };
 }
 
@@ -131,7 +140,7 @@ export function listingDeleteResponse(data) {
     data,
   };
 }
-export function deleteListing(data) {
+export function deleteListing(data, cb) {
   return dispatch => {
     dispatch(listingDeleteRequest());
     return fetch('/main/listing', {
@@ -143,6 +152,9 @@ export function deleteListing(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(listingDeleteResponse(json)));
+    .then(json => {
+      if (cb) cb(json);
+      dispatch(listingDeleteResponse(json));
+    });
   };
 }

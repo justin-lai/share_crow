@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import { sessionGetResponse, isLoggedIn } from './sessionActions';
 /*
 --------------------------------------
   ACTION TYPES
@@ -44,15 +43,18 @@ export function userFetchStatus(data) {
     data,
   };
 }
-export function getUser(query) {
+export function getUser(query, cb) {
   return dispatch => {
     dispatch(userGetRequest());
     dispatch(userFetchStatus({ status: true }));
     return fetch(`/main/profile?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(userGetResponse(json));
+      .then(response => {
         dispatch(userFetchStatus({ status: false }));
+        return response.json();
+      })
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(userGetResponse(json));
       });
   };
 }
@@ -70,7 +72,7 @@ export function userPostResponse(data) {
     data,
   };
 }
-export function postUser(data) {
+export function postUser(data, cb) {
   return dispatch => {
     dispatch(userPostRequest());
     return fetch('/main/signup', {
@@ -83,9 +85,8 @@ export function postUser(data) {
     })
     .then(response => response.json())
     .then(json => {
+      if (cb) cb(json);
       dispatch(userPostResponse(json));
-      dispatch(sessionGetResponse(json));
-      dispatch(isLoggedIn());
     });
   };
 }
@@ -103,7 +104,7 @@ export function userPutResponse(data) {
     data,
   };
 }
-export function putUser(data) {
+export function putUser(data, cb) {
   return dispatch => {
     dispatch(userPutRequest());
     return fetch('/main/profile', {
@@ -115,7 +116,10 @@ export function putUser(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(userPutResponse(json)));
+    .then(json => {
+      if (cb) cb(json);
+      dispatch(userPutResponse(json));
+    });
   };
 }
 
@@ -132,7 +136,7 @@ export function userDeleteResponse(data) {
     data,
   };
 }
-export function deleteUser(data) {
+export function deleteUser(data, cb) {
   return dispatch => {
     dispatch(userDeleteRequest());
     return fetch('/main/profile', {
@@ -144,6 +148,9 @@ export function deleteUser(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(userDeleteResponse(json)));
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(userDeleteResponse(json));
+    });
   };
 }

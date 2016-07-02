@@ -11,7 +11,7 @@ import PublicUserProfile from './components/Profile/PublicUserProfile';
 
 require('./assets/styles/app.scss');
 
-let store = configureStore();
+export const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
 render(

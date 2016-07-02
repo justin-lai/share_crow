@@ -37,15 +37,18 @@ export function categoryFetchStatus(data) {
   };
 }
 
-export function getCategory() {
+export function getCategory(cb) {
   return dispatch => {
     dispatch(categoryGetRequest());
     dispatch(categoryFetchStatus({ status: true }));
     return fetch('/main/category', { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(categoryGetResponse(json));
+      .then(response => {
         dispatch(categoryFetchStatus({ status: false }));
+        return response.json();
+      })
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(categoryGetResponse(json));
       });
   };
 }

@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import { sessionGetResponse, isLoggedIn } from './sessionActions';
 /*
 --------------------------------------
   ACTION TYPES
@@ -45,17 +44,19 @@ export function imageFetchStatus(data) {
     data,
   };
 }
-export function getImage(query) {
+export function getImage(query, cb) {
   return dispatch => {
     dispatch(imageGetRequest());
     dispatch(imageFetchStatus({ status: true }));
-    return fetch(`/main/image?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(imageGetResponse(json));
+    return fetch(`/main/imageUpload?${query}`, { credentials: 'same-origin' })
+      .then(response => {
         dispatch(imageFetchStatus({ status: false }));
+        return response.json();
       })
-      .then(json => dispatch(imageFetchStatus(json)));
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(imageGetResponse(json));
+      });
   };
 }
 
@@ -72,11 +73,10 @@ export function imagePostResponse(data) {
     data,
   };
 }
-export function postImage(data) {
-  console.log('this is data', data);
+export function postImage(data, cb) {
   return dispatch => {
     dispatch(imagePostRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,9 +86,8 @@ export function postImage(data) {
     })
     .then(response => response.json())
     .then(json => {
+      if (cb) cb(json);
       dispatch(imagePostResponse(json));
-      dispatch(sessionGetResponse(json));
-      dispatch(isLoggedIn());
     });
   };
 }
@@ -106,10 +105,10 @@ export function imagePutResponse(data) {
     data,
   };
 }
-export function putImage(data) {
+export function putImage(data, cb) {
   return dispatch => {
     dispatch(imagePutRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +117,10 @@ export function putImage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(imagePutResponse(json)));
+    .then(json => {
+      if (cb) cb(json);
+      dispatch(imagePutResponse(json));
+    });
   };
 }
 
@@ -135,10 +137,10 @@ export function imageDeleteResponse(data) {
     data,
   };
 }
-export function deleteImage(data) {
+export function deleteImage(data, cb) {
   return dispatch => {
     dispatch(imageDeleteRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -147,6 +149,9 @@ export function deleteImage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(imageDeleteResponse(json)));
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(imageDeleteResponse(json));
+    });
   };
 }

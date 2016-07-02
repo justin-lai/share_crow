@@ -46,8 +46,7 @@ const NavBar = (props) => {
                   <li><a href="#">Messages</a></li>
                   <li><a href="#">Transaction History</a></li>
                   <li><a href="/#/profile">Profile</a></li>
-                  <li><a href="/logout">
-                  Logout</a></li>
+                  <li onClick={props.signout}><a href="/logout">Logout</a></li>
                 </ul>
               </li>
             </ul>
@@ -105,6 +104,7 @@ const NavBar = (props) => {
 NavBar.propTypes = {
   login: PropTypes.func,
   signup: PropTypes.func,
+  signout: PropTypes.func,
   username: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };

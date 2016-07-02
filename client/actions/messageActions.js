@@ -44,15 +44,18 @@ export function messageFetchStatus(data) {
     data,
   };
 }
-export function getMessage(query) {
+export function getMessage(query, cb) {
   return dispatch => {
     dispatch(messageGetRequest());
     dispatch(messageFetchStatus({ status: true }));
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(messageGetResponse(json));
+      .then(response => {
         dispatch(messageFetchStatus({ status: false }));
+        return response.json();
+      })
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(messageGetResponse(json));
       });
       // .catch(() => dispatch(messageGetResponse([])));
   };
@@ -71,9 +74,7 @@ export function messagePostResponse(data) {
     data,
   };
 }
-export function postMessage(data) {
-  console.log('in the postMessage function');
-  console.log('this is data', data);
+export function postMessage(data, cb) {
   return dispatch => {
     dispatch(messagePostRequest());
     return fetch('/main/message', {
@@ -85,7 +86,10 @@ export function postMessage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(messagePostResponse(json)));
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(messagePostResponse(json));
+    });
   };
 }
 
@@ -102,7 +106,7 @@ export function messagePutResponse(data) {
     data,
   };
 }
-export function putMessage(data) {
+export function putMessage(data, cb) {
   return dispatch => {
     dispatch(messagePutRequest());
     return fetch('/main/message', {
@@ -114,7 +118,10 @@ export function putMessage(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(messagePutResponse(json)));
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(messagePutResponse(json));
+    });
   };
 }
 
@@ -131,7 +138,7 @@ export function messageDeleteResponse(data) {
     data,
   };
 }
-export function deleteMessage(data) {
+export function deleteMessage(data, cb) {
   return dispatch => {
     dispatch(messageDeleteRequest());
     return fetch('/main/message', {
@@ -147,7 +154,10 @@ export function deleteMessage(data) {
     .then(() =>
       fetch(`/main/message?recipientId=${data.recipientId}`, { credentials: 'same-origin' }))
       .then(response => response.json())
-      .then(json => dispatch(messageGetResponse(json)));
+      .then(json => {
+        if (cb) cb(json);
+        dispatch(messageGetResponse(json));
+      });
   };
 }
 
