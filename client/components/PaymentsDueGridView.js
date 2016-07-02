@@ -25,8 +25,8 @@ class PaymentsDueGridView extends Component {
           const formatted = [];
           data.forEach(payment => {
             formatted.push({
-              name: payment.listings.name,
-              ownerName: payment.listings.owner.username,
+              name: payment.Listing.name,
+              ownerName: payment.Listing.owner.username,
               $Amount: `$${payment.$Amount}`,
               startDate: this.formatDate(new Date(payment.startDate)),
             });

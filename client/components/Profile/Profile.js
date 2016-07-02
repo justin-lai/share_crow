@@ -86,9 +86,7 @@ class Profile extends Component {
                         ref={(map) => console.log(map)}
                         defaultZoom={12}
                         defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
-                      >
-                        })}
-                      </GoogleMap>
+                      />
                     }
                   />
                 </section>
