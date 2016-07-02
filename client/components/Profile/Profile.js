@@ -13,6 +13,7 @@ import RentedOutItemsGridView from '../RentedOutItemsGridView';
 import CurrentlyRentingGridView from '../CurrentlyRentingGridView';
 import PaymentsDueGridView from '../PaymentsDueGridView';
 import PaymentsReceivedGridView from '../PaymentsReceivedGridView';
+import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
 
 class Profile extends Component {
   constructor(props) {
@@ -68,9 +69,30 @@ class Profile extends Component {
         />
         <div className="row">
           <div className="col-xs-6 col-md-4">
-            <span>
-              <ProfileCard profile={this.profile} />
-            </span>
+            <ProfileCard profile={this.profile} />
+          </div>
+          <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
+            <section style={{ height: '300px', width: '250%' }}>
+              <GoogleMapLoader
+                query={{ libraries: 'geometry,drawing,places,visualization' }}
+                containerElement={
+                  <div
+                    style={{
+                      height: '100%',
+                    }}
+                  />
+                }
+                googleMapElement={
+                  <GoogleMap
+                    ref={(map) => console.log(map)}
+                    defaultZoom={12}
+                    defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                  >
+                    })}
+                  </GoogleMap>
+                }
+              />
+            </section>
           </div>
         </div>
         <AvailableItemsGridView
