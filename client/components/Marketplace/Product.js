@@ -42,6 +42,18 @@ class Product extends Component {
       recipient_id: this.product.ownerId,
     });
     this.state.rentRequestMessage = 'Your request has been sent!';
+    fetch('http://localhost:3000/api/sendTextNotification',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipientId: this.product.ownerId,
+          text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
+        }),
+      });
     this.closeModal();
     this.openModal();
   }

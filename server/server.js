@@ -5,6 +5,8 @@ const passport = require('passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const utilityController = require('./utilityController.js');
+// const fs = require('fs');
+// const https = require('https');
 
 app.use(session({
   store: new RedisStore({
@@ -30,9 +32,13 @@ app.use(express.static('client/assets'));
 app.use(express.static('client/assets/images'));
 app.use(express.static('client/assets/styles'));
 
-app.listen(3000, () => {
-  //eslint-disable-next-line
-  console.log('Listening on port 3000!');
-});
+// https.createServer({
+//   key: fs.readFileSync('./ssl/key.pem'),
+//   cert: fs.readFileSync('./ssl/cert.pem'),
+//   requestCert: false,
+//   rejectUnauthorized: false,
+// }, app).listen(3000);
+
+app.listen(3000, () => console.log('Listening on Port 3000'));
 
 module.exports = app;

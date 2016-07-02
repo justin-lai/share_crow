@@ -86,6 +86,7 @@ class SignUpModal extends Component {
             onClick={this.openModal}
           >Start Sharing</div>
           <Modal
+            style={{ content: { height: '320px' } }}
             isOpen={this.state.open}
             onRequestClose={this.closeModal}
           >
@@ -257,6 +258,7 @@ class SignUpModal extends Component {
           onClick={this.openModal}
         ><span className="glyphicon glyphicon-user"></span> Sign Up</div>
         <Modal
+          style={{ content: { height: '320px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
