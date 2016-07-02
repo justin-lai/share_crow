@@ -193,6 +193,7 @@ Reviews.belongsTo(User, {
   as: 'reviewer',
   foreignKey: 'reviewerId',
 });
+
 // Payments.belongsTo(User, {
 //   as: 'paid',
 //   foreignKey: 'paidId',
