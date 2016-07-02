@@ -45,7 +45,7 @@ class Marketplace extends Component {
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
     this.setState({
-      listings: nextProps.listing,
+      listings: nextProps.listing.reverse(),
       filteredListings: nextProps.listing,
     });
     //eslint-disable-next-line
