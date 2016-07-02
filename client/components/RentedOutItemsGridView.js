@@ -26,6 +26,7 @@ class RentedOutItemsGridView extends Component {
         data.forEach(listing => {
           formatted.push({
             name: listing.name,
+            id: listing.id,
             renterName: listing.renter.username,
             rentalFee: `$${listing.rentalFee}`,
             maxFee: `$${listing.maxFee}`,
@@ -56,6 +57,7 @@ class RentedOutItemsGridView extends Component {
   }
 
   rowClick(e) {
+    console.log(e.props.data);
     this.setState({
       id: e.props.data.id,
       open: true,
@@ -67,6 +69,7 @@ class RentedOutItemsGridView extends Component {
   closeModal() { this.setState({ open: false }); }
 
   acceptRequest() {
+    console.log(this.state);
     fetch('http://localhost:3000/main/listing',
       {
         method: 'DELETE',
