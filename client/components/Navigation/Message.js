@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { deleteMessage } from '../../actions/messageActions';
 import { putListing } from '../../actions/listingActions';
+import fetch from 'isomorphic-fetch';
 
 class Message extends Component {
   constructor(props) {
@@ -51,6 +52,21 @@ class Message extends Component {
       messageId: this.props.messageItem.id,
       recipientId: this.props.messageItem.recipientId,
     });
+    fetch('http://localhost:3000/api/sendTextNotification',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipientId: this.props.messageItem.recipientId,
+          senderId: this.props.messageItem.senderId,
+          sendPhoneNumbers: true,
+          listingId: this.props.messageItem.subject,
+        }),
+      });
+
     this.closeModal();
   }
 
