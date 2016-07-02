@@ -16,7 +16,9 @@ export const login = userData => {
 export const signup = userData => {
   //eslint-disable-next-line
   console.log('signing up as', userData);
-  store.dispatch(postUser(userData));
+  store.dispatch(postUser(userData, () => {
+    login({ username: userData.username, password: userData.password });
+  }));
 };
 
 export const signout = () => {

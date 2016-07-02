@@ -21,11 +21,12 @@ class PaymentsDueGridView extends Component {
     fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}`)
       .then(response => response.json())
         .then(data => {
-          console.log('PAYMENTS');
-          console.log('PAYMENTS:', data);
+          console.log('PAYMENTS DUE:', data);
           const formatted = [];
           data.forEach(payment => {
             formatted.push({
+              name: payment.listings.name,
+              ownerName: payment.listings.owner.username,
               $Amount: `$${payment.$Amount}`,
               startDate: this.formatDate(new Date(payment.startDate)),
             });
@@ -86,16 +87,24 @@ class PaymentsDueGridView extends Component {
           bodyHeight={400}
           columnMetadata={[
             {
+              columnName: 'name',
+              displayName: 'Item',
+            },
+            {
+              columnName: 'ownerName',
+              displayName: 'Owner',
+            },
+            {
               columnName: '$Amount',
               displayName: 'Amount Due',
             },
             {
               columnName: 'startDate',
-              displayName: 'Rented Date',
+              displayName: 'Date Rented',
             },
           ]}
           noDataMessage={"No Payments Due"}
-          columns={['$Amount', 'startDate']}
+          columns={['name', 'ownerName', '$Amount', 'startDate']}
           onRowClick={this.rowClick}
         />
         <Modal
