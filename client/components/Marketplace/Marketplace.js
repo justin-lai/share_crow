@@ -4,7 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../../actions/userAction
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
-import { signup, login } from '../../helpers/authHelpers';
+import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from '../Navigation/NavBar';
 import Search from './Search';
 import Filters from './Filters';
@@ -92,6 +92,7 @@ class Marketplace extends Component {
           username={this.props.isAuth.username || ''}
           login={login}
           signup={signup}
+          signout={signout}
         />
         <Filters categories={this.categories} filterBy={this.filterBy} />
         <div id="marketplace-search-container">

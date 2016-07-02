@@ -5,7 +5,7 @@ import { getListing, postListing, putListing, deleteListing } from '../../action
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
-import { signup, login } from '../../helpers/authHelpers';
+import { signup, login, signout } from '../../helpers/authHelpers';
 import Landing from './Landing';
 import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
@@ -48,6 +48,7 @@ class App extends Component {
           username={this.props.isAuth.username || ''}
           login={login}
           signup={signup}
+          signout={signout}
         />
         {this.isFetchingData() ?
           <LoadingBar /> :

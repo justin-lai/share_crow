@@ -5,6 +5,7 @@ import { store } from '../index.js';
 export const login = userData => {
   //eslint-disable-next-line
   console.log(`logging in as ${userData.username}`);
+  localStorage.setItem('SHARE_CROW', '');
   let query = [];
   Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
   query = query.join('&');
@@ -16,4 +17,9 @@ export const signup = userData => {
   //eslint-disable-next-line
   console.log('signing up as', userData);
   store.dispatch(postUser(userData));
+};
+
+export const signout = () => {
+  console.log('SIGNING OUT');
+  localStorage.setItem('SHARE_CROW', '');
 };

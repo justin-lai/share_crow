@@ -4,7 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../../actions/userAction
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
-import { signup, login } from '../../helpers/authHelpers';
+import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
 import Footer from './../Shared/Footer';
@@ -54,71 +54,68 @@ class Profile extends Component {
   }
 
   render() {
-    return this.isFetchingData() ?
+    return (
       <div id="profile">
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
           username={this.props.isAuth.username || ''}
           login={login}
           signup={signup}
+          signout={signout}
         />
-        <LoadingBar />;
-      </div>
-    :
-      <div id="profile">
-        <NavBar
-          isLoggedIn={this.props.isAuth.status || false}
-          username={this.props.isAuth.username || ''}
-          login={login}
-          signup={signup}
-        />
-        <div className="row">
-          <div className="col-xs-6 col-md-4">
-            <ProfileCard profile={this.profile} />
-          </div>
-          <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
-            <section style={{ height: '300px', width: '250%' }}>
-              <GoogleMapLoader
-                query={{ libraries: 'geometry,drawing,places,visualization' }}
-                containerElement={
-                  <div
-                    style={{
-                      height: '100%',
-                    }}
+        { this.isFetchingData() ?
+          <LoadingBar /> :
+          <div>
+            <div className="row">
+              <div className="col-xs-6 col-md-4">
+                <ProfileCard profile={this.profile} />
+              </div>
+              <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
+                <section style={{ height: '300px', width: '250%' }}>
+                  <GoogleMapLoader
+                    query={{ libraries: 'geometry,drawing,places,visualization' }}
+                    containerElement={
+                      <div
+                        style={{
+                          height: '100%',
+                        }}
+                      />
+                    }
+                    googleMapElement={
+                      <GoogleMap
+                        ref={(map) => console.log(map)}
+                        defaultZoom={12}
+                        defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                      >
+                        })}
+                      </GoogleMap>
+                    }
                   />
-                }
-                googleMapElement={
-                  <GoogleMap
-                    ref={(map) => console.log(map)}
-                    defaultZoom={12}
-                    defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
-                  >
-                    })}
-                  </GoogleMap>
-                }
-              />
-            </section>
+                </section>
+              </div>
+            </div>
+            <AvailableItemsGridView
+              id={this.props.isAuth.userInfo.id}
+              products={this.products}
+            />
+            <RentedOutItemsGridView
+              id={this.props.isAuth.userInfo.id}
+              products={this.products}
+            />
+            <CurrentlyRentingGridView
+              id={this.props.isAuth.userInfo.id}
+            />
+            <PaymentsDueGridView
+              id={this.props.isAuth.userInfo.id}
+            />
+            <PaymentsReceivedGridView
+              id={this.props.isAuth.userInfo.id}
+            />
           </div>
-        </div>
-        <AvailableItemsGridView
-          id={this.props.isAuth.userInfo.id}
-          products={this.products}
-        />
-        <RentedOutItemsGridView
-          id={this.props.isAuth.userInfo.id}
-          products={this.products}
-        />
-        <CurrentlyRentingGridView
-          id={this.props.isAuth.userInfo.id}
-        />
-        <PaymentsDueGridView
-          id={this.props.isAuth.userInfo.id}
-        />
-        <PaymentsReceivedGridView
-          id={this.props.isAuth.userInfo.id}
-        />
+        }
         <Footer />
-      </div>;
+      </div>
+    );
   }
 }
 
