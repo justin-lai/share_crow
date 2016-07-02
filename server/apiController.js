@@ -4,8 +4,13 @@ const twilio = require('twilio');
 const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twilioKeys.authToken);
 const baseLink = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
 const fetch = require('node-fetch');
+<<<<<<< 42b42505c688109593e18e298642cd09598f875e
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
+=======
+const request = require('request');
+// const db = require('./dbController.js');
+>>>>>>> Complete oAuth for stripe API
 
 module.exports = {
   // find the distance between two points, given 2 lat,long pairs
@@ -56,16 +61,16 @@ module.exports = {
   },
 
   stripeOAuth: (req, res) => {
-  // Redirect to Stripe /oauth/authorize endpoint
     res.redirect(apiKeys.AUTHORIZE_URI);
-    // get('/oauth/callback', (req, res) => {
+  },
 
+
+  stripeCallback: (req, res) => {
     const code = req.query.code;
-
-  // Make /oauth/token endpoint POST request
-    req.post({
+    request.post({
       url: apiKeys.TOKEN_URI,
       form: {
+
         grant_type: 'authorization_code',
         client_id: apiKeys.CLIENT_ID,
         code,
@@ -73,9 +78,22 @@ module.exports = {
       },
     }, (err, r, body) => {
       const accessToken = JSON.parse(body).access_token;
-      res.send({ 'Your Token': accessToken });
+      // db.User.find(
+      //   {
+      //     where: {
+      //       id: req.body.id,
+      //     },
+      //   })
+      //   .then(queryData => queryData.updateAttributes(updateProfile))
+      //   .then(() => {
+      //     db.User.find({
+      //       where: {
+      //         id: req.body.id,
+      //       },
+      //     })
+      console.log(r);
+      // res.writeHead(301, { Location: 'http://localhost:3000/#/profile' });
+      res.end();
     });
-    // });
   },
-
 };

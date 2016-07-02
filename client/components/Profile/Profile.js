@@ -106,7 +106,6 @@ class Profile extends Component {
             <PaymentsDueGridView
               id={this.props.isAuth.userInfo.id}
             />
-            <button className="stripeConnect"></button>
             <PaymentsReceivedGridView
               id={this.props.isAuth.userInfo.id}
             />
