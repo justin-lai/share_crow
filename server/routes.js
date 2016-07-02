@@ -1,6 +1,11 @@
 const dbController = require('./dbController.js');
 const apiController = require('./apiController.js');
 const utilityController = require('./utilityController.js');
+const imageController = require('./imageController.js');
+const messagesController = require('./messagesController.js');
+const listingsController = require('./listingsController.js');
+const reviewController = require('./reviewController.js');
+const paymentsController = require('./paymentsController.js');
 
 module.exports = app => {
   // DB ACCESSING ROUTES
@@ -15,37 +20,37 @@ module.exports = app => {
     .put(dbController.updateProfile);
 
   app.route('/main/message')
-    .get(dbController.getMessages)
-    .post(dbController.postMessages)
-    .delete(dbController.deleteMessage);
+    .get(messagesController.getMessages)
+    .post(messagesController.postMessages)
+    .delete(messagesController.deleteMessage);
 
   app.route('/main/listing')
-    .get(dbController.getListings)
-    .post(dbController.createListing)
-    .put(dbController.changeListing)
-    .delete(dbController.returnedListing);
+    .get(listingsController.getListings)
+    .post(listingsController.createListing)
+    .put(listingsController.changeListing)
+    .delete(listingsController.returnedListing);
 
   app.route('/main/listing/unique')
-    .get(dbController.getUniqueListing);
+    .get(listingsController.getUniqueListing);
 
   app.route('/main/userReview')
-    .get(dbController.getUserReviews)
-    .post(dbController.createUserReview)
-    .delete(dbController.deleteUserReview);
+    .get(reviewController.getUserReviews)
+    .post(reviewController.createUserReview)
+    .delete(reviewController.deleteUserReview);
 
   app.route('/main/category')
     .get(dbController.getCategory);
 
   app.route('/main/payment')
-    .get(dbController.getPaymentInfo)
-    .post(dbController.generatePayment)
-    .delete(dbController.submitPayment);
+    .get(paymentsController.getPaymentInfo)
+    .post(paymentsController.generatePayment)
+    .delete(paymentsController.submitPayment);
 
   app.route('/main/imageUpload')
-    .get(dbController.getImage)
-    .post(dbController.imageUpload)
-    .put(dbController.changeImageListing)
-    .delete(dbController.deleteImage);
+    .get(imageController.getImage)
+    .post(imageController.imageUpload)
+    .put(imageController.changeImageListing)
+    .delete(imageController.deleteImage);
 
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
