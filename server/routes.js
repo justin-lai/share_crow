@@ -54,6 +54,9 @@ module.exports = app => {
   app.route('/api/sendTextNotification')
     .post(apiController.sendTextNotification);
 
+  app.route('/api/stripeAuthorize')
+    .get(apiController.stripeAuthorize);
+
   // UTILITY ROUTES
   app.get('/isLoggedIn', utilityController.isLoggedIn);
 
