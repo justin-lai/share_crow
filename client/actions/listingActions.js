@@ -51,10 +51,13 @@ export function getListing(query) {
     dispatch(listingGetRequest());
     dispatch(listingFetchStatus({ status: true }));
     return fetch(`/main/listing?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(listingGetResponse(json));
+      .then(response => {
         dispatch(listingFetchStatus({ status: false }));
+        return response.json();
+      })
+      .then(json => {
+        console.log('THIS IS LISTING GET JSON: ', json);
+        dispatch(listingGetResponse(json));
       });
       // .catch(() => dispatch(listingGetResponse([])));
   };
@@ -73,7 +76,7 @@ export function listingPostResponse(data) {
     data,
   };
 }
-export function postListing(data) {
+export function postListing(data, cb) {
   return dispatch => {
     dispatch(listingPostRequest());
     return fetch('/main/listing', {
@@ -85,7 +88,11 @@ export function postListing(data) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(json => dispatch(listingPostResponse(json)));
+    .then(json => {
+      console.log('THIS IS LISTING JSON: ', json);
+      if (cb) cb(json);
+      dispatch(listingPostResponse(json));
+    });
   };
 }
 
@@ -102,7 +109,7 @@ export function listingPutResponse(data) {
     data,
   };
 }
-export function putListing(data) {
+export function putListing(data, cb) {
   return dispatch => {
     dispatch(listingPutRequest());
     return fetch('/main/listing', {
@@ -113,7 +120,10 @@ export function putListing(data) {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-    .then(response => response.json())
+    .then(response => {
+      if (cb) cb(data);
+      return response.json();
+    })
     .then(json => dispatch(listingPutResponse(json)));
   };
 }

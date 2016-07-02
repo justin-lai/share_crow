@@ -49,13 +49,14 @@ export function getImage(query) {
   return dispatch => {
     dispatch(imageGetRequest());
     dispatch(imageFetchStatus({ status: true }));
-    return fetch(`/main/image?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
+    return fetch(`/main/imageUpload?${query}`, { credentials: 'same-origin' })
+      .then(response => {
+        dispatch(imageFetchStatus({ status: false }));
+        return response.json();
+      })
       .then(json => {
         dispatch(imageGetResponse(json));
-        dispatch(imageFetchStatus({ status: false }));
-      })
-      .then(json => dispatch(imageFetchStatus(json)));
+      });
   };
 }
 
@@ -73,10 +74,9 @@ export function imagePostResponse(data) {
   };
 }
 export function postImage(data) {
-  console.log('this is data', data);
   return dispatch => {
     dispatch(imagePostRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,8 +87,6 @@ export function postImage(data) {
     .then(response => response.json())
     .then(json => {
       dispatch(imagePostResponse(json));
-      dispatch(sessionGetResponse(json));
-      dispatch(isLoggedIn());
     });
   };
 }
@@ -106,10 +104,10 @@ export function imagePutResponse(data) {
     data,
   };
 }
-export function putImage(data) {
+export function putImage(data, cb) {
   return dispatch => {
     dispatch(imagePutRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -117,8 +115,15 @@ export function putImage(data) {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-    .then(response => response.json())
-    .then(json => dispatch(imagePutResponse(json)));
+    .then(response => {
+      console.log('THIS IS IMAGE JSON1: ', response);
+      return response.json();
+    })
+    .then(json => {
+      console.log('THIS IS IMAGE JSON2: ', json);
+      if (cb) cb(json);
+      dispatch(imagePutResponse(json));
+    });
   };
 }
 
@@ -138,7 +143,7 @@ export function imageDeleteResponse(data) {
 export function deleteImage(data) {
   return dispatch => {
     dispatch(imageDeleteRequest());
-    return fetch('/main/image', {
+    return fetch('/main/imageUpload', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-// import { getNotification, postNotification } from '../actions/notificationActions.js';
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
+import { signup, login } from '../../helpers/authHelpers';
 import Landing from './Landing';
 import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
@@ -17,8 +17,6 @@ class App extends Component {
     super(props);
 
     this.products = [];
-    this.login = this.login.bind(this);
-    this.signup = this.signup.bind(this);
     this.methods = this.props.methods;
     this.methods.isLoggedIn();
   }
@@ -36,23 +34,6 @@ class App extends Component {
     this.products = nextProps.listing;
   }
 
-  login(userData) {
-    //eslint-disable-next-line
-    console.log(`logging in as ${userData.username}`);
-    let query = [];
-    Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
-    query = query.join('&');
-    this.methods.getSession(query);
-    setTimeout(this.methods.isLoggedIn, 500);
-    this.user = userData;
-  }
-
-  signup(userData) {
-    //eslint-disable-next-line
-    console.log('signing up as', userData);
-    this.methods.postUser(userData);
-  }
-
   isFetchingData() {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
     if (!isFetching) console.log('landing props: ', this.props);
@@ -60,30 +41,26 @@ class App extends Component {
   }
 
   render() {
-    return this.isFetchingData() ?
+    return (
       <div id="app">
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
           username={this.props.isAuth.username || ''}
-          login={this.login}
-          signup={this.signup}
+          login={login}
+          signup={signup}
         />
-        <LoadingBar />;
-      </div>
-    :
-      <div id="app">
-        <NavBar
-          isLoggedIn={this.props.isAuth.status || false}
-          username={this.props.isAuth.username || ''}
-          login={this.login}
-          signup={this.signup}
-        />
-        <Landing
-          signup={this.signup}
-        />
-        <ProductCarousel products={this.products} />
+        {this.isFetchingData() ?
+          <LoadingBar /> :
+          <div>
+            <Landing
+              signup={signup}
+            />
+            <ProductCarousel products={this.products} />
+          </div>
+        }
         <Footer />
-      </div>;
+      </div>
+    );
   }
 }
 

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import { getListing, postListing } from '../../actions/listingActions';
+import { putImage } from '../../actions/imageActions';
 import { getCategory } from '../../actions/categoryActions';
 import ImageUploader from './../Shared/ImageUploader';
 
@@ -19,6 +21,8 @@ class PostAnItemModal extends Component {
       uploadListing: '',
       uploadID: '',
     };
+    this.methods = props.methods;
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleItemListing = this.handleItemListing.bind(this);
     this.handleMaxFee = this.handleMaxFee.bind(this);
@@ -37,30 +41,40 @@ class PostAnItemModal extends Component {
       owner_id: this.state.ownerId,
       category: this.state.category,
     };
-    fetch('http://localhost:3000/main/listing',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(listingData),
-      }).then(response => response.json())
-        .then(responseData => {
-          fetch('http://localhost:3000/main/imageUpload',
-            {
-              method: 'PUT',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                id: this.state.uploadID,
-                listingId: responseData.id,
-              }),
-            }).then(response => response.json())
-              .then(responseData2 => console.log(responseData2));
-        });
+    this.methods.postListing(listingData, responseData => {
+      console.log('response data --------------', this.state.uploadID, responseData.id);
+      this.methods.putImage({
+        id: this.state.uploadID,
+        listingId: responseData.id,
+      }, () => {
+        this.methods.getListing();
+      });
+    });
+
+    // fetch('http://localhost:3000/main/listing',
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(listingData),
+    //   }).then(response => response.json())
+    //     .then(responseData => {
+    //       fetch('http://localhost:3000/main/imageUpload',
+    //         {
+    //           method: 'PUT',
+    //           headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify({
+    //             id: this.state.uploadID,
+    //             listingId: responseData.id,
+    //           }),
+    //         }).then(response => response.json())
+    //           .then(responseData2 => console.log(responseData2));
+    //     });
     this.closeModal();
   }
 
@@ -152,12 +166,14 @@ class PostAnItemModal extends Component {
 
 PostAnItemModal.propTypes = {
   isAuth: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { category, isAuth } = state;
+  const { listing, category, isAuth } = state;
 
   return {
+    listing,
     category,
     isAuth,
   };
@@ -166,8 +182,17 @@ function mapStateToProps(state) {
 const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     methods: {
+      getListing: (query, cb) => {
+        dispatch(getListing(query, cb));
+      },
+      postListing: (data, cb) => {
+        dispatch(postListing(data, cb));
+      },
       getCategory: () => {
         dispatch(getCategory());
+      },
+      putImage: (data, cb) => {
+        dispatch(putImage(data, cb));
       },
     },
   };

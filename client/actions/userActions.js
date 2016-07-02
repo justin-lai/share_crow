@@ -49,10 +49,12 @@ export function getUser(query) {
     dispatch(userGetRequest());
     dispatch(userFetchStatus({ status: true }));
     return fetch(`/main/profile?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
+      .then(response => {
+        dispatch(userFetchStatus({ status: false }));
+        return response.json();
+      })
       .then(json => {
         dispatch(userGetResponse(json));
-        dispatch(userFetchStatus({ status: false }));
       });
   };
 }

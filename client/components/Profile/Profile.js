@@ -4,6 +4,7 @@ import { getUser, postUser, putUser, deleteUser } from '../../actions/userAction
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
 import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { signup, login } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
 import Footer from './../Shared/Footer';
@@ -58,6 +59,8 @@ class Profile extends Component {
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
           username={this.props.isAuth.username || ''}
+          login={login}
+          signup={signup}
         />
         <LoadingBar />;
       </div>
@@ -66,6 +69,8 @@ class Profile extends Component {
         <NavBar
           isLoggedIn={this.props.isAuth.status || false}
           username={this.props.isAuth.username || ''}
+          login={login}
+          signup={signup}
         />
         <div className="row">
           <div className="col-xs-6 col-md-4">
@@ -190,8 +195,4 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-// Profile.willTransitionTo = () => {
-//   console.log('STUFF HAPPENED');
-//   router.getCurrentPath();
-// };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

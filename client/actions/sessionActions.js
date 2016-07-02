@@ -38,7 +38,6 @@ export function getSession(query) {
     return fetch(`/main/login?${query}`, { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json => {
-        console.log('THIS IS LOGIN: ', json);
         dispatch(sessionGetResponse(json));
       });
   };

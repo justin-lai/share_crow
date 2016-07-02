@@ -66,6 +66,8 @@ module.exports = {
           } else if (req.body.userId) {
             responseData.updateAttributes({ UserId: req.body.userId });
           }
+          console.log('RESPONSE DATA---------:', responseData.dataValues);
+          return responseData.dataValues;
         })
         .then(newImageListing => res.status(200).send(newImageListing));
     }
@@ -771,6 +773,9 @@ module.exports = {
         where: {
           payerId: req.query.payerId,
         },
+        include: {
+          model: db.Listing,
+        },
       })
         .then(queryData => {
           if (queryData) {
@@ -785,6 +790,9 @@ module.exports = {
       db.Payments.findAll({
         where: {
           paidId: req.query.paidId,
+        },
+        include: {
+          model: db.Listing,
         },
       })
         .then(queryData => {

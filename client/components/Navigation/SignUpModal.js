@@ -61,17 +61,6 @@ class SignUpModal extends Component {
       this.closeModal();
       this.openModal();
     }
-    // console.log('firstName', this.state.firstName);
-    // console.log('lastName', this.state.lastName);
-    // console.log('email', this.state.email);
-    // console.log('username', this.state.username);
-    // console.log('password', this.state.password);
-    // console.log('confirmPassword', this.state.confirmPassword);
-    // console.log('address', this.state.address);
-    // console.log('city', this.state.city);
-    // console.log('state', this.state.state);
-    // console.log('zipcode', this.state.zipcode);
-    // console.log('phoneNumber', this.state.phone);
   }
 
   handleFirstName(value) { this.setState({ firstName: value.target.value }); }

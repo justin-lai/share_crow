@@ -49,10 +49,12 @@ export function getMessage(query) {
     dispatch(messageGetRequest());
     dispatch(messageFetchStatus({ status: true }));
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
-      .then(response => response.json())
+      .then(response => {
+        dispatch(messageFetchStatus({ status: false }));
+        return response.json();
+      })
       .then(json => {
         dispatch(messageGetResponse(json));
-        dispatch(messageFetchStatus({ status: false }));
       });
       // .catch(() => dispatch(messageGetResponse([])));
   };
