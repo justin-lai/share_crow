@@ -5,6 +5,7 @@ const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twil
 const baseLink = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
 const fetch = require('node-fetch');
 const path = require('path');
+const request = require('request');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 const Sequelize = require('sequelize');
 
@@ -102,5 +103,34 @@ module.exports = {
       });
     }
     res.sendStatus(200);
+  },
+
+  stripeOAuth: (req, res) => {
+    res.redirect(apiKeys.AUTHORIZE_URI);
+  },
+
+
+  stripeCallback: (req, res) => {
+    const code = req.query.code;
+    request.post({
+      url: apiKeys.TOKEN_URI,
+      form: {
+
+        grant_type: 'authorization_code',
+        client_id: apiKeys.CLIENT_ID,
+        code,
+        client_secret: apiKeys.API_KEY,
+      },
+    }, (err, r, body) => {
+      const accessToken = JSON.parse(body).access_token;
+      db.User.find({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))
+        .then(res.writeHead(301, { Location: 'http://localhost:3000/#/profile' }));
+      res.end();
+    });
   },
 };

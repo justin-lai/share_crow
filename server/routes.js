@@ -59,6 +59,12 @@ module.exports = app => {
   app.route('/api/sendTextNotification')
     .post(apiController.sendTextNotification);
 
+  app.route('/authorize')
+    .get(apiController.stripeOAuth);
+
+  app.route('/oauth/callback')
+    .get(apiController.stripeCallback);
+
   // UTILITY ROUTES
   app.get('/isLoggedIn', utilityController.isLoggedIn);
 

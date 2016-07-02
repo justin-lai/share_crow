@@ -18,18 +18,19 @@ db.sequelize
     });
     db.User.create({
       password: 'jjj3k12kksksls',
-      username: 'Arthur',
+      username: 'samChute123',
       address: '4411 TomTom Street',
       city: 'San Francisco',
       state: 'California',
       zipcode: '94539',
-      email: 'ArthurTomTom@gmail.com',
+      email: 'samChute1@gmail.com',
       phone: '555-444-1122',
       about: 'All about me!',
       verification: 1234,
       verified: true,
-      firstName: 'Arthur',
-      lastName: 'Livingston',
+      firstName: 'Sam',
+      lastName: 'Chute',
+      stripeToken: null,
     }).then((user) => {
       db.Images.create({
         image: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/65/Arthur_Read.svg/648px-Arthur_Read.svg.png',
@@ -50,6 +51,7 @@ db.sequelize
       verified: true,
       firstName: 'Seeelle',
       lastName: 'Lion',
+      stripeToken: null,
     }).then((user) => {
       db.Images.create({
         image: 'http://img2.timeinc.net/people/i/2006/celebdatabase/justintimberlake/j_timberlake1_300_400.jpg',
@@ -70,6 +72,7 @@ db.sequelize
       verified: true,
       firstName: 'Tello',
       lastName: 'Bean',
+      stripeToken: null,
     }).then((user) => {
       db.Images.create({
         image: 'http://cathyhsianglee.com/images/cathyleecircle.png',
@@ -90,6 +93,7 @@ db.sequelize
       verified: true,
       firstName: 'Sam',
       lastName: 'Tranpppse',
+      stripeToken: null,
     }).then((user) => {
       db.Images.create({
         image: 'http://a2.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjMzODE1Nzk1MjEy.jpg',
