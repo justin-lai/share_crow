@@ -10,22 +10,31 @@
 @import "app/product-listing";
 @import "app/product-preview-modal";
 @import "app/profile-card";
+@import "app/search-bar";
 @import "app/slick";
 @import "app/status-bar";
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,900);
 
 $font-stack: Arial, sans-serif;
 $fuschia: #cd1b4e;
 
 * {
+  box-sizing: inherit;
+  transition-property: all;
+  transition-duration: .6s;
+  transition-timing-function: ease;
   border-radius: 0 !important;
 }
 
+html,
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   /*background: #ecfafb;*/
 }
 
@@ -36,6 +45,10 @@ body {
 
 .center {
   text-align: center;
+}
+
+.white {
+  color: white;
 }
 
 .footer {

@@ -4,10 +4,19 @@ import SignUpModal from '../Navigation/SignUpModal';
 import SplashCarousel from './SplashCarousel';
 
 const Landing = (props) => (
-  <div className="landing">
+  <div id="landing">
     <SplashCarousel />
-    <div className="wrap">
+    <div id="slogan-with-search" className="wrap">
       <div className="landing-search">
+        <div id="slogan">
+          <h2
+            id="slogan-phrase"
+            data-shadow="Make Some Money. Start Sharing."
+            className="basic white"
+          >
+            Make Some Money. Start Sharing.
+          </h2>
+        </div>
         <Search />
         <div className="start-sharing">
           <section className="buttons">
