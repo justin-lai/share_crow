@@ -56,6 +56,9 @@ const User = sequelize.define('User', {
   lastName: {
     type: Sequelize.STRING,
   },
+  stripeToken: {
+    type: Sequelize.STRING,
+  },
 });
 
 const Reviews = sequelize.define('Reviews', {
@@ -83,8 +86,17 @@ const Payments = sequelize.define('Payments', {
   paymentDate: {
     type: Sequelize.DATE,
   },
-  itemId: {
+  itemName: {
+    type: Sequelize.STRING,
+  },
+  payerId: {
     type: Sequelize.INTEGER,
+  },
+  paidId: {
+    type: Sequelize.INTEGER,
+  },
+  paymentComplete: {
+    type: Sequelize.BOOLEAN,
   },
 });
 
