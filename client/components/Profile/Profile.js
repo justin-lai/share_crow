@@ -71,6 +71,9 @@ class Profile extends Component {
         <div className="row">
           <div className="col-xs-6 col-md-4">
             <ProfileCard profile={this.profile} />
+            <form action="/authorize" method="GET">
+              <button className="stripeConnect">Authorize</button>
+            </form>
           </div>
           <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
             <section style={{ height: '300px', width: '250%' }}>
@@ -110,7 +113,6 @@ class Profile extends Component {
         <PaymentsDueGridView
           id={this.props.isAuth.userInfo.id}
         />
-        <button className="stripeConnect"></button>
         <PaymentsReceivedGridView
           id={this.props.isAuth.userInfo.id}
         />

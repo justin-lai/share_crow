@@ -59,6 +59,9 @@ const User = sequelize.define('User', {
   lastName: {
     type: Sequelize.STRING,
   },
+  // stripeToken: {
+  //   type: Sequelize.STRING,
+  // },
 });
 
 const Reviews = sequelize.define('Reviews', {

@@ -249,7 +249,8 @@ module.exports = {
     // change database entry depending on parameters
     if (!req.body.id) {
       res.status(400).send({ message: 'id was not provided' });
-    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phone && !req.body.about) {
+    } else if (!req.body.password && !req.body.email && !req.body.address && !req.body.phone && !req.body.about
+    && !req.body.stripeToken) {
       res.status(400).send({ message: 'a required field was not provided' });
     } else {
       const updateProfile = {
@@ -258,6 +259,7 @@ module.exports = {
         address: req.body.address || null,
         phone: req.body.phone || null,
         about: req.body.about || null,
+        stripeToken: req.body.stripeToken || null,
       };
 
       if (!req.body.password) {
@@ -276,6 +278,9 @@ module.exports = {
       }
       if (!req.body.about) {
         delete updateProfile.about;
+      }
+      if (!req.body.stripeToken) {
+        delete updateProfile.stripeToken;
       }
       db.User.find(
         {
