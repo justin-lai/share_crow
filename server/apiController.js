@@ -1,16 +1,12 @@
+
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 const apiKeys = require('../config.js');
 const twilio = require('twilio');
 const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twilioKeys.authToken);
 const baseLink = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
 const fetch = require('node-fetch');
-<<<<<<< 42b42505c688109593e18e298642cd09598f875e
-const path = require('path');
-const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
-=======
 const request = require('request');
-// const db = require('./dbController.js');
->>>>>>> Complete oAuth for stripe API
+const db = require('./dbController.js');
 
 module.exports = {
   // find the distance between two points, given 2 lat,long pairs
@@ -34,30 +30,20 @@ module.exports = {
   },
 
   sendTextNotification: (req, res) => {
-    console.log(req.body);
-    db.User.find({
-      where: {
-        id: req.body.recipientId,
-      },
-    }).then(response => {
-      // eslint-disable-next-line
-      const recipientPhoneNumber = response.dataValues.phone.replace(/[-\(\)]/g, '');
-      console.log(recipientPhoneNumber, '######');
-      client.sendSms({
-        to: `+1${recipientPhoneNumber}`,
-        from: '+19259058241',
-        body: `${req.body.text}\nPlease check your notifications at www.sharecrow.com to respond.`,
-      }, (error, receiptMessage) => {
-        if (!error) {
-          // eslint-disable-next-line no-console
-          console.log('Message sent on: ${receiptMessage.dateCreated}');
-        } else {
-          // eslint-disable-next-line no-console
-          console.log('Oops! There was an error.');
-        }
-      });
-      res.sendStatus(200);
+    client.sendSms({
+      to: '+1 ${req.body.phoneNumber}',
+      from: '+19259058241',
+      body: 'From ${req.body.name}: ${req.body.message}',
+    }, (error, receiptMessage) => {
+      if (!error) {
+        // eslint-disable-next-line no-console
+        console.log('Message sent on: ${receiptMessage.dateCreated}');
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('Oops! There was an error.');
+      }
     });
+    res.sendStatus(200);
   },
 
   stripeOAuth: (req, res) => {
@@ -77,22 +63,17 @@ module.exports = {
         client_secret: apiKeys.API_KEY,
       },
     }, (err, r, body) => {
-      // const accessToken = JSON.parse(body).access_token;
-      // db.User.find(
-      //   {
-      //     where: {
-      //       id: req.body.id,
-      //     },
-      //   })
-      //   .then(queryData => queryData.updateAttributes({stripeToken: accessToken}))
-      //   .then(() => {
-      //     db.User.find({
-      //       where: {
-      //         id: req.body.id,
-      //       },
-      //     })
-      // console.log(accessToken);
-      // res.writeHead(301, { Location: 'http://localhost:3000/#/profile' });
+      const accessToken = JSON.parse(body).access_token;
+      db.User.find(
+        {
+          where: {
+            id: req.body.id,
+          },
+        })
+        .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }));
+      console.log(accessToken);
+    }, () => {
+      res.writeHead(301, { Location: 'http://localhost:3000/#/profile' });
       res.end();
     });
   },

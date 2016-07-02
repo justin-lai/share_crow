@@ -111,6 +111,9 @@ class Profile extends Component {
             />
           </div>
         }
+        <form action="/authorize" method="GET">
+          <button className="stripeConnect">Authorize</button>
+        </form>
         <Footer />
       </div>
     );
