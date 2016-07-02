@@ -1,13 +1,13 @@
-
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 const apiKeys = require('../config.js');
 const twilio = require('twilio');
 const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twilioKeys.authToken);
 const baseLink = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
 const fetch = require('node-fetch');
-const request = require('request');
 const path = require('path');
+const request = require('request');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
+const Sequelize = require('sequelize');
 
 module.exports = {
   // find the distance between two points, given 2 lat,long pairs
@@ -31,19 +31,77 @@ module.exports = {
   },
 
   sendTextNotification: (req, res) => {
-    client.sendSms({
-      to: '+1 ${req.body.phoneNumber}',
-      from: '+19259058241',
-      body: 'From ${req.body.name}: ${req.body.message}',
-    }, (error, receiptMessage) => {
-      if (!error) {
-        // eslint-disable-next-line no-console
-        console.log('Message sent on: ${receiptMessage.dateCreated}');
-      } else {
-        // eslint-disable-next-line no-console
-        console.log('Oops! There was an error.');
-      }
-    });
+    if (req.body.sendPhoneNumbers) {
+      db.Listings.find({
+        where: {
+          id: req.body.listingId,
+        },
+      }).then(response => response.dataValues.name)
+          .then(itemName => {
+            db.User.findAll({
+              where: Sequelize.or({
+                id: req.body.recipientId,
+              }, {
+                id: req.body.senderId,
+              }),
+            }).then(response => {
+              const phone1 = response[0].dataValues.phone.replace(/[-\(\)]/g, '');
+              const phone2 = response[1].dataValues.phone.replace(/[-\(\)]/g, '');
+              client.sendSms({
+                to: `+1${phone1}`,
+                from: '+19259058241',
+                // eslint-disable-next-line
+                body: `Request for '${itemName}' is completed!\nContact the other party at: ${phone2} to arrange a time to meet`,
+              }, (error, receiptMessage) => {
+                if (!error) {
+                  // eslint-disable-next-line no-console
+                  console.log('Message sent on: ${receiptMessage.dateCreated}');
+                } else {
+                  // eslint-disable-next-line no-console
+                  console.log('Oops! There was an error.');
+                }
+              });
+              client.sendSms({
+                to: `+1${phone2}`,
+                from: '+19259058241',
+                // eslint-disable-next-line
+                body: `Request for '${itemName} is completed!\nContact the other party at: ${phone1} to arrange a time to meet`,
+              }, (error, receiptMessage) => {
+                if (!error) {
+                  // eslint-disable-next-line no-console
+                  console.log('Message sent on: ${receiptMessage.dateCreated}');
+                } else {
+                  // eslint-disable-next-line no-console
+                  console.log('Oops! There was an error.');
+                }
+              });
+            });
+          });
+    } else {
+      db.User.find({
+        where: {
+          id: req.body.recipientId,
+        },
+      }).then(response => {
+        // eslint-disable-next-line
+        const recipientPhoneNumber = response.dataValues.phone.replace(/[-\(\)]/g, '');
+        console.log(recipientPhoneNumber, '######');
+        client.sendSms({
+          to: `+1${recipientPhoneNumber}`,
+          from: '+19259058241',
+          // eslint-disable-next-line
+          body: `${req.body.text}\nPlease check your notifications at www.sharecrow.com to respond.`,
+        }, (error, receiptMessage) => {
+          if (!error) {
+            // eslint-disable-next-line no-console
+            console.log('Message sent on: ${receiptMessage.dateCreated}');
+          } else {
+            // eslint-disable-next-line no-console
+            console.log('Oops! There was an error.');
+          }
+        });
+      });
+    }
     res.sendStatus(200);
   },
 
@@ -67,7 +125,7 @@ module.exports = {
       const accessToken = JSON.parse(body).access_token;
       db.User.find({
         where: {
-          id: req.session.userID.id,
+          id: req.body.id,
         },
       })
         .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))

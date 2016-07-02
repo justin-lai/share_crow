@@ -82,6 +82,9 @@ class PostAnItemModal extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
+          <form action="/authorize" method="GET">
+            <button className="stripeConnect">Authorize</button>
+          </form>
           <input
             className="close-button"
             type="submit"
