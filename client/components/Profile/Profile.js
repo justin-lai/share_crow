@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-import { getSession, isLoggedIn, refreshPage } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
@@ -42,9 +42,9 @@ class Profile extends Component {
       this.props.history.push('/');
     }
 
-    // checks if a database change was made and refreshes page
-    if (nextProps.pageNeedsRefresh) {
-      this.methods.refreshPage(false);
+    // checks if a database change was made and refreshes component
+    if (nextProps.componentNeedsRefresh === 'profile') {
+      this.methods.refreshComponent(null);
       this.componentDidMount();
     }
 
@@ -137,7 +137,7 @@ Profile.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, session, isAuth, isFetching, pageNeedsRefresh } = state;
+  const { user, listing, message, session, isAuth, isFetching, componentNeedsRefresh } = state;
 
   return {
     user,
@@ -146,7 +146,7 @@ function mapStateToProps(state) {
     session,
     isAuth,
     isFetching,
-    pageNeedsRefresh,
+    componentNeedsRefresh,
   };
 }
 
@@ -195,8 +195,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       isLoggedIn: () => {
         dispatch(isLoggedIn());
       },
-      refreshPage: (bool) => {
-        dispatch(refreshPage(bool));
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

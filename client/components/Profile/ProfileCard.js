@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { putImage, deleteImage } from '../../actions/imageActions';
-import { refreshPage } from '../../actions/sessionActions';
+import { refreshComponent } from '../../actions/sessionActions';
 import Modal from 'react-modal';
 import ImageUploader from './../Shared/ImageUploader';
 import { bindAll } from 'lodash';
@@ -36,7 +36,7 @@ class ProfileCard extends Component {
         id: this.state.uploadID,
         userId: this.profile.id,
       }, () => {
-        this.methods.refreshPage(true);
+        this.methods.refreshComponent('profile');
       });
     });
     // fetch('http://localhost:3000/main/imageUpload',
@@ -162,8 +162,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       deleteImage: (data, cb) => {
         dispatch(deleteImage(data, cb));
       },
-      refreshPage: (bool) => {
-        dispatch(refreshPage(bool));
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

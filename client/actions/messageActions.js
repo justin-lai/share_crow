@@ -45,11 +45,13 @@ export function messageFetchStatus(data) {
   };
 }
 export function getMessage(query, cb) {
+  console.log('QUERY: ', query);
   return dispatch => {
     dispatch(messageGetRequest());
     dispatch(messageFetchStatus({ status: true }));
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
       .then(response => {
+        console.log('RESPONSESESEFSEFESJF');
         dispatch(messageFetchStatus({ status: false }));
         return response.json();
       })

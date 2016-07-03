@@ -13,7 +13,7 @@ export const SESSION_GET_RESPONSE = 'SESSION_GET_RESPONSE';
 export const IS_LOGGED_IN_REQUEST = 'IS_LOGGED_IN_REQUEST';
 export const IS_LOGGED_IN_RESPONSE = 'IS_LOGGED_IN_RESPONSE';
 
-export const REFRESH_PAGE_STATUS = 'REFRESH_PAGE_STATUS';
+export const REFRESH_COMPONENT = 'REFRESH_COMPONENT';
 /*
 ---------------------------------------
   ACTION CREATORS
@@ -68,16 +68,16 @@ export function isLoggedIn(cb) {
   };
 }
 
-export function refreshPageStatus(bool) {
+export function refreshComponentAction(name) {
   return {
-    type: REFRESH_PAGE_STATUS,
-    bool,
+    type: REFRESH_COMPONENT,
+    name,
   };
 }
 
-export function refreshPage(bool) {
+export function refreshComponent(name) {
   return dispatch => {
-    dispatch(refreshPageStatus(bool));
+    dispatch(refreshComponentAction(name));
   };
 }
 

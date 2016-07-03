@@ -14,7 +14,7 @@ import {
   CATEGORY_GET_RESPONSE, CATEGORY_FETCH_STATUS,
 } from '../actions/categoryActions';
 import {
-  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE,
+  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE, REFRESH_COMPONENT,
 } from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
@@ -157,10 +157,10 @@ export const isFetching = (state = {
   }
 };
 
-export const pageNeedsRefresh = (state = false, action) => {
+export const componentNeedsRefresh = (state = null, action) => {
   switch (action.type) {
-    case 'REFRESH_PAGE_STATUS':
-      return action.bool;
+    case REFRESH_COMPONENT:
+      return action.name;
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
-import { refreshPage } from '../actions/sessionActions';
+import { refreshComponent } from '../actions/sessionActions';
 import { deleteMessage } from '../actions/messageActions';
 import { putListing } from '../actions/listingActions';
 
@@ -44,6 +44,13 @@ class OutgoingRequestsGridView extends Component {
         });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.componentNeedsRefresh === 'OutgoingRequestsGridView') {
+      this.methods.refreshComponent(null);
+      this.componentDidMount();
+    }
+  }
+
   rowClick(e) {
     this.setState({
       messageId: e.props.data.messageId,
@@ -57,7 +64,7 @@ class OutgoingRequestsGridView extends Component {
     this.methods.deleteMessage({
       messageId: this.state.messageId,
     }, () => {
-      this.methods.refreshPage(true);
+      this.methods.refreshComponent('OutgoingRequestsGridView');
     });
     this.closeModal();
   }
@@ -143,10 +150,10 @@ OutgoingRequestsGridView.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { message, listing, isAuth, pageNeedsRefresh } = state;
+  const { message, listing, isAuth, componentNeedsRefresh } = state;
 
   return {
-    message, listing, isAuth, pageNeedsRefresh,
+    message, listing, isAuth, componentNeedsRefresh,
   };
 }
 
@@ -159,8 +166,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       putListing: (data, cb) => {
         dispatch(putListing(data, cb));
       },
-      refreshPage: (bool) => {
-        dispatch(refreshPage(bool));
+      refreshComponent: (name) => {
+        dispatch(refreshComponent(name));
       },
     },
   };

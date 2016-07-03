@@ -6,11 +6,14 @@ import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
 import { deleteMessage } from '../actions/messageActions';
 import { putListing } from '../actions/listingActions';
+import { refreshComponent } from '../actions/sessionActions';
+
 
 class IncomingRequestsGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
       open: false,
       id: this.props.id,
@@ -45,6 +48,13 @@ class IncomingRequestsGridView extends Component {
         });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.componentNeedsRefresh === 'IncomingRequestsGridView') {
+      this.methods.refreshComponent(null);
+      this.componentDidMount();
+    }
+  }
+
   rowClick(e) {
     this.setState({
       messageId: e.props.data.messageId,
@@ -55,8 +65,10 @@ class IncomingRequestsGridView extends Component {
   }
 
   acceptRequest() {
-    this.props.methods.deleteMessage({
+    this.methods.deleteMessage({
       messageId: this.state.messageId,
+    }, () => {
+      this.methods.refreshComponent('IncomingRequestsGridView');
     });
     this.closeModal();
   }
@@ -142,21 +154,24 @@ IncomingRequestsGridView.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { message, listing, isAuth } = state;
+  const { message, listing, isAuth, componentNeedsRefresh } = state;
 
   return {
-    message, listing, isAuth,
+    message, listing, isAuth, componentNeedsRefresh,
   };
 }
 
 const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     methods: {
-      deleteMessage: (data) => {
-        dispatch(deleteMessage(data));
+      deleteMessage: (data, cb) => {
+        dispatch(deleteMessage(data, cb));
       },
-      putListing: (data) => {
-        dispatch(putListing(data));
+      putListing: (data, cb) => {
+        dispatch(putListing(data, cb));
+      },
+      refreshComponent: (name) => {
+        dispatch(refreshComponent(name));
       },
     },
   };
