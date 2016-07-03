@@ -11,7 +11,7 @@ import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
 import Footer from '../Shared/Footer';
 import LoadingBar from '../Shared/LoadingBar';
-import CustomerReviewModal from '../Marketplace/CustomerReviewModal';
+import StarReviewModal from '../Marketplace/StarReviewModal';
 
 class App extends Component {
   constructor(props) {
@@ -57,7 +57,9 @@ class App extends Component {
               signup={signup}
             />
             <ProductCarousel products={this.products} />
-            <CustomerReviewModal />
+            <StarReviewModal
+              userObj={this.props.user}
+            />
           </div>
         }
         <Footer />
