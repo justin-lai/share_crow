@@ -97,7 +97,6 @@ class IncomingRequestsGridView extends Component {
   }
 
   render() {
-    console.log('REQUESTS FOR YOUR ITEMS: ', this.state.rentedItems);
     if (this.state.loading) {
       return (<div></div>);
     }

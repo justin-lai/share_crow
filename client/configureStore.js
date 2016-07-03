@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { user, listing, message, category, image, session, isAuth, isFetching }
+import { user, listing, message, category, image, session, isAuth, isFetching, pageNeedsRefresh }
   from './reducers/reducers.js';
 import thunk from 'redux-thunk';
 import { routerReducer } from 'react-router-redux';
@@ -47,13 +47,14 @@ try {
       session: false,
       isAuth: false,
     },
+    pageNeedsRefresh: false,
   };
 }
 
 export default function configureStore() {
   return createStore(
     combineReducers({ user, listing, message, category, session,
-      image, isAuth, isFetching, routing: routerReducer }),
+      image, isAuth, isFetching, pageNeedsRefresh, routing: routerReducer }),
     initialState,
     applyMiddleware(thunk, promise, localStorageDump, logger)
   );

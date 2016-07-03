@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { putImage, deleteImage } from '../../actions/imageActions';
+import { refreshPage } from '../../actions/sessionActions';
 import Modal from 'react-modal';
 import ImageUploader from './../Shared/ImageUploader';
 import { bindAll } from 'lodash';
@@ -7,7 +10,9 @@ class ProfileCard extends Component {
   constructor(props) {
     super(props);
 
+    this.methods = props.methods;
     this.profile = props.profile;
+    this.profilePhoto = props.profilePhoto;
     this.state = {
       open: false,
       uploadId: '',
@@ -17,36 +22,47 @@ class ProfileCard extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
+    this.profilePhoto = nextProps.profilePhoto;
   }
 
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
   handleSubmit() {
-    fetch('http://localhost:3000/main/imageUpload',
-      {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: this.profile.id,
-        }),
-      }).then(() => {
-        fetch('http://localhost:3000/main/imageUpload',
-          {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              id: this.state.uploadID,
-              userId: this.profile.id,
-            }),
-          }).then(response => response.json());
+    this.methods.deleteImage({
+      userId: this.profile.id,
+    }, () => {
+      this.methods.putImage({
+        id: this.state.uploadID,
+        userId: this.profile.id,
+      }, () => {
+        this.methods.refreshPage(true);
       });
+    });
+    // fetch('http://localhost:3000/main/imageUpload',
+    //   {
+    //     method: 'DELETE',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       userId: this.profile.id,
+    //     }),
+    //   }).then(() => {
+    //     fetch('http://localhost:3000/main/imageUpload',
+    //       {
+    //         method: 'PUT',
+    //         headers: {
+    //           Accept: 'application/json',
+    //           'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //           id: this.state.uploadID,
+    //           userId: this.profile.id,
+    //         }),
+    //       }).then(response => response.json());
+    //   });
     this.closeModal();
   }
 
@@ -61,7 +77,7 @@ class ProfileCard extends Component {
       <div className="profileCard">
         <div className="coverphoto"></div>
         <img
-          src={this.profile.photo || 'darthvader.jpg'}
+          src={this.profilePhoto || 'darthvader.jpg'}
           className="profile_picture"
           alt="profile"
           onClick={this.openModal}
@@ -122,11 +138,36 @@ class ProfileCard extends Component {
     );
   }
 }
-            // <li className="work">CEO</li>
-            // <li className="resume"><a href="#" className="nostyle">About Me</a></li>
 
 ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
+  profilePhoto: PropTypes.string.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
-export default ProfileCard;
+function mapStateToProps(state) {
+  const { isAuth } = state;
+
+  return {
+    isAuth,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      putImage: (data, cb) => {
+        dispatch(putImage(data, cb));
+      },
+      deleteImage: (data, cb) => {
+        dispatch(deleteImage(data, cb));
+      },
+      refreshPage: (bool) => {
+        dispatch(refreshPage(bool));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard);
+

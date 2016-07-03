@@ -156,3 +156,12 @@ export const isFetching = (state = {
       return state;
   }
 };
+
+export const pageNeedsRefresh = (state = false, action) => {
+  switch (action.type) {
+    case 'REFRESH_PAGE_STATUS':
+      return action.bool;
+    default:
+      return state;
+  }
+};

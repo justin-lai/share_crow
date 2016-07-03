@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshPage } from '../../actions/sessionActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
@@ -25,14 +25,13 @@ class Profile extends Component {
     this.methods = props.methods;
     this.methods.isLoggedIn();
     this.profile = props.isAuth.userInfo;
-    if (this.props.isAuth.status) {
-      // console.log('CHECK: ', `owner_id=${this.props.isAuth.userInfo.id}`);
-      this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
-      this.methods.getUser(`id=${this.props.isAuth.userInfo.id}`);
-    }
   }
 
   componentDidMount() {
+    if (this.props.isAuth.status) {
+      this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
+      this.methods.getUser(`id=${this.props.isAuth.userInfo.id}`);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,16 +42,21 @@ class Profile extends Component {
       this.props.history.push('/');
     }
 
+    // checks if a database change was made and refreshes page
+    if (nextProps.pageNeedsRefresh) {
+      this.methods.refreshPage(false);
+      this.componentDidMount();
+    }
+
     this.products = nextProps.listing;
     if (nextProps.user.Image) {
-      this.profile.photo = nextProps.user.Image.image;
+      console.log('NEW IMAGE: ', nextProps.user.Image.image);
+      this.profilePhoto = nextProps.user.Image.image;
     }
   }
 
   isFetchingData() {
-    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    if (!isFetching) console.log('profile props: ', this.props);
-    return isFetching;
+    return Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
   }
 
   render() {
@@ -70,7 +74,7 @@ class Profile extends Component {
           <div>
             <div className="row">
               <div className="col-xs-6 col-md-4">
-                <ProfileCard profile={this.profile} />
+                <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
               </div>
               <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
                 <section style={{ height: '300px', width: '250%' }}>
@@ -133,7 +137,7 @@ Profile.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, session, isAuth, isFetching } = state;
+  const { user, listing, message, session, isAuth, isFetching, pageNeedsRefresh } = state;
 
   return {
     user,
@@ -142,6 +146,7 @@ function mapStateToProps(state) {
     session,
     isAuth,
     isFetching,
+    pageNeedsRefresh,
   };
 }
 
@@ -189,6 +194,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       isLoggedIn: () => {
         dispatch(isLoggedIn());
+      },
+      refreshPage: (bool) => {
+        dispatch(refreshPage(bool));
       },
     },
   };

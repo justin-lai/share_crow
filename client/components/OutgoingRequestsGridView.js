@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
+import { refreshPage } from '../actions/sessionActions';
 import { deleteMessage } from '../actions/messageActions';
 import { putListing } from '../actions/listingActions';
 
@@ -18,6 +19,7 @@ class OutgoingRequestsGridView extends Component {
       rentedItems: null,
       loading: true,
     };
+    this.methods = this.props.methods;
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
   }
   componentDidMount() {
@@ -52,8 +54,10 @@ class OutgoingRequestsGridView extends Component {
   }
 
   acceptRequest() {
-    this.props.methods.deleteMessage({
+    this.methods.deleteMessage({
       messageId: this.state.messageId,
+    }, () => {
+      this.methods.refreshPage(true);
     });
     this.closeModal();
   }
@@ -139,21 +143,24 @@ OutgoingRequestsGridView.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { message, listing, isAuth } = state;
+  const { message, listing, isAuth, pageNeedsRefresh } = state;
 
   return {
-    message, listing, isAuth,
+    message, listing, isAuth, pageNeedsRefresh,
   };
 }
 
 const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     methods: {
-      deleteMessage: (data) => {
-        dispatch(deleteMessage(data));
+      deleteMessage: (data, cb) => {
+        dispatch(deleteMessage(data, cb));
       },
-      putListing: (data) => {
-        dispatch(putListing(data));
+      putListing: (data, cb) => {
+        dispatch(putListing(data, cb));
+      },
+      refreshPage: (bool) => {
+        dispatch(refreshPage(bool));
       },
     },
   };
