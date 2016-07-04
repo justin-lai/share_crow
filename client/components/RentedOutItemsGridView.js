@@ -6,6 +6,7 @@ import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
 import { putListing, deleteListing } from '../actions/listingActions';
 import { refreshComponent } from '../actions/sessionActions';
+import StarRatingComponent from 'react-star-rating-component';
 
 class RentedOutItemsGridView extends Component {
 
@@ -13,34 +14,97 @@ class RentedOutItemsGridView extends Component {
     super(props);
     this.methods = props.methods;
     this.state = {
-      open: false,
-      id: null,
+      // ReturnModal variables
+      openReturnModal: false,
+      listingId: null,
       rentedOutItems: this.props.products || null,
       listingName: '',
       loading: true,
+      // StarReviewModal variables
+      openStarReviewModal: false,
+      rating: 3,
+      render: false,
+      username: '',
+      starRating: null,
+      renterId: '',
+      renterName: '',
     };
-    bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
+    // temporary dummy data
+    this.otherParty = {
+      id: 10,
+      reviewerId: 9,
+    };
+    bindAll(this,
+      'acceptRequest',
+      'declineRequest',
+      'closeReturnModal',
+      'openReturnModal',
+      'rowClick',
+      'closeReviewModal',
+      'openReviewModal',
+      'onStarClick',
+      'handleSubmit',
+      'handleUsername',
+      'handlePassword');
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/main/listing?owner_id=${this.props.isAuth.userInfo.id}&rented=true`)
-      .then(response => response.json())
-      .then(data => {
-        const formatted = [];
-        data.forEach(listing => {
-          formatted.push({
-            name: listing.name,
-            id: listing.id,
-            renterName: listing.renter.username,
-            rentalFee: `$${listing.rentalFee}`,
-            maxFee: `$${listing.maxFee}`,
-            rentedOn: this.formatDate(new Date(listing.rentedOn)),
+    fetch(`http://localhost:3000/main/profile?id=${this.otherParty.id}`)
+    .then(res => res.json())
+    .then(req => {
+      this.setState({ username: req.username });
+    })
+    .then(() => {
+      fetch(`http://localhost:3000/main/listing?owner_id=${this.props.isAuth.userInfo.id}&rented=true`)
+        .then(response => response.json())
+        .then(data => {
+          const formatted = [];
+          data.forEach(listing => {
+            formatted.push({
+              ownerId: listing.ownerId,
+              renterId: listing.renterId,
+              name: listing.name,
+              id: listing.id,
+              renterName: listing.renter.username,
+              rentalFee: `$${listing.rentalFee}`,
+              maxFee: `$${listing.maxFee}`,
+              rentedOn: this.formatDate(new Date(listing.rentedOn)),
+            });
           });
+          this.setState({ rentedOutItems: formatted, loading: false });
         });
-        this.setState({ rentedOutItems: formatted, loading: false });
-      });
+    });
   }
 
+  onStarClick(name, value) {
+    this.setState({ rating: value, render: true });
+    console.log('this is the rating now', this.state.rating);
+    // this.props.sendRating(value);
+    this.setState({
+      render: false,
+    });
+  }
+  handleSubmit() {
+    fetch('http://localhost:3000/main/userReview',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating: this.state.rating,
+          reviewerId: this.state.renterId,
+          lenderId: this.state.ownerId,
+          text: 'no comment',
+        }),
+      }).then(() => { this.methods.refreshComponent(true); });
+  }
+  handleUsername(value) { this.setState({ username: value.target.value }); }
+  handlePassword(value) { this.setState({ password: value.target.value }); }
+
+  openReviewModal() { this.setState({ open: true }); }
+  closeReviewModal() { this.setState({ open: false }); }
   formatDate(date) {
     const systemDate = date;
     const userDate = new Date();
@@ -62,17 +126,21 @@ class RentedOutItemsGridView extends Component {
 
   rowClick(e) {
     this.setState({
-      id: e.props.data.id,
-      open: true,
+      listingId: e.props.data.id,
+      openReturnModal: true,
       listingName: e.props.data.name,
+      ownerId: e.props.data.ownerId,
+      renterId: e.props.data.renterId,
+      renterName: e.props.data.renterName,
     });
   }
 
-  openModal() { this.setState({ open: true }); }
-  closeModal() { this.setState({ open: false }); }
+  openReturnModal() { this.setState({ openReturnModal: true }); }
+  closeReturnModal() { this.setState({ openReturnModal: false }); }
 
   acceptRequest() {
-    this.methods.deleteListing({ listingId: this.state.id }, () => {
+    console.log(this.state.listingId, '*********');
+    this.methods.deleteListing({ listingId: this.state.listingId }, () => {
       fetch('http://localhost:3000/main/payment',
         {
           method: 'POST',
@@ -81,20 +149,21 @@ class RentedOutItemsGridView extends Component {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id: this.state.id }),
+          body: JSON.stringify({ id: this.state.listingId }),
         })
         .then(() => {
-          this.methods.putListing({ listingId: this.state.id, reset: true }, () => {
-            this.methods.refreshComponent(true);
+          this.methods.putListing({ listingId: this.state.listingId, reset: true }, () => {
           });
+          this.closeReturnModal();
         });
     });
 
-    this.closeModal();
+    this.closeReturnModal();
+    this.openReviewModal();
   }
 
   declineRequest() {
-    this.closeModal();
+    this.closeReturnModal();
   }
 
 
@@ -134,8 +203,8 @@ class RentedOutItemsGridView extends Component {
         />
         <Modal
           style={{ content: { height: '150px', width: '600px' } }}
-          isOpen={this.state.open}
-          onRequestClose={this.closeModal}
+          isOpen={this.state.openReturnModal}
+          onRequestClose={this.closeReturnModal}
         >
           <h4 id="message-request-text">
             Was item {this.state.listingName} returned?
@@ -155,6 +224,34 @@ class RentedOutItemsGridView extends Component {
             />
           </div>
         </Modal>
+        <div className="star-review-wrapper">
+          <Modal
+            style={{ content: { height: '320px' } }}
+            isOpen={this.state.open}
+            onRequestClose={this.closeReviewModal}
+          >
+            <div
+              id="rating-modal"
+              className="center"
+            >
+              <h4 className="center">Rate your experience with {this.state.renterName}</h4>
+              <StarRatingComponent
+                // name:"rate1"
+                starCount={5}
+                value={this.state.rating}
+                onStarClick={this.onStarClick}
+              />
+              <div>
+                <input
+                  className="modal-login-button button"
+                  type="submit"
+                  value="Send Review"
+                  onClick={this.handleSubmit}
+                />
+              </div>
+            </div>
+          </Modal>
+        </div>
       </div>
     );
   }

@@ -16,10 +16,19 @@ class ProfileCard extends Component {
     this.state = {
       open: false,
       uploadId: '',
+      averageRating: '24%',
+    };
+    this.otherParty = {
+      id: 8,
     };
     bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
   }
-
+  componentDidMount() {
+    fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
+      .then(responseData => {
+        this.setState({ averageRating: `${responseData.percentage * 100}%` });
+      });
+  }
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
     this.profilePhoto = nextProps.profilePhoto;
@@ -106,7 +115,7 @@ class ProfileCard extends Component {
         </Modal>
         <div className="left_col">
           <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: '93%' }}>
+            <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
               <span>★</span>
               <span>★</span>
               <span>★</span>
