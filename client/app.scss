@@ -1,0 +1,51 @@
+@import "app/category-filters";
+@import "app/landing";
+@import "app/marketplace";
+@import "app/material-icons";
+@import "app/message";
+@import "app/modals";
+@import "app/navbar";
+@import "app/product-listing";
+@import "app/product-preview-modal";
+@import "app/profile-card";
+@import "app/signup-modal";
+@import "app/slick";
+@import "app/start-sharing-button";
+@import "app/status";
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+$font-stack: Arial, sans-serif;
+$primaryColor: white;
+
+* {
+  border-radius: 0 !important;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+  /*background: #ecfafb;*/
+}
+
+#app, #profile {
+  min-height: 100%;
+  position: relative;
+}
+
+.center {
+  text-align: center;
+}
+
+.footer {
+  /*text-align: center;*/
+  /*margin: auto;*/
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  /*width: 100px;*/
+  bottom: 0;
+  height: 60px;
+  /*background: white;*/
+}

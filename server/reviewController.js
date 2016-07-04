@@ -7,29 +7,50 @@ const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 
 module.exports = {
   // //////////////////////////// USER REVIEW FUNCTIONS ////////////////////////////
-  // expects lenderId
+  // expects lenderId equals req.query.id
   getUserReviews: (req, res) => {
     // returns all entries associated with username and id from database
     console.log('GET //// getUserReviews route');
     req.session.cookie.path = '/main/getUserReview';
-    if (!req.query.lenderId) {
-      res.status(400).send({ message: 'lenderId not provided' });
+    if (!req.query.id) {
+      res.status(400).send({ message: 'id was not provided' });
     } else {
       db.Reviews.findAll({
         where: {
-          lenderId: req.query.lenderId,
+          lenderId: req.query.id,
         },
-      })
-      .then(queryData => {
-        const results = [];
-        queryData.forEach(review => results.push(review.dataValues));
-        if (results.length) {
-          res.status(200).send(results);
-        } else {
-          res.status(400).send({ message: `No user review was found from lenderId# ${req.query.lenderId}` });
-        }
+      }).then(queryData => {
+        let sum = 0;
+        queryData.forEach(data => {
+          sum += data.rating;
+        });
+        res.status(200).send({
+          percentage: sum / (queryData.length * 5),
+          data: queryData,
+          total: sum,
+          totalReviews: queryData.length,
+        });
       });
     }
+
+    // if (!req.query.lenderId) {
+    //   res.status(400).send({ message: 'lenderId not provided' });
+    // } else {
+    //   db.Reviews.findAll({
+    //     where: {
+    //       lenderId: req.query.lenderId,
+    //     },
+    //   })
+    //   .then(queryData => {
+    //     const results = [];
+    //     queryData.forEach(review => results.push(review.dataValues));
+    //     if (results.length) {
+    //       res.status(200).send(results);
+    //     } else {
+    //       res.status(400).send({ message: `No user review was found from lenderId# ${req.query.lenderId}` });
+    //     }
+    //   });
+    // }
   },
   // expects reviewerId, lenderId, rating, text
   createUserReview: (req, res) => {
@@ -39,13 +60,26 @@ module.exports = {
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
       res.status(400).send({ message: 'a required field was missing' });
     } else {
-      db.Reviews.create({
-        lenderId: req.body.lenderId,
-        reviewerId: req.body.reviewerId,
-        rating: req.body.rating,
-        text: req.body.text,
-      })
-      .then(queryData => res.status(200).send(queryData));
+      db.Reviews.find({
+        where: {
+          lenderId: req.body.lenderId,
+          reviewerId: req.body.reviewerId,
+        },
+      }).then(response => {
+        if (response) {
+          response.updateAttributes({ rating: req.body.rating, text: req.body.text });
+          res.send(200);
+        } else {
+          // will create if the review does not exist currently
+          db.Reviews.create({
+            lenderId: req.body.lenderId,
+            reviewerId: req.body.reviewerId,
+            rating: req.body.rating,
+            text: req.body.text,
+          })
+          .then(queryData => res.status(200).send(queryData));
+        }
+      });
     }
   },
   // expects reviewId
