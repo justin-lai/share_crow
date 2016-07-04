@@ -150,27 +150,10 @@ export function deleteMessage(data, cb) {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    // gets messages after deletion
-    .then(() =>
-      fetch(`/main/message?recipientId=${data.recipientId}`, { credentials: 'same-origin' }))
-      .then(response => response.json())
-      .then(json => {
-        if (cb) cb(json);
-        dispatch(messageGetResponse(json));
-      });
+    .then(json => {
+      if (cb) cb(data);
+      dispatch(messageDeleteResponse(json));
+    });
   };
 }
-
-// function fetchPosts() {
-//   return dispatch => {
-//     fetchPostsAsync()
-//       .then(res => { // res is posts
-//         dispatch({ type: 'RECEIVE_POSTS', payload: res });
-//         return fetchPostMetaAsync(res);
-//       })
-//       .then(res => { // res  is metadata
-//         dispatch({ type: 'RECEIVE_POST_META', payload: res });
-//       })
-//   }
-// }
 

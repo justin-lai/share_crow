@@ -125,7 +125,7 @@ module.exports = {
       const accessToken = JSON.parse(body).access_token;
       db.User.find({
         where: {
-          id: req.body.id,
+          id: req.session.userID.id,
         },
       })
         .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))

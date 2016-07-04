@@ -14,6 +14,7 @@ class CurrentlyRentingGridView extends Component {
       loading: true,
     };
   }
+
   componentDidMount() {
     fetch(`http://localhost:3000/main/listing?renterId=${this.state.id}&rented=true`)
       .then(response => response.json())

@@ -36,7 +36,6 @@ class App extends Component {
 
   isFetchingData() {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    if (!isFetching) console.log('landing props: ', this.props);
     return isFetching;
   }
 

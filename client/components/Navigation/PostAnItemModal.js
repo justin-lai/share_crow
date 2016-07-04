@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { getListing, postListing } from '../../actions/listingActions';
 import { putImage } from '../../actions/imageActions';
 import { getCategory } from '../../actions/categoryActions';
+import { refreshComponent } from '../../actions/sessionActions';
 import ImageUploader from './../Shared/ImageUploader';
 
 class PostAnItemModal extends Component {
@@ -17,7 +18,7 @@ class PostAnItemModal extends Component {
       listing: '',
       maxFee: '',
       rentalFee: '',
-      category: 0,
+      category: '1',
       uploadListing: '',
       uploadID: '',
     };
@@ -46,7 +47,7 @@ class PostAnItemModal extends Component {
         id: this.state.uploadID,
         listingId: responseData.id,
       }, () => {
-        this.methods.getListing();
+        this.methods.refreshComponent(true);
       });
     });
 
@@ -171,6 +172,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       putImage: (data, cb) => {
         dispatch(putImage(data, cb));
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

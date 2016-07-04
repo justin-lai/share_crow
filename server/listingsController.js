@@ -13,6 +13,7 @@ module.exports = {
     req.session.cookie.path = '/main/listing';
     // if no parameters, return all listings
     const searchFilters = {
+      id: req.query.id || null,
       name: req.query.name || null,
       ownerId: req.query.owner_id || null,
       maxFee: req.query.max_fee || null,
@@ -24,7 +25,9 @@ module.exports = {
     const categoryFilter = req.query.categoryId ?
       Sequelize.or({ id: req.query.categoryId }, { CategoryId: req.query.categoryId })
         : {};
-
+    if (!req.query.id) {
+      delete searchFilters.id;
+    }
     if (!req.query.name) {
       delete searchFilters.name;
     }
@@ -67,7 +70,11 @@ module.exports = {
       items.forEach(entry => {
         results.push(entry.dataValues);
       });
+      // if (results.length) {
       res.status(200).send(results);
+      // } else {
+        // res.status(400).send({ message: `no results were found given: ${searchFilters}` });
+      // }
     });
   },
   // expects item, owner_id, max_fee, rental_fee, image

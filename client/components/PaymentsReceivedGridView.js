@@ -8,6 +8,7 @@ class PaymentsReceivedGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
       open: false,
       id: this.props.id,
@@ -22,7 +23,6 @@ class PaymentsReceivedGridView extends Component {
       .then(response => response.json())
         .then(data => {
           const formatted = [];
-          console.log('PAYMENTS RECEIVED: ', data);
           data.forEach(payment => {
             formatted.push({
               itemName: payment.itemName,
@@ -142,6 +142,7 @@ class PaymentsReceivedGridView extends Component {
 
 PaymentsReceivedGridView.propTypes = {
   id: PropTypes.number.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
 export default PaymentsReceivedGridView;

@@ -14,7 +14,7 @@ import {
   CATEGORY_GET_RESPONSE, CATEGORY_FETCH_STATUS,
 } from '../actions/categoryActions';
 import {
-  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE,
+  SESSION_GET_RESPONSE, IS_LOGGED_IN_RESPONSE, REFRESH_COMPONENT,
 } from '../actions/sessionActions';
 
 export const user = (state = {}, action) => {
@@ -152,6 +152,15 @@ export const isFetching = (state = {
       return Object.assign({}, state, {
         category: action.data.status,
       });
+    default:
+      return state;
+  }
+};
+
+export const componentNeedsRefresh = (state = false, action) => {
+  switch (action.type) {
+    case REFRESH_COMPONENT:
+      return action.bool;
     default:
       return state;
   }

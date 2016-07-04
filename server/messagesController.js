@@ -8,7 +8,7 @@ module.exports = {
 	// //////////////////////////// PRIVATE MESSAGING FUNCTIONS ////////////////////////////
   // expects id
   getMessages: (req, res) => {
-    // pulls all messages associated with username and id
+      // pulls all messages associated with username and id
     console.log('GET //// getMessages');
     req.session.cookie.path = '/main/message';
     if (req.query.senderId && req.query.recipientId) {
@@ -39,7 +39,8 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(200).send({ message: `no messages were found from user: ${req.query.senderId}` });
+          // res.status(200).send({ message: `no messages were found from user: ${req.query.senderId}` });
+          res.status(200).send(results);
         }
       });
     } else {
@@ -66,7 +67,7 @@ module.exports = {
         if (results.length) {
           res.status(200).send(results);
         } else {
-          res.status(400).send(results);
+          res.status(200).send(results);
         }
       });
     }
