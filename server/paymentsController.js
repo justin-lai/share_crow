@@ -10,34 +10,13 @@ module.exports = {
   generatePayment: (req, res) => {
     console.log('POST //// generatePayment route');
     req.session.cookie.path = '/main/payment';
-    const stripeToken = req.body.id;
-    console.log(req);
     db.Listings.find({
       where: {
-        id: req.session.userID.id,
+        id: req.body.id,
       },
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
-        db.User.find({
-          where: {
-            id: req.session.userID.id,
-          },
-        }).then((userData) => {
-          const charge = stripe.charges.create({
-            amount: rentalFee,
-            currency: 'usd',
-            source: stripeToken,
-            description: 'Example charge',
-          }, { stripe_account: userData.stripeToken },
-            (err) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(charge);
-              }
-            });
-        });
 
         db.Payments.create({
           $Amount: rentalFee,
