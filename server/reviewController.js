@@ -60,13 +60,26 @@ module.exports = {
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
       res.status(400).send({ message: 'a required field was missing' });
     } else {
-      db.Reviews.create({
-        lenderId: req.body.lenderId,
-        reviewerId: req.body.reviewerId,
-        rating: req.body.rating,
-        text: req.body.text,
-      })
-      .then(queryData => res.status(200).send(queryData));
+      db.Reviews.find({
+        where: {
+          lenderId: req.body.lenderId,
+          reviewerId: req.body.reviewerId,
+        },
+      }).then(response => {
+        if (response) {
+          response.updateAttributes({ rating: req.body.rating, text: req.body.text });
+          res.send(200);
+        } else {
+          // will create if the review does not exist currently
+          db.Reviews.create({
+            lenderId: req.body.lenderId,
+            reviewerId: req.body.reviewerId,
+            rating: req.body.rating,
+            text: req.body.text,
+          })
+          .then(queryData => res.status(200).send(queryData));
+        }
+      });
     }
   },
   // expects reviewId
