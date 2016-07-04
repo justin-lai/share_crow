@@ -77,7 +77,10 @@ class Marketplace extends Component {
       filteredListings: newListings,
     });
   }
-
+  isFetchingData() {
+    const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    return isFetching;
+  }
   login(userData) {
     //eslint-disable-next-line
     console.log(`logging in as ${userData.username}`);
