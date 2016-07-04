@@ -26,6 +26,8 @@ class RentedOutItemsGridView extends Component {
       render: false,
       username: '',
       starRating: null,
+      renterId: '',
+      renterName: '',
     };
     // temporary dummy data
     this.otherParty = {
@@ -59,6 +61,8 @@ class RentedOutItemsGridView extends Component {
           const formatted = [];
           data.forEach(listing => {
             formatted.push({
+              ownerId: listing.ownerId,
+              renterId: listing.renterId,
               name: listing.name,
               id: listing.id,
               renterName: listing.renter.username,
@@ -90,8 +94,8 @@ class RentedOutItemsGridView extends Component {
         },
         body: JSON.stringify({
           rating: this.state.rating,
-          reviewerId: this.otherParty.reviewerId,
-          lenderId: this.otherParty.id,
+          reviewerId: this.state.renterId,
+          lenderId: this.state.ownerId,
           text: 'no comment',
         }),
       }).then(() => { this.methods.refreshComponent(true); });
@@ -125,6 +129,9 @@ class RentedOutItemsGridView extends Component {
       listingId: e.props.data.id,
       openReturnModal: true,
       listingName: e.props.data.name,
+      ownerId: e.props.data.ownerId,
+      renterId: e.props.data.renterId,
+      renterName: e.props.data.renterName,
     });
   }
 
@@ -218,10 +225,6 @@ class RentedOutItemsGridView extends Component {
           </div>
         </Modal>
         <div className="star-review-wrapper">
-          <div
-            className="star-review-modal"
-            onClick={this.openReviewModal}
-          ><span className="glyphicon glyphicon-user"></span> Login</div>
           <Modal
             style={{ content: { height: '320px' } }}
             isOpen={this.state.open}
@@ -231,8 +234,7 @@ class RentedOutItemsGridView extends Component {
               id="rating-modal"
               className="center"
             >
-              <h4 className="center">Rate your experience with {this.state.username}</h4>
-              <h2>Rating: {this.state.rating}</h2>
+              <h4 className="center">Rate your experience with {this.state.renterName}</h4>
               <StarRatingComponent
                 // name:"rate1"
                 starCount={5}

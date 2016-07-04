@@ -21,13 +21,13 @@ class ProfileCard extends Component {
     this.otherParty = {
       id: 8,
     };
-
     bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
   }
   componentDidMount() {
-    fetch('http://localhost:3000/main/userReview', { id: this.otherParty.id,
-    })
-    .then(this.setState);
+    fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
+      .then(responseData => {
+        this.setState({ averageRating: `${responseData.percentage * 100}%` });
+      });
   }
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
