@@ -45,13 +45,11 @@ export function messageFetchStatus(data) {
   };
 }
 export function getMessage(query, cb) {
-  console.log('QUERY: ', query);
   return dispatch => {
     dispatch(messageGetRequest());
     dispatch(messageFetchStatus({ status: true }));
     return fetch(`/main/message?${query}`, { credentials: 'same-origin' })
       .then(response => {
-        console.log('RESPONSESESEFSEFESJF');
         dispatch(messageFetchStatus({ status: false }));
         return response.json();
       })
@@ -158,17 +156,4 @@ export function deleteMessage(data, cb) {
     });
   };
 }
-
-// function fetchPosts() {
-//   return dispatch => {
-//     fetchPostsAsync()
-//       .then(res => { // res is posts
-//         dispatch({ type: 'RECEIVE_POSTS', payload: res });
-//         return fetchPostMetaAsync(res);
-//       })
-//       .then(res => { // res  is metadata
-//         dispatch({ type: 'RECEIVE_POST_META', payload: res });
-//       })
-//   }
-// }
 

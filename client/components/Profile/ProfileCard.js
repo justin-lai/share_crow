@@ -36,7 +36,7 @@ class ProfileCard extends Component {
         id: this.state.uploadID,
         userId: this.profile.id,
       }, () => {
-        this.methods.refreshComponent('profile');
+        this.methods.refreshComponent(true);
       });
     });
     // fetch('http://localhost:3000/main/imageUpload',

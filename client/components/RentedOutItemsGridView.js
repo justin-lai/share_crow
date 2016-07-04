@@ -1,16 +1,20 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
+import { putListing, deleteListing } from '../actions/listingActions';
+import { refreshComponent } from '../actions/sessionActions';
 
 class RentedOutItemsGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
       open: false,
-      id: this.props.id,
+      id: null,
       rentedOutItems: this.props.products || null,
       listingName: '',
       loading: true,
@@ -19,7 +23,7 @@ class RentedOutItemsGridView extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=true`)
+    fetch(`http://localhost:3000/main/listing?owner_id=${this.props.isAuth.userInfo.id}&rented=true`)
       .then(response => response.json())
       .then(data => {
         const formatted = [];
@@ -68,43 +72,24 @@ class RentedOutItemsGridView extends Component {
   closeModal() { this.setState({ open: false }); }
 
   acceptRequest() {
-    fetch('http://localhost:3000/main/listing',
-      {
-        method: 'DELETE',
-        headers:
+    this.methods.deleteListing({ listingId: this.state.id }, () => {
+      fetch('http://localhost:3000/main/payment',
         {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ listingId: this.state.id }),
-      })
-      .then(() => {
-        fetch('http://localhost:3000/main/payment',
+          method: 'POST',
+          headers:
           {
-            method: 'POST',
-            headers:
-            {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: this.state.id }),
-          }
-        ).then(() => {
-          fetch('http://localhost:3000/main/listing',
-            {
-              method: 'PUT',
-              headers:
-              {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(
-              { listingId: this.state.id,
-                reset: true,
-              }),
-            });
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: this.state.id }),
+        })
+        .then(() => {
+          this.methods.putListing({ listingId: this.state.id, reset: true }, () => {
+            this.methods.refreshComponent(true);
+          });
         });
-      });
+    });
+
     this.closeModal();
   }
 
@@ -177,7 +162,32 @@ class RentedOutItemsGridView extends Component {
 
 RentedOutItemsGridView.propTypes = {
   products: PropTypes.array.isRequired,
-  id: PropTypes.number.isRequired,
+  methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
-export default RentedOutItemsGridView;
+function mapStateToProps(state) {
+  const { message, listing, isAuth, componentNeedsRefresh } = state;
+
+  return {
+    message, listing, isAuth, componentNeedsRefresh,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      putListing: (data, cb) => {
+        dispatch(putListing(data, cb));
+      },
+      deleteListing: (data, cb) => {
+        dispatch(deleteListing(data, cb));
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RentedOutItemsGridView);

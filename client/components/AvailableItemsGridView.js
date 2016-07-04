@@ -1,29 +1,36 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
+import { putListing } from '../actions/listingActions';
+import { refreshComponent } from '../actions/sessionActions';
+
 
 class AvailableItemsGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
+      id: null,
       open: false,
-      id: this.props.id,
       listingName: '',
       rentedItems: this.props.products || null,
       loading: true,
     };
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
   }
+
   componentDidMount() {
-    fetch(`http://localhost:3000/main/listing?owner_id=${this.state.id}&rented=false`)
+    fetch(`http://localhost:3000/main/listing?owner_id=${this.props.isAuth.userInfo.id}&rented=false`)
       .then(response => response.json())
         .then(data => {
           const formatted = [];
           data.forEach(listing => {
             formatted.push({
+              id: listing.id,
               name: listing.name,
               rentalFee: `$${listing.rentalFee}`,
               maxFee: `$${listing.maxFee}`,
@@ -32,6 +39,7 @@ class AvailableItemsGridView extends Component {
           this.setState({ rentedItems: formatted, loading: false });
         });
   }
+
   rowClick(e) {
     this.setState({
       id: e.props.data.id,
@@ -44,15 +52,9 @@ class AvailableItemsGridView extends Component {
   closeModal() { this.setState({ open: false }); }
 
   acceptRequest() {
-    fetch('http://localhost:3000/main/listing',
-      {
-        method: 'PUT',
-        headers:
-        {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ listingId: this.state.id, removeListing: true }),
+    this.methods.putListing({ listingId: this.state.id, removeListing: true },
+      () => {
+        this.methods.refreshComponent(true);
       });
     this.closeModal();
   }
@@ -97,7 +99,7 @@ class AvailableItemsGridView extends Component {
           onRequestClose={this.closeModal}
         >
           <h4 id="message-request-text">
-            Remove listing: {this.state.listingName}
+            Remove listing: {this.state.listingName}?
           </h4>
           <div>
             <input
@@ -121,7 +123,30 @@ class AvailableItemsGridView extends Component {
 
 AvailableItemsGridView.propTypes = {
   products: PropTypes.array.isRequired,
-  id: PropTypes.number.isRequired,
+  methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
-export default AvailableItemsGridView;
+
+function mapStateToProps(state) {
+  const { message, listing, isAuth, componentNeedsRefresh } = state;
+
+  return {
+    message, listing, isAuth, componentNeedsRefresh,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      putListing: (data, cb) => {
+        dispatch(putListing(data, cb));
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AvailableItemsGridView);

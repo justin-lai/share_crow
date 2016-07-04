@@ -68,16 +68,16 @@ export function isLoggedIn(cb) {
   };
 }
 
-export function refreshComponentAction(name) {
+export function refreshComponentAction(bool) {
   return {
     type: REFRESH_COMPONENT,
-    name,
+    bool,
   };
 }
 
-export function refreshComponent(name) {
+export function refreshComponent(bool) {
   return dispatch => {
-    dispatch(refreshComponentAction(name));
+    dispatch(refreshComponentAction(bool));
   };
 }
 

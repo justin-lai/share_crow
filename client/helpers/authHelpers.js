@@ -10,7 +10,9 @@ export const login = userData => {
   Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
   query = query.join('&');
   store.dispatch(getSession(query));
-  store.dispatch(isLoggedIn());
+  setTimeout(() => {
+    store.dispatch(isLoggedIn());
+  }, 500);
 };
 
 export const signup = userData => {
@@ -22,6 +24,5 @@ export const signup = userData => {
 };
 
 export const signout = () => {
-  console.log('SIGNING OUT');
   localStorage.setItem('SHARE_CROW', '');
 };

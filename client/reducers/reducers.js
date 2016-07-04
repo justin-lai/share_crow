@@ -157,10 +157,10 @@ export const isFetching = (state = {
   }
 };
 
-export const componentNeedsRefresh = (state = null, action) => {
+export const componentNeedsRefresh = (state = false, action) => {
   switch (action.type) {
     case REFRESH_COMPONENT:
-      return action.name;
+      return action.bool;
     default:
       return state;
   }

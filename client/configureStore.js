@@ -48,7 +48,7 @@ try {
       session: false,
       isAuth: false,
     },
-    componentNeedsRefresh: null,
+    componentNeedsRefresh: false,
   };
 }
 

@@ -13,10 +13,10 @@ class OutgoingRequestsGridView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      messageId: null,
       open: false,
-      id: this.props.id,
       listingName: '',
-      rentedItems: null,
+      rentedItems: [],
       loading: true,
     };
     this.methods = this.props.methods;
@@ -26,6 +26,9 @@ class OutgoingRequestsGridView extends Component {
     fetch(`http://localhost:3000/main/message?senderId=${this.props.isAuth.userInfo.id}`)
       .then(response => response.json())
         .then(data => {
+          if (!data.length) {
+            this.setState({ loading: false });
+          }
           const formatted = [];
           data.forEach(message => {
             fetch(`http://localhost:3000/main/listing?id=${message.subject}`)
@@ -44,13 +47,6 @@ class OutgoingRequestsGridView extends Component {
         });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.componentNeedsRefresh === 'OutgoingRequestsGridView') {
-      this.methods.refreshComponent(null);
-      this.componentDidMount();
-    }
-  }
-
   rowClick(e) {
     this.setState({
       messageId: e.props.data.messageId,
@@ -64,7 +60,7 @@ class OutgoingRequestsGridView extends Component {
     this.methods.deleteMessage({
       messageId: this.state.messageId,
     }, () => {
-      this.methods.refreshComponent('OutgoingRequestsGridView');
+      this.methods.refreshComponent(true);
     });
     this.closeModal();
   }
@@ -166,8 +162,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       putListing: (data, cb) => {
         dispatch(putListing(data, cb));
       },
-      refreshComponent: (name) => {
-        dispatch(refreshComponent(name));
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

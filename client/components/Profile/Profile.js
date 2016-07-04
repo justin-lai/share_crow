@@ -43,14 +43,13 @@ class Profile extends Component {
     }
 
     // checks if a database change was made and refreshes component
-    if (nextProps.componentNeedsRefresh === 'profile') {
-      this.methods.refreshComponent(null);
+    if (nextProps.componentNeedsRefresh) {
+      this.methods.refreshComponent(false);
       this.componentDidMount();
     }
 
     this.products = nextProps.listing;
     if (nextProps.user.Image) {
-      console.log('NEW IMAGE: ', nextProps.user.Image.image);
       this.profilePhoto = nextProps.user.Image.image;
     }
   }

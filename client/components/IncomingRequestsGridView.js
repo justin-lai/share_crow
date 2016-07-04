@@ -15,8 +15,8 @@ class IncomingRequestsGridView extends Component {
     super(props);
     this.methods = props.methods;
     this.state = {
+      messageId: null,
       open: false,
-      id: this.props.id,
       listingName: '',
       rentedItems: [],
       loading: true,
@@ -37,6 +37,8 @@ class IncomingRequestsGridView extends Component {
               .then(listing => {
                 formatted.push({
                   messageId: message.id,
+                  listingId: listing[0].id,
+                  senderId: message.sender.id,
                   item: listing[0].name,
                   requestFrom: message.sender.username,
                   rentalFee: `$${listing[0].rentalFee}`,
@@ -48,33 +50,49 @@ class IncomingRequestsGridView extends Component {
         });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.componentNeedsRefresh === 'IncomingRequestsGridView') {
-      this.methods.refreshComponent(null);
-      this.componentDidMount();
-    }
-  }
-
   rowClick(e) {
     this.setState({
+      listingId: e.props.data.listingId,
       messageId: e.props.data.messageId,
-      // id: e.props.data.id,
+      senderId: e.props.data.senderId,
       open: true,
       listingName: e.props.data.item,
     });
   }
 
   acceptRequest() {
-    this.methods.deleteMessage({
-      messageId: this.state.messageId,
+    console.log(this.state);
+    this.props.methods.putListing({
+      listingId: this.state.listingId,
+      rentedOn: new Date().toISOString(),
+      rented: true,
+      renterId: this.state.senderId,
     }, () => {
-      this.methods.refreshComponent('IncomingRequestsGridView');
+      this.methods.deleteMessage({
+        messageId: this.state.messageId,
+      }, () => {
+        this.methods.refreshComponent(true);
+      });
     });
+    fetch('http://localhost:3000/api/sendTextNotification',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipientId: this.props.isAuth.userInfo.id,
+          senderId: this.state.senderId,
+          sendPhoneNumbers: true,
+          listingId: this.state.listingId,
+        }),
+      });
+
     this.closeModal();
   }
 
   declineRequest() {
-    // alert('request declined');
     this.closeModal();
   }
 
@@ -88,19 +106,19 @@ class IncomingRequestsGridView extends Component {
         onRequestClose={this.closeModal}
       >
         <h4 id="message-request-text">
-          {`Cancel request for ${this.state.listingName}?`}
+          {`Accept request for ${this.state.listingName}?`}
         </h4>
         <div>
           <input
             className="modal-accept-button"
             type="submit"
-            value="YES"
+            value="ACCEPT"
             onClick={this.acceptRequest}
           />
           <input
             className="modal-decline-button"
             type="submit"
-            value="NO"
+            value="DECLINE"
             onClick={this.declineRequest}
           />
         </div>
@@ -170,8 +188,8 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       putListing: (data, cb) => {
         dispatch(putListing(data, cb));
       },
-      refreshComponent: (name) => {
-        dispatch(refreshComponent(name));
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };
