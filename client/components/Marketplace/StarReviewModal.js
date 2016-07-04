@@ -17,15 +17,14 @@ class StarReviewModal extends Component {
     };
     this.otherParty = {
       id: 10,
+      reviewerId: 9,
     };
-    // this.username = props.userObj.name;
     this.onStarClick = this.onStarClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    // this.sendRating = this.sendRating.bind(this);
   }
 
   componentDidMount() {
@@ -45,14 +44,22 @@ class StarReviewModal extends Component {
     });
   }
   handleSubmit() {
+    fetch('http://localhost:3000/main/userReview',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating: this.state.rating,
+          reviewerId: this.otherParty.reviewerId,
+          lenderId: this.otherParty.id,
+          text: 'no comment',
+        }),
+      });
   }
 
-  // sendRating(rating) {
-  //   this.setState({
-  //     starRating: rating,
-  //   });
-  //   console.log(this.state.starRating, rating);
-  // }
   handleUsername(value) { this.setState({ username: value.target.value }); }
   handlePassword(value) { this.setState({ password: value.target.value }); }
 
