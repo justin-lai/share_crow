@@ -23,8 +23,8 @@ class StarReviewModal extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.openReviewModal = this.openReviewModal.bind(this);
+    this.closeReviewModal = this.closeReviewModal.bind(this);
   }
 
   componentDidMount() {
@@ -63,20 +63,20 @@ class StarReviewModal extends Component {
   handleUsername(value) { this.setState({ username: value.target.value }); }
   handlePassword(value) { this.setState({ password: value.target.value }); }
 
-  openModal() { this.setState({ open: true }); }
-  closeModal() { this.setState({ open: false }); }
+  openReviewModal() { this.setState({ open: true }); }
+  closeReviewModal() { this.setState({ open: false }); }
 
   render() {
     return (
       <div className="star-review-wrapper">
         <div
           className="star-review-modal"
-          onClick={this.openModal}
+          onClick={this.openReviewModal}
         ><span className="glyphicon glyphicon-user"></span> Login</div>
         <Modal
           style={{ content: { height: '320px' } }}
           isOpen={this.state.open}
-          onRequestClose={this.closeModal}
+          onRequestClose={this.closeReviewModal}
         >
           <div
             id="rating-modal"

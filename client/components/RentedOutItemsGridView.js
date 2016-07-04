@@ -6,6 +6,7 @@ import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
 import { putListing, deleteListing } from '../actions/listingActions';
 import { refreshComponent } from '../actions/sessionActions';
+// import StarRatingComponent from 'react-star-rating-component';
 
 class RentedOutItemsGridView extends Component {
 
@@ -13,13 +14,36 @@ class RentedOutItemsGridView extends Component {
     super(props);
     this.methods = props.methods;
     this.state = {
-      open: false,
-      id: null,
+      // ReturnModal variables
+      openReturnModal: false,
+      listingId: null,
       rentedOutItems: this.props.products || null,
       listingName: '',
       loading: true,
+      // StarReviewModal variables
+      openStarReviewModal: false,
+      rating: 3,
+      render: false,
+      username: '',
+      starRating: null,
     };
-    bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
+    // temporary dummy data
+    this.otherParty = {
+      id: 10,
+      reviewerId: 9,
+    };
+    bindAll(this,
+      'acceptRequest',
+      'declineRequest',
+      'closeReturnModal',
+      'openReturnModal',
+      'rowClick',
+      'closeReviewModal',
+      'openReviewModal',
+      'onStarClick',
+      'handleSubmit',
+      'handleUsername',
+      'handlePassword');
   }
 
   componentDidMount() {
@@ -62,14 +86,14 @@ class RentedOutItemsGridView extends Component {
 
   rowClick(e) {
     this.setState({
-      id: e.props.data.id,
-      open: true,
+      listingId: e.props.data.id,
+      openReturnModal: true,
       listingName: e.props.data.name,
     });
   }
 
-  openModal() { this.setState({ open: true }); }
-  closeModal() { this.setState({ open: false }); }
+  openReturnModal() { this.setState({ openReturnModal: true }); }
+  closeReturnModal() { this.setState({ openReturnModal: false }); }
 
   acceptRequest() {
     this.methods.deleteListing({ listingId: this.state.id }, () => {
@@ -87,14 +111,16 @@ class RentedOutItemsGridView extends Component {
           this.methods.putListing({ listingId: this.state.id, reset: true }, () => {
             this.methods.refreshComponent(true);
           });
-        });
+          this.closeReturnModal();
+        })
+        .then();
     });
 
-    this.closeModal();
+    this.closeReturnModal();
   }
 
   declineRequest() {
-    this.closeModal();
+    this.closeReturnModal();
   }
 
 
@@ -134,8 +160,8 @@ class RentedOutItemsGridView extends Component {
         />
         <Modal
           style={{ content: { height: '150px', width: '600px' } }}
-          isOpen={this.state.open}
-          onRequestClose={this.closeModal}
+          isOpen={this.state.openReturnModal}
+          onRequestClose={this.closeReturnModal}
         >
           <h4 id="message-request-text">
             Was item {this.state.listingName} returned?

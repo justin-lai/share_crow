@@ -15,11 +15,13 @@
 @import "app/star-rating";
 @import "app/status-bar";
 
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,900);
 
 $font-stack: Arial, sans-serif;
 $fuschia: #cd1b4e;
+$raleway:'Raleway', sans-serif;
 
 * {
   box-sizing: inherit;
