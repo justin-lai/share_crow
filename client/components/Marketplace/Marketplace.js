@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
-import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from '../Navigation/NavBar';
@@ -32,17 +32,17 @@ class Marketplace extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isAuth.status) {
-      //eslint-disable-next-line
-      console.log('get user from marketplace');
-    }
     //eslint-disable-next-line
-    console.log(this.props);
     this.methods.getListing();
     this.methods.getCategory();
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.componentNeedsRefresh) {
+      this.methods.refreshComponent(false);
+      this.componentDidMount();
+    }
+
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
     this.setState({
       listings: nextProps.listing.reverse(),
@@ -118,7 +118,7 @@ Marketplace.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { user, listing, category, session, isAuth, isFetching } = state;
+  const { user, listing, category, session, isAuth, isFetching, componentNeedsRefresh } = state;
 
   return {
     user,
@@ -127,6 +127,7 @@ function mapStateToProps(state) {
     session,
     isAuth,
     isFetching,
+    componentNeedsRefresh,
   };
 }
 
@@ -165,6 +166,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       isLoggedIn: () => {
         dispatch(isLoggedIn());
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };
