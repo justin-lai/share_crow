@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 // import StarRating from './StarRating';
 import StarRatingComponent from 'react-star-rating-component';
+import fetch from 'isomorphic-fetch';
 
 class StarReviewModal extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class StarReviewModal extends Component {
       username: '',
       starRating: null,
     };
-
+    this.otherParty = {
+      id: 10,
+    };
     // this.username = props.userObj.name;
     this.onStarClick = this.onStarClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +26,14 @@ class StarReviewModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     // this.sendRating = this.sendRating.bind(this);
+  }
+
+  componentDidMount() {
+    fetch(`http://localhost:3000/main/profile?id=${this.otherParty.id}`)
+      .then(res => res.json())
+      .then(req => {
+        this.setState({ username: req.username });
+      });
   }
 
   onStarClick(name, value) {
@@ -64,7 +75,7 @@ class StarReviewModal extends Component {
             id="rating-modal"
             className="center"
           >
-            <h4 className="center">Rate your experience with Owner Username</h4>
+            <h4 className="center">Rate your experience with {this.state.username}</h4>
             <h2>Rating: {this.state.rating}</h2>
             <StarRatingComponent
               // name:"rate1"
