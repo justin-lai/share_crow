@@ -80,7 +80,6 @@ class Marketplace extends Component {
 
   isFetchingData() {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
-    if (!isFetching) console.log('marketplace props: ', this.props);
     return isFetching;
   }
 
