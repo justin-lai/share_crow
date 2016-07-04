@@ -96,6 +96,9 @@ class Marketplace extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <LoadingBar message={'Loading Marketplace'} />;
+    }
     return (
       <div id="marketplace">
         <NavBar
