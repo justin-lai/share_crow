@@ -47,15 +47,10 @@ module.exports = app => {
     .delete(paymentsController.submitPayment);
 
   app.route('/main/imageUpload')
-<<<<<<< HEAD
     .get(imageController.getImage)
     .post(imageController.imageUpload)
     .put(imageController.changeImageListing)
     .delete(imageController.deleteImage);
-=======
-    .get(dbController.getImage)
-    .post(dbController.imageUpload);
->>>>>>> getImage route
 
   // API ACCESSING ROUTES
   app.route('/api/distanceMatrix')
