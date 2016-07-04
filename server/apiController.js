@@ -117,12 +117,13 @@ module.exports = {
       form: {
 
         grant_type: 'authorization_code',
-        client_id: apiKeys.CLIENT_ID,
+        client_id: 'ca_8jyWkOs2yveGjDIzUehjZDK2YErKyjgn',
         code,
         client_secret: apiKeys.API_KEY,
       },
     }, (err, r, body) => {
-      const accessToken = JSON.parse(body).access_token;
+      console.log(body);
+      const accessToken = JSON.parse(body).stripe_user_id;
       db.User.find({
         where: {
           id: req.session.userID.id,
