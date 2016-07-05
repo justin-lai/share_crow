@@ -53,7 +53,7 @@
   opacity: .5;
 }
 
-// product card
+// Product Card
 .product-snippet {
   font-family: 'Raleway', Arial, sans-serif;
   position: relative;
@@ -72,7 +72,9 @@
   transform: translateZ(0);
   -webkit-perspective: 20em;
   perspective: 20em;
+
 }
+
 .product-snippet * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;

@@ -65,15 +65,16 @@ class Product extends Component {
           className="product rented product-snippet"
         >
           <img
-            src={product.listingImage[0] ? product.listingImage[0].image : null}
+
             className="product-image"
+            style={{ 'background-image': 'url(productListingImage[0].image)' }}
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
           <div
             className="add-to-cart"
             onClick={this.openModal}
-          > <i className="ion-android-add"></i><span>Add to Cart</span></div>
+          > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
             <h3>{product.name}</h3>
             <p>XY miles away - Fremont, CA</p>
@@ -96,7 +97,7 @@ class Product extends Component {
           <div
             className="add-to-cart"
             onClick={this.openModal}
-          > <i className="ion-android-add"></i><span>Add to Cart</span></div>
+          > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
             <h3>{product.name}</h3>
             <p>XY miles away - Fremont, CA</p>
@@ -118,7 +119,7 @@ class Product extends Component {
         <div
           className="add-to-cart"
           onClick={this.openModal}
-        > <i className="ion-android-add"></i><span>Add to Cart</span></div>
+        > <i className="ion-android-add"></i><span>Rent it! </span></div>
         <figcaption>
           <h3>{product.name}</h3>
           <p>XY miles away - Fremont, CA</p>
