@@ -155,7 +155,7 @@ class PaymentsDueGridView extends Component {
           onRequestClose={this.closeModal}
         >
           <h4 id="message-request-text">
-            Was this item: {this.state.listingName} paid?
+            Pay for {this.state.listingName} now?
           </h4>
           <div>
             <input
