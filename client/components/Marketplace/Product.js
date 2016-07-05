@@ -12,21 +12,53 @@ class Product extends Component {
     this.state = {
       open: false,
       rentRequestMessage: '',
+      loading: true,
+      shortName: 'Placeholder',
     };
+    this.ownerName = '';
     this.handleSubmit = this.handleSubmit.bind(this);
     this.methods = props.methods;
     this.product = props.product;
-    // eslint-disable-next-line
-    this.product.name = this.product.name.length > 24 ? this.product.name.split('').slice(0, 24).join('').concat('...') : this.product.name;
+    this.product.distance = '';
+    this.product.distanceCity = '';
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
+    // eslint-disable-next-line
     fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
       .then(response => response.json())
       .then(responseData => {
         this.props.product.image = responseData.image;
-      });
+      })
+        .then(() => {
+          fetch(`http://localhost:3000/main/profile?id=${this.props.isAuth.userInfo.id}`)
+            .then(response => response.json())
+              .then(responseData => `${responseData.address} ${responseData.state}`)
+                .then(user1location => {
+                  fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+                    .then(response2 => response2.json())
+                      .then(responseData2 => {
+                        this.ownerName = responseData2.username;
+                        this.product.distanceCity = responseData2.city;
+                        return `${responseData2.address} ${responseData2.state}`;
+                      })
+                        .then(user2location => {
+                          fetch(`http://localhost:3000/api/distanceMatrix?origin=${user1location}&destination=${user2location}`)
+                            .then(response3 => response3.json())
+                              .then(responseData3 => {
+                                this.product.distance = responseData3.miles;
+                                this.setState({
+                                  loading: false,
+                                  // eslint-disable-next-line
+                                  shortName: this.product.name.length > 24 ? this.product.name.split('').slice(0, 24).join('').concat('...') : this.product.name,
+                                });
+                              });
+                        });
+                });
+        });
+
+    // console.log('ksdfljs;dfldsfkslfj;sd', this.props.isAuth.userInfo.id, this.product.ownerId);
   }
 
   componentWillReceiveProps() {
@@ -60,7 +92,12 @@ class Product extends Component {
     this.openModal();
   }
   render() {
-    const product = this.props.product;
+    if (this.state.loading) {
+      return (
+        <div></div>
+      );
+    }
+    const product = this.product;
     if (product.rented) {
       return (
         <figure
@@ -78,8 +115,9 @@ class Product extends Component {
             onClick={this.openModal}
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
-            <h3>{product.name}</h3>
-            <p>XY miles away - Fremont, CA</p>
+            <h3>{this.state.shortName}</h3>
+            <h4>By <a>{this.ownerName}</a></h4>
+            <p>{this.product.distance} from {this.product.distanceCity}</p>
             <div className="price">${product.rentalFee} per day</div>
           </figcaption>
         </figure>
@@ -101,8 +139,9 @@ class Product extends Component {
             onClick={this.openModal}
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
-            <h3>{product.name}</h3>
-            <p>XY miles away - Fremont, CA</p>
+            <h3>{this.state.shortName}</h3>
+            <h4>By <a>{this.ownerName}</a></h4>
+            <p>{this.product.distance} from {this.product.distanceCity}</p>
             <div className="price">${product.rentalFee} per day</div>
           </figcaption>
         </figure>
@@ -123,8 +162,9 @@ class Product extends Component {
           onClick={this.openModal}
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
         <figcaption>
-          <h3>{product.name}</h3>
-          <p>XY miles away - Fremont, CA</p>
+          <h3>{this.state.shortName}</h3>
+          <h4>By <a>{this.ownerName}</a></h4>
+          <p>{this.product.distance} from {this.product.distanceCity}</p>
           <div className="price">${product.rentalFee} per day</div>
         </figcaption>
         <Modal
@@ -148,7 +188,8 @@ class Product extends Component {
             </div>
           </p>
           <p className="product-preview">${product.rentalFee}/day</p>
-          <p className="product-preview">XY miles away - Fremont, CA</p>
+          <p className="product-preview">
+          {this.product.distance} from {this.product.distanceCity}</p>
           <a
             className="center"
             href="/"
