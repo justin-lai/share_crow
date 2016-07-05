@@ -16,6 +16,8 @@ class Product extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.methods = props.methods;
     this.product = props.product;
+    // eslint-disable-next-line
+    this.product.name = this.product.name.length > 24 ? this.product.name.split('').slice(0, 24).join('').concat('...') : this.product.name;
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
