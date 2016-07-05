@@ -57,7 +57,6 @@ class Marketplace extends Component {
         listing.name.toUpperCase().includes(this.state.filter.toUpperCase())
       ),
     });
-    console.log('~~~~~~~~~~~~~~~~~~~~', this.state.filter, this.state.filteredListings);
     //eslint-disable-next-line
   }
 
