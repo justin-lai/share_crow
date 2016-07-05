@@ -122,7 +122,6 @@ module.exports = {
         client_secret: apiKeys.API_KEY,
       },
     }, (err, r, body) => {
-      console.log(body);
       const accessToken = JSON.parse(body).stripe_user_id;
       db.User.find({
         where: {

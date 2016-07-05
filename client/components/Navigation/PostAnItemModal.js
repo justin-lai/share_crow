@@ -19,9 +19,12 @@ class PostAnItemModal extends Component {
       maxFee: '',
       rentalFee: '',
       category: '1',
+      subcategory: '',
       uploadListing: '',
       uploadID: '',
     };
+    this.categories = [];
+    this.subcategories = [];
     this.methods = props.methods;
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,9 +32,23 @@ class PostAnItemModal extends Component {
     this.handleMaxFee = this.handleMaxFee.bind(this);
     this.handleRentalFee = this.handleRentalFee.bind(this);
     this.handleCategory = this.handleCategory.bind(this);
+    this.handleSubcategory = this.handleSubcategory.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+  }
+
+  componentDidMount() {
+    this.methods.getCategory();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.categories = nextProps.category.filter(category =>
+      category.CategoryId === null
+    );
+    this.subcategories = nextProps.category.filter(subcategory =>
+      String(subcategory.CategoryId) === this.state.category
+    );
   }
 
   handleSubmit() {
@@ -40,7 +57,7 @@ class PostAnItemModal extends Component {
       max_fee: this.state.maxFee,
       rental_fee: this.state.rentalFee,
       owner_id: this.state.ownerId,
-      category: this.state.category,
+      category: this.state.subcategory !== '' ? this.state.subcategory : this.state.category,
     };
     this.methods.postListing(listingData, responseData => {
       this.methods.putImage({
@@ -65,7 +82,13 @@ class PostAnItemModal extends Component {
   handleItemListing(value) { this.setState({ listing: value.target.value }); }
   handleMaxFee(value) { this.setState({ maxFee: value.target.value }); }
   handleRentalFee(value) { this.setState({ rentalFee: value.target.value }); }
-  handleCategory(value) { this.setState({ category: value.target.value }); }
+  handleCategory(value) {
+    this.setState({ category: value.target.value });
+    this.subcategories = this.props.category.filter(subcategory =>
+      String(subcategory.CategoryId) === value.target.value
+    );
+  }
+  handleSubcategory(value) { this.setState({ subcategory: value.target.value }); }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
@@ -111,23 +134,43 @@ class PostAnItemModal extends Component {
             onChange={this.handleRentalFee}
             type="text"
           />
-          <span>Category: </span>
-          <select
-            value={this.state.category}
-            onChange={this.handleCategory}
-          >
-            <option value="1">Book</option>
-            <option value="2">Camera</option>
-            <option value="9">Clothing</option>
-            <option value="3">Computers</option>
-            <option value="8">Consumer Electronics</option>
-            <option value="12">Home & Garden</option>
-            <option value="10">Motors</option>
-            <option value="4">Music</option>
-            <option value="11">Pet Supplies</option>
-            <option value="5">Real Estate</option>
-            <option value="7">Sporting Goods</option>
-          </select>
+          <div>
+            <label htmlFor="post-modal-categories">Category: </label>
+            <select
+              id="post-modal-categories"
+              value={this.state.category}
+              onChange={this.handleCategory}
+              style={{ width: `${200}px` }}
+            >
+              {
+                this.categories.map(category =>
+                  <option
+                    id={category.id}
+                    value={category.id}
+                  >{category.categoryName}</option>
+                )
+              }
+            </select>
+          </div>
+          <div>
+            <label htmlFor="post-modal-subcategories">Subcategory: </label>
+            <select
+              id="post-modal-subcategories"
+              value={this.state.subcategory}
+              onChange={this.handleSubcategory}
+              style={{ width: `${200}px` }}
+            >
+              <option value={""}>None</option>
+              {
+                this.subcategories.map(subcategory =>
+                  <option
+                    key={subcategory.id}
+                    value={subcategory.id}
+                  >{subcategory.categoryName}</option>
+                )
+              }
+            </select>
+          </div>
           <ImageUploader
             handleUpload={this.handleUpload}
           />
@@ -146,6 +189,7 @@ class PostAnItemModal extends Component {
 PostAnItemModal.propTypes = {
   isAuth: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
+  category: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -15,9 +15,6 @@ class Filters extends Component {
     this.setState({
       activeCategory: e.target.id,
     });
-    // document.getElementById(e.target.id).className += ' active';
-    // e.target.className += ' active';
-    // console.log(e.target);
     this.props.filterBy(e.target.id);
   }
 
@@ -94,23 +91,6 @@ class Filters extends Component {
       </div>
     );
   }
-//   <ul id="filters">
-//     <div id="filters-header">Browse by Category</div>
-//     {
-//       props.categories
-//       .filter(category => category.CategoryId === null)
-//       .map(category => (
-//         <li
-//           id={`${category.categoryName}`}
-//           className="category"
-//           onClick={props.filterBy}
-//         >
-//           {category.categoryName}
-//         </li>
-//       ))
-//     }
-//   </ul>
-                    // <li className="active"><a href="#">CSS3 Animation</a></li>
 }
 
 Filters.propTypes = {

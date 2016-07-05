@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { store } from '../../index';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
@@ -19,12 +20,12 @@ class Marketplace extends Component {
     super(props);
 
     this.state = {
+      filter: props.searchFilter,
       listings: [],
       filteredListings: [],
     };
 
     this.categories = [];
-
     this.filterBy = this.filterBy.bind(this);
     this.searchFor = this.searchFor.bind(this);
     this.methods = this.props.methods;
@@ -35,6 +36,13 @@ class Marketplace extends Component {
     //eslint-disable-next-line
     this.methods.getListing();
     this.methods.getCategory();
+
+    // grabs the search filter (from Landing search bar) if it exists
+    document.getElementById('search-input').value = this.props.searchFilter;
+    store.dispatch({
+      type: 'SEARCH_FILTER',
+      search: '',
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,14 +50,14 @@ class Marketplace extends Component {
       this.methods.refreshComponent(false);
       this.componentDidMount();
     }
-
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
     this.setState({
-      listings: nextProps.listing.reverse(),
-      filteredListings: nextProps.listing,
+      listings: nextProps.listings,
+      filteredListings: nextProps.listing.filter(listing =>
+        listing.name.toUpperCase().includes(this.state.filter.toUpperCase())
+      ),
     });
     //eslint-disable-next-line
-    console.log('market next: ', nextProps);
   }
 
   filterBy(filter) {
@@ -77,6 +85,7 @@ class Marketplace extends Component {
       filteredListings: newListings,
     });
   }
+
   isFetchingData() {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
     return isFetching;
@@ -132,10 +141,12 @@ class Marketplace extends Component {
 Marketplace.propTypes = {
   isAuth: PropTypes.object.isRequired,
   isFetching: PropTypes.object.isRequired,
+  searchFilter: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, category, session, isAuth, isFetching, componentNeedsRefresh } = state;
+  const { user, listing, category, session, isAuth,
+    isFetching, componentNeedsRefresh, searchFilter } = state;
 
   return {
     user,
@@ -145,6 +156,7 @@ function mapStateToProps(state) {
     isAuth,
     isFetching,
     componentNeedsRefresh,
+    searchFilter,
   };
 }
 

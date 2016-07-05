@@ -55,6 +55,7 @@ class App extends Component {
           <div>
             <Landing
               signup={signup}
+              history={this.props.history}
             />
             <ProductCarousel products={this.products} />
             <StarReviewModal
@@ -75,6 +76,7 @@ App.propTypes = {
   session: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
   isFetching: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
