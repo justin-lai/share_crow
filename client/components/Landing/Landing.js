@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Search from '../Marketplace/Search';
+import LandingSearch from '../Landing/LandingSearch';
 import SignUpModal from '../Navigation/SignUpModal';
 import SplashCarousel from './SplashCarousel';
 
@@ -17,7 +17,7 @@ const Landing = (props) => (
             Make Some Money. Start Sharing.
           </h2>
         </div>
-        <Search />
+        <LandingSearch history={props.history} />
         <div className="start-sharing">
           <section className="buttons">
             <div className="sharing-button-container">
@@ -37,6 +37,7 @@ const Landing = (props) => (
 
 Landing.propTypes = {
   signup: PropTypes.func,
+  history: PropTypes.object.isRequired,
 };
 
 export default Landing;

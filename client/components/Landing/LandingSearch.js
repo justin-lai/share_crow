@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import { store } from '../../index';
 const debounce = require('debounce');
 
-class Search extends Component {
+class LandingSearch extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,7 +19,11 @@ class Search extends Component {
 
   handleSubmit() {
     const query = document.getElementById('search-input').value;
-    this.props.searchFor(query);
+    store.dispatch({
+      type: 'SEARCH_FILTER',
+      search: query,
+    });
+    this.props.history.push('/marketplace');
   }
 
   render() {
@@ -28,7 +33,6 @@ class Search extends Component {
           type="text"
           id="search-input"
           placeholder="What are you looking for?"
-          onChange={this.debounceSubmit}
         />
         <button type="submit" onClick={this.handleSubmit} id="search-button">
           <i className="glyphicon glyphicon-search"></i>
@@ -38,8 +42,9 @@ class Search extends Component {
   }
 }
 
-Search.propTypes = {
-  searchFor: PropTypes.func.isRequired,
+LandingSearch.propTypes = {
+  history: PropTypes.object.isRequired,
+  // searchFor: PropTypes.func.isRequired,
 };
 
-export default Search;
+export default LandingSearch;

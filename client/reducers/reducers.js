@@ -165,3 +165,12 @@ export const componentNeedsRefresh = (state = false, action) => {
       return state;
   }
 };
+
+export const searchFilter = (state = '', action) => {
+  switch (action.type) {
+    case 'SEARCH_FILTER':
+      return action.search;
+    default:
+      return state;
+  }
+};
