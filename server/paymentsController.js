@@ -3,14 +3,13 @@
 /* eslint-disable max-len */
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
-// const stripe = require('stripe')('sk_test_NKcbGwQJ7qeEaOhiMMzDf2WU');
+const stripe = require('stripe')('sk_test_NKcbGwQJ7qeEaOhiMMzDf2WU');
 
 module.exports = {
 	// //////////////////////////// PAYMENT FUNCTIONS ////////////////////////////
   generatePayment: (req, res) => {
     console.log('POST //// generatePayment route');
     req.session.cookie.path = '/main/payment';
-    // const stripeToken = req.body.stripeToken;
     db.Listings.find({
       where: {
         id: req.body.id,
@@ -18,21 +17,6 @@ module.exports = {
     })
       .then(queryData => {
         const rentalFee = Math.ceil((queryData.returnedOn - queryData.rentedOn) / (1000 * 60 * 60 * 24)) * queryData.rentalFee;
-        // console.log(rentalFee);
-        // const charge = stripe.charges.create({
-        //   amount: 5000,
-        //   currency: 'usd',
-        //   source: stripeToken,
-        //   description: 'Example charge',
-        //   // metadata: { 'order_id': '6735' }
-        // }, (err) => {
-        //   if (err && err.type === 'StripeCardError') {
-        //     // The card has been declined
-        //   } else {
-        //     console.log(charge);
-        //   }
-        // });
-        // console.log(rentalFee);
 
         db.Payments.create({
           $Amount: rentalFee,
@@ -46,6 +30,7 @@ module.exports = {
           .then(newPayment => res.status(200).send({ payment: newPayment.dataValues }));
       });
   },
+
   getPaymentInfo: (req, res) => {
     console.log('GET //// getPaymentInfo route');
     req.session.cookie.path = '/main/payment';
@@ -101,22 +86,43 @@ module.exports = {
   submitPayment: (req, res) => {
     console.log('DELETE //// submitPayment');
     req.session.cookie.path = '/main/payment';
+    console.log(req);
+    const stripeToken = req.body.id;
     if (!req.body.id) {
       res.status(400).send({ message: `payment entry not found at ${req.body.id}` });
     } else {
       db.Payments.find({
         where: {
-          id: req.body.id,
+          id: req.body.paymentId,
         },
       })
         .then(queryData => {
           queryData.updateAttributes({ paymentDate: new Date().toISOString() });
+          db.User.find({
+            where: {
+              id: req.body.ownerId,
+            },
+          }).then(userData => {
+            const charge = stripe.charges.create({
+              amount: req.body.amount,
+              currency: 'usd',
+              source: stripeToken,
+              description: 'Example charge',
+              destination: userData.stripeToken,
+            },
+            (err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log('CHARGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', charge);
+              }
+            });
+          });
           db.Listings.find({
             where: {
-              id: queryData.itemId,
+              id: req.body.listingId,
             },
-          })
-            .then(listingData => listingData.updateAttributes({ rented: false }));
+          }).then(listingData => listingData.updateAttributes({ rented: false }));
           res.status(200).send(queryData);
         });
     }

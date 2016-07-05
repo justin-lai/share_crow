@@ -3,6 +3,7 @@ import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
+import $ from 'jquery';
 
 class PaymentsDueGridView extends Component {
 
@@ -15,7 +16,8 @@ class PaymentsDueGridView extends Component {
       unpaidItems: [],
       loading: true,
     };
-    bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
+    bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick',
+    'handlePayment');
   }
   componentDidMount() {
     fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}`)
@@ -24,8 +26,11 @@ class PaymentsDueGridView extends Component {
           const formatted = [];
           data.forEach(payment => {
             formatted.push({
+              paymentId: payment.id,
+              listingId: payment.ListingId,
               itemName: payment.itemName,
               $Amount: `$${payment.$Amount}`,
+              ownerId: payment.paidId,
               startDate: this.formatDate(new Date(payment.startDate)),
               paymentComplete: payment.paymentComplete ? 'Complete' : 'Pending',
             });
@@ -36,12 +41,50 @@ class PaymentsDueGridView extends Component {
           });
         });
   }
+  handlePayment(e) {
+    this.handler = window.StripeCheckout.configure({
+      key: 'pk_test_O3KzXkdYwBdevWDfUsRU0qRV',
+      // image: this.props.user.Image.image,
+      locale: 'auto',
+      amount: this.state.amount,
+      token: (token) => {
+        const newToken = token;
+        newToken.amount = this.state.amount.slice(1) * 100;
+        newToken.ownerId = this.state.ownerId;
+        newToken.listingId = this.state.listingId;
+        newToken.paymentId = this.state.paymentId;
+        console.log(newToken);
+        $.ajax({
+          type: 'DELETE',
+          data: JSON.stringify(newToken),
+          contentType: 'application/json',
+          url: 'http://localhost:3000/main/payment',
+        });
+      },
+    });
+    this.closeModal();
+    this.handler.open({
+      name: this.state.listingName,
+      description: this.state.listingName,
+      amount: this.state.amount.slice(1) * 100,
+    });
+    e.preventDefault();
+
+    // Close Checkout on page navigation:
+    $(window).on('popstate', () => {
+      this.handler.close();
+    });
+  }
 
   rowClick(e) {
     this.setState({
       id: e.props.data.id,
+      ownerId: e.props.data.ownerId,
       open: true,
       listingName: e.props.data.itemName,
+      amount: e.props.data.$Amount,
+      listingId: e.props.data.listingId,
+      paymentId: e.props.data.paymentId,
     });
   }
 
@@ -119,7 +162,7 @@ class PaymentsDueGridView extends Component {
               className="modal-accept-button"
               type="submit"
               value="YES"
-              onClick={this.acceptRequest}
+              onClick={this.handlePayment}
             />
             <input
               className="modal-decline-button"
