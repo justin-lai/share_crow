@@ -9,7 +9,7 @@ import { signup, login, signout } from '../../helpers/authHelpers';
 import Landing from './Landing';
 import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
-import Footer from '../Shared/Footer';
+// import Footer from '../Shared/Footer';
 import LoadingBar from '../Shared/LoadingBar';
 
 class App extends Component {
@@ -59,7 +59,6 @@ class App extends Component {
             <ProductCarousel products={this.products} />
           </div>
         }
-        <Footer />
       </div>
     );
   }
