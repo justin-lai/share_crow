@@ -4,6 +4,7 @@
 const path = require('path');
 const db = require(path.resolve(__dirname, '../../db/dbDesign.js'));
 const stripe = require('stripe')('sk_test_NKcbGwQJ7qeEaOhiMMzDf2WU');
+const Sequelize = require('sequelize');
 
 module.exports = {
 	// //////////////////////////// PAYMENT FUNCTIONS ////////////////////////////
@@ -34,7 +35,24 @@ module.exports = {
   getPaymentInfo: (req, res) => {
     console.log('GET //// getPaymentInfo route');
     req.session.cookie.path = '/main/payment';
-    if (req.query.payerId) {
+    if (req.query.grabAll) {
+      db.Payments.findAll({
+        where: Sequelize.or({
+          payerId: req.query.grabAll,
+        }, {
+          paidId: req.query.grabAll,
+        }),
+      })
+        .then(queryData => {
+          if (queryData) {
+            res.status(200).send(queryData);
+          } else {
+            res.status(400).send({
+              message: 'No Transaction History',
+            });
+          }
+        });
+    } else if (req.query.payerId) {
       db.Payments.findAll({
         where: {
           payerId: req.query.payerId,
@@ -83,6 +101,7 @@ module.exports = {
       }
     }
   },
+
   submitPayment: (req, res) => {
     console.log('DELETE //// submitPayment');
     req.session.cookie.path = '/main/payment';
@@ -125,6 +144,23 @@ module.exports = {
           }).then(listingData => listingData.updateAttributes({ rented: false }));
           res.status(200).send(queryData);
         });
+    }
+  },
+
+  deletePayment: (req, res) => {
+    console.log('PUT //// deletePayment');
+    console.log(req.body);
+    req.session.cookie.path = '/main/payment';
+
+    if (!req.body.id) {
+      res.status(400).send({ message: 'id of a payment must be included to delete' });
+    } else {
+      db.Payments.destroy({
+        where: {
+          id: req.body.id,
+        },
+      })
+        .then(() => res.status(200).send({ message: 'deletion succesful' }));
     }
   },
 };

@@ -44,6 +44,7 @@ module.exports = app => {
   app.route('/main/payment')
     .get(paymentsController.getPaymentInfo)
     .post(paymentsController.generatePayment)
+    .put(paymentsController.deletePayment)
     .delete(paymentsController.submitPayment);
 
   app.route('/main/imageUpload')
