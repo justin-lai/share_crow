@@ -52,7 +52,7 @@ class Marketplace extends Component {
     }
     this.categories = nextProps.category.sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1));
     this.setState({
-      listings: nextProps.listings,
+      listings: nextProps.listing,
       filteredListings: nextProps.listing.filter(listing =>
         listing.name.toUpperCase().includes(this.state.filter.toUpperCase())
       ),
@@ -78,6 +78,7 @@ class Marketplace extends Component {
   }
 
   searchFor(query) {
+    console.log('QUERY: ', query);
     const newListings = this.state.listings.filter(listing =>
       listing.name.toUpperCase().includes(query.toUpperCase())
     );
@@ -88,6 +89,7 @@ class Marketplace extends Component {
 
   isFetchingData() {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
+    if (this.props.isFetching.listing) return false;
     return isFetching;
   }
   login(userData) {
