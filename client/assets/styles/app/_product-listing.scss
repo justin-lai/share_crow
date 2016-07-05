@@ -142,13 +142,7 @@
   opacity: 0.5;
   font-size: 0.9em;
 }
-.product-snippet a {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+
 .product-snippet:hover .add-to-cart,
 .product-snippet.hover .add-to-cart {
   opacity: 1;
@@ -166,4 +160,9 @@
 
 h3 {
   font-size: 12pt !important;
+}
+
+.preview-owner{
+  font-size: 12pt;
+  color: blue;
 }
