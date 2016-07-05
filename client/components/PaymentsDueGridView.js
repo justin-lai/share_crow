@@ -20,7 +20,7 @@ class PaymentsDueGridView extends Component {
     'handlePayment');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}`)
+    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}&itemReturned=null`)
       .then(response => response.json())
         .then(data => {
           const formatted = [];
@@ -53,7 +53,6 @@ class PaymentsDueGridView extends Component {
         newToken.ownerId = this.state.ownerId;
         newToken.listingId = this.state.listingId;
         newToken.paymentId = this.state.paymentId;
-        console.log(newToken);
         $.ajax({
           type: 'DELETE',
           data: JSON.stringify(newToken),

@@ -116,7 +116,7 @@ module.exports = {
         },
       })
         .then(queryData => {
-          queryData.updateAttributes({ paymentDate: new Date().toISOString() });
+          queryData.updateAttributes({ paymentDate: new Date().toISOString(), paymentComplete: true });
           db.User.find({
             where: {
               id: req.body.ownerId,

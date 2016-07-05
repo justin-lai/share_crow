@@ -127,6 +127,7 @@ module.exports = {
 
 
   stripeCallback: (req, res) => {
+    console.log('response!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', res);
     const code = req.query.code;
     request.post({
       url: apiKeys.TOKEN_URI,
