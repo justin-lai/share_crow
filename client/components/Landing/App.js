@@ -11,7 +11,6 @@ import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
 import Footer from '../Shared/Footer';
 import LoadingBar from '../Shared/LoadingBar';
-import StarReviewModal from '../Marketplace/StarReviewModal';
 
 class App extends Component {
   constructor(props) {
@@ -58,9 +57,6 @@ class App extends Component {
               history={this.props.history}
             />
             <ProductCarousel products={this.products} />
-            <StarReviewModal
-              userObj={this.props.user}
-            />
           </div>
         }
         <Footer />

@@ -61,59 +61,70 @@ class Product extends Component {
     const product = this.props.product;
     if (product.rented) {
       return (
-        <span
-          className="product rented"
+        <figure
+          className="product rented product-snippet"
         >
           <img
-            src={product.listingImage[0] ? product.listingImage[0].image : null}
+
+            className="product-image"
+            style={{ 'background-image': 'url(productListingImage[0].image)' }}
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
-          <div className="product-info">
-            <h4>{product.name}</h4>
-            <p>${product.rentalFee}/day</p>
+          <div
+            className="add-to-cart"
+            onClick={this.openModal}
+          > <i className="ion-android-add"></i><span>Rent it! </span></div>
+          <figcaption>
+            <h3>{product.name}</h3>
             <p>XY miles away - Fremont, CA</p>
-            <a href="/">{product.owner.username}</a>
-          </div>
-        </span>
+            <div className="price">${product.rentalFee} per day</div>
+          </figcaption>
+        </figure>
       );
     }
     if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
       return (
-        <span
-          className={product.rented ? 'product rented' : 'product'}
+        <figure
+          className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
         >
           <img
             src={product.listingImage[0] ? product.listingImage[0].image : null}
+            className="product-image"
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
-          <div className="product-info">
-            <h4>{product.name}</h4>
-            <p>${product.rentalFee}/day</p>
+          <div
+            className="add-to-cart"
+            onClick={this.openModal}
+          > <i className="ion-android-add"></i><span>Rent it! </span></div>
+          <figcaption>
+            <h3>{product.name}</h3>
             <p>XY miles away - Fremont, CA</p>
-            <a href="/">{product.owner.username}</a>
-          </div>
-        </span>
+            <div className="price">${product.rentalFee} per day</div>
+          </figcaption>
+        </figure>
       );
     }
     return (
-      <span
-        onClick={this.openModal}
-        className={product.rented ? 'product rented' : 'product'}
+      <figure
+        className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
       >
         <img
+          className="product-image"
           src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
-        <div className="product-info">
-          <h4>{product.name}</h4>
-          <p>${product.rentalFee}/day</p>
+        <div
+          className="add-to-cart"
+          onClick={this.openModal}
+        > <i className="ion-android-add"></i><span>Rent it! </span></div>
+        <figcaption>
+          <h3>{product.name}</h3>
           <p>XY miles away - Fremont, CA</p>
-          <a href="/">{product.owner.username}</a>
-        </div>
-
+          <div className="price">${product.rentalFee} per day</div>
+        </figcaption>
         <Modal
           style={{ content: { height: '650px', width: '800px' } }}
           isOpen={this.state.open}
@@ -157,7 +168,7 @@ class Product extends Component {
             />
           </div>
         </Modal>
-      </span>
+      </figure>
     );
   }
 }
