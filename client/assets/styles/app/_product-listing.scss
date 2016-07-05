@@ -86,7 +86,7 @@
   vertical-align: top;
   position: relative;
 }
-.product-snippet .add-to-cart {
+.product-snippet .rent-it {
   position: absolute;
   top: 0;
   right: 0;
@@ -103,7 +103,7 @@
   -ms-transform-origin: 100% 0;
   transform-origin: 100% 0;
 }
-.product-snippet .add-to-cart i {
+.product-snippet .rent-it i {
   display: inline-block;
   margin-right: 10px;
   width: 40px;
@@ -142,15 +142,22 @@
   opacity: 0.5;
   font-size: 0.9em;
 }
-
-.product-snippet:hover .add-to-cart,
-.product-snippet.hover .add-to-cart {
+.product-snippet a {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.product-snippet:hover .rent-it,
+.product-snippet.hover .rent-it {
+>>>>>>> edit scss class name
   opacity: 1;
   -webkit-transform: rotateX(0deg);
   transform: rotateX(0deg);
 }
-.product-snippet:hover .add-to-cart i,
-.product-snippet.hover .add-to-cart i {
+.product-snippet:hover .rent-it i,
+.product-snippet.hover .rent-it i {
   background-color: #2980b9;
 }
 
