@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUser } from '../../actions/userActions';
@@ -57,39 +58,53 @@ class Product extends Component {
                         });
                 });
         });
-
-    // console.log('ksdfljs;dfldsfkslfj;sd', this.props.isAuth.userInfo.id, this.product.ownerId);
-  }
-
-  componentWillReceiveProps() {
-    // if (this.product.ownerId)
-    // this.product.owner = nextProps.user.username;
   }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   handleSubmit() {
     $('.stripe-button-el').trigger('click');
-    this.props.methods.postMessage({
-      subject: this.product.id,
-      text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
-      sender_id: this.props.isAuth.userInfo.id,
-      recipient_id: this.product.ownerId,
-    });
-    this.state.rentRequestMessage = 'Your request has been sent!';
-    fetch('http://localhost:3000/api/sendTextNotification',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          recipientId: this.product.ownerId,
-          text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
-        }),
-      });
-    this.closeModal();
-    this.openModal();
+    fetch(`http://localhost:3000/main/payment?payerId=${this.props.isAuth.userInfo.id}`)
+      .then(response => response.json())
+        .then(responseData => {
+          let paymentFlag = false;
+          let paymentInfo = '';
+          for (let i = 0; i < responseData.length; i++) {
+            if (!responseData[i].paymentComplete) {
+              paymentFlag = true;
+              // eslint-disable-next-line
+              paymentInfo = <span><br />All pending payments must be completed before renting again.<br />
+              {responseData[i].itemName} for ${responseData[i].$Amount} is unpaid.`</span>;
+              break;
+            }
+          }
+          if (paymentFlag) {
+            this.state.rentRequestMessage = paymentInfo;
+            this.closeModal();
+            this.openModal();
+          } else {
+            this.props.methods.postMessage({
+              subject: this.product.id,
+              text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
+              sender_id: this.props.isAuth.userInfo.id,
+              recipient_id: this.product.ownerId,
+            });
+            this.state.rentRequestMessage = 'Your request has been sent!';
+            fetch('http://localhost:3000/api/sendTextNotification',
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  recipientId: this.product.ownerId,
+                  text: `${this.props.isAuth.username} wants to rent your ${this.product.name}`,
+                }),
+              });
+            this.closeModal();
+            this.openModal();
+          }
+        });
   }
   render() {
     if (this.state.loading) {
@@ -116,9 +131,10 @@ class Product extends Component {
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <h4>By <a>{this.ownerName}</a></h4>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
-            <div className="price">${product.rentalFee} per day</div>
+            <div className="price">${product.rentalFee} per day
+              <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+            </div>
           </figcaption>
         </figure>
       );
@@ -140,9 +156,10 @@ class Product extends Component {
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <h4>By <a>{this.ownerName}</a></h4>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
-            <div className="price">${product.rentalFee} per day</div>
+            <div className="price">${product.rentalFee} per day
+              <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+            </div>
           </figcaption>
         </figure>
       );
@@ -163,9 +180,10 @@ class Product extends Component {
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
         <figcaption>
           <h3>{this.state.shortName}</h3>
-          <h4>By <a>{this.ownerName}</a></h4>
           <p>{this.product.distance} from {this.product.distanceCity}</p>
-          <div className="price">${product.rentalFee} per day</div>
+          <div className="price">${product.rentalFee} per day
+            <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+          </div>
         </figcaption>
         <Modal
           style={{ content: { height: '650px', width: '800px' } }}
@@ -174,28 +192,26 @@ class Product extends Component {
           id="rent-item"
         >
           <h1 className="modal-header product-preview-header">{product.name}
-            <span className="rent-request-message">{this.state.rentRequestMessage}</span>
           </h1>
           <p>
             <div
               className="product-preview"
             >
               <img
-                className="product-image"
+                className="product-image-modal"
                 alt="product-preview"
                 src={product.listingImage[0] ? product.listingImage[0].image : null}
               />
             </div>
           </p>
-          <p className="product-preview">${product.rentalFee}/day</p>
-          <p className="product-preview">
-          {this.product.distance} from {this.product.distanceCity}</p>
-          <a
-            className="center"
-            href="/"
+          <p className="product-preview">${product.rentalFee}/day from <a
+            href={`/#/${product.owner.username}`}
           >
             {product.owner.username}
           </a>
+          </p>
+          <p className="product-preview">
+          {this.product.distance} from {this.product.distanceCity}</p>
           <div id="product-preview-buttons">
             <input
               className="modal-rent-button product-preview"
@@ -210,6 +226,7 @@ class Product extends Component {
               onClick={this.closeModal}
             />
           </div>
+          <span className="rent-request-message">{this.state.rentRequestMessage}</span>
         </Modal>
       </figure>
     );
