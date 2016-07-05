@@ -21,15 +21,19 @@ module.exports = {
         },
       }).then(queryData => {
         let sum = 0;
-        queryData.forEach(data => {
-          sum += data.rating;
-        });
-        res.status(200).send({
-          percentage: sum / (queryData.length * 5),
-          data: queryData,
-          total: sum,
-          totalReviews: queryData.length,
-        });
+        if (!queryData.length) {
+          res.status(400).send({ message: 'no reviews found' });
+        } else {
+          queryData.forEach(data => {
+            sum += data.rating;
+          });
+          res.status(200).send({
+            percentage: sum / (queryData.length * 5),
+            data: queryData,
+            total: sum,
+            totalReviews: queryData.length,
+          });
+        }
       });
     }
 

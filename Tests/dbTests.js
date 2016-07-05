@@ -172,7 +172,7 @@ test('Messages: Successfully returns all messages belonging to an id', assert =>
 
 // Tests if messages are not returned given an invalid or no id
 test('Messages: No messages are returned given an invalid or empty id field', assert => {
-  fetch('http://localhost:3000/main/message?senderId=0')
+  fetch('http://localhost:3000/main/message')
     .then(queryData => assert.equal(queryData.status, 400));
   assert.end();
 });
@@ -318,14 +318,14 @@ test('Listings: Unsuccessful return of listing due to invalid ID or none provide
 
 // Tests if all userReviews are returned for a given user ID
 test('UserReviews: all user reviews returned for a given user ID', assert => {
-  fetch('http://localhost:3000/main/userReview?lenderId=1')
-    .then((responseData) => assert.equal(responseData.status, 200));
+  fetch('http://localhost:3000/main/userReview?id=1')
+    .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
 
 // Tests if no userReviews are returned given an invalid or no user ID
 test('UserReviews: no userReview returned due to invalid user ID or none provided', assert => {
-  fetch('http://localhost:3000/main/userReview?lenderId=0')
+  fetch('http://localhost:3000/main/userReview')
     .then((responseData) => assert.equal(responseData.status, 400));
   assert.end();
 });
