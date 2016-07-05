@@ -59,6 +59,70 @@ class Profile extends Component {
   }
 
   render() {
+    if (true) {
+      return (
+        <div id="profile">
+          <NavBar
+            isLoggedIn={this.props.isAuth.status || false}
+            username={this.props.isAuth.username || ''}
+            login={login}
+            signup={signup}
+            signout={signout}
+          />
+          {this.isFetchingData() ?
+            <LoadingBar /> :
+            <div>
+              <div className="row">
+                <div className="col-xs-6 col-md-4">
+                  <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
+                </div>
+                <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
+                  <section style={{ height: '300px', width: '250%' }}>
+                    <GoogleMapLoader
+                      query={{ libraries: 'geometry,drawing,places,visualization' }}
+                      containerElement={
+                        <div
+                          style={{
+                            height: '100%',
+                          }}
+                        />
+                      }
+                      googleMapElement={
+                        <GoogleMap
+                          ref={(map) => console.log(map)}
+                          defaultZoom={12}
+                          defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                        />
+                      }
+                    />
+                  </section>
+                </div>
+              </div>
+              <IncomingRequestsGridView />
+              <OutgoingRequestsGridView />
+              <AvailableItemsGridView
+                id={this.props.isAuth.userInfo.id}
+                products={this.products}
+              />
+              <RentedOutItemsGridView
+                id={this.props.isAuth.userInfo.id}
+                products={this.products}
+              />
+              <CurrentlyRentingGridView
+                id={this.props.isAuth.userInfo.id}
+              />
+              <PaymentsDueGridView
+                id={this.props.isAuth.userInfo.id}
+              />
+              <PaymentsReceivedGridView
+                id={this.props.isAuth.userInfo.id}
+              />
+            </div>
+          }
+          <Footer />
+        </div>
+      );
+    }
     return (
       <div id="profile">
         <NavBar
@@ -97,25 +161,6 @@ class Profile extends Component {
                 </section>
               </div>
             </div>
-            <IncomingRequestsGridView />
-            <OutgoingRequestsGridView />
-            <AvailableItemsGridView
-              id={this.props.isAuth.userInfo.id}
-              products={this.products}
-            />
-            <RentedOutItemsGridView
-              id={this.props.isAuth.userInfo.id}
-              products={this.products}
-            />
-            <CurrentlyRentingGridView
-              id={this.props.isAuth.userInfo.id}
-            />
-            <PaymentsDueGridView
-              id={this.props.isAuth.userInfo.id}
-            />
-            <PaymentsReceivedGridView
-              id={this.props.isAuth.userInfo.id}
-            />
           </div>
         }
         <Footer />

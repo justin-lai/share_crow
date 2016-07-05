@@ -1,80 +1,102 @@
 import React, { Component, PropTypes } from 'react';
-// import router from 'react-router';
 import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
+import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
-import Footer from './../Shared/Footer';
 import ProfileCard from './../Profile/ProfileCard';
-import ProductList from './../Marketplace/ProductList';
+import Footer from './../Shared/Footer';
+import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
 import LoadingBar from './../Shared/LoadingBar';
 
 class PublicUserProfile extends Component {
   constructor(props) {
     super(props);
     this.products = [];
-    this.inbox = [];
-    this.outbox = [];
-    this.profile = props.session;
-
     this.methods = props.methods;
     this.methods.isLoggedIn();
-    if (props.isAuth.status) {
-      // this.methods.getListing(`name=${this.props.session.username}`);
-      // this.methods.getUser(`username=${this.props.isAuth.username}`);
-      this.methods.getMessage('recipientId=10');
-      this.methods.getMessage('senderId=10');
-      this.methods.getListing('owner_id=4');
-    }
+    this.profile = props.isAuth.userInfo;
   }
 
   componentDidMount() {
-
+    if (this.props.isAuth.status) {
+      this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
+      this.methods.getUser(`id=${this.props.isAuth.userInfo.id}`);
+    }
   }
 
-  // componentDidMount() {
-  // }
-
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isAuth.status) {
-      nextProps.history.push('/');
+    // re-logs you to dashboard if not logged in
+    if (nextProps.isAuth.status) {
+      this.profile = nextProps.isAuth.userInfo;
+    } else {
+      this.props.history.push('/');
     }
 
-    if (nextProps.message[0] && nextProps.message[0].recipient.username === 'joliver3') {
-      this.inbox = nextProps.message;
-    } else if (nextProps.message[0] && nextProps.message[0].sender.username === 'joliver3') {
-      this.outbox = nextProps.message;
+    // checks if a database change was made and refreshes component
+    if (nextProps.componentNeedsRefresh) {
+      this.methods.refreshComponent(false);
+      this.componentDidMount();
     }
 
     this.products = nextProps.listing;
-    // re-render with new props
+    if (nextProps.user.Image) {
+      this.profilePhoto = nextProps.user.Image.image;
+    }
+  }
+
+  isFetchingData() {
+    return Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
   }
 
   render() {
     return (
-      !this.props.isAuth.status ?
-        <LoadingBar /> :
-        <div id="profile">
-          <NavBar
-            username={this.props.isAuth.username}
-          />
-          <div className="row">
-            <div className="col-xs-6 col-md-4">
-              <ProfileCard profile={this.profile} />
-            </div>
-            <div>
-              <h3>My Items</h3>
-              <ProductList products={this.products} />
+      <div id="profile">
+        <NavBar
+          isLoggedIn={this.props.isAuth.status || false}
+          username={this.props.isAuth.username || ''}
+          login={login}
+          signup={signup}
+          signout={signout}
+        />
+        {this.isFetchingData() ?
+          <LoadingBar /> :
+          <div>
+            <div className="row">
+              <div className="col-xs-6 col-md-4">
+                <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
+              </div>
+              <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
+                <section style={{ height: '300px', width: '250%' }}>
+                  <GoogleMapLoader
+                    query={{ libraries: 'geometry,drawing,places,visualization' }}
+                    containerElement={
+                      <div
+                        style={{
+                          height: '100%',
+                        }}
+                      />
+                    }
+                    googleMapElement={
+                      <GoogleMap
+                        ref={(map) => console.log(map)}
+                        defaultZoom={12}
+                        defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                      />
+                    }
+                  />
+                </section>
+              </div>
             </div>
           </div>
-          <Footer />
-        </div>
+        }
+        <Footer />
+      </div>
     );
   }
 }
-
 
 PublicUserProfile.propTypes = {
   user: PropTypes.object.isRequired,
@@ -83,10 +105,11 @@ PublicUserProfile.propTypes = {
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  isFetching: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { user, listing, message, session, isAuth } = state;
+  const { user, listing, message, session, isAuth, isFetching, componentNeedsRefresh } = state;
 
   return {
     user,
@@ -94,6 +117,8 @@ function mapStateToProps(state) {
     message,
     session,
     isAuth,
+    isFetching,
+    componentNeedsRefresh,
   };
 }
 
@@ -142,11 +167,11 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       isLoggedIn: () => {
         dispatch(isLoggedIn());
       },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
+      },
     },
   };
 };
 
-// PublicUserProfile.willTransitionTo = () => {
-//   router.getCurrentPath();
-// };
 export default connect(mapStateToProps, mapDispatchToProps)(PublicUserProfile);

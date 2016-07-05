@@ -70,7 +70,10 @@ class AvailableItemsGridView extends Component {
     }
     return (
       <div>
-        <h4>Current Items Available for Rent</h4>
+        <h4
+          className="griddle"
+        >Current Items Available for Rent
+        </h4>
         <Griddle
           results={this.state.rentedItems}
           tableClassName="table"
@@ -98,7 +101,10 @@ class AvailableItemsGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Remove listing: {this.state.listingName}?
           </h4>
           <div>

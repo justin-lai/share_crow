@@ -95,7 +95,10 @@ class PaymentsReceivedGridView extends Component {
     }
     return (
       <div>
-        <h4>Transaction History</h4>
+        <h4
+          className="griddle"
+        >Transaction History
+        </h4>
         <Griddle
           results={this.state.unpaidItems}
           tableClassName="table"
@@ -131,7 +134,10 @@ class PaymentsReceivedGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Delete transation for: {this.state.listingName}
           </h4>
           <div>

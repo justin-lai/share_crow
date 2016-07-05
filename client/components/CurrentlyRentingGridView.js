@@ -58,7 +58,11 @@ class CurrentlyRentingGridView extends Component {
     }
     return (
       <div>
-        <h4>Items Rented (from others)</h4>
+        <h4
+          className="griddle"
+        >
+        Items Rented (from others)
+        </h4>
         <Griddle
           results={this.state.rentedItems}
           tableClassName="table"

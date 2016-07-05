@@ -181,7 +181,10 @@ class RentedOutItemsGridView extends Component {
   render() {
     return (
       <div>
-        <h4>Items Rented Out</h4>
+        <h4
+          className="griddle"
+        >Items Rented Out
+        </h4>
         <Griddle
           results={this.state.rentedOutItems}
           tableClassName="table"
@@ -217,7 +220,10 @@ class RentedOutItemsGridView extends Component {
           isOpen={this.state.openReturnModal}
           onRequestClose={this.closeReturnModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Was item {this.state.listingName} returned?
           </h4>
           <div>
@@ -245,7 +251,10 @@ class RentedOutItemsGridView extends Component {
               id="rating-modal"
               className="center"
             >
-              <h4 className="center">Rate your experience with {this.state.renterName}</h4>
+              <h4
+                className="center griddle"
+              >Rate your experience with {this.state.renterName}
+              </h4>
               <StarRatingComponent
                 // name:"rate1"
                 starCount={5}
