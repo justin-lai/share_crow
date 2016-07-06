@@ -48,6 +48,8 @@ class Product extends Component {
                           fetch(`http://localhost:3000/api/distanceMatrix?origin=${user1location}&destination=${user2location}`)
                             .then(response3 => response3.json())
                               .then(responseData3 => {
+                                console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+                                console.log(responseData3);
                                 this.product.distance = responseData3.miles;
                                 this.setState({
                                   loading: false,
@@ -107,11 +109,11 @@ class Product extends Component {
         });
   }
   render() {
-    if (this.state.loading) {
-      return (
-        <div></div>
-      );
-    }
+    // if (this.state.loading) {
+    //   return (
+    //     <div></div>
+    //   );
+    // }
     const product = this.product;
     // RENTED ITEMS
     if (product.rented) {
