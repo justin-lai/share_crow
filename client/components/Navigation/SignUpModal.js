@@ -53,7 +53,32 @@ class SignUpModal extends Component {
       zipcode: this.state.zipcode,
       phone: this.state.phone,
     };
-    if (newUserData.password === this.state.confirmPassword) {
+
+    /* eslint-disable max-len */
+    // eslint-disable-next-line
+    const emailRE = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const phoneRE = /((\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4})|([1-9][0-9]{2}[1-9][0-9]{6})/;
+    if (!emailRE.test(this.state.email)) {
+      this.state.errorMessage = 'Invalid formatted email address.';
+      this.closeModal();
+      this.openModal();
+    } else if (!this.state.username) {
+      this.state.errorMessage = 'A username must be entered.';
+      this.closeModal();
+      this.openModal();
+    } else if (!phoneRE.test(this.state.phone)) {
+      this.state.errorMessage = 'Invalid phone number entered.';
+      this.closeModal();
+      this.openModal();
+    } else if (!this.state.address) {
+      this.state.errorMessage = 'An address must be entered.';
+      this.closeModal();
+      this.openModal();
+    } else if (!this.state.state) {
+      this.state.errorMessage = 'A valid state must be selected.';
+      this.closeModal();
+      this.openModal();
+    } else if (newUserData.password === this.state.confirmPassword) {
       signup(newUserData);
       this.closeModal();
     } else {
@@ -61,6 +86,11 @@ class SignUpModal extends Component {
       this.closeModal();
       this.openModal();
     }
+    setTimeout(() => {
+      this.setState({
+        errorMessage: '',
+      });
+    }, 5000);
   }
 
   handleFirstName(value) { this.setState({ firstName: value.target.value }); }
@@ -86,7 +116,7 @@ class SignUpModal extends Component {
             onClick={this.openModal}
           >Start Sharing</div>
           <Modal
-            style={{ content: { height: '320px' } }}
+            style={{ content: { height: '570px', width: '395px' } }}
             isOpen={this.state.open}
             onRequestClose={this.closeModal}
           >
@@ -258,7 +288,7 @@ class SignUpModal extends Component {
           onClick={this.openModal}
         ><span className="glyphicon glyphicon-user"></span> Sign Up</div>
         <Modal
-          style={{ content: { height: '320px' } }}
+          style={{ content: { height: '570px', width: '395px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
