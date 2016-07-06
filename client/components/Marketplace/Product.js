@@ -107,11 +107,11 @@ class Product extends Component {
         });
   }
   render() {
-    if (this.state.loading) {
-      return (
-        <div></div>
-      );
-    }
+    // if (this.state.loading) {
+    //   return (
+    //     <div></div>
+    //   );
+    // }
     const product = this.product;
     if (product.rented) {
       return (
@@ -134,7 +134,7 @@ class Product extends Component {
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
             <div className="price">${product.rentalFee} per day
-              <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+              <span>by <a href={`/#/profile/${this.ownerName}&${this.product.ownerId}`} className="preview-owner">{this.ownerName}</a></span>
             </div>
           </figcaption>
         </figure>
@@ -158,7 +158,7 @@ class Product extends Component {
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
             <div className="price">${product.rentalFee} per day
-              <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+              <span>by <a href={`/#/profile/${this.ownerName}&${this.product.ownerId}`} className="preview-owner">{this.ownerName}</a></span>
             </div>
           </figcaption>
         </figure>
@@ -182,7 +182,7 @@ class Product extends Component {
           <h3>{this.state.shortName}</h3>
           <p>{this.product.distance} from {this.product.distanceCity}</p>
           <div className="price">${product.rentalFee} per day
-            <span>by <a href={`/#/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+            <span>by <a href={`/#/profile/${this.ownerName}&${this.product.ownerId}`} className="preview-owner">{this.ownerName}</a></span>
           </div>
         </figcaption>
         <Modal
@@ -205,7 +205,7 @@ class Product extends Component {
             </div>
           </p>
           <p className="product-preview">${product.rentalFee}/day from <a
-            href={`/#/${product.owner.username}`}
+            href={`/#/profile/${product.owner.username}&${this.product.ownerId}`}
           >
             {product.owner.username}
           </a>

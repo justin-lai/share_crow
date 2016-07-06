@@ -17,30 +17,38 @@ import CurrentlyRentingGridView from '../CurrentlyRentingGridView';
 import PaymentsDueGridView from '../PaymentsDueGridView';
 import PaymentsReceivedGridView from '../PaymentsReceivedGridView';
 import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
+import ProductList from './../Marketplace/ProductList';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+    console.log(props, '~~~~this is props yo~~~~~~~');
+    // console.log('USER ID: ~~~~~~~~~~~', userID);
     this.products = [];
     this.methods = props.methods;
     this.methods.isLoggedIn();
     this.profile = props.isAuth.userInfo;
+    this.userID = props.params.userID;
+    if (props.isAuth.username === props.params.username) {
+      this.profileType = 'private';
+    } else {
+      this.profileType = 'public';
+    }
   }
 
   componentDidMount() {
-    if (this.props.isAuth.status) {
-      this.methods.getListing(`owner_id=${this.props.isAuth.userInfo.id}`);
-      this.methods.getUser(`id=${this.props.isAuth.userInfo.id}`);
-    }
+    // if logged in get listings associated with you and your user information
+    this.methods.getListing(`owner_id=${this.userID}`);
+    this.methods.getUser(`id=${this.userID}`);
   }
 
   componentWillReceiveProps(nextProps) {
     // re-logs you to dashboard if not logged in
-    if (nextProps.isAuth.status) {
-      this.profile = nextProps.isAuth.userInfo;
-    } else {
-      this.props.history.push('/');
-    }
+    // if (nextProps.isAuth.status) {
+    //   this.profile = nextProps.isAuth.userInfo;
+    // } else {
+    //   this.props.history.push('/');
+    // }
 
     // checks if a database change was made and refreshes component
     if (nextProps.componentNeedsRefresh) {
@@ -48,6 +56,7 @@ class Profile extends Component {
       this.componentDidMount();
     }
 
+    this.profile = nextProps.user;
     this.products = nextProps.listing;
     if (nextProps.user.Image) {
       this.profilePhoto = nextProps.user.Image.image;
@@ -59,7 +68,7 @@ class Profile extends Component {
   }
 
   render() {
-    if (true) {
+    if (this.profileType === 'private') {
       return (
         <div id="profile">
           <NavBar
@@ -161,6 +170,9 @@ class Profile extends Component {
                 </section>
               </div>
             </div>
+            <div id="profile-products">
+              <ProductList products={this.products} />
+            </div>
           </div>
         }
         <Footer />
@@ -178,6 +190,7 @@ Profile.propTypes = {
   isAuth: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   isFetching: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

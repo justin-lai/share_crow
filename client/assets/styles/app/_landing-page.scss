@@ -1,4 +1,4 @@
-
+$font-stack: 'Raleway', sans-serif;
 .splash-image {
   top: 50px;
   margin-bottom: 25px;
@@ -8,10 +8,9 @@
 }
 
 
-.basic {
-/*  background: #eee;*/
+/*.basic {
   text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-}
+}*/
 #splash-carousel {
   opacity: 0.7;
 }
@@ -30,8 +29,16 @@
   height: 100%;
 }
 
+#slogan {
+
+}
+
 #slogan-phrase {
   margin-bottom: 80px;
+  font-family: $font-stack;
+  vertical-align: middle;
+  color: white;
+  text-shadow: 0px 2px 3px #555;
 }
 
 .landing-button {
