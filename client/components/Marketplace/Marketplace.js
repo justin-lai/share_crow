@@ -84,6 +84,7 @@ class Marketplace extends Component {
       listing.name.toUpperCase().includes(query.toUpperCase())
     );
     this.setState({
+      filter: query,
       filteredListings: newListings,
     });
   }
@@ -92,21 +93,6 @@ class Marketplace extends Component {
     const isFetching = Object.keys(this.props.isFetching).some(key => this.props.isFetching[key]);
     if (this.props.isFetching.listing) return false;
     return isFetching;
-  }
-  login(userData) {
-    //eslint-disable-next-line
-    console.log(`logging in as ${userData.username}`);
-    let query = [];
-    Object.keys(userData).forEach(key => query.push(`${key}=${userData[key]}`));
-    query = query.join('&');
-    this.methods.getSession(query);
-    setTimeout(this.methods.isLoggedIn, 300);
-    this.user = userData;
-  }
-  signup(userData) {
-    //eslint-disable-next-line
-    console.log('signing up as', userData);
-    this.methods.postUser(userData);
   }
 
   render() {

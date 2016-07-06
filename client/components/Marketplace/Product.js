@@ -107,12 +107,13 @@ class Product extends Component {
         });
   }
   render() {
-    // if (this.state.loading) {
-    //   return (
-    //     <div></div>
-    //   );
-    // }
+    if (this.state.loading) {
+      return (
+        <div></div>
+      );
+    }
     const product = this.product;
+    // RENTED ITEMS
     if (product.rented) {
       return (
         <figure
@@ -129,7 +130,7 @@ class Product extends Component {
               className="rented-overlay top-image"
               alt="rented"
             />
-          </ div>
+          </div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
@@ -140,6 +141,7 @@ class Product extends Component {
         </figure>
       );
     }
+    // YOUR OWN ITEMS
     if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
       return (
         <figure
@@ -164,6 +166,7 @@ class Product extends Component {
         </figure>
       );
     }
+    // EVERYTHING ELSE
     return (
       <figure
         className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}

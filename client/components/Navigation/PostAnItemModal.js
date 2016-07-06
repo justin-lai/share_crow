@@ -12,8 +12,6 @@ class PostAnItemModal extends Component {
     super(props);
 
     this.state = {
-      username: props.isAuth.userInfo.username,
-      ownerId: props.isAuth.userInfo.id,
       open: false,
       listing: '',
       maxFee: '',
