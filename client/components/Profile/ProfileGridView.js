@@ -61,7 +61,10 @@ class GridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            id="message-request-text"
+            className="griddle"
+          >
             Remove listing: {this.state.listingName}
           </h4>
           <div>

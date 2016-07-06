@@ -122,7 +122,10 @@ class PaymentsDueGridView extends Component {
     }
     return (
       <div>
-        <h4>Payments Due</h4>
+        <h4
+          className="griddle"
+        >Payments Due
+        </h4>
         <Griddle
           results={this.state.unpaidItems}
           tableClassName="table"
@@ -154,7 +157,10 @@ class PaymentsDueGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Pay for {this.state.listingName} now?
           </h4>
           <div>
