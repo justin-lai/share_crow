@@ -14,13 +14,12 @@
 @import "app/slick";
 @import "app/star-rating";
 @import "app/status-bar";
-
+@import "app/start-sharing-button";
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,900);
 
 $font-stack: 'Raleway', sans-serif;
-$fuschia: #cd1b4e;
 
 * {
   box-sizing: inherit;
@@ -62,4 +61,7 @@ body {
   /*width: 100px;*/
   top: 100%;
   /*background: white;*/
+}
+
+#landing {
 }
