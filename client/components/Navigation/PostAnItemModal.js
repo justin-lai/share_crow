@@ -21,7 +21,7 @@ class PostAnItemModal extends Component {
       uploadListing: '',
       uploadID: '',
       authOpen: true,
-      token: props.user.stripeToken,
+      token: null,
     };
     this.categories = [];
     this.subcategories = [];
@@ -41,6 +41,13 @@ class PostAnItemModal extends Component {
   }
 
   componentDidMount() {
+    fetch(`/main/profile?id=${this.state.ownerId}`)
+    .then(res => res.json())
+    .then(json => {
+      this.setState({
+        token: json.stripeToken,
+      });
+    });
     this.methods.getCategory();
   }
 
@@ -55,7 +62,6 @@ class PostAnItemModal extends Component {
   }
 
   checkAuth() {
-    this.forceUpdate();
     this.openModal();
     if (this.state.token === null) {
       this.setState({
@@ -130,16 +136,22 @@ class PostAnItemModal extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         ><Modal
-          style={{ content: { height: '15em', width: '10em' } }}
+          style={{ content: { height: '15em', width: '40em',
+          backgroundColor: 'rgba(143,27,15,0.8)',
+          top: '35%',
+          } }}
           isOpen={this.state.authOpen}
-          onRequestClose={this.close}
+          onRequestClose={this.closeAuthModal}
         >
-          <button
-            onClick={this.closeOAuth}
-          >Close</button>
-          <form action="/authorize" method="GET">
+          <form action="/authorize" method="GET" className="authorizePopUp">
+            <h3>To become a merchant on Sharecrow please authenticate
+            yourself through Stripe</h3>
             <button className="stripeConnect">Authorize</button>
           </form>
+          <button
+            className="marketplace-button authExit"
+            onClick={this.closeOAuth}
+          >x</button>
         </Modal>
           <input
             className="close-button"
