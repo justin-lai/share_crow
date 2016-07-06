@@ -20,6 +20,8 @@ class PostAnItemModal extends Component {
       subcategory: '',
       uploadListing: '',
       uploadID: '',
+      authOpen: true,
+      token: props.user.stripeToken,
     };
     this.categories = [];
     this.subcategories = [];
@@ -34,11 +36,14 @@ class PostAnItemModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+    this.checkAuth = this.checkAuth.bind(this);
+    this.closeOAuth = this.closeOAuth.bind(this);
   }
 
   componentDidMount() {
     this.methods.getCategory();
   }
+
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category.filter(category =>
@@ -47,6 +52,25 @@ class PostAnItemModal extends Component {
     this.subcategories = nextProps.category.filter(subcategory =>
       String(subcategory.CategoryId) === this.state.category
     );
+  }
+
+  checkAuth() {
+    this.forceUpdate();
+    this.openModal();
+    if (this.state.token === null) {
+      this.setState({
+        authOpen: true,
+      });
+    } else {
+      this.setState({
+        authOpen: false,
+      });
+    }
+  }
+
+  closeOAuth() {
+    this.closeModal();
+    this.closeOAuth();
   }
 
   handleSubmit() {
@@ -89,13 +113,15 @@ class PostAnItemModal extends Component {
   handleSubcategory(value) { this.setState({ subcategory: value.target.value }); }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
+  openAuthModal() { this.setState({ authOpen: true }); }
+  closeAuthModal() { this.setState({ authOpen: false }); }
 
   render() {
     return (
       <div className="post-item-wrapper">
         <div
           className="post-item-modal"
-          onClick={this.openModal}
+          onClick={this.checkAuth}
         >
           Post an Item
         </div>
@@ -103,10 +129,18 @@ class PostAnItemModal extends Component {
           style={{ content: { height: '600px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
+        ><Modal
+          style={{ content: { height: '15em', width: '10em' } }}
+          isOpen={this.state.authOpen}
+          onRequestClose={this.close}
         >
+          <button
+            onClick={this.closeOAuth}
+          >Close</button>
           <form action="/authorize" method="GET">
             <button className="stripeConnect">Authorize</button>
           </form>
+        </Modal>
           <input
             className="close-button"
             type="submit"
@@ -189,12 +223,14 @@ PostAnItemModal.propTypes = {
   isAuth: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
   category: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { listing, category, isAuth } = state;
+  const { listing, category, isAuth, user } = state;
 
   return {
+    user,
     listing,
     category,
     isAuth,
