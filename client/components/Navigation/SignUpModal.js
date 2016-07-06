@@ -111,10 +111,11 @@ class SignUpModal extends Component {
     if (this.state.origin) {
       return (
         <div className="signup-wrapper">
-          <div
-            className="signup-modal"
+          <a
+            className="btn btn-1"
             onClick={this.openModal}
-          >Start Sharing</div>
+          > Start Sharing
+          </a>
           <Modal
             style={{ content: { height: '570px', width: '395px' } }}
             isOpen={this.state.open}

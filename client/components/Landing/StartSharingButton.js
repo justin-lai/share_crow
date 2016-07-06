@@ -17,7 +17,7 @@ class StartSharingButton extends Component {
         <section className="buttons">
           <div className="sharing-button-container">
             <a className="btn btn-1">
-            </a>
+            Start Sharing</a>
           </div>
         </section>
       </div>
