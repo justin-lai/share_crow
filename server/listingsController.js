@@ -107,7 +107,7 @@ module.exports = {
   // expects listingId and an arbitrary number of parameters
   changeListing: (req, res) => {
     // modifies entry with 'listing id' in database
-    console.log('PUT //// changeListing Route', req.body);
+    console.log('PUT //// changeListing Route');
     req.session.cookie.path = '/main/listing';
     if (req.body.removeListing) {
       db.Listings.destroy({

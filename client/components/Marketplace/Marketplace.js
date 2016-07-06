@@ -134,7 +134,7 @@ class Marketplace extends Component {
             ><PostAnItemModal />
             </button>
             <h3>Items</h3>
-            <ProductList products={this.state.filteredListings} />
+            <ProductList products={this.state.filteredListings.reverse()} />
           </div>
         }
         <Footer />

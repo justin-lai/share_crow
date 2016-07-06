@@ -166,3 +166,19 @@ h3 {
   font-size: 12pt;
   color: blue;
 }
+
+.rent-overlay{
+    position: relative;
+    width: 100%;
+    height: 60%;
+}
+
+.bottom-image{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.top-image{
+    top: -100%;
+    right: -40%;
+}
