@@ -1,5 +1,5 @@
 import { postUser } from '../actions/userActions';
-import { getSession, isLoggedIn } from '../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../actions/sessionActions';
 import { store } from '../index.js';
 
 export const login = userData => {
@@ -12,6 +12,7 @@ export const login = userData => {
   store.dispatch(getSession(query));
   setTimeout(() => {
     store.dispatch(isLoggedIn());
+    refreshComponent(true);
   }, 500);
 };
 

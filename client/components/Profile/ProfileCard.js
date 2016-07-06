@@ -26,7 +26,17 @@ class ProfileCard extends Component {
     };
     bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
   }
+
   componentDidMount() {
+    this.getReview();
+  }
+  componentWillReceiveProps(nextProps) {
+    this.profile = nextProps.profile;
+    this.profilePhoto = nextProps.profilePhoto;
+    this.getReview();
+  }
+
+  getReview() {
     fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
       .then(responseData => {
         this.setState({
@@ -35,10 +45,6 @@ class ProfileCard extends Component {
           reviewStatus: responseData.totalReviews ? '' : this.state.reviewStatus,
         });
       });
-  }
-  componentWillReceiveProps(nextProps) {
-    this.profile = nextProps.profile;
-    this.profilePhoto = nextProps.profilePhoto;
   }
 
   openModal() { this.setState({ open: true }); }
@@ -64,16 +70,9 @@ class ProfileCard extends Component {
     });
   }
 
-  render() {
-    return (
-      <div className="profileCard">
-        <div className="coverphoto"></div>
-        <img
-          src={this.profilePhoto || 'darthvader.jpg'}
-          className="profile_picture"
-          alt="profile"
-          onClick={this.openModal}
-        ></img>
+  renderModal() {
+    if (this.profile.id === this.props.isAuth.userInfo.id) {
+      return (
         <Modal
           style={{ content: { height: '400px' } }}
           isOpen={this.state.open}
@@ -96,6 +95,22 @@ class ProfileCard extends Component {
             onClick={this.handleSubmit}
           />
         </Modal>
+      );
+    }
+    return null;
+  }
+
+  render() {
+    return (
+      <div className="profileCard">
+        <div className="coverphoto"></div>
+        <img
+          src={this.profilePhoto || 'darthvader.jpg'}
+          className="profile_picture"
+          alt="profile"
+          onClick={this.openModal}
+        ></img>
+        {this.renderModal()}
         <div className="left_col">
           <div className="star-ratings-css">
             <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
@@ -142,6 +157,7 @@ ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
   profilePhoto: PropTypes.string.isRequired,
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

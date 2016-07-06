@@ -45,7 +45,7 @@ const NavBar = (props) => {
                 <ul className="dropdown-menu">
                   <li><a href="#">Messages</a></li>
                   <li><a href="#">Transaction History</a></li>
-                  <li><a href="/#/profile">Profile</a></li>
+                  <li><a href={`/#/profile/${props.username}`}>Profile</a></li>
                   <li onClick={props.signout}><a href="/logout">Logout</a></li>
                 </ul>
               </li>

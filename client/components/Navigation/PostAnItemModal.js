@@ -143,6 +143,7 @@ class PostAnItemModal extends Component {
               {
                 this.categories.map(category =>
                   <option
+                    key={category.id}
                     id={category.id}
                     value={category.id}
                   >{category.categoryName}</option>
