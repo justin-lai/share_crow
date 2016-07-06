@@ -151,6 +151,9 @@ class Product extends Component {
             alt="product"
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
+          <div
+            className="add-to-cart"
+          > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
