@@ -79,7 +79,6 @@ class RentedOutItemsGridView extends Component {
   onStarClick(name, value) {
     this.setState({ rating: value, render: true });
     console.log('this is the rating now', this.state.rating);
-    // this.props.sendRating(value);
     this.setState({
       render: false,
     });
@@ -95,10 +94,23 @@ class RentedOutItemsGridView extends Component {
         body: JSON.stringify({
           rating: this.state.rating,
           reviewerId: this.state.ownerId,
-          lenderId: this.state.lenderId,
+          lenderId: this.state.renterId,
           text: 'no comment',
         }),
-      }).then(() => { this.methods.refreshComponent(true); });
+      }).then(() => {
+        fetch('http://localhost:3000/main/listing',
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              reset: true,
+              listingId: this.state.listingId,
+            }),
+          }).then(() => { this.methods.refreshComponent(true); });
+      });
   }
   handleUsername(value) { this.setState({ username: value.target.value }); }
   handlePassword(value) { this.setState({ password: value.target.value }); }
@@ -139,7 +151,6 @@ class RentedOutItemsGridView extends Component {
   closeReturnModal() { this.setState({ openReturnModal: false }); }
 
   acceptRequest() {
-    console.log(this.state.listingId, '*********');
     this.methods.deleteListing({ listingId: this.state.listingId }, () => {
       fetch('http://localhost:3000/main/payment',
         {
