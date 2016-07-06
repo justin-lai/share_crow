@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { putImage, deleteImage } from '../../actions/imageActions';
@@ -16,7 +17,9 @@ class ProfileCard extends Component {
     this.state = {
       open: false,
       uploadId: '',
-      averageRating: '24%',
+      averageRating: '0%',
+      numReviews: '0 Reviews',
+      reviewStatus: `Be the first to rent from ${this.profile.username}`,
     };
     this.otherParty = {
       id: 8,
@@ -26,7 +29,11 @@ class ProfileCard extends Component {
   componentDidMount() {
     fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
       .then(responseData => {
-        this.setState({ averageRating: `${responseData.percentage * 100}%` });
+        this.setState({
+          averageRating: `${responseData.percentage * 100}%`,
+          numReviews: responseData.totalReviews ? `${responseData.totalReviews} Review(s)` : this.state.numReviews,
+          reviewStatus: responseData.totalReviews ? '' : this.state.reviewStatus,
+        });
       });
   }
   componentWillReceiveProps(nextProps) {
@@ -48,30 +55,6 @@ class ProfileCard extends Component {
         this.methods.refreshComponent(true);
       });
     });
-    // fetch('http://localhost:3000/main/imageUpload',
-    //   {
-    //     method: 'DELETE',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       userId: this.profile.id,
-    //     }),
-    //   }).then(() => {
-    //     fetch('http://localhost:3000/main/imageUpload',
-    //       {
-    //         method: 'PUT',
-    //         headers: {
-    //           Accept: 'application/json',
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //           id: this.state.uploadID,
-    //           userId: this.profile.id,
-    //         }),
-    //       }).then(response => response.json());
-    //   });
     this.closeModal();
   }
 
@@ -128,6 +111,13 @@ class ProfileCard extends Component {
               <span>★</span>
               <span>★</span>
               <span>★</span>
+            </div>
+            <br />
+            <div className="profile-card-review-num">
+              {this.state.numReviews}
+            </div>
+            <div className="profile-card-review-num">
+              {this.state.reviewStatus}
             </div>
           </div>
           <div className="about">
