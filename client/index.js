@@ -12,12 +12,13 @@ require('./assets/styles/app.scss');
 
 export const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
+history.queryKey = false;
 
 render(
   (<Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} />
-      <Route path="/profile/:username&:userID" component={Profile} />
+      <Route path="/profile/:username" component={Profile} />
       <Route path="/marketplace" component={Marketplace} />
     </Router>
   </Provider>),

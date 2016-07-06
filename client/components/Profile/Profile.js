@@ -22,13 +22,10 @@ import ProductList from './../Marketplace/ProductList';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    console.log(props, '~~~~this is props yo~~~~~~~');
     // console.log('USER ID: ~~~~~~~~~~~', userID);
     this.products = [];
     this.methods = props.methods;
-    this.methods.isLoggedIn();
-    this.profile = props.isAuth.userInfo;
-    this.userID = props.params.userID;
+    this.profile = {};
     if (props.isAuth.username === props.params.username) {
       this.profileType = 'private';
     } else {
@@ -38,8 +35,10 @@ class Profile extends Component {
 
   componentDidMount() {
     // if logged in get listings associated with you and your user information
-    this.methods.getListing(`owner_id=${this.userID}`);
-    this.methods.getUser(`id=${this.userID}`);
+    this.methods.isLoggedIn();
+    this.methods.getUser(`username=${this.props.params.username}`, user => {
+      this.methods.getListing(`owner_id=${user.id}`);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -210,44 +209,44 @@ function mapStateToProps(state) {
 const mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     methods: {
-      getUser: (id) => {
-        dispatch(getUser(id));
+      getUser: (query, cb) => {
+        dispatch(getUser(query, cb));
       },
-      postUser: (data) => {
-        dispatch(postUser(data));
+      postUser: (data, cb) => {
+        dispatch(postUser(data, cb));
       },
-      putUser: (data) => {
-        dispatch(putUser(data));
+      putUser: (data, cb) => {
+        dispatch(putUser(data, cb));
       },
-      deleteUser: (data) => {
-        dispatch(deleteUser(data));
+      deleteUser: (data, cb) => {
+        dispatch(deleteUser(data, cb));
       },
-      getListing: (id) => {
-        dispatch(getListing(id));
+      getListing: (id, cb) => {
+        dispatch(getListing(id, cb));
       },
-      postListing: (data) => {
-        dispatch(postListing(data));
+      postListing: (data, cb) => {
+        dispatch(postListing(data, cb));
       },
-      putListing: (data) => {
-        dispatch(putListing(data));
+      putListing: (data, cb) => {
+        dispatch(putListing(data, cb));
       },
-      deleteListing: (data) => {
-        dispatch(deleteListing(data));
+      deleteListing: (data, cb) => {
+        dispatch(deleteListing(data, cb));
       },
-      getMessage: (id) => {
-        dispatch(getMessage(id));
+      getMessage: (id, cb) => {
+        dispatch(getMessage(id, cb));
       },
-      postMessage: (data) => {
-        dispatch(postMessage(data));
+      postMessage: (data, cb) => {
+        dispatch(postMessage(data, cb));
       },
-      putMessage: (data) => {
-        dispatch(putMessage(data));
+      putMessage: (data, cb) => {
+        dispatch(putMessage(data, cb));
       },
-      deleteMessage: (data) => {
-        dispatch(deleteMessage(data));
+      deleteMessage: (data, cb) => {
+        dispatch(deleteMessage(data, cb));
       },
-      getSession: (data) => {
-        dispatch(getSession(data));
+      getSession: (data, cb) => {
+        dispatch(getSession(data, cb));
       },
       isLoggedIn: () => {
         dispatch(isLoggedIn());

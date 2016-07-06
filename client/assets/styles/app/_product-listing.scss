@@ -11,7 +11,7 @@
 .product img {
   margin: auto;
   height: 60%;
-  width: 60%;
+  width: 100%;
 }
 .product-info {
   border-top: 1px solid;
@@ -155,7 +155,7 @@
 }
 
 .product-image{
-  width: 100% !important;
+  /*width: 100% !important;*/
 }
 
 h3 {
@@ -179,6 +179,15 @@ h3 {
 }
 
 .top-image{
-    top: -100%;
-    right: -40%;
+  top: -100%;
+  right: -40%;
+}
+
+.fade-appear {
+  opacity: 0.01;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
 }

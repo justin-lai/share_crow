@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import Landing from './Landing';
@@ -22,6 +22,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props);
     if (this.props.isAuth.status) {
       this.methods.getUser(`username=${this.props.isAuth.username}`);
     }
@@ -31,6 +32,11 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
+    if (nextProps.componentNeedsRefresh) {
+      this.methods.refreshComponent(false);
+      this.componentDidMount();
+    }
+
     this.products = nextProps.listing;
   }
 
@@ -76,7 +82,7 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { user, listing, message, notification, category,
-    session, isAuth, isFetching } = state;
+    session, isAuth, isFetching, componentNeedsRefresh } = state;
 
   return {
     user,
@@ -87,6 +93,7 @@ function mapStateToProps(state) {
     category,
     isAuth,
     isFetching,
+    componentNeedsRefresh,
   };
 }
 
@@ -143,6 +150,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       isLoggedIn: () => {
         dispatch(isLoggedIn());
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

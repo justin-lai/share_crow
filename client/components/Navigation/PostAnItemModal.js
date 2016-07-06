@@ -12,8 +12,6 @@ class PostAnItemModal extends Component {
     super(props);
 
     this.state = {
-      username: props.isAuth.userInfo.username,
-      ownerId: props.isAuth.userInfo.id,
       open: false,
       listing: '',
       maxFee: '',
@@ -145,6 +143,7 @@ class PostAnItemModal extends Component {
               {
                 this.categories.map(category =>
                   <option
+                    key={category.id}
                     id={category.id}
                     value={category.id}
                   >{category.categoryName}</option>
