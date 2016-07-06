@@ -1,4 +1,5 @@
 .file-upload {
+  position: absolute;
   background-color: #D2D2D2;
   width: 15em;
   margin: 0 auto;
@@ -34,8 +35,10 @@
 }
 
 .file-upload-content {
+  position: relative;
   display: none;
   text-align: center;
+  left: 20%;
 }
 
 .file-upload-input {
@@ -55,6 +58,7 @@
   position: relative;
   width: 15em;
   height: 15em;
+  left: 55%
 }
 
 .image-dropping,
@@ -84,6 +88,7 @@
   max-width: 13em;
   margin: auto;
   padding: 20px;
+  left: 20%;
 }
 
 .remove-image {

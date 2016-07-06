@@ -3,8 +3,6 @@ import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
-import { connect } from 'react-redux';
-import { refreshComponent } from '../actions/sessionActions';
 
 class PaymentsReceivedGridView extends Component {
 
@@ -21,16 +19,14 @@ class PaymentsReceivedGridView extends Component {
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/payment?grabAll=${this.state.id}`)
+    fetch(`http://localhost:3000/main/payment?paidId=${this.state.id}`)
       .then(response => response.json())
         .then(data => {
           const formatted = [];
           data.forEach(payment => {
             formatted.push({
-              id: payment.id,
-              amountSent: payment.paidId === this.state.id ? `$${payment.$Amount}` : '$0',
               itemName: payment.itemName,
-              $Amount: payment.payerId === this.state.id ? `$${payment.$Amount}` : '$0',
+              $Amount: `$${payment.$Amount}`,
               startDate: this.formatDate(new Date(payment.startDate)),
               paymentComplete: payment.paymentComplete ? 'Complete' : 'Pending',
             });
@@ -71,21 +67,15 @@ class PaymentsReceivedGridView extends Component {
 
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
+
   acceptRequest() {
-    fetch('http://localhost:3000/main/payment',
-      {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: this.state.id,
-        }),
-      }).then(() => this.methods.refreshComponent(true));
     this.closeModal();
   }
-  declineRequest() { this.closeModal(); }
+
+  declineRequest() {
+    this.closeModal();
+  }
+
 
   render() {
     if (this.state.loading) {
@@ -95,10 +85,7 @@ class PaymentsReceivedGridView extends Component {
     }
     return (
       <div>
-        <h4
-          className="griddle"
-        >Transaction History
-        </h4>
+        <h4>Payments Received</h4>
         <Griddle
           results={this.state.unpaidItems}
           tableClassName="table"
@@ -110,11 +97,7 @@ class PaymentsReceivedGridView extends Component {
             },
             {
               columnName: '$Amount',
-              displayName: 'Amount Received',
-            },
-            {
-              columnName: 'amountSent',
-              displayName: 'Amount Sent',
+              displayName: 'Amount Recieved',
             },
             {
               columnName: 'startDate',
@@ -125,8 +108,8 @@ class PaymentsReceivedGridView extends Component {
               displayName: 'Payment Complete',
             },
           ]}
-          noDataMessage={"No Recent Payments Received"}
-          columns={['itemName', '$Amount', 'amountSent', 'startDate', 'paymentComplete']}
+          noDataMessage={"No Recent Payments Recieved"}
+          columns={['itemName', '$Amount', 'startDate', 'paymentComplete']}
           onRowClick={this.rowClick}
         />
         <Modal
@@ -134,11 +117,8 @@ class PaymentsReceivedGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4
-            className="griddle"
-            id="message-request-text"
-          >
-            Delete transation for: {this.state.listingName}
+          <h4 id="message-request-text">
+            Was this item: {this.state.listingName} paid?
           </h4>
           <div>
             <input
@@ -165,23 +145,4 @@ PaymentsReceivedGridView.propTypes = {
   methods: PropTypes.object.isRequired,
 };
 
-
-function mapStateToProps(state) {
-  const { componentNeedsRefresh } = state;
-
-  return {
-    componentNeedsRefresh,
-  };
-}
-
-const mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    methods: {
-      refreshComponent: (bool) => {
-        dispatch(refreshComponent(bool));
-      },
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentsReceivedGridView);
+export default PaymentsReceivedGridView;

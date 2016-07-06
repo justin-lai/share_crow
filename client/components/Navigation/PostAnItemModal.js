@@ -41,7 +41,7 @@ class PostAnItemModal extends Component {
   }
 
   componentDidMount() {
-    fetch(`/main/profile?id=${this.state.ownerId}`)
+    fetch(`/main/profile?id=${this.props.user.id}`)
     .then(res => res.json())
     .then(json => {
       this.setState({
@@ -76,7 +76,7 @@ class PostAnItemModal extends Component {
 
   closeOAuth() {
     this.closeModal();
-    this.closeOAuth();
+    this.closeAuthModal();
   }
 
   handleSubmit() {
@@ -136,20 +136,26 @@ class PostAnItemModal extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         ><Modal
-          style={{ content: { height: '15em', width: '40em',
-          backgroundColor: 'rgba(143,27,15,0.8)',
-          top: '35%',
-          } }}
+          style={{
+            content: { height: '15em', width: '40em',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            top: '35%',
+            border: 'rgba(0,0,0,0)',
+            borderRadius: '6px',
+            backgroundClip: 'padding-box',
+            boxShadow: '0 0 40px rgba(0,0,0,.5)',
+            textAlign: 'center' },
+          }}
           isOpen={this.state.authOpen}
           onRequestClose={this.closeAuthModal}
         >
+          <h3>To become a merchant on Sharecrow please authenticate
+          yourself through Stripe</h3>
           <form action="/authorize" method="GET" className="authorizePopUp">
-            <h3>To become a merchant on Sharecrow please authenticate
-            yourself through Stripe</h3>
-            <button className="stripeConnect">Authorize</button>
+            <button className="postAuthaccept-button btn btn-danger-outline">Authorize</button>
           </form>
           <button
-            className="marketplace-button authExit"
+            className="postAuthdecline-button btn btn-success-outline"
             onClick={this.closeOAuth}
           >x</button>
         </Modal>
@@ -162,65 +168,80 @@ class PostAnItemModal extends Component {
           <h1 className="modal-header">Post Item</h1>
           <div>Item Listing Title</div>
           <input
+            className="form-control"
             value={this.state.listing}
             onChange={this.handleItemListing}
             type="text"
           />
           <div>Max Fee - Cost set in case of lost or damaged item</div>
-          <input
-            value={this.state.maxFee}
-            onChange={this.handleMaxFee}
-            type="text"
-          />
+          <div className="input-group">
+            <span className="input-group-addon">$</span>
+            <input
+              className="form-control"
+              value={this.state.maxFee}
+              onChange={this.handleMaxFee}
+              type="text"
+            />
+          </div>
           <div>Rental Fee - Cost per day</div>
-          <input
-            value={this.state.rentalFee}
-            onChange={this.handleRentalFee}
-            type="text"
-          />
-          <div>
-            <label htmlFor="post-modal-categories">Category: </label>
-            <select
-              id="post-modal-categories"
-              value={this.state.category}
-              onChange={this.handleCategory}
-              style={{ width: `${200}px` }}
-            >
-              {
-                this.categories.map(category =>
-                  <option
-                    key={category.id}
-                    id={category.id}
-                    value={category.id}
-                  >{category.categoryName}</option>
-                )
-              }
-            </select>
+          <div className="input-group">
+            <span className="input-group-addon">$</span>
+            <input
+              className="form-control"
+              value={this.state.rentalFee}
+              onChange={this.handleRentalFee}
+              type="text"
+            />
           </div>
           <div>
-            <label htmlFor="post-modal-subcategories">Subcategory: </label>
-            <select
-              id="post-modal-subcategories"
-              value={this.state.subcategory}
-              onChange={this.handleSubcategory}
-              style={{ width: `${200}px` }}
-            >
-              <option value={""}>None</option>
-              {
-                this.subcategories.map(subcategory =>
-                  <option
-                    key={subcategory.id}
-                    value={subcategory.id}
-                  >{subcategory.categoryName}</option>
-                )
-              }
-            </select>
+            <div className="categories">
+              <label htmlFor="post-modal-categories">Category: </label>
+              <select
+                className="input-group-addon"
+                id="post-modal-categories"
+                value={this.state.category}
+                onChange={this.handleCategory}
+                style={{ width: `${200}px` }}
+              >
+                {
+                  this.categories.map(category =>
+                    <option
+                      key={category.id}
+                      id={category.id}
+                      value={category.id}
+                    >{category.categoryName}</option>
+                  )
+                }
+              </select>
+            </div>
+          </div>
+          <div>
+            <div className="subCategories">
+              <label htmlFor="post-modal-subcategories">Subcategory: </label>
+              <select
+                className="input-group-addon"
+                id="post-modal-subcategories"
+                value={this.state.subcategory}
+                onChange={this.handleSubcategory}
+                style={{ width: `${200}px` }}
+              >
+                <option value={""}>None</option>
+                {
+                  this.subcategories.map(subcategory =>
+                    <option
+                      key={subcategory.id}
+                      value={subcategory.id}
+                    >{subcategory.categoryName}</option>
+                  )
+                }
+              </select>
+            </div>
           </div>
           <ImageUploader
             handleUpload={this.handleUpload}
           />
           <input
-            className="modal-post-item-button button"
+            className="modal-post-item-button button btn btn-primary btn-lg btn-block"
             type="submit"
             value="Post Item"
             onClick={this.handleSubmit}

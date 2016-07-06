@@ -78,15 +78,40 @@ li.category:hover {
     background-color: $fuschia;
     color: white;
 }
-
-.stripe-button {
-}
-.authorizePopUp {
+.postAuthaccept-button,
+.postAuthdecline-button {
+  background-color: $fuschia;
+  border: none;
   color: white;
+  padding: 2px 4px;
   text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
-.authExit {
-  padding: .5em .5em;
-  margin: 0;
+.postAuthdecline-button {
+  position: absolute;
+  left: 65%;
+  top: 70%;
+}
+.postAuthaccept-button {
+  position: absolute;
+  top: 70%;
+  right: 65%;
+}
+
+.subCategories {
+  position: absolute;
+  bottom: 20%
+}
+
+.categories {
+  position: absolute;
+  bottom: 30%;
+
 }
