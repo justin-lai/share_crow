@@ -94,8 +94,8 @@ class RentedOutItemsGridView extends Component {
         },
         body: JSON.stringify({
           rating: this.state.rating,
-          reviewerId: this.state.renterId,
-          lenderId: this.state.ownerId,
+          reviewerId: this.state.ownerId,
+          lenderId: this.state.lenderId,
           text: 'no comment',
         }),
       }).then(() => { this.methods.refreshComponent(true); });
