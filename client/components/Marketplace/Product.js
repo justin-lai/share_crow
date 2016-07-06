@@ -118,17 +118,18 @@ class Product extends Component {
         <figure
           className="product rented product-snippet"
         >
-          <img
-
-            className="product-image"
-            style={{ 'background-image': 'url(productListingImage[0].image)' }}
-            alt="product"
-          />
-          {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
-          <div
-            className="add-to-cart"
-            onClick={this.openModal}
-          > <i className="ion-android-add"></i><span>Rent it! </span></div>
+          <div className="rent-overlay">
+            <img
+              className="product-image bottom-image"
+              src={product.listingImage[0].image}
+              alt="product"
+            />
+            <img
+              src="rented.png"
+              className="rented-overlay top-image"
+              alt="rented"
+            />
+          </ div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>
@@ -152,8 +153,7 @@ class Product extends Component {
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
           <div
             className="add-to-cart"
-            onClick={this.openModal}
-          > <i className="ion-android-add"></i><span>Rent it! </span></div>
+          > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <p>{this.product.distance} from {this.product.distanceCity}</p>

@@ -61,7 +61,6 @@ module.exports = {
     // add a new review entry in database
     console.log('POST //// createUserReview route');
     req.session.cookie.path = '/main/profile';
-    console.log(req.body, 'aksjf;');
     if (!req.body.lenderId || !req.body.reviewerId || !req.body.rating || !req.body.text) {
       res.status(400).send({ message: 'a required field was missing' });
     } else {
