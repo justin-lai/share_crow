@@ -15,6 +15,16 @@ $font-stack: 'Raleway', sans-serif;
   opacity: 0.7;
 }
 
+#big-logo {
+  margin: 0 auto;
+  height: 100px;
+}
+
+.middle-logo {
+  width: 505px;
+  margin-top: 49px;
+}
+
 #slogan-with-search {
   width: 800px;
   text-align: center;
@@ -38,7 +48,8 @@ $font-stack: 'Raleway', sans-serif;
   font-family: $font-stack;
   vertical-align: middle;
   color: white;
-  text-shadow: 0px 2px 3px #555;
+  /*text-shadow: 0px 2px 3px #555;*/
+  font-size: 28px;
 }
 
 .landing-button {

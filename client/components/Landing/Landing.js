@@ -8,6 +8,13 @@ const Landing = (props) => (
     <SplashCarousel />
     <div id="slogan-with-search" className="wrap">
       <div className="landing-search">
+        <div id="big-logo">
+          <img
+            className="middle-logo"
+            alt="logo"
+            src="sharecrow-clear-bg.png"
+          />
+        </div>
         <div id="slogan">
           <h2
             id="slogan-phrase"
