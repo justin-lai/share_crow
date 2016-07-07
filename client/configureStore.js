@@ -5,11 +5,11 @@ import { user, listing, message, category, image,
 import thunk from 'redux-thunk';
 import { routerReducer } from 'react-router-redux';
 import promise from 'redux-promise';
-// import createLogger from 'redux-logger';
+import createLogger from 'redux-logger';
 // import localStorageLoad from './middleware/localStorageLoad';
 import localStorageDump from './middleware/localStorageDump';
 
-// const logger = createLogger();
+const logger = createLogger();
 let initialState = {};
 
 // loads the initial state from local storage if it exists
@@ -58,6 +58,6 @@ export default function configureStore() {
     combineReducers({ user, listing, message, category, session,
       image, isAuth, isFetching, componentNeedsRefresh, searchFilter, routing: routerReducer }),
     initialState,
-    applyMiddleware(thunk, promise, localStorageDump)
+    applyMiddleware(thunk, promise, localStorageDump, logger)
   );
 }

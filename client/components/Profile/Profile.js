@@ -57,9 +57,6 @@ class Profile extends Component {
 
     this.profile = nextProps.user;
     this.products = nextProps.listing;
-    if (nextProps.user.Image) {
-      this.profilePhoto = nextProps.user.Image.image;
-    }
   }
 
   isFetchingData() {

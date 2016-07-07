@@ -40,6 +40,14 @@ class SignUpModal extends Component {
     this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
   }
 
+  // componentDidMount() {
+  //   document.getElementById('signup-modal').onkeypress = e => {
+  //     if (e.keyCode === 13) {
+  //       this.handleSubmit();
+  //     }
+  //   };
+  // }
+
   handleSubmit() {
     const newUserData = {
       firstName: this.state.firstName,
@@ -120,6 +128,7 @@ class SignUpModal extends Component {
             style={{ content: { height: '570px', width: '395px' } }}
             isOpen={this.state.open}
             onRequestClose={this.closeModal}
+            id="signup-modal"
           >
             <input className="close-button" type="submit" value="x" onClick={this.closeModal} />
             <h1 className="modal-header">Create Account</h1>

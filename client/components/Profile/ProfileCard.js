@@ -13,7 +13,9 @@ class ProfileCard extends Component {
 
     this.methods = props.methods;
     this.profile = props.profile;
-    this.profilePhoto = props.profilePhoto;
+    if (this.profile.Image) {
+      this.profilePhoto = this.profile.Image.image;
+    }
     this.state = {
       open: false,
       uploadId: '',
@@ -21,10 +23,12 @@ class ProfileCard extends Component {
       numReviews: '0 Reviews',
       reviewStatus: `Be the first to rent from ${this.profile.username}`,
     };
-    this.otherParty = {
-      id: 8,
-    };
-    bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
+    bindAll(this,
+      'openModal',
+      'closeModal',
+      'handleUpload',
+      'handleSubmit'
+    );
   }
 
   componentDidMount() {
@@ -32,7 +36,9 @@ class ProfileCard extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
-    this.profilePhoto = nextProps.profilePhoto;
+    if (this.profile.Image) {
+      this.profilePhoto = this.profile.Image.image;
+    }
     this.getReview();
   }
 
