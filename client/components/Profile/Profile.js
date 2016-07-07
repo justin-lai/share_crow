@@ -50,7 +50,9 @@ class Profile extends Component {
     }
 
     this.profile = nextProps.user;
-    this.products = nextProps.listing;
+    this.products = nextProps.listing.filter(listing =>
+      listing.owner.username === this.props.params.username
+    );
   }
 
   isFetchingData() {
@@ -58,7 +60,6 @@ class Profile extends Component {
   }
 
   render() {
-    console.log('PRODUCTS~~~~~~~~~~~~~~~~~~~~~:', this.products);
     if (this.profileType === 'private') {
       return (
         <div id="profile">
