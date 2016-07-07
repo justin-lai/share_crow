@@ -17,7 +17,7 @@ class RentedOutItemsGridView extends Component {
       // ReturnModal variables
       openReturnModal: false,
       listingId: null,
-      rentedOutItems: this.props.products || null,
+      rentedOutItems: [],
       listingName: '',
       loading: true,
       // StarReviewModal variables
@@ -189,6 +189,7 @@ class RentedOutItemsGridView extends Component {
           results={this.state.rentedOutItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'name',
@@ -278,7 +279,6 @@ class RentedOutItemsGridView extends Component {
 }
 
 RentedOutItemsGridView.propTypes = {
-  products: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
 };

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import fetch from 'isomorphic-fetch';
+import { bindAll } from 'lodash';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -12,11 +13,22 @@ class LoginModal extends Component {
       loggingIn: false,
       errorMsg: 'Logging in!',
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUsername = this.handleUsername.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    bindAll(this,
+      'openModal',
+      'closeModal',
+      'handleUsername',
+      'handlePassword',
+      'handleSubmit',
+      'handleKeypress'
+    );
+  }
+
+  handleKeypress(e) {
+    console.log('handleKeypress');
+    if (e.keyCode === 13) {
+      console.log('enter clicked');
+      this.handleSubmit();
+    }
   }
 
   handleSubmit() {
@@ -46,7 +58,6 @@ class LoginModal extends Component {
 
   handleUsername(value) { this.setState({ username: value.target.value }); }
   handlePassword(value) { this.setState({ password: value.target.value }); }
-
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
 
@@ -62,6 +73,7 @@ class LoginModal extends Component {
             style={{ content: { height: '350px' } }}
             isOpen={this.state.open}
             onRequestClose={this.closeModal}
+            id="login-modal"
           >
             <input
               className="close-button"

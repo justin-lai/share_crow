@@ -71,5 +71,5 @@ module.exports = app => {
 
   app.get('/logout', utilityController.logoutUser);
 
-  app.get('/', utilityController.serveIndexFile);
+  app.get('/*', utilityController.serveIndexFile);
 };

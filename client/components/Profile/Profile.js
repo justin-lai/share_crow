@@ -9,13 +9,7 @@ import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
 import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
-import IncomingRequestsGridView from '../IncomingRequestsGridView';
-import OutgoingRequestsGridView from '../OutgoingRequestsGridView';
-import AvailableItemsGridView from '../AvailableItemsGridView';
-import RentedOutItemsGridView from '../RentedOutItemsGridView';
-import CurrentlyRentingGridView from '../CurrentlyRentingGridView';
-import PaymentsDueGridView from '../PaymentsDueGridView';
-import PaymentsReceivedGridView from '../PaymentsReceivedGridView';
+import GridViews from '../GridViews';
 import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
 import ProductList from './../Marketplace/ProductList';
 
@@ -57,9 +51,6 @@ class Profile extends Component {
 
     this.profile = nextProps.user;
     this.products = nextProps.listing;
-    if (nextProps.user.Image) {
-      this.profilePhoto = nextProps.user.Image.image;
-    }
   }
 
   isFetchingData() {
@@ -83,48 +74,32 @@ class Profile extends Component {
               <div className="row">
                 <div className="col-xs-6 col-md-4">
                   <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
+                  <div>
+                    <section id="google-maps-section" style={{ height: '300px' }}>
+                      <GoogleMapLoader
+                        query={{ libraries: 'geometry,drawing,places,visualization' }}
+                        containerElement={
+                          <div
+                            style={{
+                              height: '100%',
+                            }}
+                          />
+                        }
+                        googleMapElement={
+                          <GoogleMap
+                            ref={(map) => console.log(map)}
+                            defaultZoom={12}
+                            defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                          />
+                        }
+                      />
+                    </section>
+                  </div>
                 </div>
-                <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
-                  <section style={{ height: '300px', width: '250%' }}>
-                    <GoogleMapLoader
-                      query={{ libraries: 'geometry,drawing,places,visualization' }}
-                      containerElement={
-                        <div
-                          style={{
-                            height: '100%',
-                          }}
-                        />
-                      }
-                      googleMapElement={
-                        <GoogleMap
-                          ref={(map) => console.log(map)}
-                          defaultZoom={12}
-                          defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
-                        />
-                      }
-                    />
-                  </section>
+                <div id="grid-views" className="col-xs-12 col-sm-6 col-md-8">
+                  <GridViews />
                 </div>
               </div>
-              <IncomingRequestsGridView />
-              <OutgoingRequestsGridView />
-              <AvailableItemsGridView
-                id={this.props.isAuth.userInfo.id}
-                products={this.products}
-              />
-              <RentedOutItemsGridView
-                id={this.props.isAuth.userInfo.id}
-                products={this.products}
-              />
-              <CurrentlyRentingGridView
-                id={this.props.isAuth.userInfo.id}
-              />
-              <PaymentsDueGridView
-                id={this.props.isAuth.userInfo.id}
-              />
-              <PaymentsReceivedGridView
-                id={this.props.isAuth.userInfo.id}
-              />
             </div>
           }
           <Footer />

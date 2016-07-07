@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Griddle from 'griddle-react';
 import fetch from 'isomorphic-fetch';
 
@@ -8,7 +9,7 @@ class CurrentlyRentingGridView extends Component {
     super(props);
     this.state = {
       open: false,
-      id: this.props.id,
+      id: this.props.isAuth.userInfo.id,
       listingName: '',
       rentedItems: [],
       loading: true,
@@ -67,6 +68,7 @@ class CurrentlyRentingGridView extends Component {
           results={this.state.rentedItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'name',
@@ -98,7 +100,15 @@ class CurrentlyRentingGridView extends Component {
 }
 
 CurrentlyRentingGridView.propTypes = {
-  id: PropTypes.number.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
-export default CurrentlyRentingGridView;
+function mapStateToProps(state) {
+  const { isAuth, componentNeedsRefresh } = state;
+
+  return {
+    isAuth, componentNeedsRefresh,
+  };
+}
+
+export default connect(mapStateToProps)(CurrentlyRentingGridView);

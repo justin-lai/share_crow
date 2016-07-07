@@ -22,11 +22,6 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
-    if (this.props.isAuth.status) {
-      this.methods.getUser(`username=${this.props.isAuth.username}`);
-    }
-    //eslint-disable-next-line
     this.methods.getListing();
   }
 
@@ -71,10 +66,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  user: PropTypes.object.isRequired,
-  listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
-  session: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
   isFetching: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,

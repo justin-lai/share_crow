@@ -7,7 +7,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 const ProductList = (props) => (
   <div className="product-list">
     {props.products.map(product =>
-      <Lazyload throttle={200} height={100} offset={300} once>
+      <Lazyload key={product.id} throttle={200} height={100} offset={300} once>
         <ReactCSSTransitionGroup
           transitionName="fade"
           transitionAppear
@@ -17,7 +17,6 @@ const ProductList = (props) => (
         >
           <Product
             product={product}
-            key={product.id}
           />
         </ReactCSSTransitionGroup>
       </Lazyload>
