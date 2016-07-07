@@ -145,7 +145,7 @@ class Profile extends Component {
                 </div>
               </div>
               <div id="profile-products" className="col-xs-12 col-sm-6 col-md-8">
-                <ProductList products={this.products} lazyLoad={false}/>
+                <ProductList products={this.products} lazyLoad={false} />
               </div>
             </div>
           </div>
