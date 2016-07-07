@@ -115,7 +115,7 @@ class Marketplace extends Component {
           <LoadingBar /> :
           <div id="marketplace-items-container">
             <h3>Items</h3>
-            <ProductList products={this.state.filteredListings.reverse()} />
+            <ProductList products={this.state.filteredListings.reverse()} lazyLoad />
           </div>
         }
         <Footer />

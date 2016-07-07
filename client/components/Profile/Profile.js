@@ -58,6 +58,7 @@ class Profile extends Component {
   }
 
   render() {
+    console.log('PRODUCTS~~~~~~~~~~~~~~~~~~~~~:', this.products);
     if (this.profileType === 'private') {
       return (
         <div id="profile">
@@ -121,31 +122,31 @@ class Profile extends Component {
             <div className="row">
               <div className="col-xs-6 col-md-4">
                 <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
+                <div>
+                  <section id="google-maps-section" style={{ height: '300px' }}>
+                    <GoogleMapLoader
+                      query={{ libraries: 'geometry,drawing,places,visualization' }}
+                      containerElement={
+                        <div
+                          style={{
+                            height: '100%',
+                          }}
+                        />
+                      }
+                      googleMapElement={
+                        <GoogleMap
+                          ref={(map) => console.log(map)}
+                          defaultZoom={12}
+                          defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                        />
+                      }
+                    />
+                  </section>
+                </div>
               </div>
-              <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
-                <section style={{ height: '300px', width: '250%' }}>
-                  <GoogleMapLoader
-                    query={{ libraries: 'geometry,drawing,places,visualization' }}
-                    containerElement={
-                      <div
-                        style={{
-                          height: '100%',
-                        }}
-                      />
-                    }
-                    googleMapElement={
-                      <GoogleMap
-                        ref={(map) => console.log(map)}
-                        defaultZoom={12}
-                        defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
-                      />
-                    }
-                  />
-                </section>
+              <div id="profile-products" className="col-xs-12 col-sm-6 col-md-8">
+                <ProductList products={this.products} lazyLoad={false}/>
               </div>
-            </div>
-            <div id="profile-products">
-              <ProductList products={this.products} />
             </div>
           </div>
         }
