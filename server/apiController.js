@@ -133,7 +133,7 @@ module.exports = {
       form: {
 
         grant_type: 'authorization_code',
-        client_id: 'ca_8jyWkOs2yveGjDIzUehjZDK2YErKyjgn',
+        client_id: apiKeys.CLIENT_ID,
         code,
         client_secret: apiKeys.API_KEY,
       },
@@ -145,7 +145,7 @@ module.exports = {
         },
       })
         .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))
-        .then(res.writeHead(301, { Location: 'http://localhost:3000/#/profile' }));
+        .then(res.writeHead(301, { Location: `http://localhost:3000/#/profile/${req.session.username}` }));
       res.end();
     });
   },
