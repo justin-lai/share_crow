@@ -161,7 +161,7 @@ class Product extends Component {
           />
           {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
           <div
-            className="add-to-cart"
+            className="rent-it"
           > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
@@ -185,7 +185,7 @@ class Product extends Component {
         />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
         <div
-          className="add-to-cart"
+          className="rent-it"
           onClick={this.openModal}
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
         <figcaption>
