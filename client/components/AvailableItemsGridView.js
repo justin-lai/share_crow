@@ -78,6 +78,7 @@ class AvailableItemsGridView extends Component {
           results={this.state.rentedItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           noDataMessage={"No Items Currently for Rent"}
           columnMetadata={[
             {

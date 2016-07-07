@@ -103,6 +103,7 @@ class PaymentsReceivedGridView extends Component {
           results={this.state.unpaidItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'itemName',

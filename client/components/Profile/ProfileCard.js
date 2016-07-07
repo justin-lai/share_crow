@@ -213,7 +213,6 @@ class ProfileCard extends Component {
 
 ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
-  profilePhoto: PropTypes.string.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
 };

@@ -117,6 +117,7 @@ class OutgoingRequestsGridView extends Component {
           results={this.state.rentedItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           noDataMessage={"You have no pending requests"}
           columnMetadata={[
             {

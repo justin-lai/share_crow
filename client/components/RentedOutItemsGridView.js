@@ -189,6 +189,7 @@ class RentedOutItemsGridView extends Component {
           results={this.state.rentedOutItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'name',
