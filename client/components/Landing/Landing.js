@@ -21,12 +21,10 @@ const Landing = (props) => (
         <div className="start-sharing">
           <section className="buttons">
             <div className="sharing-button-container">
-              <a className="btn btn-1">
-                <SignUpModal
-                  origin
-                  signup={props.signup}
-                />
-              </a>
+              <SignUpModal
+                origin
+                signup={props.signup}
+              />
             </div>
           </section>
         </div>
