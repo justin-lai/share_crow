@@ -17,7 +17,7 @@ class AvailableItemsGridView extends Component {
       id: null,
       open: false,
       listingName: '',
-      rentedItems: this.props.products || null,
+      rentedItems: [],
       loading: true,
     };
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
@@ -128,7 +128,6 @@ class AvailableItemsGridView extends Component {
 }
 
 AvailableItemsGridView.propTypes = {
-  products: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
 };

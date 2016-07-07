@@ -1,13 +1,38 @@
-.griddle-container {
+/*.griddle-container {
 	width: 70%;
 	top: 40%;
 	margin: 0 auto;
-}
+}*/
 
 .griddle {
 	text-align: center;
 }
 
-.gMaps {
-	margin: 100px 50px 100px 20px;
+#grid-views {
+  left: 1em;
+  top: 60px;
 }
+
+
+
+
+
+#google-maps-section {
+  min-width: 280px;
+  max-width: 380px;
+  min-width: 380px;
+  max-width: 480px;
+  height: 100%;
+  width: 100%;
+  top: 450px;
+  position: absolute;
+  margin: 0 1%;
+  overflow: hidden;
+  /*float: left;*/
+}
+
+
+.gMaps {
+  margin: 100px 50px 100px 20px;
+}
+

@@ -1,17 +1,21 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
+import { refreshComponent } from '../actions/sessionActions';
+
 
 class PaymentsDueGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
       open: false,
-      id: this.props.id,
+      id: this.props.isAuth.userInfo.id,
       listingName: '',
       unpaidItems: [],
       loading: true,
@@ -73,6 +77,8 @@ class PaymentsDueGridView extends Component {
     $(window).on('popstate', () => {
       this.handler.close();
     });
+
+    this.methods.refreshComponent(true);
   }
 
   rowClick(e) {
@@ -183,7 +189,26 @@ class PaymentsDueGridView extends Component {
 }
 
 PaymentsDueGridView.propTypes = {
-  id: PropTypes.number.isRequired,
+  isAuth: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
-export default PaymentsDueGridView;
+function mapStateToProps(state) {
+  const { isAuth } = state;
+
+  return {
+    isAuth,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentsDueGridView);

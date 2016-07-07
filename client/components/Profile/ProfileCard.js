@@ -21,7 +21,7 @@ class ProfileCard extends Component {
       uploadId: '',
       averageRating: '0%',
       numReviews: '0 Reviews',
-      reviewStatus: `Be the first to rent from ${this.profile.username}`,
+      // reviewStatus: `Be the first to rent from ${this.profile.username}`,
     };
     bindAll(this,
       'openModal',
@@ -108,56 +108,108 @@ class ProfileCard extends Component {
 
   render() {
     return (
-      <div className="profileCard">
-        <div className="coverphoto"></div>
-        <img
-          src={this.profilePhoto || 'darthvader.jpg'}
-          className="profile_picture"
-          alt="profile"
-          onClick={this.openModal}
-        ></img>
-        {this.renderModal()}
-        <div className="left_col">
-          <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
+      <figure className="snip0057 red" style={{ height: '400px' }}>
+        <figcaption>
+          <h2>
+            <span className="icons">
+              <a href="mailto:someone@gmail.com?Subject=ShareCrow%20message%20from%20jlai"><i className="ion-ios-email"></i></a>
+            </span>
+            <span>{`${this.profile.firstName} ${this.profile.lastName}`}</span>
+          </h2>
+          <div className="left_col">
+            <div>
+              <h5 className="fullName">
+                @{this.profile.username}
+              </h5>
+              <h5 className="location">
+                {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
+              </h5>
             </div>
-            <div className="star-ratings-css-bottom">
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-            </div>
-            <br />
-            <div className="profile-card-review-num">
-              {this.state.numReviews}
-            </div>
-            <div className="profile-card-review-num">
-              {this.state.reviewStatus}
+            <div className="star-ratings-css">
+              <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <div className="star-ratings-css-bottom">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <br />
             </div>
           </div>
-          <div className="about">
+          <div className="profile-card-review-num">
+            {this.state.numReviews}
           </div>
+          <div className="profile-card-review-num">
+            {this.state.reviewStatus}
+          </div>
+
+        </figcaption>
+        <div className="image">
+          <img
+            src={this.profilePhoto || 'darthvader.jpg'}
+            onClick={this.openModal}
+            alt="profile"
+            style={{ height: '400px' }}
+          />
+          {this.renderModal()}
         </div>
-        <div className="right_col">
-          <h2 className="name">{this.profile.username}</h2>
-          <h3 className="location">
-            {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
-          </h3>
-          <ul className="contact_information">
-            <li className="mail">{this.profile.email}</li>
-            <li className="phone">{this.profile.phone}</li>
-          </ul>
-        </div>
-      </div>
+        <div className="position">Member since Apr 2016</div>
+      </figure>
     );
   }
 }
+      // <div className="coverphoto"></div>
+      //  <img
+      //     src={this.profilePhoto || 'darthvader.jpg'}
+      //     className="profile_picture"
+      //     alt="profile"
+      //     onClick={this.openModal}
+      //   ></img>
+      //   <div className="left_col">
+      //     <div className="star-ratings-css">
+      //       <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //       </div>
+      //       <div className="star-ratings-css-bottom">
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //         <span>★</span>
+      //       </div>
+      //       <br />
+      //       <div className="profile-card-review-num">
+      //         {this.state.numReviews}
+      //       </div>
+      //       <div className="profile-card-review-num">
+      //         {this.state.reviewStatus}
+      //       </div>
+      //     </div>
+      //     <div className="about">
+      //     </div>
+      //   </div>
+      //   <div className="right_col">
+      //     <h2 className="name">{this.profile.username}</h2>
+      //     <h3 className="location">
+      //       {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
+      //     </h3>
+      //     <ul className="contact_information">
+      //       <li className="mail">{this.profile.email}</li>
+      //       <li className="phone">{this.profile.phone}</li>
+      //     </ul>
+      //   </div>
+      // </div>
 
 ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
