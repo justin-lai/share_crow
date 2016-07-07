@@ -6,8 +6,8 @@
   width: 250px;
   position: relative;
   background: white;
-  box-shadow: 2px;
 }
+
 .product img {
   margin: auto;
   height: 60%;
@@ -31,9 +31,9 @@
   line-height: 75%;
 }
 
-.product-list span {
+/*.product-list span {
   margin: 10px 10px;
-}
+}*/
 
 .product-list {
   padding-bottom: 60px;
@@ -66,13 +66,18 @@
   background: #ffffff;
   text-align: left;
   color: #000000;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 5px 0 2px #ccc;
+  /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);*/
   font-size: 16px;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-perspective: 20em;
   perspective: 20em;
+}
 
+.product-snippet:hover {
+  box-shadow: none;
+  top: 2px;
 }
 
 .product-snippet * {
