@@ -194,8 +194,11 @@ class PostAnItemModal extends Component {
             />
           </div>
           <div>
+            <label
+              htmlFor="post-modal-categories"
+              className="postCategories"
+            >Category: </label>
             <div className="categories">
-              <label htmlFor="post-modal-categories">Category: </label>
               <select
                 className="input-group-addon"
                 id="post-modal-categories"
@@ -216,8 +219,11 @@ class PostAnItemModal extends Component {
             </div>
           </div>
           <div>
+            <label
+              className="postSubCategories"
+              htmlFor="post-modal-subcategories"
+            >Subcategory: </label>
             <div className="subCategories">
-              <label htmlFor="post-modal-subcategories">Subcategory: </label>
               <select
                 className="input-group-addon"
                 id="post-modal-subcategories"
@@ -241,7 +247,7 @@ class PostAnItemModal extends Component {
             handleUpload={this.handleUpload}
           />
           <input
-            className="modal-post-item-button button btn btn-primary btn-lg btn-block"
+            className="postButton btn btn-primary btn-lg btn-block"
             type="submit"
             value="Post Item"
             onClick={this.handleSubmit}

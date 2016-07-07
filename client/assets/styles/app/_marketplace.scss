@@ -54,7 +54,6 @@ li.category:hover {
 }
 
 .marketplace-button {
-  background-color: #cd1b4e;
   border: none;
   color: white;
   padding: 16px 32px;
@@ -72,15 +71,20 @@ li.category:hover {
     background-color: white;
     color: black;
     border: 2px solid;
+    position: fixed;
+    left: 87%;
+    top: 89%;
+    z-index: 4;
+
 }
 
 .post-item-button:hover {
-    background-color: #cd1b4e;
+    background-color: red;
     color: white;
 }
 .postAuthaccept-button,
 .postAuthdecline-button {
-  background-color: $fuschia;
+  background-color: fuschia;
   border: none;
   color: white;
   padding: 2px 4px;
@@ -107,11 +111,35 @@ li.category:hover {
 
 .subCategories {
   position: absolute;
-  bottom: 20%
+  bottom: 25%
 }
 
 .categories {
   position: absolute;
-  bottom: 30%;
+  bottom: 35%;
 
+}
+.imageUp {
+  position: absolute;
+  bottom: 30%;
+}
+
+.modal-post-item-button {
+  position: absolute;
+  top: 40%;
+}
+
+.postButton {
+  position: absolute;
+  top: 80%;
+  width: 100%;
+}
+
+.postSubCategories {
+    position: absolute;
+    top: 67%;
+}
+.postCategories {
+  position: absolute;
+  top: 57%;
 }
