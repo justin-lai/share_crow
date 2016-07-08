@@ -57,9 +57,9 @@ class App extends Component {
               signup={signup}
               history={this.props.history}
             />
-            <MeetTheTeam />
           </div>
         }
+        <MeetTheTeam />
       </div>
     );
   }
