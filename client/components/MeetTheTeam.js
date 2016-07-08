@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 const MeetTheTeam = () => (
   <div id="meet-the-team">
-    <h4>Meet the Team</h4>
+    <h2 className="center">Meet the Team</h2>
     <img role="presentation" src="cathylee.png" />
     <img role="presentation" src="arthurlivingston.png" />
     <img role="presentation" src="benchou.png" />
