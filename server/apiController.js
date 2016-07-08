@@ -147,7 +147,7 @@ module.exports = {
         },
       })
         .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))
-        .then(res.writeHead(301, { Location: `http://localhost:3000/#/profile/${req.session.username}` }));
+        .then(res.writeHead(301, { Location: `http://localhost:3000/profile/${req.session.username}` }));
       res.end();
     });
   },

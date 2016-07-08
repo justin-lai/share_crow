@@ -248,12 +248,14 @@ class PostAnItemModal extends Component {
           <ImageUploader
             handleUpload={this.handleUpload}
           />
-          <input
-            className="btn btn-primary btn-md postButton"
-            type="submit"
-            value="Post Item"
-            onClick={this.handleSubmit}
-          />
+          <div>
+            <input
+              className="btn btn-primary btn-md postButton"
+              type="submit"
+              value="Post Item"
+              onClick={this.handleSubmit}
+            />
+          </div>
         </Modal>
       </div>
     );

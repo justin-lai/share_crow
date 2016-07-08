@@ -146,8 +146,9 @@ h3 {
 }
 
 .postButton {
-  position: absolute;
-  top: 80%;
+  position: relative;
+  top: 100px;
+  /*top: 80%;*/
   width: 100%;
 }
 

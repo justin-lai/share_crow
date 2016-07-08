@@ -87,7 +87,7 @@ class ImageUploader extends Component {
     }
 
     return (
-      <div>
+      <div style={{ height: '80px' }}>
         <div>
           <div className="image-upload-wrap">
             <input
