@@ -12,17 +12,19 @@ const MeetTheTeam = () => (
         alt="profile-sample1"
         className="background"
       />
-      <img
-        src="cathy.png"
-        alt="cathy" className="profile"
-      />
+      <a href="/profile/caathylee">
+        <img
+          src="cathy.png"
+          alt="cathy" className="profile"
+        />
+      </a>
       <figcaption>
         <h3>Cathy Lee<span>Software Engineer</span></h3>
         <div
           className="icons"
         >
-          <a href="https://github.com/caathylee"><i className="ion-social-github-outline ion"></i></a>
-          <a href="https://www.linkedin.com/in/cathyhsianglee"><i className="ion-social-linkedin-outline"></i></a>
+          <a href="https://github.com/caathylee"><img className="link-icons" alt="github" src="github-100.png" /></a>
+          <a href="https://www.linkedin.com/in/cathyhsianglee"><img className="link-icons" alt="linkedin" src="linkedin-100.png" /></a>
         </div>
       </figcaption>
     </figure>
@@ -34,17 +36,19 @@ const MeetTheTeam = () => (
         alt="profile-sample1"
         className="background"
       />
-      <img
-        src="ben.png"
-        alt="ben" className="profile"
-      />
+      <a href="/profile/bboy">
+        <img
+          src="ben.png"
+          alt="ben" className="profile"
+        />
+      </a>
       <figcaption>
         <h3>Ben Chou<span>Software Engineer</span></h3>
         <div
           className="icons"
         >
-          <a href="https://github.com/b-chou"><i className="ion-social-github-outline"></i></a>
-          <a href="https://www.linkedin.com/in/bchou1"><i className="ion-social-linkedin-outline"></i></a>
+          <a href="https://github.com/b-chou"><img className="link-icons" alt="github" src="github-100.png" /></a>
+          <a href="https://www.linkedin.com/in/bchou1"><img className="link-icons" alt="linkedin" src="linkedin-100.png" /></a>
         </div>
       </figcaption>
     </figure>
@@ -56,17 +60,19 @@ const MeetTheTeam = () => (
         alt="profile-sample1"
         className="background"
       />
-      <img
-        src="arthurlivingston.png"
-        alt="arthur" className="profile"
-      />
+      <a href="/profile/RandomAl">
+        <img
+          src="arthurlivingston.png"
+          alt="arthur" className="profile"
+        />
+      </a>
       <figcaption>
         <h3>Arthur Livingston<span>Software Engineer</span></h3>
         <div
           className="icons"
         >
-          <a href="https://github.com/Althecoding1"><i className="ion-social-github-outline"></i></a>
-          <a href="https://www.linkedin.com/in/arthur-livingston-763b5333"><i className="ion-social-linkedin-outline"></i></a>
+          <a href="https://github.com/Althecoding1"><img className="link-icons" alt="github" src="github-100.png" /></a>
+          <a href="https://www.linkedin.com/in/arthur-livingston-763b5333"><img className="link-icons" alt="linkedin" src="linkedin-100.png" /></a>
         </div>
       </figcaption>
     </figure>
@@ -78,17 +84,19 @@ const MeetTheTeam = () => (
         alt="profile-sample1"
         className="background"
       />
-      <img
-        src="justin.png"
-        alt="justin" className="profile"
-      />
+      <a href="/profile/jlai">
+        <img
+          src="justin.png"
+          alt="justin" className="profile"
+        />
+      </a>
       <figcaption>
         <h3>Justin Lai<span>Software Engineer</span></h3>
         <div
           className="icons"
         >
-          <a href="https://github.com/justin-lai"><i className="ion-social-github-outline"></i></a>
-          <a href="https://www.linkedin.com/in/justinthlai"><i className="ion-social-linkedin-outline"></i></a>
+          <a href="https://github.com/justin-lai"><img className="link-icons" alt="github" src="github-100.png" /></a>
+          <a href="https://www.linkedin.com/in/justinthlai"><img className="link-icons" alt="linkedin" src="linkedin-100.png" /></a>
         </div>
       </figcaption>
     </figure>
