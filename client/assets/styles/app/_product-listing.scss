@@ -126,7 +126,6 @@ $fuschia: #cd1b4e;
 }
 .product-snippet h3 {
   font-weight: 700;
-  text-transform: uppercase;
 }
 .product-snippet p {
   font-size: 0.9em;
@@ -179,7 +178,8 @@ $fuschia: #cd1b4e;
 }
 
 .top-image{
-  top: -100%;
+  top: -77%;
+  height: 240px !important;
 }
 
 .fade-appear {
