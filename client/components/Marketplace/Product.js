@@ -26,43 +26,55 @@ class Product extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
-    // eslint-disable-next-line
-    fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
-      .then(response => response.json())
-      .then(responseData => {
-        this.props.product.image = responseData.image;
-      })
-        .then(() => {
-          // if (this.isLoggedIn) {
-          //   fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
-          //     .then(response2 => response2.json())
-          //       .then(responseData2 => {
-          //         this.ownerName = responseData2.username;
-          //         this.product.distanceCity = responseData2.city;
-          //         return `${responseData2.address} ${responseData2.state}`;
-          //       })
-          //         .then(user2location => {
-          //           fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
-          //             .then(response3 => response3.json())
-          //               .then(responseData3 => {
-          //                 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-          //                 console.log(responseData3);
-          //                 this.product.distance = responseData3.miles;
-          //                 this.setState({
-          //                   loading: false,
-          //                   // eslint-disable-next-line
-          //                   shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
-          //                 });
-          //               });
-          //         });
-          // } else {
-          this.setState({
-            loading: false,
-          // eslint-disable-next-line
-            shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+    if (this.isLoggedIn) {
+      // eslint-disable-next-line
+      fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
+        .then(response => response.json())
+        .then(responseData => {
+          this.props.product.image = responseData.image;
+        })
+          .then(() => {
+            if (this.isLoggedIn) {
+              fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+                .then(response2 => response2.json())
+                  .then(responseData2 => {
+                    this.ownerName = responseData2.username;
+                    this.product.distanceCity = responseData2.city;
+                    return `${responseData2.address} ${responseData2.state}`;
+                  })
+                    .then(user2location => {
+                      fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
+                        .then(response3 => response3.json())
+                          .then(responseData3 => {
+                            this.product.distance = responseData3.miles;
+                            this.setState({
+                              loading: false,
+                              // eslint-disable-next-line
+                              shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+                            });
+                          });
+                    });
+            } else {
+              this.setState({
+                loading: false,
+              // eslint-disable-next-line
+                shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+              });
+            }
           });
-          // }
-        });
+    } else {
+      fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+        .then(response2 => response2.json())
+          .then(responseData2 => {
+            this.ownerName = responseData2.username;
+            // eslint-disable-next-line
+            this.setState({
+              loading: false,
+              // eslint-disable-next-line
+              shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+            });
+          });
+    }
   }
 
   openModal() { this.setState({ open: true }); }
@@ -113,13 +125,95 @@ class Product extends Component {
         });
   }
   render() {
-    // if (this.state.loading) {
-    //   return (
-    //     <div></div>
-    //   );
-    // }
     const product = this.product;
 
+    if (!this.isLoggedIn) {
+      // RENTED ITEMS
+      if (product.rented) {
+        return (
+          <figure
+            className="product rented product-snippet"
+          >
+            <div className="rent-overlay">
+              <img
+                className="product-image bottom-image"
+                src={product.listingImage[0].image}
+                alt="product"
+              />
+              <img
+                src="rented-horizontal.png"
+                className="rented-overlay top-image"
+                alt="rented"
+              />
+            </div>
+            <figcaption>
+              <h3>{this.state.shortName}</h3>
+              <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+              <div className="price">${product.rentalFee}/day
+              </div>
+            </figcaption>
+          </figure>
+        );
+      }
+      // EVERYTHING ELSE
+      return (
+        <figure
+          className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
+        >
+          <img
+            onClick={this.openModal}
+            className="product-image"
+            style={{ cursor: 'pointer' }}
+            src={product.listingImage[0] ? product.listingImage[0].image : null}
+            alt="product"
+          />
+          {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
+          <div
+            className="rent-it"
+          > <i className="ion-android-add"></i><span>Rent it! </span></div>
+          <figcaption>
+            <h3>{this.state.shortName}</h3>
+            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <div className="price">${product.rentalFee}/day</div>
+          </figcaption>
+          <Modal
+            style={{ content: { height: '500px', width: '500px' } }}
+            isOpen={this.state.open}
+            onRequestClose={this.closeModal}
+            id="rent-item"
+          >
+            <h1 className="modal-header product-preview-header">{product.name}
+            </h1>
+            <p>
+              <div
+                className="product-preview"
+              >
+                <img
+                  className="product-image-modal"
+                  alt="product-preview"
+                  src={product.listingImage[0] ? product.listingImage[0].image : null}
+                />
+              </div>
+            </p>
+            <p className="product-preview">${product.rentalFee}/day from <a
+              href={`/profile/${product.owner.username}`}
+            >
+              {product.owner.username}
+            </a>
+            </p>
+            <div id="product-preview-button-not-logged-in">
+              <input
+                className="modal-continue-shopping-button center"
+                type="submit"
+                value="Back to Marketplace"
+                onClick={this.closeModal}
+              />
+            </div>
+            <span className="rent-request-message">{this.state.rentRequestMessage}</span>
+          </Modal>
+        </figure>
+      );
+    }
     // YOUR OWN ITEMS
     if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id && product.rented) {
       return (
