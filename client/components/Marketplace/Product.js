@@ -134,7 +134,7 @@ class Product extends Component {
               alt="product"
             />
             <img
-              src="rented-diagonal.png"
+              src="rented-horizontal.png"
               className="rented-overlay top-image"
               alt="rented"
             />

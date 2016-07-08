@@ -68,7 +68,7 @@ const NavBar = (props) => {
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="/">
-              <img className="logo" alt="presentation" src="./sharecrow-logo.png" />
+              <img className="logo" alt="presentation" src="./sharecrow-clear-bg.png" />
             </a>
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">

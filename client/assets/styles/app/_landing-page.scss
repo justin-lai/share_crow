@@ -2,10 +2,9 @@ $font-stack: 'Raleway', sans-serif;
 
 .splash-image {
   top: 50px;
-  margin-bottom: 25px;
   margin-top: -2%;
   width: 100%;
-  height: 700px;
+  height: 1100px;
 }
 
 
@@ -62,4 +61,6 @@ $font-stack: 'Raleway', sans-serif;
   font-size: 18px;
 }
 
-
+#landing-container {
+   position: relative; 
+}

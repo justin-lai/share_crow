@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import LandingSearch from '../Landing/LandingSearch';
-import SignUpModal from '../Navigation/SignUpModal';
 import SplashCarousel from './SplashCarousel';
 
 const Landing = (props) => (
@@ -28,10 +27,13 @@ const Landing = (props) => (
         <div className="start-sharing">
           <section className="buttons">
             <div className="sharing-button-container">
-              <SignUpModal
-                origin
-                signup={props.signup}
-              />
+              <div className="signup-wrapper">
+                <a
+                  className="btn btn-1"
+                  href="/marketplace"
+                > See what's new
+                </a>
+              </div>
             </div>
           </section>
         </div>

@@ -7,7 +7,6 @@ import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionA
 import { getCategory } from '../../actions/categoryActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import Landing from './Landing';
-import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
 // import Footer from '../Shared/Footer';
 import LoadingBar from '../Shared/LoadingBar';
@@ -53,12 +52,11 @@ class App extends Component {
         />
         {this.isFetchingData() ?
           <LoadingBar /> :
-          <div>
+          <div id="landing-container">
             <Landing
               signup={signup}
               history={this.props.history}
             />
-            <ProductCarousel products={this.products} />
             <MeetTheTeam />
           </div>
         }
