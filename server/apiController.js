@@ -25,6 +25,8 @@ module.exports = {
               miles: responseData.rows[0].elements[0].distance.text,
               time: responseData.rows[0].elements[0].duration.text,
             };
+            console.log('OBJ: ', obj);
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
             res.status(200).send(obj);
           });
     } else {

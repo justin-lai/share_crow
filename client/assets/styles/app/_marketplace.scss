@@ -159,3 +159,35 @@ h3 {
   position: absolute;
   top: 57%;
 }
+
+#label-sort-by-filter {
+  margin-left: 80px;
+  text-align: center;
+}
+
+.styled-select {
+  /*background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;*/
+  height: 34px;
+  overflow: hidden;
+  width: 240px;
+  margin-left: 10px;
+}
+
+.styled-select select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 29px;
+   padding: 5px; /* If you add too much padding here, the options won't show in IE */
+   width: 268px;
+}
+
+.semi-square {
+  background-color: white;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 5px !important;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}

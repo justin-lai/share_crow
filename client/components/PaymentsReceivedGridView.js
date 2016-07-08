@@ -69,6 +69,10 @@ class PaymentsReceivedGridView extends Component {
     return `on ${systemDate}`.slice(0, 18);
   }
 
+  handleHover(e) {
+    console.log(e.target);
+  }
+
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   acceptRequest() {
@@ -129,6 +133,7 @@ class PaymentsReceivedGridView extends Component {
           noDataMessage={"No Recent Payments Received"}
           columns={['itemName', '$Amount', 'amountSent', 'startDate', 'paymentComplete']}
           onRowClick={this.rowClick}
+          onMouseOver={this.handleHover}
         />
         <Modal
           style={{ content: { height: '150px', width: '600px' } }}

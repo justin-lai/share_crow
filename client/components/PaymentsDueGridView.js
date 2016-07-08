@@ -77,7 +77,7 @@ class PaymentsDueGridView extends Component {
     $(window).on('popstate', () => {
       this.handler.close();
     });
-    this.methods.refreshComponent(true);
+    // this.methods.refreshComponent(true);
   }
 
   rowClick(e) {

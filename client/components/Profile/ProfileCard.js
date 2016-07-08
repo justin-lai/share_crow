@@ -114,7 +114,7 @@ class ProfileCard extends Component {
             <span className="icons">
               <a href="mailto:someone@gmail.com?Subject=ShareCrow%20message%20from%20jlai"><i className="ion-ios-email"></i></a>
             </span>
-            <span>{`${this.profile.firstName} ${this.profile.lastName}`}</span>
+            <span>{`${this.profile.firstName}  ${this.profile.lastName}`}</span>
           </h2>
           <div className="left_col">
             <div>
@@ -165,51 +165,6 @@ class ProfileCard extends Component {
     );
   }
 }
-      // <div className="coverphoto"></div>
-      //  <img
-      //     src={this.profilePhoto || 'darthvader.jpg'}
-      //     className="profile_picture"
-      //     alt="profile"
-      //     onClick={this.openModal}
-      //   ></img>
-      //   <div className="left_col">
-      //     <div className="star-ratings-css">
-      //       <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //       </div>
-      //       <div className="star-ratings-css-bottom">
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //         <span>★</span>
-      //       </div>
-      //       <br />
-      //       <div className="profile-card-review-num">
-      //         {this.state.numReviews}
-      //       </div>
-      //       <div className="profile-card-review-num">
-      //         {this.state.reviewStatus}
-      //       </div>
-      //     </div>
-      //     <div className="about">
-      //     </div>
-      //   </div>
-      //   <div className="right_col">
-      //     <h2 className="name">{this.profile.username}</h2>
-      //     <h3 className="location">
-      //       {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
-      //     </h3>
-      //     <ul className="contact_information">
-      //       <li className="mail">{this.profile.email}</li>
-      //       <li className="phone">{this.profile.phone}</li>
-      //     </ul>
-      //   </div>
-      // </div>
 
 ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
