@@ -8,7 +8,7 @@ const MeetTheTeam = () => (
       style={{ 'margin-left': '100px' }}
     >
       <img
-        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample1.jpg"
+        src=""
         alt="profile-sample1"
         className="background"
       />
@@ -32,7 +32,7 @@ const MeetTheTeam = () => (
       className="snip1344"
     >
       <img
-        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample1.jpg"
+        src=""
         alt="profile-sample1"
         className="background"
       />
@@ -56,7 +56,7 @@ const MeetTheTeam = () => (
       className="snip1344"
     >
       <img
-        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample1.jpg"
+        src=""
         alt="profile-sample1"
         className="background"
       />
@@ -80,7 +80,7 @@ const MeetTheTeam = () => (
       className="snip1344"
     >
       <img
-        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample1.jpg"
+        src=""
         alt="profile-sample1"
         className="background"
       />

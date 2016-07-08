@@ -12,8 +12,6 @@ import Filters from './Filters';
 import ProductList from './ProductList';
 import LoadingBar from './../Shared/LoadingBar';
 
-// require('../../assets/styles/app.scss');
-
 class Marketplace extends Component {
   constructor(props) {
     super(props);

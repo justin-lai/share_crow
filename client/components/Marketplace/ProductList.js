@@ -27,7 +27,7 @@ const ProductList = (props) => {
     );
   }
   return (
-    <div className="product-list">
+    <div className="product-list shift">
       {props.products.map(product =>
         <Product
           product={product}

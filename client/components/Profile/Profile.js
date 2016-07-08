@@ -15,7 +15,6 @@ import ProductList from './../Marketplace/ProductList';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    // console.log('USER ID: ~~~~~~~~~~~', userID);
     this.products = [];
     this.methods = props.methods;
     this.profile = {};
@@ -117,34 +116,32 @@ class Profile extends Component {
         />
         {this.isFetchingData() ?
           <LoadingBar /> :
-          <div>
-            <div className="row">
-              <div className="col-xs-6 col-md-4">
-                <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
-              </div>
-              <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
-                <section id="google-maps-section-public" style={{ height: '400px', width: '250%' }}>
-                  <GoogleMapLoader
-                    query={{ libraries: 'geometry,drawing,places,visualization' }}
-                    containerElement={
-                      <div
-                        style={{
-                          height: '100%',
-                        }}
-                      />
-                    }
-                    googleMapElement={
-                      <GoogleMap
-                        ref={(map) => console.log(map)}
-                        defaultZoom={12}
-                        defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
-                      />
-                    }
-                  />
-                </section>
-              </div>
+          <div className="row">
+            <div className="col-xs-6 col-md-4">
+              <ProfileCard profile={this.profile} profilePhoto={this.profilePhoto} />
             </div>
-            <div id="profile-products">
+            <div className="col-xs-6 col-md-3 gMaps" style={{ marginLeft: '5%' }}>
+              <section id="google-maps-section-public" style={{ height: '400px', width: '250%' }}>
+                <GoogleMapLoader
+                  query={{ libraries: 'geometry,drawing,places,visualization' }}
+                  containerElement={
+                    <div
+                      style={{
+                        height: '100%',
+                      }}
+                    />
+                  }
+                  googleMapElement={
+                    <GoogleMap
+                      ref={(map) => console.log(map)}
+                      defaultZoom={12}
+                      defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                    />
+                  }
+                />
+              </section>
+            </div>
+            <div id="profile-products-profile">
               <ProductList products={this.products} />
             </div>
           </div>
