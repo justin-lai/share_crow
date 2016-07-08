@@ -15,8 +15,9 @@ $fuschia: #cd1b4e;
 
 .product img {
   margin: auto;
-  height: 65%;
+  height: 220px;
   width: 100%;
+  max-width: none;
 }
 .product-info {
   border-top: 1px solid;

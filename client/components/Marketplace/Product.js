@@ -167,7 +167,7 @@ class Product extends Component {
             src={product.listingImage[0] ? product.listingImage[0].image : null}
             alt="product"
           />
-          {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
+          {product.rented ? <img src="rented-horizontal.png" className="rented-overlay" alt="rented" /> : null}
           <div
             className="rent-it"
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
@@ -235,6 +235,7 @@ class Product extends Component {
           <div
             className="rent-it"
           > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
+          <p id="product-banner"></p>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
@@ -260,6 +261,7 @@ class Product extends Component {
           <div
             className="rent-it"
           > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
+          <p id="product-banner" style={{ 'background-color': 'white' }}></p>
           <figcaption>
             <h3>{this.state.shortName}</h3>
             <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
@@ -283,7 +285,7 @@ class Product extends Component {
               alt="product"
             />
             <img
-              src="rented-diagonal.png"
+              src="rented-horizontal.png"
               className="rented-overlay top-image"
               alt="rented"
             />
@@ -310,7 +312,7 @@ class Product extends Component {
           src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
-        {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
+        {product.rented ? <img src="rented-horizontal.png" className="rented-overlay" alt="rented" /> : null}
         <div
           className="rent-it"
         > <i className="ion-android-add"></i><span>Rent it! </span></div>

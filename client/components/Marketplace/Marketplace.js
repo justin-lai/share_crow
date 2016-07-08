@@ -21,6 +21,7 @@ class Marketplace extends Component {
 
     this.state = {
       filter: props.searchFilter || '',
+      sortFilter: 'closest',
       listings: [],
       filteredListings: [],
       listingsLoadedOnce: false,
@@ -49,6 +50,7 @@ class Marketplace extends Component {
                 newListings.push(listingWithDistance);
 
                 if (newListings.length === listings.length) {
+                  console.log('NEW LISTINGS~~~~~~~~~~~~~~~~~~', newListings);
                   this.setState({
                     listings: newListings,
                     filteredListings: newListings.filter(filteredListing =>
@@ -128,7 +130,6 @@ class Marketplace extends Component {
     const sortFilter = e ? e.target.value : alt;
     let sorted = this.state.filteredListings;
     switch (sortFilter) {
-      case 'available':
       case 'closest':
         sorted = sorted.sort((a, b) => {
           const distA = a.distance.replace(',', '').replace(' mi', '');
