@@ -34,35 +34,35 @@ class Product extends Component {
         this.props.product.image = responseData.image;
       })
         .then(() => {
-          // if (this.isLoggedIn) {
-          //   fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
-          //     .then(response2 => response2.json())
-          //       .then(responseData2 => {
-          //         this.ownerName = responseData2.username;
-          //         this.product.distanceCity = responseData2.city;
-          //         return `${responseData2.address} ${responseData2.state}`;
-          //       })
-          //         .then(user2location => {
-          //           fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
-          //             .then(response3 => response3.json())
-          //               .then(responseData3 => {
-          //                 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-          //                 console.log(responseData3);
-          //                 this.product.distance = responseData3.miles;
-          //                 this.setState({
-          //                   loading: false,
-          //                   // eslint-disable-next-line
-          //                   shortName: this.product.name.length > 24 ? this.product.name.split('').slice(0, 24).join('').concat('...') : this.product.name,
-          //                 });
-          //               });
-          //         });
-          // } else {
-          this.setState({
-            loading: false,
+          if (this.isLoggedIn) {
+            fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+              .then(response2 => response2.json())
+                .then(responseData2 => {
+                  this.ownerName = responseData2.username;
+                  this.product.distanceCity = responseData2.city;
+                  return `${responseData2.address} ${responseData2.state}`;
+                })
+                  .then(user2location => {
+                    fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
+                      .then(response3 => response3.json())
+                        .then(responseData3 => {
+                          console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+                          console.log(responseData3);
+                          this.product.distance = responseData3.miles;
+                          this.setState({
+                            loading: false,
+                            // eslint-disable-next-line
+                            shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+                          });
+                        });
+                  });
+          } else {
+            this.setState({
+              loading: false,
             // eslint-disable-next-line
-            shortName: this.product.name.length > 24 ? this.product.name.split('').slice(0, 24).join('').concat('...') : this.product.name,
-          });
-          // }
+              shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+            });
+          }
         });
   }
 
@@ -120,6 +120,37 @@ class Product extends Component {
     //   );
     // }
     const product = this.product;
+
+    // YOUR OWN ITEMS
+    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
+      return (
+        <figure
+          className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
+        >
+          <div className="rent-overlay">
+            <img
+              className="product-image bottom-image"
+              src={product.listingImage[0].image}
+              alt="product"
+            />
+            <img
+              src="rented.png"
+              className="rented-overlay top-image"
+              alt="rented"
+            />
+          </div>
+          <div
+            className="rent-it"
+          > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
+          <figcaption>
+            <h3>{this.state.shortName}</h3>
+            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <div className="price">${product.rentalFee} per day
+            </div>
+          </figcaption>
+        </figure>
+      );
+    }
     // RENTED ITEMS
     if (product.rented) {
       return (
@@ -138,36 +169,11 @@ class Product extends Component {
               alt="rented"
             />
           </div>
+          <p id="product-banner">{this.product.distance} from {this.product.distanceCity}</p>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <p>{this.product.distance} from {this.product.distanceCity}</p>
-            <div className="price">${product.rentalFee} per day
-              <span>by <a href={`/profile/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
-            </div>
-          </figcaption>
-        </figure>
-      );
-    }
-    // YOUR OWN ITEMS
-    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
-      return (
-        <figure
-          className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
-        >
-          <img
-            src={product.listingImage[0] ? product.listingImage[0].image : null}
-            className="product-image"
-            alt="product"
-          />
-          {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
-          <div
-            className="add-to-cart"
-          > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
-          <figcaption>
-            <h3>{this.state.shortName}</h3>
-            <p>{this.product.distance} from {this.product.distanceCity}</p>
-            <div className="price">${product.rentalFee} per day
-              <span>by <a href={`/profile/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
+            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <div className="price">${product.rentalFee}/day
             </div>
           </figcaption>
         </figure>
@@ -179,21 +185,21 @@ class Product extends Component {
         className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
       >
         <img
+          onClick={this.openModal}
           className="product-image"
+          style={{ cursor: 'pointer' }}
           src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
         {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
         <div
-          className="add-to-cart"
-          onClick={this.openModal}
+          className="rent-it"
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
+        <p id="product-banner">{this.product.distance} from {this.product.distanceCity}</p>
         <figcaption>
           <h3>{this.state.shortName}</h3>
-          <p>{this.product.distance} from {this.product.distanceCity}</p>
-          <div className="price">${product.rentalFee} per day
-            <span>by <a href={`/profile/${this.ownerName}`} className="preview-owner">{this.ownerName}</a></span>
-          </div>
+          <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+          <div className="price">${product.rentalFee}/day</div>
         </figcaption>
         <Modal
           style={{ content: { height: '650px', width: '800px' } }}

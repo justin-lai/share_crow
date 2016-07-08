@@ -38,7 +38,6 @@ body {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  /*background: #ecfafb;*/
 }
 
 #app, #profile {
@@ -65,5 +64,6 @@ body {
   /*background: white;*/
 }
 
-#landing {
+.fuschia {
+  color: $fuschia;
 }
