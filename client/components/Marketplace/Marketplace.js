@@ -190,6 +190,7 @@ class Marketplace extends Component {
             className="styled-select blue semi-square"
             onChange={this.sortBy}
           >
+            <option disabled selected value> -- select an option -- </option>
             <option value="closest">Nearby You</option>
             <option value="newest">Most Recent</option>
             <option value="item-a-z">Item Name (A-Z)</option>
