@@ -12,7 +12,6 @@ import Filters from './Filters';
 import ProductList from './ProductList';
 import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
-import PostAnItemModal from './../Navigation/PostAnItemModal';
 
 // require('../../assets/styles/app.scss');
 
@@ -115,10 +114,6 @@ class Marketplace extends Component {
         {this.isFetchingData() ?
           <LoadingBar /> :
           <div id="marketplace-items-container">
-            <button
-              className="marketplace-button post-item-button"
-            ><PostAnItemModal />
-            </button>
             <h3>Items</h3>
             <ProductList products={this.state.filteredListings.reverse()} />
           </div>

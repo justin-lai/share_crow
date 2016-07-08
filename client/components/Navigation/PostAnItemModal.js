@@ -41,7 +41,7 @@ class PostAnItemModal extends Component {
   }
 
   componentDidMount() {
-    fetch(`/main/profile?id=${this.props.user.id}`)
+    fetch(`/main/profile?id=${this.props.isAuth.userInfo.id}`)
     .then(res => res.json())
     .then(json => {
       this.setState({
