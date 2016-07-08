@@ -20,7 +20,7 @@ const Landing = (props) => (
             data-shadow="Make Some Money. Start Sharing."
             className="basic white"
           >
-            Share Ill Crow.
+            Renting Made Simple.
           </h2>
         </div>
         <LandingSearch history={props.history} />
