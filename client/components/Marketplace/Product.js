@@ -26,41 +26,55 @@ class Product extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
-    // eslint-disable-next-line
-    fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
-      .then(response => response.json())
-      .then(responseData => {
-        this.props.product.image = responseData.image;
-      })
-        .then(() => {
-          if (this.isLoggedIn && !this.product.distance) {
-            // fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
-              // .then(response2 => response2.json())
-                // .then(responseData2 => {
-            this.product.distanceCity = this.product.owner.city;
-            const user2location = `${this.product.owner.address} ${this.product.owner.state}`;
-            fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
-                .then(response3 => response3.json())
-                  .then(responseData3 => {
-                    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-                    console.log(this.props.isAuth.userInfo.address);
-                    console.log(user2location);
-                    console.log(responseData3);
-                    this.product.distance = responseData3.miles;
-                    this.setState({
-                      loading: false,
-                      // eslint-disable-next-line
-                      shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+    if (this.isLoggedIn) {
+      // eslint-disable-next-line
+      fetch(`http://localhost:3000/main/imageUpload?id=${this.props.product.id}`)
+        .then(response => response.json())
+        .then(responseData => {
+          this.props.product.image = responseData.image;
+        })
+          .then(() => {
+            if (this.isLoggedIn) {
+              fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+                .then(response2 => response2.json())
+                  .then(responseData2 => {
+                    this.ownerName = responseData2.username;
+                    this.product.distanceCity = responseData2.city;
+                    return `${responseData2.address} ${responseData2.state}`;
+                  })
+                    .then(user2location => {
+                      fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
+                        .then(response3 => response3.json())
+                          .then(responseData3 => {
+                            this.product.distance = responseData3.miles;
+                            this.setState({
+                              loading: false,
+                              // eslint-disable-next-line
+                              shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+                            });
+                          });
                     });
-                  });
-          } else {
+            } else {
+              this.setState({
+                loading: false,
+              // eslint-disable-next-line
+                shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+              });
+            }
+          });
+    } else {
+      fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+        .then(response2 => response2.json())
+          .then(responseData2 => {
+            this.ownerName = responseData2.username;
+            // eslint-disable-next-line
             this.setState({
               loading: false,
-            // eslint-disable-next-line
+              // eslint-disable-next-line
               shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
             });
-          }
-        });
+          });
+    }
   }
 
   openModal() { this.setState({ open: true }); }
@@ -153,7 +167,7 @@ class Product extends Component {
             src={product.listingImage[0] ? product.listingImage[0].image : null}
             alt="product"
           />
-          {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
+          {product.rented ? <img src="rented-horizontal.png" className="rented-overlay" alt="rented" /> : null}
           <div
             className="rent-it"
           > <i className="ion-android-add"></i><span>Rent it! </span></div>
@@ -271,7 +285,7 @@ class Product extends Component {
               alt="product"
             />
             <img
-              src="rented-diagonal.png"
+              src="rented-horizontal.png"
               className="rented-overlay top-image"
               alt="rented"
             />
@@ -298,7 +312,7 @@ class Product extends Component {
           src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
-        {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
+        {product.rented ? <img src="rented-horizontal.png" className="rented-overlay" alt="rented" /> : null}
         <div
           className="rent-it"
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
