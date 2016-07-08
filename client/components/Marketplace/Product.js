@@ -134,7 +134,7 @@ class Product extends Component {
               alt="product"
             />
             <img
-              src="rented.png"
+              src="rented-diagonal.png"
               className="rented-overlay top-image"
               alt="rented"
             />
@@ -189,7 +189,7 @@ class Product extends Component {
               alt="product"
             />
             <img
-              src="rented.png"
+              src="rented-diagonal.png"
               className="rented-overlay top-image"
               alt="rented"
             />
@@ -216,7 +216,7 @@ class Product extends Component {
           src={product.listingImage[0] ? product.listingImage[0].image : null}
           alt="product"
         />
-        {product.rented ? <img src="rented.png" className="rented-overlay" alt="rented" /> : null}
+        {product.rented ? <img src="rented-diagonal.png" className="rented-overlay" alt="rented" /> : null}
         <div
           className="rent-it"
         > <i className="ion-android-add"></i><span>Rent it! </span></div>
