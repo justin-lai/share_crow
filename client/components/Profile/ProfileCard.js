@@ -77,7 +77,7 @@ class ProfileCard extends Component {
   }
 
   renderModal() {
-    if (this.profile.id === this.props.isAuth.userInfo.id) {
+    if (this.props.isAuth.status && this.profile.id === this.props.isAuth.userInfo.id) {
       return (
         <Modal
           style={{ content: { height: '400px' } }}
