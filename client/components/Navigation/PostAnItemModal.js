@@ -84,9 +84,10 @@ class PostAnItemModal extends Component {
       item: this.state.listing,
       max_fee: this.state.maxFee,
       rental_fee: this.state.rentalFee,
-      owner_id: this.state.ownerId,
+      owner_id: this.props.isAuth.userInfo.id,
       category: this.state.subcategory !== '' ? this.state.subcategory : this.state.category,
     };
+    console.log('LISTING DATA~~~~~~~~~~~~~~~~~~~~: ', listingData);
     this.methods.postListing(listingData, responseData => {
       this.methods.putImage({
         id: this.state.uploadID,

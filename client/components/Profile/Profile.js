@@ -7,7 +7,6 @@ import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionA
 import { signup, login, signout } from '../../helpers/authHelpers';
 import NavBar from './../Navigation/NavBar';
 import ProfileCard from './../Profile/ProfileCard';
-import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
 import GridViews from '../GridViews';
 import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
@@ -104,7 +103,6 @@ class Profile extends Component {
               </div>
             </div>
           }
-          <Footer />
         </div>
       );
     }

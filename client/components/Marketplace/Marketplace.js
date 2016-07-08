@@ -10,7 +10,6 @@ import NavBar from '../Navigation/NavBar';
 import Search from './Search';
 import Filters from './Filters';
 import ProductList from './ProductList';
-import Footer from './../Shared/Footer';
 import LoadingBar from './../Shared/LoadingBar';
 
 // require('../../assets/styles/app.scss');
@@ -207,7 +206,6 @@ class Marketplace extends Component {
             <ProductList products={this.state.filteredListings.reverse()} lazyLoad />
           </div>
         }
-        <Footer />
       </div>
     );
   }
