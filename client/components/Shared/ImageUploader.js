@@ -95,6 +95,7 @@ class ImageUploader extends Component {
               type="file"
               onChange={this.handleFile} accept="image/*" encType="multipart/form-data"
             />
+            <i className="fa fa-cloud-upload fa-5x" aria-hidden="true"></i>
             <div className="drag-text">
               <h3>Click to upload an image or drag image here</h3>
             </div>
