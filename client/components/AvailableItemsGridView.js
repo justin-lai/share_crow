@@ -34,6 +34,7 @@ class AvailableItemsGridView extends Component {
               name: listing.name,
               rentalFee: `$${listing.rentalFee}`,
               maxFee: `$${listing.maxFee}`,
+              image: listing.listingImage[0].image,
             });
           });
           this.setState({ rentedItems: formatted, loading: false });

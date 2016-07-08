@@ -17,12 +17,11 @@ class Product extends Component {
       shortName: 'Placeholder',
     };
     this.isLoggedIn = props.isAuth.status;
-    this.ownerName = '';
     this.handleSubmit = this.handleSubmit.bind(this);
     this.methods = props.methods;
     this.product = props.product;
-    this.product.distance = '';
-    this.product.distanceCity = '';
+    this.product.distance = this.product.distance || '';
+    this.product.distanceCity = this.product.distanceCity || this.product.owner.city;
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
@@ -34,35 +33,35 @@ class Product extends Component {
         this.props.product.image = responseData.image;
       })
         .then(() => {
-          if (this.isLoggedIn) {
-            fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
-              .then(response2 => response2.json())
-                .then(responseData2 => {
-                  this.ownerName = responseData2.username;
-                  this.product.distanceCity = responseData2.city;
-                  return `${responseData2.address} ${responseData2.state}`;
-                })
-                  .then(user2location => {
-                    fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
-                      .then(response3 => response3.json())
-                        .then(responseData3 => {
-                          console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-                          console.log(responseData3);
-                          this.product.distance = responseData3.miles;
-                          this.setState({
-                            loading: false,
-                            // eslint-disable-next-line
-                            shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
-                          });
-                        });
-                  });
-          } else {
-            this.setState({
-              loading: false,
-            // eslint-disable-next-line
-              shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
-            });
-          }
+          // if (this.isLoggedIn) {
+          //   fetch(`http://localhost:3000/main/profile?id=${this.product.ownerId}`)
+          //     .then(response2 => response2.json())
+          //       .then(responseData2 => {
+          //         this.ownerName = responseData2.username;
+          //         this.product.distanceCity = responseData2.city;
+          //         return `${responseData2.address} ${responseData2.state}`;
+          //       })
+          //         .then(user2location => {
+          //           fetch(`http://localhost:3000/api/distanceMatrix?origin=${this.props.isAuth.userInfo.address}&destination=${user2location}`)
+          //             .then(response3 => response3.json())
+          //               .then(responseData3 => {
+          //                 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+          //                 console.log(responseData3);
+          //                 this.product.distance = responseData3.miles;
+          //                 this.setState({
+          //                   loading: false,
+          //                   // eslint-disable-next-line
+          //                   shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+          //                 });
+          //               });
+          //         });
+          // } else {
+          this.setState({
+            loading: false,
+          // eslint-disable-next-line
+            shortName: this.product.name.length > 17 ? this.product.name.split('').slice(0, 17).join('').concat('...') : this.product.name,
+          });
+          // }
         });
   }
 
@@ -144,8 +143,9 @@ class Product extends Component {
           > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
             <div className="price">${product.rentalFee} per day
+              <span>by <a href={`/profile/${this.product.owner.username}`} className="preview-owner">{this.product.owner.username}</a></span>
             </div>
           </figcaption>
         </figure>
@@ -168,7 +168,7 @@ class Product extends Component {
           > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
             <div className="price">${product.rentalFee} per day
             </div>
           </figcaption>
@@ -197,7 +197,7 @@ class Product extends Component {
           <p id="product-banner">{this.product.distance} from {this.product.distanceCity}</p>
           <figcaption>
             <h3>{this.state.shortName}</h3>
-            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
             <div className="price">${product.rentalFee}/day
             </div>
           </figcaption>
@@ -223,7 +223,7 @@ class Product extends Component {
         <p id="product-banner">{this.product.distance} from {this.product.distanceCity}</p>
         <figcaption>
           <h3>{this.state.shortName}</h3>
-          <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+          <span className="fuschia"><a href={`/profile/${this.product.owner.username}`} className="preview-owner">@{this.product.owner.username}</a></span>
           <div className="price">${product.rentalFee}/day</div>
         </figcaption>
         <Modal

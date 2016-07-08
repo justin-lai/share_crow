@@ -9,7 +9,7 @@ const ProductList = (props) => {
     return (
       <div className="product-list">
         {props.products.map(product =>
-          <Lazyload key={product.id} throttle={200} height={100} offset={300} once>
+          <Lazyload key={product.id} throttle={200} height={50} offset={150} once>
             <ReactCSSTransitionGroup
               transitionName="fade"
               transitionAppear
