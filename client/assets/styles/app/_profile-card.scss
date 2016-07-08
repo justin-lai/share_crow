@@ -1,4 +1,4 @@
-#profile-items {
+  #profile-items {
   margin-top: 80px;
 }
 
@@ -183,21 +183,6 @@ div.profileCard div.follow_count{
   font-size: 10pt;
   margin-bottom: 40px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,200,300,800);
 @import url(http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 figure.snip0057 {
@@ -354,4 +339,12 @@ figure.snip0057.hover:before {
   100% {
     left: 0px;
   }
+}
+#profile-products-profile {
+  width: 100%;
+  height: 200px;
+  top: 500px;
+  right: 200px;
+  margin-top: 450px;
+  margin-left:-200px;
 }

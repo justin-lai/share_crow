@@ -3,7 +3,7 @@ import Product from './Product';
 import Lazyload from 'react-lazyload';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 // import Infinite from 'react-infinite';
-
+/* eslint-disable no-param-reassign */
 const ProductList = (props) => {
   if (props.lazyLoad) {
     return (
@@ -27,7 +27,7 @@ const ProductList = (props) => {
     );
   }
   return (
-    <div className="product-list">
+    <div className="product-list shift">
       {props.products.map(product =>
         <Product
           product={product}
