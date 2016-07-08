@@ -122,7 +122,7 @@ class Product extends Component {
     const product = this.product;
 
     // YOUR OWN ITEMS
-    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
+    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id && product.rented) {
       return (
         <figure
           className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
@@ -151,6 +151,31 @@ class Product extends Component {
         </figure>
       );
     }
+    if (this.props.isAuth.userInfo && product.ownerId === this.props.isAuth.userInfo.id) {
+      return (
+        <figure
+          className={product.rented ? 'product rented product-snippet' : 'product product-snippet'}
+        >
+          <div className="rent-overlay">
+            <img
+              className="product-image bottom-image"
+              src={product.listingImage[0].image}
+              alt="product"
+            />
+          </div>
+          <div
+            className="rent-it"
+          > <i className="ion-android-add"></i><span>Your listing is LIVE!</span></div>
+          <figcaption>
+            <h3>{this.state.shortName}</h3>
+            <span className="fuschia"><a href={`/profile/${this.ownerName}`} className="preview-owner">@{this.ownerName}</a></span>
+            <div className="price">${product.rentalFee} per day
+            </div>
+          </figcaption>
+        </figure>
+      );
+    }
+
     // RENTED ITEMS
     if (product.rented) {
       return (
