@@ -68,26 +68,30 @@ li.category:hover {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
+  bottom: .5em;
 }
 
 .post-item-button {
-    background-color: white;
-    color: black;
+    background-color: #CD1B4E;
+    color: white;
     border: 2px solid;
-    position: fixed;
-    left: 87%;
-    top: 89%;
-    z-index: 4;
+    position: relative;
+    z-index: 0;
 
+}
+
+.authorizePopUp {
+  position: absolute;
+  bottom: 3em;
 }
 
 .post-item-button:hover {
-    background-color: red;
-    color: white;
+    background-color: #CD1B4E;
+    color: black;
 }
 .postAuthaccept-button,
 .postAuthdecline-button {
-  background-color: fuschia;
+  background-color: #CD1B4E;
   border: none;
   color: white;
   padding: 2px 4px;
@@ -101,15 +105,20 @@ li.category:hover {
   cursor: pointer;
 }
 
-.postAuthdecline-button {
-  position: absolute;
-  left: 65%;
-  top: 70%;
+.btn {
+  position: relative;
 }
 .postAuthaccept-button {
-  position: absolute;
-  top: 70%;
-  right: 65%;
+  position: relative;
+  bottom: 5%;
+  top: 3em;
+  left: .5em;
+}
+
+.postAuthdecline-button {
+  position: relative;
+  left: 12em;
+  top: 3em;
 }
 
 .subCategories {

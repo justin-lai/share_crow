@@ -138,13 +138,14 @@ class PostAnItemModal extends Component {
         ><Modal
           style={{
             content: { height: '15em', width: '40em',
-            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            backgroundColor: 'rgb(255, 255, 255)',
             top: '35%',
             border: 'rgba(0,0,0,0)',
             borderRadius: '6px',
             backgroundClip: 'padding-box',
             boxShadow: '0 0 40px rgba(0,0,0,.5)',
             textAlign: 'center' },
+
           }}
           isOpen={this.state.authOpen}
           onRequestClose={this.closeAuthModal}
@@ -247,7 +248,7 @@ class PostAnItemModal extends Component {
             handleUpload={this.handleUpload}
           />
           <input
-            className="postButton btn btn-primary btn-lg btn-block"
+            className="btn btn-primary btn-md postButton"
             type="submit"
             value="Post Item"
             onClick={this.handleSubmit}

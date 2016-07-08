@@ -24,7 +24,7 @@ class PaymentsDueGridView extends Component {
     'handlePayment');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}&itemReturned=null`)
+    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}&paymentComplete=false`)
       .then(response => response.json())
         .then(data => {
           const formatted = [];
@@ -77,7 +77,6 @@ class PaymentsDueGridView extends Component {
     $(window).on('popstate', () => {
       this.handler.close();
     });
-
     this.methods.refreshComponent(true);
   }
 

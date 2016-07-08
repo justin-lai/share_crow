@@ -55,6 +55,7 @@ module.exports = {
     } else if (req.query.payerId) {
       db.Payments.findAll({
         where: {
+          paymentComplete: req.query.paymentComplete,
           payerId: req.query.payerId,
         },
       })

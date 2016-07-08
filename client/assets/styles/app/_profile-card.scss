@@ -156,12 +156,12 @@ div.profileCard div.follow_count{
   position: relative;
   padding: 0;
   text-shadow: 0px 1px 0 #a2a2a2;
-  
+
   &-top {
     color: #e7711b;
     padding: 0;
     position: absolute;
-    z-index: 1;
+    z-index: 0;
     display: block;
     top: 0;
     left: 0;
@@ -318,7 +318,7 @@ figure.snip0057.yellow .position {
 figure.snip0057.hover figcaption {
   bottom: 40px;
 }*/
-/*figure.snip0057:hover .icons i, 
+/*figure.snip0057:hover .icons i,
 figure.snip0057.hover .icons i {
   opacity: 1;
   -webkit-transition-delay: 0.2s;
@@ -351,4 +351,3 @@ figure.snip0057.hover:before {
     left: 0px;
   }
 }
-
