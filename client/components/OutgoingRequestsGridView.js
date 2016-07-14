@@ -79,7 +79,10 @@ class OutgoingRequestsGridView extends Component {
         isOpen={this.state.open}
         onRequestClose={this.closeModal}
       >
-        <h4 id="message-request-text">
+        <h4
+          className="griddle"
+          id="message-request-text"
+        >
           {`Cancel request for ${this.state.listingName}?`}
         </h4>
         <div>
@@ -106,11 +109,15 @@ class OutgoingRequestsGridView extends Component {
     }
     return (
       <div>
-        <h4>Items You've Requested</h4>
+        <h4
+          className="griddle"
+        >Items You've Requested
+        </h4>
         <Griddle
           results={this.state.rentedItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           noDataMessage={"You have no pending requests"}
           columnMetadata={[
             {

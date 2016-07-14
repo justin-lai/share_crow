@@ -1,5 +1,8 @@
+$lightGrey: #ebebeb;
+
 #marketplace {
   width: 100%;
+  background-color: $lightGrey;
 }
 
 #marketplace-search-container {
@@ -54,7 +57,6 @@ li.category:hover {
 }
 
 .marketplace-button {
-  background-color: $fuschia;
   border: none;
   color: white;
   padding: 16px 32px;
@@ -66,20 +68,127 @@ li.category:hover {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
+  bottom: .5em;
 }
 
 .post-item-button {
-    background-color: white;
-    color: black;
+    background-color: #CD1B4E;
+    color: white;
     border: 2px solid;
+    position: relative;
+    z-index: 0;
+
+}
+
+.authorizePopUp {
+  position: absolute;
+  bottom: 3em;
 }
 
 .post-item-button:hover {
-    background-color: $fuschia;
-    color: white;
+    background-color: #CD1B4E;
+    color: black;
+}
+.postAuthaccept-button,
+.postAuthdecline-button {
+  background-color: #CD1B4E;
+  border: none;
+  color: white;
+  padding: 2px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
-.stripe-button {
+.btn {
   position: relative;
-  margin-left: 4000px;
+}
+.postAuthaccept-button {
+  position: relative;
+  bottom: 5%;
+  top: 3em;
+  left: .5em;
+}
+
+.postAuthdecline-button {
+  position: relative;
+  left: 12em;
+  top: 2em;
+}
+
+h3 {
+  color: black;
+}
+
+.subCategories {
+  position: absolute;
+  bottom: 25%
+}
+
+.categories {
+  position: absolute;
+  bottom: 35%;
+
+}
+.imageUp {
+  position: absolute;
+  bottom: 30%;
+}
+
+.modal-post-item-button {
+  position: absolute;
+  top: 40%;
+}
+
+.postButton {
+  position: relative;
+  top: 100px;
+  /*top: 80%;*/
+  width: 100%;
+}
+
+.postSubCategories {
+    position: absolute;
+    top: 67%;
+}
+.postCategories {
+  position: absolute;
+  top: 57%;
+}
+
+#label-sort-by-filter {
+  margin-left: 80px;
+  text-align: center;
+}
+
+.styled-select {
+  /*background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;*/
+  height: 34px;
+  overflow: hidden;
+  width: 240px;
+  margin-left: 10px;
+}
+
+.styled-select select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 29px;
+   padding: 5px; /* If you add too much padding here, the options won't show in IE */
+   width: 268px;
+}
+
+.semi-square {
+  background-color: white;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 5px !important;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
 }

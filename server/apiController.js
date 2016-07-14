@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
+/* eslint-disable max-len */
 const apiKeys = require('../config.js');
 const twilio = require('twilio');
 const client = new twilio.RestClient(apiKeys.twilioKeys.accountSid, apiKeys.twilioKeys.authToken);
@@ -13,21 +14,38 @@ module.exports = {
   // find the distance between two points, given 2 lat,long pairs
   // returns miles and eta time away driving
   distanceMatrix: (req, res) => {
-    const lat1 = req.query.lat1;
-    const long1 = req.query.long1;
-    const lat2 = req.query.lat2;
-    const long2 = req.query.long2;
-    /*eslint-disable */
-    fetch(baseLink + lat1 + ',' + long1 + '&destinations=' + lat2 + ',' + long2 + '&key=' + apiKeys.GOOGLEMAP_API_KEY)
-      /*eslint-enable */
-      .then(response => response.json())
-        .then(responseData => {
-          const obj = {
-            miles: responseData.rows[0].elements[0].distance.text,
-            time: responseData.rows[0].elements[0].duration.text,
-          };
-          res.status(200).send(obj);
-        });
+    if (req.query.origin && req.query.destination) {
+      /*eslint-disable */
+      console.log(baseLink + req.query.origin.replace(' ', '+') + '&destinations=' + req.query.destination.replace(' ', '+') + '&key=' + apiKeys.GOOGLEMAP_API_KEY);
+      fetch(baseLink + req.query.origin.replace(' ', '+') + '&destinations=' + req.query.destination.replace(' ', '+') + '&key=' + apiKeys.GOOGLEMAP_API_KEY)
+        /*eslint-enable */
+        .then(response => response.json())
+          .then(responseData => {
+            const obj = {
+              miles: responseData.rows[0].elements[0].distance.text,
+              time: responseData.rows[0].elements[0].duration.text,
+            };
+            console.log('OBJ: ', obj);
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+            res.status(200).send(obj);
+          });
+    } else {
+      const lat1 = req.query.lat1;
+      const long1 = req.query.long1;
+      const lat2 = req.query.lat2;
+      const long2 = req.query.long2;
+      /*eslint-disable */
+      fetch(baseLink + lat1 + ',' + long1 + '&destinations=' + lat2 + ',' + long2 + '&key=' + apiKeys.GOOGLEMAP_API_KEY)
+        /*eslint-enable */
+        .then(response => response.json())
+          .then(responseData => {
+            const obj = {
+              miles: responseData.rows[0].elements[0].distance.text,
+              time: responseData.rows[0].elements[0].duration.text,
+            };
+            res.status(200).send(obj);
+          });
+    }
   },
 
   sendTextNotification: (req, res) => {
@@ -45,13 +63,13 @@ module.exports = {
                 id: req.body.senderId,
               }),
             }).then(response => {
-              const phone1 = response[0].dataValues.phone.replace(/[-\(\)]/g, '');
-              const phone2 = response[1].dataValues.phone.replace(/[-\(\)]/g, '');
+              const phone1 = response[0].dataValues.phone.replace(/[-\(\)]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1)$2-$3');
+              const phone2 = response[1].dataValues.phone.replace(/[-\(\)]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1)$2-$3');
               client.sendSms({
                 to: `+1${phone1}`,
                 from: '+19259058241',
                 // eslint-disable-next-line
-                body: `Request for '${itemName}' is completed!\nContact the other party at: ${phone2} to arrange a time to meet`,
+                body: `Request for '${itemName}' is completed!\n\nContact the other party at: ${phone2} to arrange a time to meet`,
               }, (error, receiptMessage) => {
                 if (!error) {
                   // eslint-disable-next-line no-console
@@ -117,7 +135,7 @@ module.exports = {
       form: {
 
         grant_type: 'authorization_code',
-        client_id: 'ca_8jyWkOs2yveGjDIzUehjZDK2YErKyjgn',
+        client_id: apiKeys.CLIENT_ID,
         code,
         client_secret: apiKeys.API_KEY,
       },
@@ -129,7 +147,7 @@ module.exports = {
         },
       })
         .then(queryData => queryData.updateAttributes({ stripeToken: accessToken }))
-        .then(res.writeHead(301, { Location: 'http://localhost:3000/#/profile' }));
+        .then(res.writeHead(301, { Location: `http://localhost:3000/profile/${req.session.username}` }));
       res.end();
     });
   },

@@ -55,6 +55,7 @@ module.exports = {
     } else if (req.query.payerId) {
       db.Payments.findAll({
         where: {
+          paymentComplete: req.query.paymentComplete,
           payerId: req.query.payerId,
         },
       })
@@ -116,7 +117,7 @@ module.exports = {
         },
       })
         .then(queryData => {
-          queryData.updateAttributes({ paymentDate: new Date().toISOString() });
+          queryData.updateAttributes({ paymentDate: new Date().toISOString(), paymentComplete: true });
           db.User.find({
             where: {
               id: req.body.ownerId,

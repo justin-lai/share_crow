@@ -12,8 +12,6 @@ class PostAnItemModal extends Component {
     super(props);
 
     this.state = {
-      username: props.isAuth.userInfo.username,
-      ownerId: props.isAuth.userInfo.id,
       open: false,
       listing: '',
       maxFee: '',
@@ -22,6 +20,8 @@ class PostAnItemModal extends Component {
       subcategory: '',
       uploadListing: '',
       uploadID: '',
+      authOpen: true,
+      token: null,
     };
     this.categories = [];
     this.subcategories = [];
@@ -36,11 +36,21 @@ class PostAnItemModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+    this.checkAuth = this.checkAuth.bind(this);
+    this.closeOAuth = this.closeOAuth.bind(this);
   }
 
   componentDidMount() {
+    fetch(`/main/profile?id=${this.props.isAuth.userInfo.id}`)
+    .then(res => res.json())
+    .then(json => {
+      this.setState({
+        token: json.stripeToken,
+      });
+    });
     this.methods.getCategory();
   }
+
 
   componentWillReceiveProps(nextProps) {
     this.categories = nextProps.category.filter(category =>
@@ -51,14 +61,33 @@ class PostAnItemModal extends Component {
     );
   }
 
+  checkAuth() {
+    this.openModal();
+    if (this.state.token === null) {
+      this.setState({
+        authOpen: true,
+      });
+    } else {
+      this.setState({
+        authOpen: false,
+      });
+    }
+  }
+
+  closeOAuth() {
+    this.closeModal();
+    this.closeAuthModal();
+  }
+
   handleSubmit() {
     const listingData = {
       item: this.state.listing,
       max_fee: this.state.maxFee,
       rental_fee: this.state.rentalFee,
-      owner_id: this.state.ownerId,
+      owner_id: this.props.isAuth.userInfo.id,
       category: this.state.subcategory !== '' ? this.state.subcategory : this.state.category,
     };
+    console.log('LISTING DATA~~~~~~~~~~~~~~~~~~~~: ', listingData);
     this.methods.postListing(listingData, responseData => {
       this.methods.putImage({
         id: this.state.uploadID,
@@ -91,13 +120,15 @@ class PostAnItemModal extends Component {
   handleSubcategory(value) { this.setState({ subcategory: value.target.value }); }
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
+  openAuthModal() { this.setState({ authOpen: true }); }
+  closeAuthModal() { this.setState({ authOpen: false }); }
 
   render() {
     return (
       <div className="post-item-wrapper">
         <div
           className="post-item-modal"
-          onClick={this.openModal}
+          onClick={this.checkAuth}
         >
           Post an Item
         </div>
@@ -105,10 +136,31 @@ class PostAnItemModal extends Component {
           style={{ content: { height: '600px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
+        ><Modal
+          style={{
+            content: { height: '15em', width: '40em',
+            backgroundColor: 'rgb(255, 255, 255)',
+            top: '35%',
+            border: 'rgba(0,0,0,0)',
+            borderRadius: '6px',
+            backgroundClip: 'padding-box',
+            boxShadow: '0 0 40px rgba(0,0,0,.5)',
+            textAlign: 'center' },
+
+          }}
+          isOpen={this.state.authOpen}
+          onRequestClose={this.closeAuthModal}
         >
-          <form action="/authorize" method="GET">
-            <button className="stripeConnect">Authorize</button>
+          <h3>To become a merchant on Sharecrow please authenticate
+          yourself through Stripe</h3>
+          <form action="/authorize" method="GET" className="authorizePopUp">
+            <button className="postAuthaccept-button btn btn-danger-outline">Authorize</button>
           </form>
+          <button
+            className="postAuthdecline-button btn btn-success-outline"
+            onClick={this.closeOAuth}
+          >x</button>
+        </Modal>
           <input
             className="close-button"
             type="submit"
@@ -118,68 +170,92 @@ class PostAnItemModal extends Component {
           <h1 className="modal-header">Post Item</h1>
           <div>Item Listing Title</div>
           <input
+            className="form-control"
             value={this.state.listing}
             onChange={this.handleItemListing}
             type="text"
           />
           <div>Max Fee - Cost set in case of lost or damaged item</div>
-          <input
-            value={this.state.maxFee}
-            onChange={this.handleMaxFee}
-            type="text"
-          />
+          <div className="input-group">
+            <span className="input-group-addon">$</span>
+            <input
+              className="form-control"
+              value={this.state.maxFee}
+              onChange={this.handleMaxFee}
+              type="text"
+            />
+          </div>
           <div>Rental Fee - Cost per day</div>
-          <input
-            value={this.state.rentalFee}
-            onChange={this.handleRentalFee}
-            type="text"
-          />
-          <div>
-            <label htmlFor="post-modal-categories">Category: </label>
-            <select
-              id="post-modal-categories"
-              value={this.state.category}
-              onChange={this.handleCategory}
-              style={{ width: `${200}px` }}
-            >
-              {
-                this.categories.map(category =>
-                  <option
-                    id={category.id}
-                    value={category.id}
-                  >{category.categoryName}</option>
-                )
-              }
-            </select>
+          <div className="input-group">
+            <span className="input-group-addon">$</span>
+            <input
+              className="form-control"
+              value={this.state.rentalFee}
+              onChange={this.handleRentalFee}
+              type="text"
+            />
           </div>
           <div>
-            <label htmlFor="post-modal-subcategories">Subcategory: </label>
-            <select
-              id="post-modal-subcategories"
-              value={this.state.subcategory}
-              onChange={this.handleSubcategory}
-              style={{ width: `${200}px` }}
-            >
-              <option value={""}>None</option>
-              {
-                this.subcategories.map(subcategory =>
-                  <option
-                    key={subcategory.id}
-                    value={subcategory.id}
-                  >{subcategory.categoryName}</option>
-                )
-              }
-            </select>
+            <label
+              htmlFor="post-modal-categories"
+              className="postCategories"
+            >Category: </label>
+            <div className="categories">
+              <select
+                className="input-group-addon"
+                id="post-modal-categories"
+                value={this.state.category}
+                onChange={this.handleCategory}
+                style={{ width: `${200}px` }}
+              >
+                {
+                  this.categories.map(category =>
+                    <option
+                      key={category.id}
+                      id={category.id}
+                      value={category.id}
+                    >{category.categoryName}</option>
+                  )
+                }
+              </select>
+            </div>
+          </div>
+          <div>
+            <label
+              className="postSubCategories"
+              htmlFor="post-modal-subcategories"
+            >Subcategory: </label>
+            <div className="subCategories">
+              <select
+                className="input-group-addon"
+                id="post-modal-subcategories"
+                value={this.state.subcategory}
+                onChange={this.handleSubcategory}
+                style={{ width: `${200}px` }}
+              >
+                <option value={""}>None</option>
+                {
+                  this.subcategories.map(subcategory =>
+                    <option
+                      key={subcategory.id}
+                      value={subcategory.id}
+                    >{subcategory.categoryName}</option>
+                  )
+                }
+              </select>
+            </div>
           </div>
           <ImageUploader
             handleUpload={this.handleUpload}
           />
-          <input
-            className="modal-post-item-button button"
-            type="submit"
-            value="Post Item"
-            onClick={this.handleSubmit}
-          />
+          <div>
+            <input
+              className="btn btn-primary btn-md postButton"
+              type="submit"
+              value="Post Item"
+              onClick={this.handleSubmit}
+            />
+          </div>
         </Modal>
       </div>
     );
@@ -190,12 +266,14 @@ PostAnItemModal.propTypes = {
   isAuth: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
   category: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { listing, category, isAuth } = state;
+  const { listing, category, isAuth, user } = state;
 
   return {
+    user,
     listing,
     category,
     isAuth,

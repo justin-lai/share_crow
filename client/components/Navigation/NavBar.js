@@ -22,7 +22,7 @@ const NavBar = (props) => {
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">
-              <img className="logo" alt="presentation" src="./sharecrow-logo.png" />
+              <img className="logo" alt="presentation" src="./sharecrow-clear-bg.png" />
             </a>
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
@@ -32,7 +32,7 @@ const NavBar = (props) => {
                 <a><PostAnItemModal username={props.username} /></a>
               </li>
               <li>
-                <a href="#/marketplace">
+                <a href="/marketplace">
                 Marketplace
                 </a>
               </li>
@@ -43,9 +43,7 @@ const NavBar = (props) => {
                 >{props.username}<span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
-                  <li><a href="#">Messages</a></li>
-                  <li><a href="#">Transaction History</a></li>
-                  <li><a href="/#/profile">Profile</a></li>
+                  <li><a href={`/profile/${props.username}`}>Profile</a></li>
                   <li onClick={props.signout}><a href="/logout">Logout</a></li>
                 </ul>
               </li>
@@ -69,14 +67,14 @@ const NavBar = (props) => {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href="#">
-              <img className="logo" alt="presentation" src="./sharecrow-logo.png" />
+            <a className="navbar-brand" href="/">
+              <img className="logo" alt="presentation" src="./sharecrow-clear-bg.png" />
             </a>
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#/marketplace">
+                <a href="/marketplace">
                 Marketplace
                 </a>
               </li>

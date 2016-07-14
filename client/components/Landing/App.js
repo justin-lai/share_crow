@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { getUser, postUser, putUser, deleteUser } from '../../actions/userActions';
 import { getListing, postListing, putListing, deleteListing } from '../../actions/listingActions';
 import { getMessage, postMessage, putMessage, deleteMessage } from '../../actions/messageActions';
-import { getSession, isLoggedIn } from '../../actions/sessionActions';
+import { getSession, isLoggedIn, refreshComponent } from '../../actions/sessionActions';
 import { getCategory } from '../../actions/categoryActions';
 import { signup, login, signout } from '../../helpers/authHelpers';
 import Landing from './Landing';
-import ProductCarousel from './ProductCarousel';
 import NavBar from '../Navigation/NavBar';
-import Footer from '../Shared/Footer';
+// import Footer from '../Shared/Footer';
 import LoadingBar from '../Shared/LoadingBar';
-import StarReviewModal from '../Marketplace/StarReviewModal';
+import MeetTheTeam from '../MeetTheTeam';
 
 class App extends Component {
   constructor(props) {
@@ -23,15 +22,16 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (this.props.isAuth.status) {
-      this.methods.getUser(`username=${this.props.isAuth.username}`);
-    }
-    //eslint-disable-next-line
     this.methods.getListing();
   }
 
   componentWillReceiveProps(nextProps) {
     // this.methods.isLoggedIn();
+    if (nextProps.componentNeedsRefresh) {
+      this.methods.refreshComponent(false);
+      this.componentDidMount();
+    }
+
     this.products = nextProps.listing;
   }
 
@@ -52,28 +52,21 @@ class App extends Component {
         />
         {this.isFetchingData() ?
           <LoadingBar /> :
-          <div>
+          <div id="landing-container">
             <Landing
               signup={signup}
               history={this.props.history}
             />
-            <ProductCarousel products={this.products} />
-            <StarReviewModal
-              userObj={this.props.user}
-            />
           </div>
         }
-        <Footer />
+        <MeetTheTeam />
       </div>
     );
   }
 }
 
 App.propTypes = {
-  user: PropTypes.object.isRequired,
-  listing: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
-  session: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
   isFetching: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -81,7 +74,7 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { user, listing, message, notification, category,
-    session, isAuth, isFetching } = state;
+    session, isAuth, isFetching, componentNeedsRefresh } = state;
 
   return {
     user,
@@ -92,6 +85,7 @@ function mapStateToProps(state) {
     category,
     isAuth,
     isFetching,
+    componentNeedsRefresh,
   };
 }
 
@@ -148,6 +142,9 @@ const mapDispatchToProps = function mapDispatchToProps(dispatch) {
       },
       isLoggedIn: () => {
         dispatch(isLoggedIn());
+      },
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
       },
     },
   };

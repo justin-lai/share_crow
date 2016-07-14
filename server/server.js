@@ -23,15 +23,15 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(utilityController.loggedInMiddleware);
 
-require('./routes.js')(app, express);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(express.static('dev/client'));
 app.use(express.static('client/assets'));
 app.use(express.static('client/assets/images'));
 app.use(express.static('client/assets/styles'));
+
+require('./routes.js')(app, express);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // https.createServer({
 //   key: fs.readFileSync('./ssl/key.pem'),

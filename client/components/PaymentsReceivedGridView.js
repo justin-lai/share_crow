@@ -13,7 +13,7 @@ class PaymentsReceivedGridView extends Component {
     this.methods = props.methods;
     this.state = {
       open: false,
-      id: this.props.id,
+      id: this.props.isAuth.userInfo.id,
       listingName: '',
       unpaidItems: [],
       loading: true,
@@ -69,6 +69,10 @@ class PaymentsReceivedGridView extends Component {
     return `on ${systemDate}`.slice(0, 18);
   }
 
+  handleHover(e) {
+    console.log(e.target);
+  }
+
   openModal() { this.setState({ open: true }); }
   closeModal() { this.setState({ open: false }); }
   acceptRequest() {
@@ -95,11 +99,15 @@ class PaymentsReceivedGridView extends Component {
     }
     return (
       <div>
-        <h4>Transaction History</h4>
+        <h4
+          className="griddle"
+        >Transaction History
+        </h4>
         <Griddle
           results={this.state.unpaidItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'itemName',
@@ -125,13 +133,17 @@ class PaymentsReceivedGridView extends Component {
           noDataMessage={"No Recent Payments Received"}
           columns={['itemName', '$Amount', 'amountSent', 'startDate', 'paymentComplete']}
           onRowClick={this.rowClick}
+          onMouseOver={this.handleHover}
         />
         <Modal
           style={{ content: { height: '150px', width: '600px' } }}
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Delete transation for: {this.state.listingName}
           </h4>
           <div>
@@ -155,16 +167,16 @@ class PaymentsReceivedGridView extends Component {
 }
 
 PaymentsReceivedGridView.propTypes = {
-  id: PropTypes.number.isRequired,
+  isAuth: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
 };
 
 
 function mapStateToProps(state) {
-  const { componentNeedsRefresh } = state;
+  const { isAuth, componentNeedsRefresh } = state;
 
   return {
-    componentNeedsRefresh,
+    isAuth, componentNeedsRefresh,
   };
 }
 

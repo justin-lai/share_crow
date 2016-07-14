@@ -319,6 +319,14 @@ db.sequelize
       categoryId: null,
     });
     db.Category.create({
+      categoryName: 'Health & Beauty',
+      categoryId: null,
+    });
+    db.Category.create({
+      categoryName: 'Other',
+      categoryId: null,
+    });
+    db.Category.create({
       categoryName: 'Nonfiction',
       CategoryId: 1,
     });
@@ -332,6 +340,10 @@ db.sequelize
     });
     db.Category.create({
       categoryName: 'Accessories',
+      CategoryId: 1,
+    });
+    db.Category.create({
+      categoryName: 'Other Books',
       CategoryId: 1,
     });
     db.Category.create({
@@ -352,6 +364,10 @@ db.sequelize
     });
     db.Category.create({
       categoryName: 'Camera Drones',
+      CategoryId: 2,
+    });
+    db.Category.create({
+      categoryName: 'Other Cameras',
       CategoryId: 2,
     });
     db.Category.create({
@@ -377,5 +393,185 @@ db.sequelize
     db.Category.create({
       categoryName: 'Peripherals',
       CategoryId: 3,
+    });
+    db.Category.create({
+      categoryName: 'Collections',
+      CategoryId: 4,
+    });
+    db.Category.create({
+      categoryName: 'CDs',
+      CategoryId: 4,
+    });
+    db.Category.create({
+      categoryName: 'Records',
+      CategoryId: 4,
+    });
+    db.Category.create({
+      categoryName: 'Land',
+      CategoryId: 5,
+    });
+    db.Category.create({
+      categoryName: 'Timeshares',
+      CategoryId: 5,
+    });
+    db.Category.create({
+      categoryName: 'Residential',
+      CategoryId: 5,
+    });
+    db.Category.create({
+      categoryName: 'Outdoor Sports',
+      CategoryId: 6,
+    });
+    db.Category.create({
+      categoryName: 'Indoor Games',
+      CategoryId: 6,
+    });
+    db.Category.create({
+      categoryName: 'Winter Sports',
+      CategoryId: 6,
+    });
+    db.Category.create({
+      categoryName: 'Water Sports',
+      CategoryId: 6,
+    });
+    db.Category.create({
+      categoryName: 'Other Sporting Goods',
+      CategoryId: 6,
+    });
+    db.Category.create({
+      categoryName: 'Video Game Consoles',
+      CategoryId: 7,
+    });
+    db.Category.create({
+      categoryName: 'Video Game Merchandise',
+      CategoryId: 7,
+    });
+    db.Category.create({
+      categoryName: 'Video Game Accessories',
+      CategoryId: 7,
+    });
+    db.Category.create({
+      categoryName: 'TVs, Video & Home Audio',
+      CategoryId: 8,
+    });
+    db.Category.create({
+      categoryName: 'Vintage Electronics',
+      CategoryId: 8,
+    });
+    db.Category.create({
+      categoryName: 'Radio Communication',
+      CategoryId: 8,
+    });
+    db.Category.create({
+      categoryName: 'Home Surveillance',
+      CategoryId: 8,
+    });
+    db.Category.create({
+      categoryName: "Men's Clothing",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: 'Baby & Toddler Clothing',
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: 'Costumes, Theater',
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: "Women's Accessories",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: "Men's Shoes",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: 'Vintage',
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: "Women's Shoes",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: "Women's Handbags",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: "Women's Clothing",
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: 'Wedding & Formal',
+      CategoryId: 9,
+    });
+    db.Category.create({
+      categoryName: 'Bird Supplies',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Cat Supplies',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Dog Supplies',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Small Animal Supplies',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Fish & Aquariums',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Other Pet Supplies',
+      CategoryId: 10,
+    });
+    db.Category.create({
+      categoryName: 'Cars & Trucks',
+      CategoryId: 11,
+    });
+    db.Category.create({
+      categoryName: 'Motorcycles',
+      CategoryId: 11,
+    });
+    db.Category.create({
+      categoryName: 'Boats',
+      CategoryId: 11,
+    });
+    db.Category.create({
+      categoryName: 'Other Vehicles',
+      CategoryId: 11,
+    });
+    db.Category.create({
+      categoryName: 'Furniture',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Holiday & Seasonal Decor',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Tools',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Lamps, Lighting',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Home Improvement',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Yard and Garden',
+      CategoryId: 12,
+    });
+    db.Category.create({
+      categoryName: 'Other Home & Garden',
+      CategoryId: 12,
     });
   });
