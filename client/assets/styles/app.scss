@@ -14,14 +14,15 @@
 @import "app/slick";
 @import "app/star-rating";
 @import "app/status-bar";
-
+@import "app/start-sharing-button";
+@import "app/meet-the-team";
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,900);
 
-$font-stack: Arial, sans-serif;
+$font-stack: 'Raleway', sans-serif;
 $fuschia: #cd1b4e;
-$raleway:'Raleway', sans-serif;
+$lightGrey: #ebebeb;
 
 * {
   box-sizing: inherit;
@@ -38,7 +39,7 @@ body {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  /*background: #ecfafb;*/
+  background-color: $lightGrey;
 }
 
 #app, #profile {
@@ -63,4 +64,8 @@ body {
   /*width: 100px;*/
   top: 100%;
   /*background: white;*/
+}
+
+.fuschia {
+  color: $fuschia;
 }

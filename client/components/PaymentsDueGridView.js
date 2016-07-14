@@ -1,17 +1,21 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Griddle from 'griddle-react';
 import Modal from 'react-modal';
 import { bindAll } from 'lodash';
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
+import { refreshComponent } from '../actions/sessionActions';
+
 
 class PaymentsDueGridView extends Component {
 
   constructor(props) {
     super(props);
+    this.methods = props.methods;
     this.state = {
       open: false,
-      id: this.props.id,
+      id: this.props.isAuth.userInfo.id,
       listingName: '',
       unpaidItems: [],
       loading: true,
@@ -20,7 +24,7 @@ class PaymentsDueGridView extends Component {
     'handlePayment');
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}`)
+    fetch(`http://localhost:3000/main/payment?payerId=${this.state.id}&paymentComplete=false`)
       .then(response => response.json())
         .then(data => {
           const formatted = [];
@@ -53,7 +57,6 @@ class PaymentsDueGridView extends Component {
         newToken.ownerId = this.state.ownerId;
         newToken.listingId = this.state.listingId;
         newToken.paymentId = this.state.paymentId;
-        console.log(newToken);
         $.ajax({
           type: 'DELETE',
           data: JSON.stringify(newToken),
@@ -74,6 +77,7 @@ class PaymentsDueGridView extends Component {
     $(window).on('popstate', () => {
       this.handler.close();
     });
+    // this.methods.refreshComponent(true);
   }
 
   rowClick(e) {
@@ -122,11 +126,15 @@ class PaymentsDueGridView extends Component {
     }
     return (
       <div>
-        <h4>Payments Due</h4>
+        <h4
+          className="griddle"
+        >Payments Due
+        </h4>
         <Griddle
           results={this.state.unpaidItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'itemName',
@@ -154,8 +162,11 @@ class PaymentsDueGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
-            Was this item: {this.state.listingName} paid?
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
+            Pay for {this.state.listingName} now?
           </h4>
           <div>
             <input
@@ -178,7 +189,26 @@ class PaymentsDueGridView extends Component {
 }
 
 PaymentsDueGridView.propTypes = {
-  id: PropTypes.number.isRequired,
+  isAuth: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 };
 
-export default PaymentsDueGridView;
+function mapStateToProps(state) {
+  const { isAuth } = state;
+
+  return {
+    isAuth,
+  };
+}
+
+const mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    methods: {
+      refreshComponent: (bool) => {
+        dispatch(refreshComponent(bool));
+      },
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentsDueGridView);

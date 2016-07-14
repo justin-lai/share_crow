@@ -17,7 +17,7 @@ class RentedOutItemsGridView extends Component {
       // ReturnModal variables
       openReturnModal: false,
       listingId: null,
-      rentedOutItems: this.props.products || null,
+      rentedOutItems: [],
       listingName: '',
       loading: true,
       // StarReviewModal variables
@@ -79,7 +79,6 @@ class RentedOutItemsGridView extends Component {
   onStarClick(name, value) {
     this.setState({ rating: value, render: true });
     console.log('this is the rating now', this.state.rating);
-    // this.props.sendRating(value);
     this.setState({
       render: false,
     });
@@ -94,11 +93,24 @@ class RentedOutItemsGridView extends Component {
         },
         body: JSON.stringify({
           rating: this.state.rating,
-          reviewerId: this.state.renterId,
-          lenderId: this.state.ownerId,
+          reviewerId: this.state.ownerId,
+          lenderId: this.state.renterId,
           text: 'no comment',
         }),
-      }).then(() => { this.methods.refreshComponent(true); });
+      }).then(() => {
+        fetch('http://localhost:3000/main/listing',
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              reset: true,
+              listingId: this.state.listingId,
+            }),
+          }).then(() => { this.methods.refreshComponent(true); });
+      });
   }
   handleUsername(value) { this.setState({ username: value.target.value }); }
   handlePassword(value) { this.setState({ password: value.target.value }); }
@@ -139,7 +151,6 @@ class RentedOutItemsGridView extends Component {
   closeReturnModal() { this.setState({ openReturnModal: false }); }
 
   acceptRequest() {
-    console.log(this.state.listingId, '*********');
     this.methods.deleteListing({ listingId: this.state.listingId }, () => {
       fetch('http://localhost:3000/main/payment',
         {
@@ -170,11 +181,15 @@ class RentedOutItemsGridView extends Component {
   render() {
     return (
       <div>
-        <h4>Items Rented Out</h4>
+        <h4
+          className="griddle"
+        >Items Rented Out
+        </h4>
         <Griddle
           results={this.state.rentedOutItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           columnMetadata={[
             {
               columnName: 'name',
@@ -206,7 +221,10 @@ class RentedOutItemsGridView extends Component {
           isOpen={this.state.openReturnModal}
           onRequestClose={this.closeReturnModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Was item {this.state.listingName} returned?
           </h4>
           <div>
@@ -234,7 +252,10 @@ class RentedOutItemsGridView extends Component {
               id="rating-modal"
               className="center"
             >
-              <h4 className="center">Rate your experience with {this.state.renterName}</h4>
+              <h4
+                className="center griddle"
+              >Rate your experience with {this.state.renterName}
+              </h4>
               <StarRatingComponent
                 // name:"rate1"
                 starCount={5}
@@ -258,7 +279,6 @@ class RentedOutItemsGridView extends Component {
 }
 
 RentedOutItemsGridView.propTypes = {
-  products: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
 };

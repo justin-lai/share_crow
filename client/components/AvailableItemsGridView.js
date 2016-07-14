@@ -17,7 +17,7 @@ class AvailableItemsGridView extends Component {
       id: null,
       open: false,
       listingName: '',
-      rentedItems: this.props.products || null,
+      rentedItems: [],
       loading: true,
     };
     bindAll(this, 'acceptRequest', 'declineRequest', 'closeModal', 'openModal', 'rowClick');
@@ -34,6 +34,7 @@ class AvailableItemsGridView extends Component {
               name: listing.name,
               rentalFee: `$${listing.rentalFee}`,
               maxFee: `$${listing.maxFee}`,
+              image: listing.listingImage[0].image,
             });
           });
           this.setState({ rentedItems: formatted, loading: false });
@@ -70,11 +71,15 @@ class AvailableItemsGridView extends Component {
     }
     return (
       <div>
-        <h4>Current Items Available for Rent</h4>
+        <h4
+          className="griddle"
+        >Current Items Available for Rent
+        </h4>
         <Griddle
           results={this.state.rentedItems}
           tableClassName="table"
           bodyHeight={400}
+          useGriddleStyles={false}
           noDataMessage={"No Items Currently for Rent"}
           columnMetadata={[
             {
@@ -98,7 +103,10 @@ class AvailableItemsGridView extends Component {
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
         >
-          <h4 id="message-request-text">
+          <h4
+            className="griddle"
+            id="message-request-text"
+          >
             Remove listing: {this.state.listingName}?
           </h4>
           <div>
@@ -122,7 +130,6 @@ class AvailableItemsGridView extends Component {
 }
 
 AvailableItemsGridView.propTypes = {
-  products: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   isAuth: PropTypes.object.isRequired,
 };

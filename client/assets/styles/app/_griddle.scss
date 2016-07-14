@@ -1,13 +1,173 @@
-.griddle-container {
+/*.griddle-container {
 	width: 70%;
 	top: 40%;
 	margin: 0 auto;
+}*/
+
+.griddle {
+  font-family: 'Raleway', Arial, sans-serif;
+	text-align: center;
+  color: #CD1B4E;
 }
 
-h4 {
-	text-align: center;
+#grid-views {
+  left: 1em;
+  top: 60px;
+}
+
+
+.griddle-container{
+  /*border:1px solid #DDD;*/
+  margin-bottom: 50px;
+  margin-right: 20px;
+}
+
+.griddle .top-section{
+  clear:both;
+  display:table;
+  width:100%;
+}
+
+.griddle .griddle-filter{
+  float:left;
+  width:50%;
+  text-align:left;
+  color:black;
+  min-height:1px;
+}
+
+.griddle .griddle-settings-toggle{
+  float:left;
+  width:50%;
+  text-align:right;
+}
+
+.griddle .griddle-settings{
+  background-color:black;
+  /*border:1px solid #DDD;*/
+  color:#9d9d9d;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+.griddle .griddle-settings .griddle-columns{
+  clear:both;
+  display:table;
+  width:100%;
+  /*border-bottom:1px solid #EDEDED;*/
+  margin-bottom:10px;
+}
+
+.griddle .griddle-settings .griddle-column-selection{
+  float:left;
+  width:20%;
+}
+.griddle table{
+  width:100%;table-layout:fixed;
+}
+
+.griddle th{
+  text-align: center;
+  background-color:black;
+  border:0px;
+  border-bottom:1px solid #DDD;
+  color:#9d9d9d;
+  padding:5px;
+  font-weight: 400;
+}
+
+.griddle td{
+  padding:5px;
+  background-color:#FFF;
+  /*border-top-color:#DDD;*/
+  color:#222;
+}
+
+.griddle tr:nth-child(even) {
+  td {
+    background-color: #EEE;
+  }
+}
+
+.griddle tr:hover {
+  cursor: pointer;
+  td {
+    /*background-color: rgba(205,27,78,.7)*/
+    color: #CD1B4E;
+    font-weight: 600;
+  }
+}
+
+.griddle .footer-container{
+  padding:0;
+  background-color:none;
+  border:none;
+  color:#222;
+}
+
+.griddle .footer-container:hover {
+  cursor: default;
+  color: black !important;
+  font-weight: 400 !important;
+}
+
+.griddle .griddle-previous, .griddle .griddle-page, .griddle .griddle-next{
+  float:left;
+  width:33%;
+  min-height:1px;
+  margin-top:5px;
+}
+
+.griddle .griddle-page{
+  text-align:center;
+}
+
+.griddle .griddle-page select {
+  border: none;
+  background-color: white;
+}
+
+.griddle .griddle-previous,
+.griddle .griddle-next{
+  text-align:center;
+}
+
+.griddle .griddle-previous button,
+.griddle .griddle-next button {
+  border: none;
+  border-radius: none;
+  background-color: white;
+  padding: 5px;
+}
+
+.griddle .griddle-next button {
+  /*margin-right: 10px;*/
+}
+
+
+#google-maps-section {
+  min-width: 280px;
+  max-width: 380px;
+  min-width: 380px;
+  max-width: 480px;
+  height: 100%;
+  width: 100%;
+  top: 450px;
+  position: absolute;
+  margin: 0 1%;
+  margin-top: 15px;
+  overflow: hidden;
+  /*float: left;*/
+}
+
+#google-maps-section-public {
+  margin: 0 1%;
+  top: -50px;
+  overflow: hidden;
+  /*float: left;*/
 }
 
 .gMaps {
-	margin: 100px 50px 100px 20px;
+  margin-top: 52px;
 }
+

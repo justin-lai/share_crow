@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { putImage, deleteImage } from '../../actions/imageActions';
@@ -12,26 +13,44 @@ class ProfileCard extends Component {
 
     this.methods = props.methods;
     this.profile = props.profile;
-    this.profilePhoto = props.profilePhoto;
+    if (this.profile.Image) {
+      this.profilePhoto = this.profile.Image.image;
+    }
     this.state = {
       open: false,
       uploadId: '',
-      averageRating: '24%',
+      averageRating: '0%',
+      numReviews: '0 Reviews',
+      // reviewStatus: `Be the first to rent from ${this.profile.username}`,
     };
-    this.otherParty = {
-      id: 8,
-    };
-    bindAll(this, 'openModal', 'closeModal', 'handleUpload', 'handleSubmit');
+    bindAll(this,
+      'openModal',
+      'closeModal',
+      'handleUpload',
+      'handleSubmit'
+    );
   }
+
   componentDidMount() {
-    fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
-      .then(responseData => {
-        this.setState({ averageRating: `${responseData.percentage * 100}%` });
-      });
+    this.getReview();
   }
   componentWillReceiveProps(nextProps) {
     this.profile = nextProps.profile;
-    this.profilePhoto = nextProps.profilePhoto;
+    if (this.profile.Image) {
+      this.profilePhoto = this.profile.Image.image;
+    }
+    this.getReview();
+  }
+
+  getReview() {
+    fetch(`http://localhost:3000/main/userReview?id=${this.profile.id}`).then(response => response.json())
+      .then(responseData => {
+        this.setState({
+          averageRating: `${responseData.percentage * 100}%`,
+          numReviews: responseData.totalReviews ? `${responseData.totalReviews} Review(s)` : this.state.numReviews,
+          reviewStatus: responseData.totalReviews ? '' : this.state.reviewStatus,
+        });
+      });
   }
 
   openModal() { this.setState({ open: true }); }
@@ -48,30 +67,6 @@ class ProfileCard extends Component {
         this.methods.refreshComponent(true);
       });
     });
-    // fetch('http://localhost:3000/main/imageUpload',
-    //   {
-    //     method: 'DELETE',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       userId: this.profile.id,
-    //     }),
-    //   }).then(() => {
-    //     fetch('http://localhost:3000/main/imageUpload',
-    //       {
-    //         method: 'PUT',
-    //         headers: {
-    //           Accept: 'application/json',
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //           id: this.state.uploadID,
-    //           userId: this.profile.id,
-    //         }),
-    //       }).then(response => response.json());
-    //   });
     this.closeModal();
   }
 
@@ -81,16 +76,9 @@ class ProfileCard extends Component {
     });
   }
 
-  render() {
-    return (
-      <div className="profileCard">
-        <div className="coverphoto"></div>
-        <img
-          src={this.profilePhoto || 'darthvader.jpg'}
-          className="profile_picture"
-          alt="profile"
-          onClick={this.openModal}
-        ></img>
+  renderModal() {
+    if (this.props.isAuth.status && this.profile.id === this.props.isAuth.userInfo.id) {
+      return (
         <Modal
           style={{ content: { height: '400px' } }}
           isOpen={this.state.open}
@@ -113,45 +101,75 @@ class ProfileCard extends Component {
             onClick={this.handleSubmit}
           />
         </Modal>
-        <div className="left_col">
-          <div className="star-ratings-css">
-            <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
+      );
+    }
+    return null;
+  }
+
+  render() {
+    return (
+      <figure className="snip0057 red" style={{ height: '400px' }}>
+        <figcaption>
+          <h2>
+            <span className="icons">
+              <a href="mailto:someone@gmail.com?Subject=ShareCrow%20message%20from%20jlai"><i className="ion-ios-email"></i></a>
+            </span>
+            <span>{`${this.profile.firstName}  ${this.profile.lastName}`}</span>
+          </h2>
+          <div className="left_col">
+            <div>
+              <h5 className="fullName">
+                @{this.profile.username}
+              </h5>
+              <h5 className="location">
+                {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
+              </h5>
             </div>
-            <div className="star-ratings-css-bottom">
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
+            <div className="star-ratings-css">
+              <div className="star-ratings-css-top" style={{ width: this.state.averageRating }}>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <div className="star-ratings-css-bottom">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <br />
             </div>
           </div>
-          <div className="about">
+          <div className="profile-card-review-num">
+            {this.state.numReviews}
           </div>
+          <div className="profile-card-review-num">
+            {this.state.reviewStatus}
+          </div>
+
+        </figcaption>
+        <div className="image">
+          <img
+            src={this.profilePhoto || 'darthvader.jpg'}
+            onClick={this.openModal}
+            alt="profile"
+            style={{ height: '400px' }}
+          />
+          {this.renderModal()}
         </div>
-        <div className="right_col">
-          <h2 className="name">{this.profile.username}</h2>
-          <h3 className="location">
-            {`${this.profile.city}, ${this.profile.state} ${this.profile.zipcode}`}
-          </h3>
-          <ul className="contact_information">
-            <li className="mail">{this.profile.email}</li>
-            <li className="phone">{this.profile.phone}</li>
-          </ul>
-        </div>
-      </div>
+        <div className="position">Member since Apr 2016</div>
+      </figure>
     );
   }
 }
 
 ProfileCard.propTypes = {
   profile: PropTypes.object.isRequired,
-  profilePhoto: PropTypes.string.isRequired,
   methods: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

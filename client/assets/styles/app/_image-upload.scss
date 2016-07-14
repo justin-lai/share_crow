@@ -1,4 +1,5 @@
 .file-upload {
+  position: absolute;
   background-color: #D2D2D2;
   width: 15em;
   margin: 0 auto;
@@ -34,8 +35,10 @@
 }
 
 .file-upload-content {
+  position: relative;
   display: none;
   text-align: center;
+  left: 20%;
 }
 
 .file-upload-input {
@@ -51,15 +54,16 @@
 
 .image-upload-wrap {
   margin-top: 20px;
-  border: 4px dashed #4f5b69;
+  border: 2px dashed #4f5b69;
   position: relative;
   width: 15em;
   height: 15em;
+  left: 55%
 }
 
 .image-dropping,
 .image-upload-wrap:hover {
-  background-color: #4f5b69;
+  background-color: #d3d3d3;
   border: 4px dashed #ffffff;
 }
 
@@ -73,10 +77,13 @@
 }
 
 .drag-text h3 {
+  font-size: 14px;
+  position: absolute;
   font-weight: 100;
   text-transform: uppercase;
-  color: #15824B;
-  padding: 60px 0;
+  color: #cd1b4e;
+  padding: 10px 0;
+  top: 40%;
 }
 
 .file-upload-image {
@@ -84,6 +91,7 @@
   max-width: 13em;
   margin: auto;
   padding: 20px;
+  left: 20%;
 }
 
 .remove-image {
@@ -111,4 +119,26 @@
 .remove-image:active {
   border: 0;
   transition: all .2s ease;
+}
+.stripeConnect {
+  background-color: red;
+  padding: .2em;
+  width: 100%;
+
+}
+
+.fa-cloud-upload {
+  position: absolute;
+  top: 10%;
+  left: 33%;
+}
+
+.postButton {
+  position: absolute;
+  bottom: 20%;
+  background-color: #cd1b4e;
+}
+
+.postButton:hover {
+  background-color: #cd1b4e;
 }

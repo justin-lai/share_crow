@@ -18,7 +18,6 @@ class SplashCarousel extends Component {
       <div id="splash-carousel">
         <Slider {...this.settings}>
           <img className="splash-image" alt="splash" src="splash.jpg" />
-          <img className="splash-image" alt="splash" src="laptop.jpg" />
           <img className="splash-image" alt="splash" src="traintracks-camera.jpg" />
           <img className="splash-image" alt="splash" src="workspace.jpg" />
         </Slider>
